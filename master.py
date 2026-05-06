@@ -7,6 +7,7 @@ import pickle
 import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
+import os
 
 from pitcher_stats import get_blended_pitcher_stats
 from lineup_stats import get_platoon_lineup_ops
@@ -174,7 +175,7 @@ def run_model(target_date, save_csv=True):
     odds_resp = requests.get(
         "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
         params={
-            "apiKey": "719921510f0839e3f61743f271956eea",
+            "apiKey": os.environ.get("ODDS_API_KEY", "719921510f0839e3f61743f271956eea"),
             "regions": "us",
             "markets": "h2h",
             "oddsFormat": "american",
