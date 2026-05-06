@@ -23,9 +23,7 @@ st.markdown("""
         background-color: #0a0e1a;
         color: #e2e8f0;
     }
-
     .main { background-color: #0a0e1a; }
-
     h1, h2, h3 { font-family: 'Space Mono', monospace; }
 
     .metric-card {
@@ -35,14 +33,12 @@ st.markdown("""
         padding: 20px;
         text-align: center;
     }
-
     .metric-value {
         font-family: 'Space Mono', monospace;
         font-size: 2.2rem;
         font-weight: 700;
         color: #60a5fa;
     }
-
     .metric-label {
         font-size: 0.85rem;
         color: #94a3b8;
@@ -50,7 +46,6 @@ st.markdown("""
         letter-spacing: 1px;
         margin-top: 4px;
     }
-
     .bet-card {
         background: linear-gradient(135deg, #0f2a1a 0%, #0a1f12 100%);
         border: 1px solid #16a34a;
@@ -59,16 +54,6 @@ st.markdown("""
         padding: 16px;
         margin-bottom: 12px;
     }
-
-    .fade-card {
-        background: linear-gradient(135deg, #2a0f0f 0%, #1f0a0a 100%);
-        border: 1px solid #dc2626;
-        border-left: 4px solid #ef4444;
-        border-radius: 8px;
-        padding: 16px;
-        margin-bottom: 12px;
-    }
-
     .neutral-card {
         background: linear-gradient(135deg, #1a1f35 0%, #0f1525 100%);
         border: 1px solid #2d3555;
@@ -76,7 +61,20 @@ st.markdown("""
         padding: 16px;
         margin-bottom: 8px;
     }
-
+    .win-row {
+        background: #0f2a1a;
+        border-left: 3px solid #22c55e;
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+    }
+    .loss-row {
+        background: #1a0f0f;
+        border-left: 3px solid #ef4444;
+        padding: 8px 12px;
+        margin-bottom: 4px;
+        border-radius: 4px;
+    }
     .badge-green {
         background: #16a34a;
         color: white;
@@ -86,33 +84,9 @@ st.markdown("""
         font-weight: 700;
         letter-spacing: 1px;
     }
-
-    .badge-red {
-        background: #dc2626;
-        color: white;
-        padding: 2px 10px;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-    }
-
-    .badge-blue {
-        background: #2563eb;
-        color: white;
-        padding: 2px 10px;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-    }
-
     .team-name { font-size: 1.1rem; font-weight: 700; color: #f1f5f9; }
     .prob { font-family: 'Space Mono', monospace; font-size: 1.4rem; color: #60a5fa; font-weight: 700; }
-    .edge { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: #22c55e; }
-    .edge-neg { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: #ef4444; }
     .sub { font-size: 0.8rem; color: #64748b; }
-
     .section-header {
         font-family: 'Space Mono', monospace;
         font-size: 0.75rem;
@@ -123,9 +97,6 @@ st.markdown("""
         padding-bottom: 8px;
         margin-bottom: 16px;
     }
-
-    .stDataFrame { background: #0f1525; }
-    div[data-testid="stMetricValue"] { color: #60a5fa; font-family: 'Space Mono', monospace; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -159,7 +130,8 @@ def get_game_results(date_str):
                 home_score = game["teams"]["home"].get("score", 0)
                 away_score = game["teams"]["away"].get("score", 0)
                 winner = home if home_score > away_score else away
-                results[home] = {"winner": winner, "home_score": home_score, "away_score": away_score}
+                results[home] = {"winner": winner, "home": home, "away": away,
+                                 "home_score": home_score, "away_score": away_score}
                 results[away] = results[home]
         return results
     except:
@@ -168,7 +140,8 @@ def get_game_results(date_str):
 def get_season_stats():
     picks_files = sorted(glob("picks_2026-*.csv"))
     total = correct = flagged = flag_correct = 0
-    pnl = 0.0
+    zone_pnl = 0.0  # P&L only for 6-10% flagged bets
+    zone_bets = zone_wins = 0
     edge_buckets = {"0-3%": [0,0], "3-6%": [0,0], "6-10%": [0,0], "10%+": [0,0]}
     daily = []
 
@@ -182,6 +155,7 @@ def get_season_stats():
             continue
 
         day_total = day_correct = day_flagged = day_flag_correct = 0
+        day_games = []
 
         for pick in picks:
             away = pick.get("Away", "")
@@ -193,8 +167,8 @@ def get_season_stats():
             if away_prob == "None" or home_prob == "None":
                 continue
             try:
-                away_prob = float(away_prob)
-                home_prob = float(home_prob)
+                away_prob_f = float(away_prob)
+                home_prob_f = float(home_prob)
             except:
                 continue
 
@@ -203,8 +177,10 @@ def get_season_stats():
                 continue
 
             actual_winner = result["winner"]
-            model_winner = away if away_prob > home_prob else home
+            model_winner = away if away_prob_f > home_prob_f else home
             won = model_winner == actual_winner
+            home_score = result.get("home_score", 0)
+            away_score = result.get("away_score", 0)
 
             total += 1; day_total += 1
             if won:
@@ -213,35 +189,61 @@ def get_season_stats():
             is_flagged = "BET" in str(flag)
             if is_flagged:
                 flagged += 1; day_flagged += 1
-                dk_odds = pick.get("DK Home Odds" if model_winner == home else "DK Away Odds", "N/A")
-                try:
-                    odds = float(dk_odds)
-                    payout = (100 / -odds * 100) if odds < 0 else (odds / 100 * 100)
-                except:
-                    payout = 90
                 if won:
                     flag_correct += 1; day_flag_correct += 1
-                    pnl += payout
-                else:
-                    pnl -= 100
 
+            # Edge bucket + 6-10% P&L
             try:
-                dk_edge = pick.get("DK Edge Away", "N/A")
-                e = abs(float(dk_edge.replace("%","").replace("** BET **","").replace("+","").strip()))
+                dk_edge_str = pick.get("DK Edge Away", "N/A")
+                e = abs(float(dk_edge_str.replace("%","").replace("** BET **","").replace("+","").strip()))
                 b = "0-3%" if e < 3 else "3-6%" if e < 6 else "6-10%" if e < 10 else "10%+"
                 edge_buckets[b][0] += 1
                 if won: edge_buckets[b][1] += 1
+
+                # Track P&L only for 6-10% flagged bets
+                if b == "6-10%" and is_flagged:
+                    zone_bets += 1
+                    dk_odds = pick.get("DK Home Odds" if model_winner == home else "DK Away Odds", "N/A")
+                    try:
+                        odds = float(dk_odds)
+                        payout = (100 / -odds * 100) if odds < 0 else (odds / 100 * 100)
+                    except:
+                        payout = 90
+                    if won:
+                        zone_wins += 1
+                        zone_pnl += payout
+                    else:
+                        zone_pnl -= 100
             except:
                 pass
 
+            day_games.append({
+                "away": away,
+                "home": home,
+                "away_prob": away_prob,
+                "home_prob": home_prob,
+                "model_pick": model_winner,
+                "actual_winner": actual_winner,
+                "won": won,
+                "score": f"{away_score}-{home_score}",
+                "flag": is_flagged
+            })
+
         if day_total > 0:
-            daily.append({"date": date_str, "total": day_total, "correct": day_correct,
-                         "flagged": day_flagged, "flag_correct": day_flag_correct})
+            daily.append({
+                "date": date_str,
+                "total": day_total,
+                "correct": day_correct,
+                "flagged": day_flagged,
+                "flag_correct": day_flag_correct,
+                "games": day_games
+            })
 
     return {
         "total": total, "correct": correct,
         "flagged": flagged, "flag_correct": flag_correct,
-        "pnl": pnl, "edge_buckets": edge_buckets, "daily": daily
+        "zone_pnl": zone_pnl, "zone_bets": zone_bets, "zone_wins": zone_wins,
+        "edge_buckets": edge_buckets, "daily": daily
     }
 
 def load_todays_picks():
@@ -261,7 +263,6 @@ st.markdown("""
 
 st.markdown(f"<div class='sub' style='margin-bottom:24px'>Last updated: {datetime.now().strftime('%B %d, %Y %I:%M %p')}</div>", unsafe_allow_html=True)
 
-# Load data
 with st.spinner("Loading season data..."):
     stats = get_season_stats()
     todays_picks, today_str = load_todays_picks()
@@ -273,8 +274,11 @@ col1, col2, col3, col4, col5 = st.columns(5)
 
 overall_pct = stats["correct"] / stats["total"] * 100 if stats["total"] else 0
 flag_pct = stats["flag_correct"] / stats["flagged"] * 100 if stats["flagged"] else 0
-roi = stats["pnl"] / (stats["flagged"] * 100) * 100 if stats["flagged"] else 0
-pnl_str = f"+${stats['pnl']:.0f}" if stats["pnl"] >= 0 else f"-${abs(stats['pnl']):.0f}"
+bucket_6_10 = stats["edge_buckets"]["6-10%"]
+pct_6_10 = bucket_6_10[1] / bucket_6_10[0] * 100 if bucket_6_10[0] else 0
+zone_pnl = stats["zone_pnl"]
+zone_pnl_str = f"+${zone_pnl:.0f}" if zone_pnl >= 0 else f"-${abs(zone_pnl):.0f}"
+zone_roi = (zone_pnl / (stats["zone_bets"] * 100) * 100) if stats["zone_bets"] else 0
 
 with col1:
     st.markdown(f"""
@@ -285,45 +289,45 @@ with col1:
     </div>""", unsafe_allow_html=True)
 
 with col2:
+    color = "#22c55e" if pct_6_10 >= 60 else "#f59e0b" if pct_6_10 >= 52 else "#ef4444"
+    st.markdown(f"""
+    <div class='metric-card'>
+        <div class='metric-value' style='color:{color}'>{pct_6_10:.1f}%</div>
+        <div class='metric-label'>6-10% Zone Accuracy</div>
+        <div class='sub'>{bucket_6_10[1]}/{bucket_6_10[0]} games</div>
+    </div>""", unsafe_allow_html=True)
+
+with col3:
+    color = "#22c55e" if zone_pnl >= 0 else "#ef4444"
+    st.markdown(f"""
+    <div class='metric-card'>
+        <div class='metric-value' style='color:{color}'>{zone_pnl_str}</div>
+        <div class='metric-label'>6-10% Zone P&L</div>
+        <div class='sub'>{stats['zone_bets']} flagged bets</div>
+    </div>""", unsafe_allow_html=True)
+
+with col4:
+    color = "#22c55e" if zone_roi >= 0 else "#ef4444"
+    st.markdown(f"""
+    <div class='metric-card'>
+        <div class='metric-value' style='color:{color}'>{zone_roi:+.1f}%</div>
+        <div class='metric-label'>6-10% Zone ROI</div>
+        <div class='sub'>{stats['zone_wins']}/{stats['zone_bets']} wins</div>
+    </div>""", unsafe_allow_html=True)
+
+with col5:
+    sharp_total = stats.get("flagged", 0)
     color = "#22c55e" if flag_pct >= 55 else "#f59e0b" if flag_pct >= 47 else "#ef4444"
     st.markdown(f"""
     <div class='metric-card'>
         <div class='metric-value' style='color:{color}'>{flag_pct:.1f}%</div>
-        <div class='metric-label'>Flagged Bets</div>
+        <div class='metric-label'>All Flagged Bets</div>
         <div class='sub'>{stats['flag_correct']}/{stats['flagged']} bets</div>
-    </div>""", unsafe_allow_html=True)
-
-with col3:
-    color = "#22c55e" if stats["pnl"] >= 0 else "#ef4444"
-    st.markdown(f"""
-    <div class='metric-card'>
-        <div class='metric-value' style='color:{color}'>{pnl_str}</div>
-        <div class='metric-label'>P&L ($100/bet)</div>
-        <div class='sub'>paper trading</div>
-    </div>""", unsafe_allow_html=True)
-
-with col4:
-    color = "#22c55e" if roi >= 0 else "#ef4444"
-    st.markdown(f"""
-    <div class='metric-card'>
-        <div class='metric-value' style='color:{color}'>{roi:+.1f}%</div>
-        <div class='metric-label'>ROI</div>
-        <div class='sub'>{stats['flagged']} bets placed</div>
-    </div>""", unsafe_allow_html=True)
-
-with col5:
-    bucket_6_10 = stats["edge_buckets"]["6-10%"]
-    pct_6_10 = bucket_6_10[1] / bucket_6_10[0] * 100 if bucket_6_10[0] else 0
-    st.markdown(f"""
-    <div class='metric-card'>
-        <div class='metric-value' style='color:#22c55e'>{pct_6_10:.1f}%</div>
-        <div class='metric-label'>6-10% Edge Zone</div>
-        <div class='sub'>{bucket_6_10[1]}/{bucket_6_10[0]} games</div>
     </div>""", unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# ── Edge Bucket Analysis ──────────────────────────────────────
+# ── Edge Buckets + Daily Record ───────────────────────────────
 col_left, col_right = st.columns([1, 1])
 
 with col_left:
@@ -334,10 +338,11 @@ with col_left:
         pct = correct / total * 100
         bar_width = int(pct)
         color = "#22c55e" if pct >= 58 else "#f59e0b" if pct >= 50 else "#ef4444"
+        highlight = " ★" if bucket == "6-10%" else ""
         st.markdown(f"""
         <div class='neutral-card' style='padding:12px 16px'>
             <div style='display:flex;justify-content:space-between;align-items:center;margin-bottom:6px'>
-                <span style='font-weight:700;color:#e2e8f0'>{bucket}</span>
+                <span style='font-weight:700;color:#e2e8f0'>{bucket}{highlight}</span>
                 <span style='font-family:Space Mono,monospace;font-size:1rem;color:{color};font-weight:700'>{pct:.1f}%</span>
             </div>
             <div style='background:#0f1525;border-radius:3px;height:6px'>
@@ -347,18 +352,50 @@ with col_left:
         </div>""", unsafe_allow_html=True)
 
 with col_right:
-    st.markdown("<div class='section-header'>Daily Record</div>", unsafe_allow_html=True)
+    st.markdown("<div class='section-header'>Daily Record — Click to Expand</div>", unsafe_allow_html=True)
     if stats["daily"]:
-        for d in reversed(stats["daily"][-8:]):
+        for d in reversed(stats["daily"][-10:]):
             pct = d["correct"] / d["total"] * 100 if d["total"] else 0
             flag_txt = f"{d['flag_correct']}/{d['flagged']}" if d["flagged"] else "—"
             color = "#22c55e" if pct >= 55 else "#f59e0b" if pct >= 45 else "#ef4444"
-            st.markdown(f"""
-            <div class='neutral-card' style='padding:10px 16px;display:flex;justify-content:space-between;align-items:center'>
-                <span style='font-family:Space Mono,monospace;font-size:0.8rem;color:#64748b'>{d['date']}</span>
-                <span style='font-family:Space Mono,monospace;color:{color};font-weight:700'>{d['correct']}/{d['total']} ({pct:.0f}%)</span>
-                <span style='font-size:0.8rem;color:#94a3b8'>Flags: {flag_txt}</span>
-            </div>""", unsafe_allow_html=True)
+
+            with st.expander(f"{d['date']}   {d['correct']}/{d['total']} ({pct:.0f}%)   Flags: {flag_txt}"):
+                for g in d.get("games", []):
+                    away = g["away"]
+                    home = g["home"]
+                    winner = g["actual_winner"]
+                    model_pick = g["model_pick"]
+                    won = g["won"]
+                    score = g["score"]
+                    flagged = g["flag"]
+                    away_prob = g["away_prob"]
+                    home_prob = g["home_prob"]
+
+                    row_class = "win-row" if won else "loss-row"
+                    icon = "✓" if won else "✗"
+                    icon_color = "#22c55e" if won else "#ef4444"
+                    flag_badge = " 🎯" if flagged else ""
+
+                    # Bold the winning team
+                    away_style = "font-weight:700;color:#22c55e" if winner == away else "color:#94a3b8"
+                    home_style = "font-weight:700;color:#22c55e" if winner == home else "color:#94a3b8"
+
+                    st.markdown(f"""
+                    <div class='{row_class}'>
+                        <div style='display:flex;justify-content:space-between;align-items:center'>
+                            <div style='flex:1'>
+                                <span style='{away_style}'>{away}</span>
+                                <span style='color:#475569;margin:0 6px'>@</span>
+                                <span style='{home_style}'>{home}</span>
+                                {flag_badge}
+                            </div>
+                            <div style='display:flex;gap:16px;align-items:center'>
+                                <span style='font-family:Space Mono,monospace;font-size:0.75rem;color:#64748b'>{score}</span>
+                                <span style='font-family:Space Mono,monospace;font-size:0.75rem;color:#60a5fa'>{away_prob}% / {home_prob}%</span>
+                                <span style='font-family:Space Mono,monospace;font-size:0.85rem;color:{icon_color};font-weight:700'>{icon}</span>
+                            </div>
+                        </div>
+                    </div>""", unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -366,7 +403,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 st.markdown(f"<div class='section-header'>Today's Picks — {today_str}</div>", unsafe_allow_html=True)
 
 if not todays_picks:
-    st.info("No picks file found for today. Run `master.py` or `todays_report.py` first.")
+    st.info("No picks file found for today. Run master.py first.")
 else:
     flagged_picks = [p for p in todays_picks if "BET" in str(p.get("Flag", ""))]
     other_picks = [p for p in todays_picks if "BET" not in str(p.get("Flag", ""))]
@@ -455,17 +492,18 @@ else:
                 </div>
             </div>""", unsafe_allow_html=True)
 
-# ── Confidence Indicator ──────────────────────────────────────
+# ── Confidence ────────────────────────────────────────────────
 st.markdown("<br><div class='section-header'>Betting Confidence</div>", unsafe_allow_html=True)
 
-if stats["flagged"] >= 30 and flag_pct >= 57:
-    msg = f"✅ READY — {flag_pct:.1f}% on {stats['flagged']} bets → consider $100 bets"
+zone_win_pct = stats["zone_wins"] / stats["zone_bets"] * 100 if stats["zone_bets"] else 0
+if stats["zone_bets"] >= 20 and zone_win_pct >= 60:
+    msg = f"✅ READY — 6-10% zone at {zone_win_pct:.1f}% over {stats['zone_bets']} bets → consider $100 bets"
     color = "#22c55e"
-elif stats["flagged"] >= 20 and flag_pct >= 52:
-    msg = f"🟡 CLOSE — {flag_pct:.1f}% on {stats['flagged']} bets → paper trade only"
+elif stats["zone_bets"] >= 15 and zone_win_pct >= 55:
+    msg = f"🟡 CLOSE — 6-10% zone at {zone_win_pct:.1f}% over {stats['zone_bets']} bets → paper trade only"
     color = "#f59e0b"
 else:
-    msg = f"🔴 NOT YET — {flag_pct:.1f}% on {stats['flagged']} bets → need 55%+ over 30+ bets"
+    msg = f"🔴 NOT YET — 6-10% zone at {zone_win_pct:.1f}% over {stats['zone_bets']} bets → need 60%+ over 20+ bets"
     color = "#ef4444"
 
 st.markdown(f"""
