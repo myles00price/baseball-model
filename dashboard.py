@@ -380,22 +380,20 @@ with col_right:
                     away_style = "font-weight:700;color:#22c55e" if winner == away else "color:#94a3b8"
                     home_style = "font-weight:700;color:#22c55e" if winner == home else "color:#94a3b8"
 
-                    st.markdown(f"""
-                    <div class='{row_class}'>
-                        <div style='display:flex;justify-content:space-between;align-items:center'>
-                            <div style='flex:1'>
-                                <span style='{away_style}'>{away}</span>
-                                <span style='color:#475569;margin:0 6px'>@</span>
-                                <span style='{home_style}'>{home}</span>
-                                {flag_badge}
-                            </div>
-                            <div style='display:flex;gap:16px;align-items:center'>
-                                <span style='font-family:Space Mono,monospace;font-size:0.75rem;color:#64748b'>{score}</span>
-                                <span style='font-family:Space Mono,monospace;font-size:0.75rem;color:#60a5fa'>{away_prob}% / {home_prob}%</span>
-                                <span style='font-family:Space Mono,monospace;font-size:0.85rem;color:{icon_color};font-weight:700'>{icon}</span>
-                            </div>
-                        </div>
-                    </div>""", unsafe_allow_html=True)
+                    c1, c2, c3, c4 = st.columns([3, 1, 1, 1])
+                    with c1:
+                        away_bold = f"**{away}**" if winner == away else away
+                        home_bold = f"**{home}**" if winner == home else home
+                        st.write(f"{away_bold} @ {home_bold}{flag_badge}")
+                    with c2:
+                        st.write(score)
+                    with c3:
+                        st.write(f"{away_prob}% / {home_prob}%")
+                    with c4:
+                        if won:
+                            st.success(icon)
+                        else:
+                            st.error(icon)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
