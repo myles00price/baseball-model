@@ -117,4 +117,4 @@ if __name__ == '__main__':
     yesterday = (datetime.now(las_vegas_offset) - timedelta(days=1)).strftime("%Y-%m-%d")
     
     print(f"Checking results for: {yesterday}")
-check_picks("2026-05-05")
+check_picks("2026-05-06")
