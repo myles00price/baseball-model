@@ -151,7 +151,9 @@ def save_picks_to_csv(picks, date_str):
             "DK Edge Away", "MGM Edge Away",
             "DK Edge Home", "MGM Edge Home",
             "Away SP", "Away Hand", "Away Reliability%",
+            "Away SP Velo", "Away SP Spin", "Away SP Whiff",
             "Home SP", "Home Hand", "Home Reliability%",
+            "Home SP Velo", "Home SP Spin", "Home SP Whiff",
             "Away Lineup OPS", "Home Lineup OPS",
             "Away BP ERA(7d)", "Home BP ERA(7d)",
             "Away Line Move", "Home Line Move",
@@ -223,23 +225,23 @@ def run_model(target_date, save_csv=True):
 
     def get_pitcher_whiff(full_name):
         if not full_name or full_name == "TBD":
-            return None, "TBD"
+            return None, None, None, "TBD"
         try:
             parts = full_name.split()
             first, last = parts[0], parts[-1]
             lookup = playerid_lookup(last, first)
             if lookup.empty:
-                return None, f"{full_name} | Not found"
+                return None, None, None, f"{full_name} | Not found"
             pid = int(lookup.iloc[0]['key_mlbam'])
             data = statcast_pitcher(season_start, target_str, player_id=pid)
             if data.empty:
-                return None, f"{full_name} | No data yet"
-            velo  = data['release_speed'].mean()
-            spin  = data['release_spin_rate'].mean()
-            whiff = (data['description'] == 'swinging_strike').mean() * 100
-            return whiff, f"{full_name} | Velo: {velo:.1f} | Spin: {spin:.0f} | Whiff: {whiff:.1f}%"
+                return None, None, None, f"{full_name} | No data yet"
+            velo  = round(data['release_speed'].mean(), 1)
+            spin  = round(data['release_spin_rate'].mean(), 0)
+            whiff = round((data['description'] == 'swinging_strike').mean() * 100, 1)
+            return velo, spin, whiff, f"{full_name} | Velo: {velo} | Spin: {spin:.0f} | Whiff: {whiff:.1f}%"
         except:
-            return None, f"{full_name} | Error"
+            return None, None, None, f"{full_name} | Error"
 
     print("=" * 75)
     print(f"  MLB MODEL REPORT — {target_str}")
@@ -258,7 +260,7 @@ def run_model(target_date, save_csv=True):
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
 
-            # Kalman filter pitcher stats
+            # Blended pitcher stats
             home_stats, home_pid = get_blended_pitcher_stats(home_p, season, playerid_lookup)
             away_stats, away_pid = get_blended_pitcher_stats(away_p, season, playerid_lookup)
 
@@ -267,8 +269,9 @@ def run_model(target_date, save_csv=True):
             home_rel  = home_stats.get("reliability", 0) if home_stats else 0
             away_rel  = away_stats.get("reliability", 0) if away_stats else 0
 
-            _, away_str = get_pitcher_whiff(away_p)
-            _, home_str = get_pitcher_whiff(home_p)
+            # Pitcher whiff stats — now returns velo, spin, whiff separately
+            away_velo, away_spin, away_whiff, away_str = get_pitcher_whiff(away_p)
+            home_velo, home_spin, home_whiff, home_str = get_pitcher_whiff(home_p)
 
             home_players = lineups.get(home, [])
             away_players = lineups.get(away, [])
@@ -389,7 +392,9 @@ def run_model(target_date, save_csv=True):
                 edge(away_prob, dk_away, reliable), edge(away_prob, mgm_away, reliable),
                 edge(home_prob, dk_home, reliable), edge(home_prob, mgm_home, reliable),
                 away_p, away_hand, away_rel,
+                away_velo, away_spin, away_whiff,
                 home_p, home_hand, home_rel,
+                home_velo, home_spin, home_whiff,
                 away_ops, home_ops,
                 away_bull["era_recent"] if away_bull else "N/A",
                 home_bull["era_recent"] if home_bull else "N/A",

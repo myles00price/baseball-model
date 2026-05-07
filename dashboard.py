@@ -3,6 +3,7 @@ import pandas as pd
 import csv
 import requests
 import altair as alt
+import math
 from glob import glob
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict
@@ -38,20 +39,60 @@ TEAM_IDS = {
     "Toronto Blue Jays": 141, "Washington Nationals": 120,
 }
 
+PARK_COORDS = {
+    "Arizona Diamondbacks":  (33.4453, -112.0667),
+    "Atlanta Braves":        (33.8908, -84.4678),
+    "Baltimore Orioles":     (39.2839, -76.6218),
+    "Boston Red Sox":        (42.3467, -71.0972),
+    "Chicago Cubs":          (41.9484, -87.6553),
+    "Chicago White Sox":     (41.8300, -87.6339),
+    "Cincinnati Reds":       (39.0979, -84.5082),
+    "Cleveland Guardians":   (41.4962, -81.6852),
+    "Colorado Rockies":      (39.7559, -104.9942),
+    "Detroit Tigers":        (42.3390, -83.0485),
+    "Houston Astros":        (29.7573, -95.3555),
+    "Kansas City Royals":    (39.0517, -94.4803),
+    "Los Angeles Angels":    (33.8003, -117.8827),
+    "Los Angeles Dodgers":   (34.0739, -118.2400),
+    "Miami Marlins":         (25.7781, -80.2197),
+    "Milwaukee Brewers":     (43.0280, -87.9712),
+    "Minnesota Twins":       (44.9817, -93.2781),
+    "New York Mets":         (40.7571, -73.8458),
+    "New York Yankees":      (40.8296, -73.9262),
+    "Athletics":             (37.7516, -122.2005),
+    "Philadelphia Phillies": (39.9061, -75.1665),
+    "Pittsburgh Pirates":    (40.4469, -80.0057),
+    "San Diego Padres":      (32.7076, -117.1570),
+    "San Francisco Giants":  (37.7786, -122.3893),
+    "Seattle Mariners":      (47.5914, -122.3325),
+    "St. Louis Cardinals":   (38.6226, -90.1928),
+    "Tampa Bay Rays":        (27.7683, -82.6534),
+    "Texas Rangers":         (32.7512, -97.0832),
+    "Toronto Blue Jays":     (43.6414, -79.3894),
+    "Washington Nationals":  (38.8730, -77.0074),
+}
+
 METRIC_TOOLTIPS = {
     "Overall Accuracy": "Percentage of all games where the model correctly predicted the winner. 50% = random coin flip. Anything above 53% consistently is meaningful.",
-    "6-10% Zone Accuracy": "Our primary signal zone. Games where the model disagrees with the market by 6-10%. This zone has historically shown the strongest predictive edge — the market is mispricing these games.",
-    "6-10% Zone P&L": "Paper profit/loss on $100 flat bets placed only in the 6-10% edge zone. Positive = model is finding real value. This is the number that matters most.",
-    "6-10% Zone ROI": "Return on investment for 6-10% zone bets. Divide total P&L by total amount wagered. Need sustained 5%+ ROI to confirm real edge over variance.",
-    "All Flagged Bets": "Win rate on every game the model flagged as a bet, across all edge zones. Lower than 6-10% zone alone because it includes noisier zones.",
+    "6-10% Zone Accuracy": "Our primary signal zone — games where the model disagrees with the market by 6-10%. This zone has historically been the strongest predictor.",
+    "6-10% Zone P&L": "Paper profit/loss on flat $100 bets placed only in the 6-10% edge zone. Positive = the model is finding real value the market missed.",
+    "6-10% Zone ROI": "Return on investment for 6-10% zone bets only. Need sustained 5%+ ROI to confirm real edge over variance.",
+    "All Flagged Bets": "Win rate across every game the model flagged as a bet, including noisier edge zones outside 6-10%.",
 }
+
+def deg_to_compass(deg):
+    dirs = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"]
+    return dirs[round(deg / 22.5) % 16]
+
+WIND_IN  = {"N","NNE","NE","ENE"}
+WIND_OUT = {"S","SSW","SW","WSW"}
 
 # ─────────────────────────────────────────────────────────────
 # CSS
 # ─────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Barlow+Condensed:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap');
 
 *, html, body, [class*="css"] {
     font-family: 'Barlow Condensed', sans-serif;
@@ -61,131 +102,56 @@ st.markdown("""
 .main, .block-container { background-color: #080c18 !important; }
 h1,h2,h3 { font-family: 'Space Mono', monospace !important; }
 
-/* Cards */
 .card {
     background: linear-gradient(145deg, #0f1628 0%, #0a1020 100%);
     border: 1px solid #1c2540;
     border-radius: 10px;
     padding: 18px 20px;
+    margin-bottom: 10px;
 }
-.card-metric {
-    background: linear-gradient(145deg, #0f1628 0%, #0a1020 100%);
-    border: 1px solid #1c2540;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s;
-}
-.card-metric:hover { border-color: #3b82f6; }
-
-/* Typography */
-.val { font-family:'Space Mono',monospace; font-size:2rem; font-weight:700; color:#3b82f6; }
-.val-green { color:#00d97e !important; }
-.val-red { color:#ef4444 !important; }
-.val-yellow { color:#f59e0b !important; }
-.lbl { font-size:0.72rem; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:4px; }
-.sub { font-size:0.78rem; color:#475569; }
-.mono { font-family:'Space Mono',monospace; }
-
-/* Section headers */
-.sec {
-    font-family:'Space Mono',monospace;
-    font-size:0.65rem;
-    color:#334155;
-    text-transform:uppercase;
-    letter-spacing:2.5px;
-    border-bottom:1px solid #1c2540;
-    padding-bottom:8px;
-    margin: 24px 0 16px 0;
-}
-
-/* Bet cards */
 .bet-card {
     background: linear-gradient(145deg, #0a2018 0%, #061510 100%);
-    border:1px solid #166534;
-    border-left:4px solid #00d97e;
-    border-radius:10px;
-    padding:20px;
-    margin-bottom:14px;
-    position:relative;
+    border: 1px solid #166534;
+    border-left: 4px solid #00d97e;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 14px;
 }
-.neutral-row {
-    background:#0f1628;
-    border:1px solid #1c2540;
-    border-radius:6px;
-    padding:10px 14px;
-    margin-bottom:6px;
+.weather-card {
+    background: #0a1020;
+    border: 1px solid #1c2540;
+    border-radius: 7px;
+    padding: 10px 14px;
+    margin-bottom: 6px;
 }
-.win-row {
-    background:#061510;
-    border-left:3px solid #00d97e;
-    padding:8px 12px;
-    margin-bottom:4px;
-    border-radius:4px;
-}
-.loss-row {
-    background:#180808;
-    border-left:3px solid #ef4444;
-    padding:8px 12px;
-    margin-bottom:4px;
-    border-radius:4px;
-}
-
-/* Badges */
-.badge { padding:3px 10px; border-radius:4px; font-size:0.7rem; font-weight:700; letter-spacing:1px; }
-.badge-green { background:#166534; color:#00d97e; }
-.badge-red { background:#7f1d1d; color:#ef4444; }
-.badge-blue { background:#1e3a8a; color:#93c5fd; }
-.badge-yellow { background:#78350f; color:#fcd34d; }
-
-/* Bullpen table */
-.bp-row {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:7px 12px;
-    border-radius:5px;
-    margin-bottom:3px;
-    background:#0f1628;
-    border:1px solid #1c2540;
-}
-.bp-rank { font-family:'Space Mono',monospace; font-size:0.7rem; color:#334155; width:24px; }
-.bp-team { font-size:0.9rem; font-weight:600; flex:1; }
-.bp-era { font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700; }
-
-/* Sharp signal */
-.confirmed { color:#00d97e; font-size:0.75rem; font-weight:700; }
-.fade { color:#ef4444; font-size:0.75rem; font-weight:700; }
-.na { color:#475569; font-size:0.75rem; }
-
-/* Streak */
 .streak-box {
-    background:#0f1628;
-    border:1px solid #1c2540;
-    border-radius:8px;
-    padding:16px 20px;
-    text-align:center;
+    background: #0f1628;
+    border: 1px solid #1c2540;
+    border-radius: 8px;
+    padding: 16px 20px;
+    text-align: center;
 }
-
-/* Search result */
-.search-row {
-    background:#0f1628;
-    border:1px solid #1c2540;
-    border-radius:6px;
-    padding:10px 14px;
-    margin-bottom:5px;
+.badge       { padding:3px 10px; border-radius:4px; font-size:0.7rem; font-weight:700; letter-spacing:1px; }
+.badge-green { background:#166534; color:#00d97e; }
+.badge-red   { background:#7f1d1d; color:#ef4444; }
+.lbl  { font-size:0.72rem; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:4px; }
+.sub  { font-size:0.78rem; color:#475569; }
+.mono { font-family:'Space Mono',monospace; }
+.stat-pill {
+    display:inline-block; background:#1c2540; border-radius:4px;
+    padding:3px 8px; font-family:'Space Mono',monospace; font-size:0.72rem; margin:2px;
 }
-
-/* Stacked layout helpers */
-.flex-row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-.team-block { display:flex; align-items:center; gap:8px; }
+.sec {
+    font-family:'Space Mono',monospace; font-size:0.65rem; color:#334155;
+    text-transform:uppercase; letter-spacing:2.5px;
+    border-bottom:1px solid #1c2540; padding-bottom:8px; margin:24px 0 16px 0;
+}
 </style>
 """, unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────
-# HELPERS
+# API HELPERS
 # ─────────────────────────────────────────────────────────────
 def logo_url(team):
     tid = TEAM_IDS.get(team)
@@ -196,9 +162,7 @@ def get_player_id(name):
     try:
         r = requests.get(
             "https://statsapi.mlb.com/api/v1/people/search",
-            params={"names": name.strip(), "sportId": 1},
-            timeout=5
-        )
+            params={"names": name.strip(), "sportId": 1}, timeout=5)
         people = r.json().get("people", [])
         if people:
             return people[0]["id"]
@@ -208,15 +172,60 @@ def get_player_id(name):
 
 def headshot_url(pid):
     base = "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people"
-    pid = pid or "generic"
-    return f"{base}/{pid}/headshot/67/current"
+    return f"{base}/{pid or 'generic'}/headshot/67/current"
 
-def load_picks(filename):
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_team_standings(team_id):
+    """Returns (wins, losses, last10_wins, last10_losses)"""
     try:
-        with open(filename, encoding="utf-8-sig") as f:
-            return list(csv.DictReader(f))
+        r = requests.get(
+            "https://statsapi.mlb.com/api/v1/standings",
+            params={"leagueId": "103,104", "season": 2026}, timeout=8)
+        for record in r.json().get("records", []):
+            for tr in record.get("teamRecords", []):
+                if tr["team"]["id"] == team_id:
+                    w = tr.get("wins", 0)
+                    l = tr.get("losses", 0)
+                    l10w = l10l = None
+                    for split in tr.get("records", {}).get("splitRecords", []):
+                        if split.get("type") == "lastTen":
+                            l10w = split.get("wins")
+                            l10l = split.get("losses")
+                    return w, l, l10w, l10l
     except:
-        return []
+        pass
+    return None, None, None, None
+
+@st.cache_data(ttl=3600, show_spinner=False)
+def get_weather(lat, lon):
+    try:
+        r = requests.get(
+            "https://api.open-meteo.com/v1/forecast",
+            params={
+                "latitude": lat, "longitude": lon,
+                "current": "windspeed_10m,winddirection_10m,weathercode,temperature_2m",
+                "wind_speed_unit": "mph", "temperature_unit": "fahrenheit",
+                "forecast_days": 1,
+            }, timeout=8)
+        c = r.json().get("current", {})
+        dirn = deg_to_compass(c.get("winddirection_10m", 0))
+        return {
+            "speed": c.get("windspeed_10m", 0),
+            "dir":   dirn,
+            "temp":  c.get("temperature_2m", 0),
+            "code":  c.get("weathercode", 0),
+        }
+    except:
+        return None
+
+def weather_icon(code):
+    if code == 0:  return "☀️ Clear"
+    if code <= 3:  return "⛅ Partly cloudy"
+    if code <= 48: return "🌫️ Foggy"
+    if code <= 67: return "🌧️ Rain"
+    if code <= 77: return "❄️ Snow"
+    if code <= 82: return "🌦️ Showers"
+    return "⛈️ Storms"
 
 @st.cache_data(ttl=600, show_spinner=False)
 def get_results(date_str):
@@ -224,8 +233,7 @@ def get_results(date_str):
         r = requests.get(
             "https://statsapi.mlb.com/api/v1/schedule",
             params={"sportId": 1, "date": date_str, "hydrate": "linescore"},
-            timeout=10
-        ).json()
+            timeout=10).json()
         out = {}
         for d in r.get("dates", []):
             for g in d.get("games", []):
@@ -236,13 +244,18 @@ def get_results(date_str):
                 hs = g["teams"]["home"].get("score", 0)
                 as_ = g["teams"]["away"].get("score", 0)
                 w = home if hs > as_ else away
-                rec = {"winner": w, "home": home, "away": away,
-                       "home_score": hs, "away_score": as_}
-                out[home] = rec
-                out[away] = rec
+                rec = {"winner": w, "home_score": hs, "away_score": as_}
+                out[home] = rec; out[away] = rec
         return out
     except:
         return {}
+
+def load_picks(filename):
+    try:
+        with open(filename, encoding="utf-8-sig") as f:
+            return list(csv.DictReader(f))
+    except:
+        return []
 
 def parse_edge(s):
     try:
@@ -251,10 +264,11 @@ def parse_edge(s):
         return 0.0
 
 def edge_bucket(e):
-    if e < 3:   return "0-3%"
-    if e < 6:   return "3-6%"
-    if e < 10:  return "6-10%"
+    if e < 3:  return "0-3%"
+    if e < 6:  return "3-6%"
+    if e < 10: return "6-10%"
     return "10%+"
+
 
 # ─────────────────────────────────────────────────────────────
 # SEASON DATA LOADER
@@ -267,8 +281,10 @@ def load_season():
     zone_pnl = 0.0
     edge_buckets = {"0-3%":[0,0], "3-6%":[0,0], "6-10%":[0,0], "10%+":[0,0]}
     daily = []
-    all_picks = []  # for search
-    bullpen_latest = {}  # team -> most recent ERA
+    all_picks = []
+    bullpen_latest = {}
+    team_stats = defaultdict(lambda: {"total": 0, "correct": 0})
+    calib_bins = defaultdict(lambda: [0, 0])
 
     for fn in files:
         date_str = fn.replace("picks_","").replace(".csv","")
@@ -281,26 +297,17 @@ def load_season():
         day_games = []
 
         for p in picks:
-            away = p.get("Away","")
-            home = p.get("Home","")
-            ap = p.get("Model Away%","None")
-            hp = p.get("Model Home%","None")
+            away = p.get("Away",""); home = p.get("Home","")
+            ap = p.get("Model Away%","None"); hp = p.get("Model Home%","None")
             flag = p.get("Flag","")
 
-            # Track bullpen for leaderboard
-            try:
-                away_bp = float(p.get("Away BP ERA(7d)",""))
-                bullpen_latest[away] = away_bp
+            try: bullpen_latest[away] = float(p.get("Away BP ERA(7d)",""))
             except: pass
-            try:
-                home_bp = float(p.get("Home BP ERA(7d)",""))
-                bullpen_latest[home] = home_bp
+            try: bullpen_latest[home] = float(p.get("Home BP ERA(7d)",""))
             except: pass
 
-            if ap in ("None","N/A") or hp in ("None","N/A"):
-                continue
-            try:
-                apf = float(ap); hpf = float(hp)
+            if ap in ("None","N/A") or hp in ("None","N/A"): continue
+            try: apf = float(ap); hpf = float(hp)
             except: continue
 
             result = results.get(home) or results.get(away)
@@ -309,11 +316,18 @@ def load_season():
             winner = result["winner"]
             model_pick = away if apf > hpf else home
             won = model_pick == winner
-            hs = result.get("home_score", 0)
-            as_ = result.get("away_score", 0)
+            hs = result.get("home_score", 0); as_ = result.get("away_score", 0)
 
             total += 1; day_total += 1
             if won: correct += 1; day_correct += 1
+
+            team_stats[model_pick]["total"] += 1
+            if won: team_stats[model_pick]["correct"] += 1
+
+            conf = max(apf, hpf)
+            bk = int(conf // 5) * 5
+            calib_bins[bk][0] += 1
+            if won: calib_bins[bk][1] += 1
 
             is_flagged = "BET" in str(flag)
             if is_flagged:
@@ -330,7 +344,7 @@ def load_season():
                 if won: zone_wins += 1; zone_pnl += 100
                 else: zone_pnl -= 100
 
-            g_rec = {
+            day_games.append({
                 "away": away, "home": home,
                 "away_prob": ap, "home_prob": hp,
                 "model_pick": model_pick,
@@ -341,27 +355,24 @@ def load_season():
                 "date": date_str,
                 "away_sp": p.get("Away SP",""),
                 "home_sp": p.get("Home SP",""),
-            }
-            day_games.append(g_rec)
-            all_picks.append(g_rec)
+            })
+            all_picks.append(day_games[-1])
 
         if day_total > 0:
-            pct = day_correct/day_total*100
             daily.append({
                 "date": date_str, "total": day_total, "correct": day_correct,
-                "pct": pct, "flagged": day_flagged, "flag_correct": day_flag_correct,
-                "games": day_games
+                "pct": day_correct/day_total*100,
+                "flagged": day_flagged, "flag_correct": day_flag_correct,
+                "games": day_games,
             })
 
-    # Streak calculation from recent flagged bets
+    # Streak
     recent_flags = [g for g in all_picks if g["flag"]]
-    streak = 0
-    streak_type = None
+    streak = 0; streak_type = None
     for g in reversed(recent_flags):
         if streak_type is None:
-            streak_type = "W" if g["won"] else "L"
-            streak = 1
-        elif (g["won"] and streak_type == "W") or (not g["won"] and streak_type == "L"):
+            streak_type = "W" if g["won"] else "L"; streak = 1
+        elif (g["won"] and streak_type=="W") or (not g["won"] and streak_type=="L"):
             streak += 1
         else:
             break
@@ -371,9 +382,10 @@ def load_season():
         "flagged": flagged, "flag_correct": flag_correct,
         "zone_bets": zone_bets, "zone_wins": zone_wins, "zone_pnl": zone_pnl,
         "edge_buckets": edge_buckets, "daily": daily,
-        "all_picks": all_picks,
-        "bullpen": bullpen_latest,
+        "all_picks": all_picks, "bullpen": bullpen_latest,
         "streak": streak, "streak_type": streak_type,
+        "team_stats": dict(team_stats),
+        "calib_bins": dict(calib_bins),
     }
 
 def load_today():
@@ -383,11 +395,9 @@ def load_today():
 
 
 # ─────────────────────────────────────────────────────────────
-# MAIN
+# APP
 # ─────────────────────────────────────────────────────────────
-
-# ── Header
-col_title, col_refresh = st.columns([5,1])
+col_title, col_refresh = st.columns([5, 1])
 with col_title:
     st.markdown("""
     <div style='padding:20px 0 4px 0'>
@@ -395,77 +405,59 @@ with col_title:
         <span style='font-family:Space Mono,monospace;font-size:1.6rem;color:#1e2940'> // DASHBOARD</span>
     </div>""", unsafe_allow_html=True)
     st.markdown(f"<div class='sub'>Updated: {datetime.now().strftime('%b %d, %Y  %I:%M %p')}</div>", unsafe_allow_html=True)
-
 with col_refresh:
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🔄 Refresh", use_container_width=True):
-        st.cache_data.clear()
-        st.rerun()
+        st.cache_data.clear(); st.rerun()
 
-# ── Load data
 with st.spinner("Loading..."):
     S = load_season()
     todays, today_str = load_today()
 
 # ─────────────────────────────────────────────────────────────
-# SEASON KPIs
+# KPIs
 # ─────────────────────────────────────────────────────────────
 st.markdown("<div class='sec'>Season Performance</div>", unsafe_allow_html=True)
 
-overall_pct  = S["correct"]/S["total"]*100 if S["total"] else 0
-flag_pct     = S["flag_correct"]/S["flagged"]*100 if S["flagged"] else 0
-b610         = S["edge_buckets"]["6-10%"]
-pct_610      = b610[1]/b610[0]*100 if b610[0] else 0
-zone_roi     = S["zone_pnl"]/(S["zone_bets"]*100)*100 if S["zone_bets"] else 0
-pnl_str      = f"+${S['zone_pnl']:.0f}" if S["zone_pnl"]>=0 else f"-${abs(S['zone_pnl']):.0f}"
+overall_pct = S["correct"]/S["total"]*100 if S["total"] else 0
+flag_pct    = S["flag_correct"]/S["flagged"]*100 if S["flagged"] else 0
+b610        = S["edge_buckets"]["6-10%"]
+pct_610     = b610[1]/b610[0]*100 if b610[0] else 0
+zone_roi    = S["zone_pnl"]/(S["zone_bets"]*100)*100 if S["zone_bets"] else 0
+pnl_str     = f"+${S['zone_pnl']:.0f}" if S["zone_pnl"]>=0 else f"-${abs(S['zone_pnl']):.0f}"
 
 kpi_data = [
-    ("Overall Accuracy",  f"{overall_pct:.1f}%",  f"{S['correct']}/{S['total']} games",
-     "#3b82f6" if overall_pct>=50 else "#ef4444"),
-    ("6-10% Zone Accuracy", f"{pct_610:.1f}%",    f"{b610[1]}/{b610[0]} games",
-     "#00d97e" if pct_610>=60 else "#f59e0b" if pct_610>=52 else "#ef4444"),
-    ("6-10% Zone P&L",    pnl_str,                f"{S['zone_bets']} flagged bets",
-     "#00d97e" if S["zone_pnl"]>=0 else "#ef4444"),
-    ("6-10% Zone ROI",    f"{zone_roi:+.1f}%",    f"{S['zone_wins']}/{S['zone_bets']} wins",
-     "#00d97e" if zone_roi>=0 else "#ef4444"),
-    ("All Flagged Bets",  f"{flag_pct:.1f}%",     f"{S['flag_correct']}/{S['flagged']} bets",
-     "#00d97e" if flag_pct>=55 else "#f59e0b" if flag_pct>=47 else "#ef4444"),
+    ("Overall Accuracy",    f"{overall_pct:.1f}%", f"{S['correct']}/{S['total']} games",   "#3b82f6" if overall_pct>=50 else "#ef4444"),
+    ("6-10% Zone Accuracy", f"{pct_610:.1f}%",     f"{b610[1]}/{b610[0]} games",           "#00d97e" if pct_610>=60 else "#f59e0b" if pct_610>=52 else "#ef4444"),
+    ("6-10% Zone P&L",      pnl_str,               f"{S['zone_bets']} bets",               "#00d97e" if S["zone_pnl"]>=0 else "#ef4444"),
+    ("6-10% Zone ROI",      f"{zone_roi:+.1f}%",   f"{S['zone_wins']}/{S['zone_bets']}",   "#00d97e" if zone_roi>=0 else "#ef4444"),
+    ("All Flagged Bets",    f"{flag_pct:.1f}%",    f"{S['flag_correct']}/{S['flagged']}",  "#00d97e" if flag_pct>=55 else "#f59e0b" if flag_pct>=47 else "#ef4444"),
 ]
 
 kpi_cols = st.columns(5)
 for i, (label, value, sub, color) in enumerate(kpi_data):
     with kpi_cols[i]:
-        with st.expander(f"{value}", expanded=False):
-            st.markdown(f"**{label}**")
-            st.caption(METRIC_TOOLTIPS.get(label, ""))
-            st.markdown(f"<div class='sub'>{sub}</div>", unsafe_allow_html=True)
         st.markdown(f"""
-        <div style='text-align:center;margin-top:-8px'>
+        <div class='card' style='text-align:center'>
             <div style='font-family:Space Mono,monospace;font-size:1.85rem;font-weight:700;color:{color}'>{value}</div>
             <div class='lbl'>{label}</div>
             <div class='sub'>{sub}</div>
         </div>""", unsafe_allow_html=True)
+        with st.expander("ℹ️"):
+            st.caption(METRIC_TOOLTIPS.get(label,""))
 
 st.markdown("<br>", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────
-# STREAK + CONFIDENCE ROW
+# STREAK + CONFIDENCE
 # ─────────────────────────────────────────────────────────────
-s_col1, s_col2 = st.columns([1,3])
-
-with s_col1:
-    st.markdown("<div class='sec'>Current Streak</div>", unsafe_allow_html=True)
-    stype = S.get("streak_type")
-    scount = S.get("streak", 0)
-    if stype == "W":
-        scolor = "#00d97e"
-        slabel = f"🔥 {scount}-game WIN streak"
-    elif stype == "L":
-        scolor = "#ef4444"
-        slabel = f"❄️ {scount}-game LOSS streak"
-    else:
-        scolor = "#475569"
-        slabel = "No streak data"
+sc1, sc2 = st.columns([1, 3])
+with sc1:
+    st.markdown("<div class='sec'>Streak</div>", unsafe_allow_html=True)
+    stype = S.get("streak_type"); scount = S.get("streak", 0)
+    if stype=="W":   scolor="#00d97e"; slabel=f"🔥 {scount}-game WIN streak"
+    elif stype=="L": scolor="#ef4444"; slabel=f"❄️ {scount}-game LOSS streak"
+    else:            scolor="#475569"; slabel="No data"
     st.markdown(f"""
     <div class='streak-box'>
         <div style='font-family:Space Mono,monospace;font-size:2.5rem;font-weight:700;color:{scolor}'>{scount}</div>
@@ -473,35 +465,25 @@ with s_col1:
         <div class='sub' style='margin-top:6px'>Flagged bets only</div>
     </div>""", unsafe_allow_html=True)
 
-with s_col2:
+with sc2:
     st.markdown("<div class='sec'>Betting Confidence</div>", unsafe_allow_html=True)
-    zone_pct = S["zone_wins"]/S["zone_bets"]*100 if S["zone_bets"] else 0
-    if S["zone_bets"] >= 20 and zone_pct >= 60:
-        conf_color = "#00d97e"
-        conf_msg = f"✅ READY — 6-10% zone at {zone_pct:.1f}% over {S['zone_bets']} bets → consider real money"
-        bar_pct = 100
-    elif S["zone_bets"] >= 15 and zone_pct >= 55:
-        conf_color = "#f59e0b"
-        conf_msg = f"🟡 GETTING CLOSE — {zone_pct:.1f}% on {S['zone_bets']} bets → paper trade only"
-        bar_pct = 66
+    zpct = S["zone_wins"]/S["zone_bets"]*100 if S["zone_bets"] else 0
+    if S["zone_bets"]>=20 and zpct>=60:
+        cc="#00d97e"; bp2=100; cm=f"✅ READY — {zpct:.1f}% on {S['zone_bets']} bets → consider real money"
+    elif S["zone_bets"]>=15 and zpct>=55:
+        cc="#f59e0b"; bp2=66;  cm=f"🟡 CLOSE — {zpct:.1f}% on {S['zone_bets']} bets → paper trade only"
     else:
-        conf_color = "#ef4444"
-        conf_msg = f"🔴 NOT YET — {zone_pct:.1f}% on {S['zone_bets']} bets → need 60%+ over 20+ bets"
-        bar_pct = 33
-
-    progress_html = f"""
-    <div style='background:#0f1628;border:1px solid #1c2540;border-radius:8px;padding:20px'>
-        <div style='font-family:Space Mono,monospace;color:{conf_color};font-weight:700;font-size:0.95rem;margin-bottom:12px'>{conf_msg}</div>
+        cc="#ef4444"; bp2=33;  cm=f"🔴 NOT YET — {zpct:.1f}% on {S['zone_bets']} bets → need 60%+ over 20+ bets"
+    st.markdown(f"""
+    <div class='card'>
+        <div style='font-family:Space Mono,monospace;color:{cc};font-weight:700;font-size:0.95rem;margin-bottom:10px'>{cm}</div>
         <div style='background:#1c2540;border-radius:4px;height:8px'>
-            <div style='background:{conf_color};width:{bar_pct}%;height:8px;border-radius:4px;transition:width 0.5s'></div>
+            <div style='background:{cc};width:{bp2}%;height:8px;border-radius:4px'></div>
         </div>
-        <div style='display:flex;justify-content:space-between;margin-top:6px'>
-            <span class='sub'>0%</span>
-            <span class='sub'>Target: 60%+ over 20+ bets</span>
-            <span class='sub'>100%</span>
+        <div style='display:flex;justify-content:space-between;margin-top:5px'>
+            <span class='sub'>0%</span><span class='sub'>Target: 60%+ / 20+ bets</span><span class='sub'>100%</span>
         </div>
-    </div>"""
-    st.markdown(progress_html, unsafe_allow_html=True)
+    </div>""", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────
 # TODAY'S FLAGGED BETS
@@ -512,34 +494,31 @@ if not todays:
     st.info("No picks file for today. Run master.py first.")
 else:
     flagged_today = [p for p in todays if "BET" in str(p.get("Flag",""))]
-    other_today   = [p for p in todays if "BET" not in str(p.get("Flag",""))]
 
     if not flagged_today:
-        st.markdown("""
-        <div style='background:#0f1628;border:1px solid #1c2540;border-radius:8px;padding:24px;text-align:center;color:#475569;font-size:1rem'>
-            No flagged bets today — model sees no high-conviction edges
-        </div>""", unsafe_allow_html=True)
+        st.markdown("<div class='card' style='text-align:center;color:#475569'>No flagged bets today</div>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<span class='badge badge-green'>🎯 {len(flagged_today)} FLAGGED BET{'S' if len(flagged_today)>1 else ''} TODAY</span><br><br>", unsafe_allow_html=True)
+        st.markdown(f"<span class='badge badge-green'>🎯 {len(flagged_today)} FLAGGED BET{'S' if len(flagged_today)>1 else ''}</span><br><br>", unsafe_allow_html=True)
 
         for pick in flagged_today:
-            away     = pick.get("Away","")
-            home     = pick.get("Home","")
-            ap       = pick.get("Model Away%","N/A")
-            hp       = pick.get("Model Home%","N/A")
-            away_sp  = pick.get("Away SP","—")
-            home_sp  = pick.get("Home SP","—")
-            away_rel = pick.get("Away Reliability%","")
-            home_rel = pick.get("Home Reliability%","")
+            away     = pick.get("Away",""); home = pick.get("Home","")
+            ap       = pick.get("Model Away%","N/A"); hp = pick.get("Model Home%","N/A")
+            away_sp  = pick.get("Away SP","—"); home_sp = pick.get("Home SP","—")
+            away_rel = pick.get("Away Reliability%",""); home_rel = pick.get("Home Reliability%","")
             sharp    = pick.get("Sharp Signal","N/A")
-            dk_ea    = pick.get("DK Edge Away","")
-            dk_eh    = pick.get("DK Edge Home","")
+            dk_ea    = pick.get("DK Edge Away",""); dk_eh = pick.get("DK Edge Home","")
             lineup   = pick.get("Lineup Source","")
-            away_bp  = pick.get("Away BP ERA(7d)","—")
-            home_bp  = pick.get("Home BP ERA(7d)","—")
-            away_velo= pick.get("Away SP Velo","")
-            home_velo= pick.get("Home SP Velo","")
+            away_bp  = pick.get("Away BP ERA(7d)","—"); home_bp = pick.get("Home BP ERA(7d)","—")
             park     = pick.get("Park Factor","100")
+
+            # Parse pitcher stats from column names
+            # Try multiple possible column name formats
+            away_velo  = pick.get("Away SP Velo","") or pick.get("Away Velo","") or "—"
+            home_velo  = pick.get("Home SP Velo","") or pick.get("Home Velo","") or "—"
+            away_spin  = pick.get("Away SP Spin","") or pick.get("Away Spin","") or "—"
+            home_spin  = pick.get("Home SP Spin","") or pick.get("Home Spin","") or "—"
+            away_whiff = pick.get("Away SP Whiff","") or pick.get("Away Whiff","") or "—"
+            home_whiff = pick.get("Home SP Whiff","") or pick.get("Home Whiff","") or "—"
 
             try:
                 apf = float(ap); hpf = float(hp)
@@ -548,400 +527,389 @@ else:
             except:
                 model_fav = home; edge = dk_eh
 
-            sharp_color = "#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
-            sharp_label = "✓ CONFIRMED SHARP" if "CONFIRMED" in str(sharp) else "✗ FADE SIGNAL" if "FADE" in str(sharp) else "— NO SIGNAL"
+            sc = "#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
+            sl = "✓ CONFIRMED SHARP" if "CONFIRMED" in str(sharp) else "✗ FADE" if "FADE" in str(sharp) else "— N/A"
 
-            away_logo = logo_url(away)
-            home_logo = logo_url(home)
-
-            # Pitcher IDs for headshots
-            away_pid = get_player_id(away_sp) if away_sp not in ("—","TBD","") else None
-            home_pid = get_player_id(home_sp) if home_sp not in ("—","TBD","") else None
-
+            # Header
             st.markdown(f"""
             <div class='bet-card'>
-                <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px'>
+                <div style='display:flex;justify-content:space-between;align-items:flex-start'>
                     <div>
-                        <div class='sub' style='margin-bottom:6px'>{lineup}</div>
+                        <div class='sub' style='margin-bottom:4px'>{lineup} · Park Factor: {park}</div>
                         <div style='font-size:1.3rem;font-weight:800;color:#f1f5f9'>{away} <span style='color:#1e2940'>@</span> {home}</div>
                     </div>
                     <div style='text-align:right'>
                         <div style='font-family:Space Mono,monospace;font-size:1.3rem;color:#00d97e;font-weight:700'>{edge}</div>
-                        <div style='color:{sharp_color};font-size:0.75rem;font-weight:700;margin-top:2px'>{sharp_label}</div>
+                        <div style='color:{sc};font-size:0.75rem;font-weight:700'>{sl}</div>
                     </div>
                 </div>
-            """, unsafe_allow_html=True)
+            </div>""", unsafe_allow_html=True)
 
-            # Team logos + probabilities
-            logo_col1, prob_col, logo_col2 = st.columns([2, 1, 2])
+            # Team logos + probs + records
+            t1, t2, t3 = st.columns([2, 1, 2])
 
-            with logo_col1:
-                if away_logo:
-                    try:
-                        st.image(away_logo, width=64)
+            with t1:
+                logo = logo_url(away)
+                if logo:
+                    try: st.image(logo, width=56)
                     except: pass
+                st.markdown(f"**{away}**")
+                st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{ap}%</div><div class='sub'>model probability</div>", unsafe_allow_html=True)
+                tid = TEAM_IDS.get(away)
+                if tid:
+                    w, l, l10w, l10l = get_team_standings(tid)
+                    if w is not None:
+                        st.markdown(f"<span class='stat-pill'>{w}-{l}</span>", unsafe_allow_html=True)
+                    if l10w is not None:
+                        c10 = "#00d97e" if l10w>=6 else "#f59e0b" if l10w>=4 else "#ef4444"
+                        st.markdown(f"<span class='stat-pill' style='color:{c10}'>L10: {l10w}-{l10l}</span>", unsafe_allow_html=True)
+
+            with t2:
                 st.markdown(f"""
-                <div style='margin-top:4px'>
-                    <div style='font-weight:700;font-size:1rem'>{away}</div>
-                    <div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{ap}%</div>
-                    <div class='sub'>model probability</div>
+                <div style='text-align:center;padding-top:16px'>
+                    <div style='color:#1e2940;font-size:1.4rem;font-weight:700'>VS</div>
+                    <div style='margin-top:10px'><span class='badge badge-green'>PICK: {model_fav}</span></div>
                 </div>""", unsafe_allow_html=True)
 
-            with prob_col:
-                st.markdown(f"""
-                <div style='text-align:center;padding-top:20px'>
-                    <div style='color:#1e2940;font-size:1.5rem;font-weight:700'>VS</div>
-                    <div style='margin-top:8px'>
-                        <span class='badge badge-green' style='font-size:0.65rem'>PICK: {model_fav}</span>
-                    </div>
-                    <div style='margin-top:8px;font-size:0.7rem;color:#334155'>Park: {park}</div>
-                </div>""", unsafe_allow_html=True)
-
-            with logo_col2:
-                if home_logo:
-                    try:
-                        st.image(home_logo, width=64)
+            with t3:
+                logo = logo_url(home)
+                if logo:
+                    try: st.image(logo, width=56)
                     except: pass
-                st.markdown(f"""
-                <div style='margin-top:4px'>
-                    <div style='font-weight:700;font-size:1rem'>{home}</div>
-                    <div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{hp}%</div>
-                    <div class='sub'>model probability</div>
-                </div>""", unsafe_allow_html=True)
+                st.markdown(f"**{home}**")
+                st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{hp}%</div><div class='sub'>model probability</div>", unsafe_allow_html=True)
+                tid = TEAM_IDS.get(home)
+                if tid:
+                    w, l, l10w, l10l = get_team_standings(tid)
+                    if w is not None:
+                        st.markdown(f"<span class='stat-pill'>{w}-{l}</span>", unsafe_allow_html=True)
+                    if l10w is not None:
+                        c10 = "#00d97e" if l10w>=6 else "#f59e0b" if l10w>=4 else "#ef4444"
+                        st.markdown(f"<span class='stat-pill' style='color:{c10}'>L10: {l10w}-{l10l}</span>", unsafe_allow_html=True)
 
             st.markdown("<br>", unsafe_allow_html=True)
 
-            # Pitcher headshots row
+            # Pitcher cards
             p_col1, p_col2 = st.columns(2)
+            for col, sp, rel, bp, velo, spin, whiff, lbl in [
+                (p_col1, away_sp, away_rel, away_bp, away_velo, away_spin, away_whiff, "Away SP"),
+                (p_col2, home_sp, home_rel, home_bp, home_velo, home_spin, home_whiff, "Home SP"),
+            ]:
+                with col:
+                    pid = get_player_id(sp) if sp not in ("—","TBD","","None") else None
+                    hs_img = headshot_url(pid)
+                    hc1, hc2 = st.columns([1, 3])
+                    with hc1:
+                        try: st.image(hs_img, width=56)
+                        except: pass
+                    with hc2:
+                        try: rc = float(str(rel).replace("%",""))
+                        except: rc = 0
+                        rcol = "#00d97e" if rc>=15 else "#f59e0b" if rc>=8 else "#ef4444"
+                        st.markdown(f"""
+                        <div style='font-weight:700;font-size:0.95rem'>{sp}</div>
+                        <div class='sub'>{lbl} · <span style='color:{rcol}'>{rel} reliability</span></div>""",
+                        unsafe_allow_html=True)
 
-            with p_col1:
-                hs1 = headshot_url(away_pid)
-                pc1a, pc1b = st.columns([1, 3])
-                with pc1a:
-                    try:
-                        st.image(hs1, width=56)
-                    except: pass
-                with pc1b:
-                    bp_color_a = "#00d97e" if float(away_bp) < 3.5 else "#f59e0b" if float(away_bp) < 5.0 else "#ef4444" if away_bp != "—" else "#475569"
+                    with st.expander(f"📊 {sp} Pitch Stats"):
+                        m1, m2, m3, m4 = st.columns(4)
+                        m1.metric("Velo", f"{velo}" if velo != "—" else "N/A")
+                        m2.metric("Spin", f"{spin}" if spin != "—" else "N/A")
+                        m3.metric("Whiff%", f"{whiff}%" if whiff != "—" else "N/A")
+                        m4.metric("BP ERA", bp)
+                        st.caption(f"Reliability {rel}: how much of this season's data the model has. Higher = more confident estimate.")
+
+            # Weather
+            coords = PARK_COORDS.get(home)
+            if coords:
+                wx = get_weather(*coords)
+                if wx:
+                    spd = wx["speed"]; dirn = wx["dir"]
+                    if dirn in WIND_IN:
+                        wx_icon="🔴"; wx_note=f"Wind IN — {spd:.0f}mph {dirn} — suppresses offense"
+                    elif dirn in WIND_OUT:
+                        wx_icon="🟢"; wx_note=f"Wind OUT — {spd:.0f}mph {dirn} — favors hitters"
+                    elif spd < 7:
+                        wx_icon="⚪"; wx_note=f"Calm winds — {spd:.0f}mph"
+                    else:
+                        wx_icon="🟡"; wx_note=f"Cross wind — {spd:.0f}mph {dirn}"
                     st.markdown(f"""
-                    <div>
-                        <div style='font-weight:700;font-size:0.9rem'>{away_sp}</div>
-                        <div class='sub'>Away SP · {away_rel} reliability</div>
-                        <div style='font-family:Space Mono,monospace;font-size:0.8rem;color:{bp_color_a};margin-top:2px'>BP ERA: {away_bp}</div>
+                    <div class='weather-card' style='margin-top:10px;display:flex;justify-content:space-between;align-items:center'>
+                        <span style='font-weight:700;color:#93c5fd'>🌤️ {home.split()[-1]} Weather</span>
+                        <span>{wx_icon} {wx_note}</span>
+                        <span class='sub'>{wx["temp"]:.0f}°F · {weather_icon(wx["code"])}</span>
                     </div>""", unsafe_allow_html=True)
 
-            with p_col2:
-                hs2 = headshot_url(home_pid)
-                pc2a, pc2b = st.columns([1, 3])
-                with pc2a:
-                    try:
-                        st.image(hs2, width=56)
-                    except: pass
-                with pc2b:
-                    try:
-                        bp_color_h = "#00d97e" if float(home_bp) < 3.5 else "#f59e0b" if float(home_bp) < 5.0 else "#ef4444"
-                    except:
-                        bp_color_h = "#475569"
-                    st.markdown(f"""
-                    <div>
-                        <div style='font-weight:700;font-size:0.9rem'>{home_sp}</div>
-                        <div class='sub'>Home SP · {home_rel} reliability</div>
-                        <div style='font-family:Space Mono,monospace;font-size:0.8rem;color:{bp_color_h};margin-top:2px'>BP ERA: {home_bp}</div>
-                    </div>""", unsafe_allow_html=True)
+            st.markdown("<hr style='border-color:#1c2540;margin:20px 0'>", unsafe_allow_html=True)
 
-            st.markdown("</div>", unsafe_allow_html=True)
+    # ── Model vs Market Chart + All Games
+    with st.expander(f"📊 Model vs Market Chart + All {len(todays)} Games Today"):
+        st.markdown("**Model vs Market — Where are the biggest disagreements?**")
+        st.caption("Blue = model's win probability for its favored team · Gray = DK market implied probability")
 
-    # All games today
-    with st.expander(f"All Games Today ({len(todays)} total)"):
+        chart_rows = []
         for pick in todays:
-            away = pick.get("Away","")
-            home = pick.get("Home","")
-            ap   = pick.get("Model Away%","N/A")
-            hp   = pick.get("Model Home%","N/A")
-            dkea = pick.get("DK Edge Away","N/A")
-            dkeh = pick.get("DK Edge Home","N/A")
+            away = pick.get("Away",""); home = pick.get("Home","")
+            ap = pick.get("Model Away%",""); hp = pick.get("Model Home%","")
+            # Try to get market implied probabilities
+            dk_imp_away = pick.get("DK Imp%","") or pick.get("DK Away Imp%","") or pick.get("DK Imp Away%","")
+            dk_imp_home = pick.get("MGM Imp%","") or pick.get("DK Home Imp%","") or pick.get("DK Imp Home%","")
+            flagged = "BET" in str(pick.get("Flag",""))
+            try:
+                apf = float(ap); hpf = float(hp)
+                if apf >= hpf:
+                    mkt = float(dk_imp_away) if dk_imp_away else apf
+                    chart_rows.append({"Matchup": f"{away[:10]}@{home[:9]}", "Model": apf, "Market": mkt, "Flag": flagged})
+                else:
+                    mkt = float(dk_imp_home) if dk_imp_home else hpf
+                    chart_rows.append({"Matchup": f"{away[:10]}@{home[:9]}", "Model": hpf, "Market": mkt, "Flag": flagged})
+            except: pass
+
+        if chart_rows:
+            df_c = pd.DataFrame(chart_rows).sort_values("Model", ascending=False)
+            df_m = df_c.melt(id_vars=["Matchup","Flag"], value_vars=["Model","Market"],
+                             var_name="Source", value_name="Probability")
+            chart = alt.Chart(df_m).mark_bar(size=12).encode(
+                x=alt.X("Probability:Q", title="Win Probability %",
+                        scale=alt.Scale(domain=[30,75]),
+                        axis=alt.Axis(labelColor="#475569", titleColor="#475569", gridColor="#1c2540")),
+                y=alt.Y("Matchup:N", sort="-x", title=None,
+                        axis=alt.Axis(labelColor="#94a3b8", labelFontSize=11)),
+                color=alt.Color("Source:N",
+                               scale=alt.Scale(domain=["Model","Market"], range=["#3b82f6","#334155"]),
+                               legend=alt.Legend(orient="top", labelColor="#94a3b8")),
+                xOffset="Source:N",
+                tooltip=["Matchup","Source","Probability:Q","Flag"]
+            ).properties(
+                height=max(180, len(chart_rows)*42),
+                background="#080c18",
+            ).configure_view(strokeOpacity=0).configure_axis(labelFontSize=11)
+            st.altair_chart(chart, use_container_width=True)
+
+        # Game list
+        for pick in todays:
+            away = pick.get("Away",""); home = pick.get("Home","")
+            ap   = pick.get("Model Away%","N/A"); hp = pick.get("Model Home%","N/A")
             sharp= pick.get("Sharp Signal","N/A")
             flag = "BET" in str(pick.get("Flag",""))
-            sharp_color = "#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
-            border = "#166534" if flag else "#1c2540"
-
-            away_logo = logo_url(away)
-            home_logo = logo_url(home)
-
-            cols = st.columns([1, 1, 4, 2, 2, 2])
-            with cols[0]:
-                if away_logo:
-                    try: st.image(away_logo, width=28)
-                    except: pass
-            with cols[1]:
-                if home_logo:
-                    try: st.image(home_logo, width=28)
-                    except: pass
-            with cols[2]:
-                flag_txt = " 🎯" if flag else ""
-                st.markdown(f"**{away}** @ **{home}**{flag_txt}")
-            with cols[3]:
-                st.markdown(f"<span class='mono' style='color:#3b82f6'>{ap}% / {hp}%</span>", unsafe_allow_html=True)
-            with cols[4]:
-                st.markdown(f"<span class='mono' style='color:#475569;font-size:0.8rem'>{dkea} | {dkeh}</span>", unsafe_allow_html=True)
-            with cols[5]:
-                st.markdown(f"<span style='color:{sharp_color};font-size:0.75rem;font-weight:700'>{sharp}</span>", unsafe_allow_html=True)
+            sc   = "#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
+            gc   = st.columns([1,1,4,2,2])
+            for col, logo_team in [(gc[0], away),(gc[1], home)]:
+                with col:
+                    l = logo_url(logo_team)
+                    if l:
+                        try: st.image(l, width=24)
+                        except: pass
+            with gc[2]: st.write(f"{'🎯 ' if flag else ''}{away} @ {home}")
+            with gc[3]: st.write(f"{ap}% / {hp}%")
+            with gc[4]: st.markdown(f"<span style='color:{sc};font-size:0.8rem;font-weight:700'>{sharp}</span>", unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────
-# LINE MOVEMENT TRACKER
+# WEATHER BOARD
 # ─────────────────────────────────────────────────────────────
-st.markdown("<div class='sec'>Line Movement Tracker — Today's Biggest Movers</div>", unsafe_allow_html=True)
-
 if todays:
-    movers = []
+    st.markdown("<div class='sec'>Today's Ballpark Weather</div>", unsafe_allow_html=True)
+    wx_cols = st.columns(4)
+    shown = set(); idx = 0
     for pick in todays:
-        away = pick.get("Away","")
         home = pick.get("Home","")
-        sharp = pick.get("Sharp Signal","N/A")
-        try:
-            away_move = pick.get("DK Edge Away","0").replace("%","").replace("** BET **","").replace("+","")
-            home_move = pick.get("DK Edge Home","0").replace("%","").replace("** BET **","").replace("+","")
-            # Parse line movement from the move strings if available
-            # Use edge as proxy for movement magnitude
-            e = parse_edge(pick.get("DK Edge Away","0"))
-            movers.append({
-                "matchup": f"{away} @ {home}",
-                "away": away, "home": home,
-                "sharp": sharp,
-                "edge": e,
-                "away_edge": pick.get("DK Edge Away",""),
-                "home_edge": pick.get("DK Edge Home",""),
-            })
-        except:
-            pass
-
-    movers.sort(key=lambda x: x["edge"], reverse=True)
-    top_movers = movers[:6]
-
-    mv_cols = st.columns(3)
-    for i, mv in enumerate(top_movers):
-        with mv_cols[i % 3]:
-            sharp = mv["sharp"]
-            sc = "#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
-            sl = "CONFIRMED ✓" if "CONFIRMED" in str(sharp) else "FADE ✗" if "FADE" in str(sharp) else "N/A"
-            away_logo = logo_url(mv["away"])
-            home_logo = logo_url(mv["home"])
-
+        if home in shown: continue
+        shown.add(home)
+        coords = PARK_COORDS.get(home)
+        if not coords: continue
+        wx = get_weather(*coords)
+        if not wx: continue
+        spd = wx["speed"]; dirn = wx["dir"]
+        if dirn in WIND_IN:    icon="🔴"; note="Wind IN"
+        elif dirn in WIND_OUT: icon="🟢"; note="Wind OUT"
+        elif spd < 7:          icon="⚪"; note="Calm"
+        else:                  icon="🟡"; note="Cross"
+        with wx_cols[idx % 4]:
             st.markdown(f"""
-            <div class='card' style='margin-bottom:10px'>
-                <div style='font-size:0.85rem;font-weight:700;margin-bottom:8px'>{mv['matchup']}</div>
-                <div style='display:flex;justify-content:space-between'>
-                    <span class='sub'>Away edge: <span class='mono'>{mv['away_edge']}</span></span>
-                    <span class='sub'>Home edge: <span class='mono'>{mv['home_edge']}</span></span>
-                </div>
-                <div style='margin-top:6px;color:{sc};font-size:0.75rem;font-weight:700'>{sl}</div>
+            <div class='weather-card'>
+                <div style='font-weight:700;font-size:0.82rem'>{icon} {home.split()[-1]}</div>
+                <div class='sub'>{note} · {spd:.0f}mph {dirn}</div>
+                <div class='sub'>{wx["temp"]:.0f}°F · {weather_icon(wx["code"])}</div>
             </div>""", unsafe_allow_html=True)
+        idx += 1
 
 # ─────────────────────────────────────────────────────────────
-# EDGE ZONE + BULLPEN LEADERBOARD
+# ANALYTICS TABS
 # ─────────────────────────────────────────────────────────────
 st.markdown("<div class='sec'>Model Analytics</div>", unsafe_allow_html=True)
-ez_col, bp_col = st.columns([1,1])
+tabs = st.tabs(["📊 Edge Zones", "🎯 Calibration Curve", "🏆 Best/Worst Teams", "🔥 Bullpen Rankings", "📈 Season Trend"])
 
-with ez_col:
-    st.markdown("<div style='font-weight:700;margin-bottom:12px;color:#94a3b8'>Edge Zone Performance</div>", unsafe_allow_html=True)
+with tabs[0]:
     for bucket, (tot, cor) in S["edge_buckets"].items():
         if tot == 0: continue
         pct = cor/tot*100
         color = "#00d97e" if pct>=58 else "#f59e0b" if pct>=50 else "#ef4444"
         star = " ★ KEY ZONE" if bucket=="6-10%" else ""
-        bar = int(pct)
         st.markdown(f"""
         <div class='card' style='padding:12px 16px;margin-bottom:8px'>
             <div style='display:flex;justify-content:space-between;margin-bottom:6px'>
-                <span style='font-weight:700;color:#e2e8f0'>{bucket}<span style='color:#00d97e;font-size:0.7rem'>{star}</span></span>
+                <span style='font-weight:700'>{bucket}<span style='color:#00d97e;font-size:0.7rem'>{star}</span></span>
                 <span style='font-family:Space Mono,monospace;font-size:1rem;color:{color};font-weight:700'>{pct:.1f}%</span>
             </div>
             <div style='background:#1c2540;border-radius:3px;height:5px'>
-                <div style='background:{color};width:{bar}%;height:5px;border-radius:3px'></div>
+                <div style='background:{color};width:{int(pct)}%;height:5px;border-radius:3px'></div>
             </div>
-            <div class='sub' style='margin-top:4px'>{cor}/{tot} games · Click KPI card above for explanation</div>
+            <div class='sub' style='margin-top:4px'>{cor}/{tot} games</div>
         </div>""", unsafe_allow_html=True)
 
-with bp_col:
-    st.markdown("<div style='font-weight:700;margin-bottom:12px;color:#94a3b8'>Bullpen Leaderboard (7-day ERA)</div>", unsafe_allow_html=True)
+with tabs[1]:
+    st.caption("When the model says X%, how often does that pick actually win? The dashed line = perfect calibration.")
+    rows = []
+    for bk in sorted(S["calib_bins"].keys()):
+        tot, cor = S["calib_bins"][bk]
+        if tot >= 3:
+            rows.append({"Label": f"{bk}-{bk+5}%", "Model %": bk+2.5, "Actual %": round(cor/tot*100,1), "n": tot})
+    if rows:
+        df_cal = pd.DataFrame(rows)
+        df_perf = pd.DataFrame({"x": [35,40,45,50,55,60,65,70], "y": [35,40,45,50,55,60,65,70]})
+        line_perf = alt.Chart(df_perf).mark_line(color="#334155", strokeDash=[4,2]).encode(
+            x=alt.X("x:Q", scale=alt.Scale(domain=[35,70]), title="Model Confidence %",
+                    axis=alt.Axis(labelColor="#475569", gridColor="#1c2540")),
+            y=alt.Y("y:Q", scale=alt.Scale(domain=[20,85]), title="Actual Win %",
+                    axis=alt.Axis(labelColor="#475569", gridColor="#1c2540")),
+        )
+        line_act = alt.Chart(df_cal).mark_line(color="#3b82f6", strokeWidth=2).encode(
+            x="Model %:Q", y="Actual %:Q")
+        dots = alt.Chart(df_cal).mark_circle(size=80, color="#00d97e").encode(
+            x="Model %:Q", y="Actual %:Q", tooltip=["Label","Actual %:Q","n:Q"])
+        st.altair_chart(
+            (line_perf+line_act+dots).properties(height=260, background="#080c18").configure_view(strokeOpacity=0),
+            use_container_width=True)
+    else:
+        st.caption("Need more graded games.")
+
+with tabs[2]:
+    ts = S["team_stats"]
+    team_rows = [{"Team":t,"W":r["correct"],"L":r["total"]-r["correct"],"Pct":round(r["correct"]/r["total"]*100,1)}
+                 for t,r in ts.items() if r["total"]>=3]
+    if team_rows:
+        df_t = pd.DataFrame(team_rows).sort_values("Pct", ascending=False)
+        b_col, w_col = st.columns(2)
+        with b_col:
+            st.markdown("<div style='color:#00d97e;font-weight:700;margin-bottom:8px'>✅ Best</div>", unsafe_allow_html=True)
+            for _, row in df_t.head(8).iterrows():
+                c1,c2,c3,c4 = st.columns([1,4,2,2])
+                with c1:
+                    l=logo_url(row["Team"])
+                    if l:
+                        try: st.image(l, width=22)
+                        except: pass
+                with c2: st.write(row["Team"].split()[-1])
+                with c3: st.write(f"{row['W']}-{row['L']}")
+                with c4: st.markdown(f"<span style='font-family:Space Mono,monospace;color:#00d97e;font-weight:700'>{row['Pct']:.0f}%</span>", unsafe_allow_html=True)
+        with w_col:
+            st.markdown("<div style='color:#ef4444;font-weight:700;margin-bottom:8px'>❌ Worst</div>", unsafe_allow_html=True)
+            for _, row in df_t.tail(8).sort_values("Pct").iterrows():
+                c1,c2,c3,c4 = st.columns([1,4,2,2])
+                with c1:
+                    l=logo_url(row["Team"])
+                    if l:
+                        try: st.image(l, width=22)
+                        except: pass
+                with c2: st.write(row["Team"].split()[-1])
+                with c3: st.write(f"{row['W']}-{row['L']}")
+                with c4: st.markdown(f"<span style='font-family:Space Mono,monospace;color:#ef4444;font-weight:700'>{row['Pct']:.0f}%</span>", unsafe_allow_html=True)
+    else:
+        st.caption("Need more graded games.")
+
+with tabs[3]:
     bp = S["bullpen"]
     if bp:
         sorted_bp = sorted(bp.items(), key=lambda x: x[1])
-        for rank, (team, era) in enumerate(sorted_bp[:15], 1):
-            color = "#00d97e" if era < 3.0 else "#f59e0b" if era < 4.5 else "#ef4444"
-            logo = logo_url(team)
-            col_r, col_l, col_t, col_e = st.columns([1, 1, 4, 2])
-            with col_r:
-                st.markdown(f"<span class='sub' style='font-size:0.7rem'>#{rank}</span>", unsafe_allow_html=True)
-            with col_l:
-                if logo:
-                    try: st.image(logo, width=20)
-                    except: pass
-            with col_t:
-                st.markdown(f"<span style='font-size:0.82rem;font-weight:600'>{team}</span>", unsafe_allow_html=True)
-            with col_e:
-                st.markdown(f"<span style='font-family:Space Mono,monospace;font-size:0.82rem;font-weight:700;color:{color}'>{era:.2f}</span>", unsafe_allow_html=True)
+        b1, b2 = st.columns(2)
+        for i, (team, era) in enumerate(sorted_bp):
+            col = b1 if i < len(sorted_bp)//2 else b2
+            with col:
+                color = "#00d97e" if era<3.0 else "#f59e0b" if era<4.5 else "#ef4444"
+                rc = st.columns([1,1,4,2])
+                with rc[0]: st.markdown(f"<span class='sub' style='font-size:0.7rem'>#{i+1}</span>", unsafe_allow_html=True)
+                with rc[1]:
+                    l=logo_url(team)
+                    if l:
+                        try: st.image(l, width=20)
+                        except: pass
+                with rc[2]: st.write(team.split()[-1])
+                with rc[3]: st.markdown(f"<span style='font-family:Space Mono,monospace;font-size:0.85rem;font-weight:700;color:{color}'>{era:.2f}</span>", unsafe_allow_html=True)
+
+with tabs[4]:
+    if len(S["daily"]) >= 3:
+        df_t2 = pd.DataFrame([{"date": d["date"], "Accuracy": round(d["pct"],1)} for d in S["daily"]])
+        df_t2["date"] = pd.to_datetime(df_t2["date"])
+        df_t2 = df_t2.sort_values("date")
+        df_t2["Rolling"] = df_t2["Accuracy"].rolling(3, min_periods=1).mean().round(1)
+        base = alt.Chart(df_t2).encode(x=alt.X("date:T", title=None, axis=alt.Axis(format="%b %d", labelColor="#475569", gridColor="#1c2540")))
+        rule = alt.Chart(pd.DataFrame({"y":[50]})).mark_rule(color="#334155", strokeDash=[6,3]).encode(y="y:Q")
+        st.altair_chart(
+            (rule +
+             base.mark_line(color="#3b82f6", strokeWidth=2).encode(y=alt.Y("Accuracy:Q", scale=alt.Scale(domain=[0,100]), axis=alt.Axis(labelColor="#475569", gridColor="#1c2540"))) +
+             base.mark_line(color="#00d97e", strokeWidth=1.5, strokeDash=[4,2]).encode(y="Rolling:Q") +
+             base.mark_circle(size=55, color="#3b82f6").encode(y="Accuracy:Q", tooltip=["date:T","Accuracy:Q","Rolling:Q"])
+            ).properties(height=240, background="#080c18",
+                title=alt.TitleParams(text="Daily Accuracy · Blue=daily · Green dashed=3-day avg · Gray=50%", color="#475569", fontSize=11)
+            ).configure_view(strokeOpacity=0),
+            use_container_width=True)
     else:
-        st.caption("Run master.py to populate bullpen data.")
-
-# ─────────────────────────────────────────────────────────────
-# SEASON TREND CHART
-# ─────────────────────────────────────────────────────────────
-st.markdown("<div class='sec'>Season Accuracy Trend</div>", unsafe_allow_html=True)
-
-if len(S["daily"]) >= 3:
-    trend_rows = []
-    for d in S["daily"]:
-        trend_rows.append({
-            "date": d["date"],
-            "Overall %": round(d["pct"], 1),
-            "Games": d["total"],
-        })
-
-    df = pd.DataFrame(trend_rows)
-    df["date"] = pd.to_datetime(df["date"])
-
-    # Rolling 3-day average
-    df = df.sort_values("date")
-    df["Rolling Avg"] = df["Overall %"].rolling(3, min_periods=1).mean().round(1)
-
-    base = alt.Chart(df).encode(
-        x=alt.X("date:T", title="Date", axis=alt.Axis(format="%b %d", labelColor="#475569", titleColor="#475569", gridColor="#1c2540")),
-    )
-
-    line = base.mark_line(color="#3b82f6", strokeWidth=2).encode(
-        y=alt.Y("Overall %:Q", title="Accuracy %", scale=alt.Scale(domain=[20,80]),
-                axis=alt.Axis(labelColor="#475569", titleColor="#475569", gridColor="#1c2540"))
-    )
-    rolling = base.mark_line(color="#00d97e", strokeWidth=1.5, strokeDash=[4,2]).encode(
-        y="Rolling Avg:Q"
-    )
-    points = base.mark_circle(size=60, color="#3b82f6").encode(
-        y="Overall %:Q",
-        tooltip=["date:T", "Overall %:Q", "Rolling Avg:Q", "Games:Q"]
-    )
-    rule = alt.Chart(pd.DataFrame({"y": [50]})).mark_rule(
-        color="#475569", strokeDash=[6,3], strokeWidth=1
-    ).encode(y="y:Q")
-
-    chart = (line + rolling + points + rule).properties(
-        height=220,
-        background="#080c18",
-        title=alt.TitleParams(
-            text="Daily Accuracy % (blue) + 3-day rolling avg (green dashed)",
-            color="#475569", fontSize=11
-        )
-    ).configure_axis(
-        labelFontSize=11, titleFontSize=11
-    ).configure_view(strokeOpacity=0)
-
-    st.altair_chart(chart, use_container_width=True)
-else:
-    st.caption("Need at least 3 days of data for trend chart.")
+        st.caption("Need at least 3 days of data.")
 
 # ─────────────────────────────────────────────────────────────
 # DAILY RECORD
 # ─────────────────────────────────────────────────────────────
-st.markdown("<div class='sec'>Daily Record — Click to Expand Games</div>", unsafe_allow_html=True)
-
-if S["daily"]:
-    for d in reversed(S["daily"][-12:]):
-        pct = d["pct"]
-        flag_txt = f"{d['flag_correct']}/{d['flagged']}" if d["flagged"] else "—"
-        color = "#00d97e" if pct>=55 else "#f59e0b" if pct>=45 else "#ef4444"
-        label = f"{d['date']}   {d['correct']}/{d['total']} ({pct:.0f}%)   Flags: {flag_txt}"
-
-        with st.expander(label):
-            for g in d.get("games",[]):
-                away    = g["away"]
-                home    = g["home"]
-                winner  = g["actual_winner"]
-                won     = g["won"]
-                score   = g["score"]
-                flagged = g["flag"]
-                ap      = g["away_prob"]
-                hp      = g["home_prob"]
-
-                icon = "✓" if won else "✗"
-                flag_badge = " 🎯" if flagged else ""
-                away_bold = f"**{away}**" if winner==away else away
-                home_bold = f"**{home}**" if winner==home else home
-
-                # Team logos
-                c0, c1, c2, c3, c4, c5 = st.columns([1,1,4,1,2,1])
-                with c0:
-                    l = logo_url(away)
+st.markdown("<div class='sec'>Daily Record</div>", unsafe_allow_html=True)
+for d in reversed(S["daily"][-12:]):
+    flag_txt = f"{d['flag_correct']}/{d['flagged']}" if d["flagged"] else "—"
+    with st.expander(f"{d['date']}   {d['correct']}/{d['total']} ({d['pct']:.0f}%)   Flags: {flag_txt}"):
+        for g in d.get("games",[]):
+            away=g["away"]; home=g["home"]; winner=g["actual_winner"]
+            away_bold = f"**{away}**" if winner==away else away
+            home_bold = f"**{home}**" if winner==home else home
+            flag_badge = " 🎯" if g["flag"] else ""
+            cols = st.columns([1,1,4,1,2,1])
+            for ci, team in [(0,away),(1,home)]:
+                with cols[ci]:
+                    l=logo_url(team)
                     if l:
                         try: st.image(l, width=22)
                         except: pass
-                with c1:
-                    l = logo_url(home)
-                    if l:
-                        try: st.image(l, width=22)
-                        except: pass
-                with c2:
-                    st.write(f"{away_bold} @ {home_bold}{flag_badge}")
-                with c3:
-                    st.write(score)
-                with c4:
-                    st.write(f"{ap}% / {hp}%")
-                with c5:
-                    if won: st.success(icon)
-                    else:   st.error(icon)
+            with cols[2]: st.write(f"{away_bold} @ {home_bold}{flag_badge}")
+            with cols[3]: st.write(g["score"])
+            with cols[4]: st.write(f"{g['away_prob']}% / {g['home_prob']}%")
+            with cols[5]:
+                if g["won"]: st.success("✓")
+                else: st.error("✗")
 
 # ─────────────────────────────────────────────────────────────
-# PICK HISTORY SEARCH
+# SEARCH
 # ─────────────────────────────────────────────────────────────
 st.markdown("<div class='sec'>Pick History Search</div>", unsafe_allow_html=True)
-
-search = st.text_input("Search by team or pitcher name", placeholder="e.g. Cardinals, Rays, Glasnow...")
-
+search = st.text_input("Search by team or pitcher", placeholder="e.g. Cardinals, Rays, Glasnow...")
 if search and len(search) >= 2:
     q = search.lower()
     hits = [g for g in S["all_picks"] if
-            q in g.get("away","").lower() or
-            q in g.get("home","").lower() or
-            q in g.get("away_sp","").lower() or
-            q in g.get("home_sp","").lower()]
-
+            q in g.get("away","").lower() or q in g.get("home","").lower() or
+            q in g.get("away_sp","").lower() or q in g.get("home_sp","").lower()]
     if hits:
-        st.markdown(f"<div class='sub' style='margin-bottom:8px'>{len(hits)} result(s)</div>", unsafe_allow_html=True)
         wins = sum(1 for h in hits if h["won"])
-        st.markdown(f"<div class='sub' style='margin-bottom:12px'>Record: {wins}/{len(hits)} ({wins/len(hits)*100:.1f}%)</div>", unsafe_allow_html=True)
-
+        st.markdown(f"<div class='sub' style='margin-bottom:8px'>{len(hits)} results · Record: {wins}/{len(hits)} ({wins/len(hits)*100:.1f}%)</div>", unsafe_allow_html=True)
         for g in reversed(hits[-20:]):
-            won   = g["won"]
-            icon  = "✓" if won else "✗"
-            color = "#00d97e" if won else "#ef4444"
-            flag  = " 🎯" if g["flag"] else ""
-
-            sc1, sc2, sc3, sc4, sc5 = st.columns([1,1,4,2,1])
-            with sc1:
-                l = logo_url(g["away"])
-                if l:
-                    try: st.image(l, width=22)
-                    except: pass
-            with sc2:
-                l = logo_url(g["home"])
-                if l:
-                    try: st.image(l, width=22)
-                    except: pass
-            with sc3:
-                st.write(f"**{g['date']}** — {g['away']} @ {g['home']}{flag}")
-            with sc4:
-                st.write(f"{g['score']} | Pick: {g['model_pick']}")
-            with sc5:
-                if won: st.success(icon)
-                else:   st.error(icon)
+            flag=" 🎯" if g["flag"] else ""
+            cols = st.columns([1,1,4,2,1])
+            for ci, team in [(0,g["away"]),(1,g["home"])]:
+                with cols[ci]:
+                    l=logo_url(team)
+                    if l:
+                        try: st.image(l, width=22)
+                        except: pass
+            with cols[2]: st.write(f"**{g['date']}** — {g['away']} @ {g['home']}{flag}")
+            with cols[3]: st.write(f"{g['score']} | Pick: {g['model_pick']}")
+            with cols[4]:
+                if g["won"]: st.success("✓")
+                else: st.error("✗")
     else:
-        st.caption(f"No picks found matching '{search}'")
+        st.caption(f"No results for '{search}'")
 
-# ─────────────────────────────────────────────────────────────
-# FOOTER
-# ─────────────────────────────────────────────────────────────
-st.markdown("<br><br>", unsafe_allow_html=True)
-st.markdown("""
-<div style='text-align:center;border-top:1px solid #1c2540;padding-top:16px'>
-    <span class='sub'>MLB Prediction Model · Personal Use Only · Updates daily after pushing to GitHub</span>
-</div>""", unsafe_allow_html=True)
+st.markdown("<br><br><div style='text-align:center;border-top:1px solid #1c2540;padding-top:16px'><span class='sub'>MLB Prediction Model · Personal Use Only · Nightly auto-update</span></div>", unsafe_allow_html=True)
