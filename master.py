@@ -333,14 +333,18 @@ def run_model(target_date, save_csv=True):
             min_reliability = min(home_rel, away_rel)
             reliable = min_reliability >= 8 and home != "Colorado Rockies"
 
-            # Sharp signal
+# Sharp signal
             sharp_signal = "N/A"
             if away_move and home_move and away_prob and home_prob:
                 model_favors = away if away_prob > home_prob else home
                 away_movement = away_move.get("movement", 0)
                 home_movement = home_move.get("movement", 0)
                 market_moving_toward = away if away_movement > home_movement else home
-                if model_favors == market_moving_toward:
+                away_mov = abs(away_move.get("movement", 0))
+                home_mov = abs(home_move.get("movement", 0))
+                if max(away_mov, home_mov) < 1.5:
+                    sharp_signal = "N/A"
+                elif model_favors == market_moving_toward:
                     sharp_signal = "CONFIRMED ✓"
                 else:
                     sharp_signal = "FADE ✗"
