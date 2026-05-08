@@ -4,6 +4,7 @@ import csv
 import requests
 import altair as alt
 import math
+import os
 from glob import glob
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict
@@ -391,6 +392,9 @@ def load_season():
 def load_today():
     lv = timezone(timedelta(hours=-7))
     today_str = datetime.now(lv).strftime("%Y-%m-%d")
+    tomorrow_str = (datetime.now(lv) + timedelta(days=1)).strftime("%Y-%m-%d")
+    if os.path.exists(f"picks_{tomorrow_str}.csv"):
+        return load_picks(f"picks_{tomorrow_str}.csv"), tomorrow_str
     return load_picks(f"picks_{today_str}.csv"), today_str
 
 
@@ -531,12 +535,26 @@ else:
             sl = "✓ CONFIRMED SHARP" if "CONFIRMED" in str(sharp) else "✗ FADE" if "FADE" in str(sharp) else "— N/A"
 
             # Header
+            if "CONFIRMED" in str(lineup):
+                lineup_color = "#00d97e"
+                lineup_label = "✅ CONFIRMED LINEUPS"
+                lineup_sub = ""
+            elif "PARTIAL" in str(lineup):
+                lineup_color = "#f59e0b"
+                lineup_label = "⚠️ PARTIAL LINEUPS"
+                lineup_sub = "Some lineups not yet confirmed"
+            else:
+                lineup_color = "#3b82f6"
+                lineup_label = "📊 EARLY LEAN"
+                lineup_sub = "Lineups not yet confirmed — model estimate only"
+
             st.markdown(f"""
             <div class='bet-card'>
                 <div style='display:flex;justify-content:space-between;align-items:flex-start'>
                     <div>
-                        <div class='sub' style='margin-bottom:4px'>{lineup} · Park Factor: {park}</div>
-                        <div style='font-size:1.3rem;font-weight:800;color:#f1f5f9'>{away} <span style='color:#1e2940'>@</span> {home}</div>
+                        <div style='font-size:0.9rem;font-weight:800;letter-spacing:1px;color:{lineup_color};margin-bottom:2px'>{lineup_label}</div>
+                        <div style='font-size:0.72rem;color:#475569;margin-bottom:6px'>{lineup_sub}</div>
+                        <div style='font-size:1.3rem;font-weight:800;color:#f1f5f9'>{away} <span style='color:#1e2940'>@</span> {home} <span style='font-size:0.75rem;color:#475569'>· Park: {park}</span></div>
                     </div>
                     <div style='text-align:right'>
                         <div style='font-family:Space Mono,monospace;font-size:1.3rem;color:#00d97e;font-weight:700'>{edge}</div>
