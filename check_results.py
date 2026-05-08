@@ -62,7 +62,7 @@ def check_picks(date_str):
         away = pick["Away"]
         home = pick["Home"]
         key = f"{away}@{home}"
-        
+
         away_prob = pick["Model Away%"]
         home_prob = pick["Model Home%"]
         flag = pick["Flag"]
@@ -75,9 +75,8 @@ def check_picks(date_str):
 
         result = results.get(key)
         if not result:
-            # Try reversed key
             result = results.get(f"{home}@{away}")
-        
+
         if not result:
             print(f"  {away} @ {home} — No result found yet")
             continue
@@ -85,7 +84,7 @@ def check_picks(date_str):
         actual_winner = result["winner"]
         score = f"{result['away_score']}-{result['home_score']}"
         correct_flag = "✓" if model_winner == actual_winner else "✗"
-        
+
         total += 1
         if model_winner == actual_winner:
             correct += 1
@@ -112,9 +111,7 @@ def check_picks(date_str):
         print("No flagged bets today")
 
 if __name__ == '__main__':
-    # Check yesterday's picks
     las_vegas_offset = timezone(timedelta(hours=-7))
-    yesterday = (datetime.now(las_vegas_offset) - timedelta(days=1)).strftime("%Y-%m-%d")
-    
-    print(f"Checking results for: {yesterday}")
-check_picks("2026-05-06")
+    today = datetime.now(las_vegas_offset).strftime("%Y-%m-%d")
+    print(f"Checking results for: {today}")
+    check_picks(today)
