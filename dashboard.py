@@ -95,100 +95,58 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap');
 
-/* ── Professional Betting App Theme ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-
-html, body, [class*="css"], [class*="st-"], .stApp {
-    font-family: 'Inter', sans-serif !important;
-    background-color: #0f0f0f !important;
-    color: #e2e2e2 !important;
+*, html, body, [class*="css"] {
+    font-family: 'Barlow Condensed', sans-serif;
+    background-color: #080c18;
+    color: #dde3f0;
 }
-.main, .block-container, .stApp { 
-    background-color: #0f0f0f !important; 
-    max-width: 1400px;
-}
-h1,h2,h3 { font-family: 'Inter', sans-serif !important; color: #ffffff !important; font-weight: 700 !important; letter-spacing: -0.5px; }
+.main, .block-container { background-color: #080c18 !important; }
+h1,h2,h3 { font-family: 'Space Mono', monospace !important; }
 
 .card {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 4px;
-    padding: 16px 20px;
-    margin-bottom: 8px;
-}
-.bet-card {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-left: 2px solid #16a34a;
-    border-radius: 4px;
+    background: linear-gradient(145deg, #0f1628 0%, #0a1020 100%);
+    border: 1px solid #1c2540;
+    border-radius: 10px;
     padding: 18px 20px;
     margin-bottom: 10px;
 }
+.bet-card {
+    background: linear-gradient(145deg, #0a2018 0%, #061510 100%);
+    border: 1px solid #166534;
+    border-left: 4px solid #00d97e;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 14px;
+}
 .weather-card {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 4px;
+    background: #0a1020;
+    border: 1px solid #1c2540;
+    border-radius: 7px;
     padding: 10px 14px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 .streak-box {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 4px;
+    background: #0f1628;
+    border: 1px solid #1c2540;
+    border-radius: 8px;
     padding: 16px 20px;
     text-align: center;
 }
-
-.badge       { padding:2px 8px; border-radius:2px; font-size:0.65rem; font-weight:600; letter-spacing:0.5px; font-family:'Space Mono',monospace; }
-.badge-green { background:transparent; color:#16a34a; border: 1px solid #16a34a; }
-.badge-red   { background:transparent; color:#dc2626; border: 1px solid #dc2626; }
-
-.lbl  { font-size:0.65rem; color:#c0c0c0 !important; text-transform:uppercase; letter-spacing:1px; margin-top:4px; font-weight:500; }
-.sub  { font-size:0.75rem; color:#c0c0c0 !important; }
-.mono { font-family:'Space Mono',monospace; color:#ffffff; }
-
+.badge       { padding:3px 10px; border-radius:4px; font-size:0.7rem; font-weight:700; letter-spacing:1px; }
+.badge-green { background:#166534; color:#00d97e; }
+.badge-red   { background:#7f1d1d; color:#ef4444; }
+.lbl  { font-size:0.72rem; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:4px; }
+.sub  { font-size:0.78rem; color:#475569; }
+.mono { font-family:'Space Mono',monospace; }
 .stat-pill {
-    display:inline-block; background:#222222; border-radius:2px;
-    padding:2px 8px; font-family:'Space Mono',monospace; font-size:0.68rem; margin:2px;
-    color: #e2e2e2 !important;
-    border: 1px solid #2a2a2a;
+    display:inline-block; background:#1c2540; border-radius:4px;
+    padding:3px 8px; font-family:'Space Mono',monospace; font-size:0.72rem; margin:2px;
 }
-
 .sec {
-    font-family:'Space Mono',monospace; font-size:0.58rem; color:#888888 !important;
-    text-transform:uppercase; letter-spacing:2px;
-    border-bottom:1px solid #1e1e1e; padding-bottom:6px; margin:20px 0 12px 0;
+    font-family:'Space Mono',monospace; font-size:0.65rem; color:#334155;
+    text-transform:uppercase; letter-spacing:2.5px;
+    border-bottom:1px solid #1c2540; padding-bottom:8px; margin:24px 0 16px 0;
 }
-
-/* Streamlit overrides */
-.stExpander { background: #1a1a1a !important; border: 1px solid #2a2a2a !important; border-radius: 4px !important; }
-.stExpander summary p { color: #ffffff !important; font-size: 0.85rem !important; font-weight: 500 !important; }
-.stExpander div { color: #c0c0c0 !important; }
-
-div[data-testid="stMetricValue"] { color: #ffffff !important; font-family: 'Space Mono', monospace !important; font-size: 1.5rem !important; font-weight: 700 !important; }
-div[data-testid="stMetricLabel"] { color: #c0c0c0 !important; font-size: 0.65rem !important; text-transform: uppercase; letter-spacing: 1px; }
-
-.stTabs [data-baseweb="tab-list"] { background: #1a1a1a !important; border-radius: 2px; padding: 2px; border: 1px solid #2a2a2a; gap: 0px; }
-.stTabs [data-baseweb="tab"] { color: #c0c0c0 !important; font-family: 'Space Mono', monospace !important; font-size: 0.65rem !important; font-weight: 600 !important; letter-spacing: 1px; text-transform: uppercase; }
-.stTabs [aria-selected="true"] { color: #ffffff !important; background: #222222 !important; border-radius: 2px !important; }
-
-.stButton button { background: #1a1a1a !important; color: #c0c0c0 !important; border: 1px solid #2a2a2a !important; font-size: 0.75rem !important; font-weight: 600 !important; border-radius: 2px !important; letter-spacing: 0.5px; font-family: 'Space Mono', monospace !important; }
-.stButton button:hover { border-color: #444444 !important; color: #ffffff !important; }
-
-.stTextInput input { background: #1a1a1a !important; color: #e2e2e2 !important; border: 1px solid #2a2a2a !important; font-size: 0.85rem !important; border-radius: 2px !important; }
-.stTextInput input::placeholder { color: #666666 !important; }
-.stTextInput label { color: #c0c0c0 !important; font-size: 0.65rem !important; text-transform: uppercase; letter-spacing: 1px; }
-
-.stSuccess { background: #111811 !important; color: #16a34a !important; border: 1px solid #1a3a1a !important; border-radius: 2px !important; }
-.stError { background: #1a1111 !important; color: #dc2626 !important; border: 1px solid #3a1a1a !important; border-radius: 2px !important; }
-.stInfo { background: #111118 !important; color: #888888 !important; border: 1px solid #1a1a2a !important; border-radius: 2px !important; }
-
-p { color: #c0c0c0 !important; font-size: 0.85rem; }
-span { color: inherit; }
-li { color: #c0c0c0 !important; }
-label { color: #c0c0c0 !important; }
-.vega-embed { background: transparent !important; }
-hr { border-color: #1e1e1e !important; }
 </style>
 """, unsafe_allow_html=True)
 
