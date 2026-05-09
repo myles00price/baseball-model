@@ -5,6 +5,7 @@ import requests
 import altair as alt
 import math
 import os
+import json
 from glob import glob
 from datetime import datetime, timedelta, timezone
 from collections import defaultdict
@@ -289,6 +290,30 @@ with sc2:
     elif S["zone_bets"]>=15 and zpct>=55: cc="#f59e0b"; bp2=66; cm=f"🟡 CLOSE — {zpct:.1f}% on {S['zone_bets']} bets → paper trade only"
     else: cc="#ef4444"; bp2=33; cm=f"🔴 NOT YET — {zpct:.1f}% on {S['zone_bets']} bets → need 60%+ over 20+ bets"
     st.markdown(f"<div class='card'><div style='font-family:Space Mono,monospace;color:{cc};font-weight:700;font-size:0.95rem;margin-bottom:10px'>{cm}</div><div style='background:#1c2540;border-radius:4px;height:8px'><div style='background:{cc};width:{bp2}%;height:8px;border-radius:4px'></div></div><div style='display:flex;justify-content:space-between;margin-top:5px'><span class='sub'>0%</span><span class='sub'>Target: 60%+ / 20+ bets</span><span class='sub'>100%</span></div></div>", unsafe_allow_html=True)
+
+# ── PITCHER SCRATCH ALERTS
+scratch_file = f"scratches_{today_str}.json"
+if os.path.exists(scratch_file):
+    try:
+        with open(scratch_file) as f:
+            scratch_data = json.load(f)
+        scratches = scratch_data.get("scratches", [])
+        updated = scratch_data.get("updated", "")
+        if scratches:
+            st.markdown("<div class='sec'>⚠️ Pitcher Scratch Alerts</div>", unsafe_allow_html=True)
+            for s in scratches:
+                st.markdown(f"""<div class='card' style='border-left:4px solid #ef4444;padding:12px 16px;margin-bottom:8px'>
+                    <div style='display:flex;justify-content:space-between;align-items:center'>
+                        <div>
+                            <div style='color:#ef4444;font-weight:800;font-size:0.85rem;letter-spacing:1px'>⚠️ SCRATCH — {s['team']}</div>
+                            <div style='margin-top:4px'><span style='color:#94a3b8;font-size:0.85rem'>Was: </span><span style='color:#ef4444;font-family:Space Mono,monospace;font-size:0.9rem'>{s['original']}</span></div>
+                            <div><span style='color:#94a3b8;font-size:0.85rem'>Now: </span><span style='color:#00d97e;font-family:Space Mono,monospace;font-size:0.9rem'>{s['current']}</span></div>
+                        </div>
+                        <div style='color:#475569;font-size:0.72rem'>Updated {updated}</div>
+                    </div>
+                </div>""", unsafe_allow_html=True)
+    except:
+        pass
 
 # ── TODAY'S FLAGGED BETS
 st.markdown(f"<div class='sec'>Today's Flagged Bets — {today_str}</div>", unsafe_allow_html=True)
