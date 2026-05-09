@@ -433,6 +433,13 @@ else:
                     return f"+{o}" if o>0 else str(o)
                 except: return "N/A"
 
+            def prob_to_american(p):
+                try:
+                    p=float(p)
+                    if p>=50: return f"-{round((p/(100-p))*100)}"
+                    else: return f"+{round(((100-p)/p)*100)}"
+                except: return "N/A"
+
             away_odds_str=f"({fmt_odds(dk_away_odds)} DK)"
             home_odds_str=f"({fmt_odds(dk_home_odds)} DK)"
 
@@ -444,7 +451,7 @@ else:
                         try: st.image(logo, width=40)
                         except: pass
                     st.markdown(f"**{away}**")
-                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{ap}%</div><div class='sub'>model prob</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{ap}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(ap)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
                     # Market data
                     try:
                         away_imp = round(abs(float(dk_away_odds)) / (abs(float(dk_away_odds)) + 100) * 100 if float(dk_away_odds) < 0 else 100 / (float(dk_away_odds) + 100) * 100, 1)
@@ -481,7 +488,7 @@ else:
                         try: st.image(logo, width=40)
                         except: pass
                     st.markdown(f"**{home}**")
-                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{hp}%</div><div class='sub'>model prob</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{hp}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(hp)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
                     try:
                         home_imp = round(abs(float(dk_home_odds)) / (abs(float(dk_home_odds)) + 100) * 100 if float(dk_home_odds) < 0 else 100 / (float(dk_home_odds) + 100) * 100, 1)
                         st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{home_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_home_odds)}</span></div>", unsafe_allow_html=True)
