@@ -316,6 +316,20 @@ else:
             away_velo=pick.get("Away SP Velo","") or "—"; home_velo=pick.get("Home SP Velo","") or "—"
             away_spin=pick.get("Away SP Spin","") or "—"; home_spin=pick.get("Home SP Spin","") or "—"
             away_whiff=pick.get("Away SP Whiff","") or "—"; home_whiff=pick.get("Home SP Whiff","") or "—"
+            dk_away_odds=pick.get("DK Away Odds","N/A"); dk_home_odds=pick.get("DK Home Odds","N/A")
+
+            def fmt_odds(o):
+                try:
+                    o=int(float(o))
+                    return f"+{o}" if o>0 else str(o)
+                except: return "N/A"
+
+            def prob_to_american(p):
+                try:
+                    p=float(p)
+                    if p>=50: return f"-{round((p/(100-p))*100)}"
+                    else: return f"+{round(((100-p)/p)*100)}"
+                except: return "N/A"
 
             try:
                 apf=float(ap); hpf=float(hp)
@@ -339,7 +353,11 @@ else:
                     try: st.image(logo, width=56)
                     except: pass
                 st.markdown(f"**{away}**")
-                st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{ap}%</div><div class='sub'>model probability</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{ap}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(ap)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
+                try:
+                    away_imp=round(abs(float(dk_away_odds))/(abs(float(dk_away_odds))+100)*100 if float(dk_away_odds)<0 else 100/(float(dk_away_odds)+100)*100,1)
+                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{away_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_away_odds)}</span></div>", unsafe_allow_html=True)
+                except: pass
                 tid = TEAM_IDS.get(away)
                 if tid:
                     w,l,l10w,l10l = get_team_standings(tid)
@@ -357,7 +375,11 @@ else:
                     try: st.image(logo, width=56)
                     except: pass
                 st.markdown(f"**{home}**")
-                st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{hp}%</div><div class='sub'>model probability</div>", unsafe_allow_html=True)
+                st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{hp}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(hp)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
+                try:
+                    home_imp=round(abs(float(dk_home_odds))/(abs(float(dk_home_odds))+100)*100 if float(dk_home_odds)<0 else 100/(float(dk_home_odds)+100)*100,1)
+                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{home_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_home_odds)}</span></div>", unsafe_allow_html=True)
+                except: pass
                 tid = TEAM_IDS.get(home)
                 if tid:
                     w,l,l10w,l10l = get_team_standings(tid)
