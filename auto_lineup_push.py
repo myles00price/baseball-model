@@ -46,7 +46,9 @@ if __name__ == "__main__":
     
     if current > last:
         print(f"New lineups confirmed: {current} (was {last}) — running todays_report and pushing")
-        subprocess.run(["py", "-3.11", "C:\\Users\\Poons\\baseball-model\\todays_report.py"])
+        lv = timezone(timedelta(hours=-7))
+        today = datetime.now(lv).strftime("%Y-%m-%d")
+        subprocess.run(["py", "-3.11", "C:\\Users\\Poons\\baseball-model\\dashboard.py", today])
         git_push()
         write_last_confirmed(current)
     else:
