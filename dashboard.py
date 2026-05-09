@@ -392,7 +392,23 @@ else:
                         st.markdown(f"<span class='stat-pill' style='color:{c10}'>L10: {l10w}-{l10l}</span>", unsafe_allow_html=True)
 
             with t2:
-                st.markdown(f"<div style='text-align:center;padding-top:16px'><div style='color:#1e2940;font-size:1.4rem;font-weight:700'>VS</div><div style='margin-top:10px'><span class='badge badge-green'>PICK: {model_fav}</span></div></div>", unsafe_allow_html=True)
+                # Streak overlay
+                away_tid = TEAM_IDS.get(away); home_tid = TEAM_IDS.get(home)
+                away_streak = home_streak = ""
+                if away_tid:
+                    _,_,l10w,l10l = get_team_standings(away_tid)
+                    if l10w is not None:
+                        if l10w >= 7: away_streak = f"🔥 {l10w}-{l10l} L10"
+                        elif l10w <= 3: away_streak = f"❄️ {l10w}-{l10l} L10"
+                if home_tid:
+                    _,_,l10w,l10l = get_team_standings(home_tid)
+                    if l10w is not None:
+                        if l10w >= 7: home_streak = f"🔥 {l10w}-{l10l} L10"
+                        elif l10w <= 3: home_streak = f"❄️ {l10w}-{l10l} L10"
+                streak_html = ""
+                if away_streak: streak_html += f"<div style='font-size:0.72rem;margin-top:4px'>{away} {away_streak}</div>"
+                if home_streak: streak_html += f"<div style='font-size:0.72rem;margin-top:2px'>{home} {home_streak}</div>"
+                st.markdown(f"<div style='text-align:center;padding-top:16px'><div style='color:#1e2940;font-size:1.4rem;font-weight:700'>VS</div><div style='margin-top:10px'><span class='badge badge-green'>PICK: {model_fav}</span></div>{streak_html}</div>", unsafe_allow_html=True)
 
             with t3:
                 logo = logo_url(home)
@@ -597,7 +613,7 @@ if todays:
 
 # ── ANALYTICS TABS
 st.markdown("<div class='sec'>Model Analytics</div>", unsafe_allow_html=True)
-tabs=st.tabs(["📊 Edge Zones","🎯 Calibration","🏆 Best/Worst Teams","🔥 Bullpen","📈 Season Trend"])
+tabs=st.tabs(["📊 Edge Zones","🎯 Calibration","🏆 Best/Worst Teams","🔥 Bullpen","📈 Season Trend","📉 CLV"])
 
 with tabs[0]:
     for bucket,(tot,cor) in S["edge_buckets"].items():
@@ -684,6 +700,64 @@ with tabs[4]:
         st.altair_chart((rule+base.mark_line(color="#3b82f6",strokeWidth=2).encode(y=alt.Y("Accuracy:Q",scale=alt.Scale(domain=[0,100]),axis=alt.Axis(labelColor="#475569",gridColor="#1c2540")))+base.mark_line(color="#00d97e",strokeWidth=1.5,strokeDash=[4,2]).encode(y="Rolling:Q")+base.mark_circle(size=55,color="#3b82f6").encode(y="Accuracy:Q",tooltip=["date:T","Accuracy:Q","Rolling:Q"])).properties(height=240,background="#080c18",title=alt.TitleParams(text="Daily Accuracy · Blue=daily · Green=3-day avg · Gray=50%",color="#475569",fontSize=11)).configure_view(strokeOpacity=0),use_container_width=True)
     else:
         st.caption("Need at least 3 days of data.")
+
+with tabs[5]:
+    st.caption("Closing Line Value — does the model consistently beat the closing line? Positive CLV = model found value before sharp money moved the line.")
+    try:
+        with open("clv_log.json") as f:
+            clv_log = json.load(f)
+        all_clv = [e for e in clv_log if e.get("clv") is not None]
+        if all_clv:
+            # Summary metrics
+            avg_clv = round(sum(e["clv"] for e in all_clv) / len(all_clv), 2)
+            pos_clv = sum(1 for e in all_clv if e["clv_positive"])
+            flagged_clv = [e for e in all_clv if e.get("flagged")]
+            flag_avg = round(sum(e["clv"] for e in flagged_clv) / len(flagged_clv), 2) if flagged_clv else 0
+            flag_pos = sum(1 for e in flagged_clv if e["clv_positive"])
+
+            m1,m2,m3,m4 = st.columns(4)
+            clv_color = "#00d97e" if avg_clv >= 0 else "#ef4444"
+            flag_clv_color = "#00d97e" if flag_avg >= 0 else "#ef4444"
+            m1.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{clv_color}'>{avg_clv:+.2f}%</div><div class='lbl'>Avg CLV All Picks</div></div>", unsafe_allow_html=True)
+            m2.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{flag_clv_color}'>{flag_avg:+.2f}%</div><div class='lbl'>Avg CLV Flagged</div></div>", unsafe_allow_html=True)
+            m3.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{pos_clv}/{len(all_clv)}</div><div class='lbl'>Beat Closing Line</div></div>", unsafe_allow_html=True)
+            m4.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{flag_pos}/{len(flagged_clv)}</div><div class='lbl'>Flagged Beat Close</div></div>", unsafe_allow_html=True)
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # CLV chart by date
+            daily_clv = {}
+            for e in all_clv:
+                d = e["date"]
+                if d not in daily_clv:
+                    daily_clv[d] = []
+                daily_clv[d].append(e["clv"])
+            clv_rows = [{"date": d, "Avg CLV": round(sum(v)/len(v), 2)} for d,v in sorted(daily_clv.items())]
+            if len(clv_rows) >= 2:
+                df_clv = pd.DataFrame(clv_rows)
+                df_clv["date"] = pd.to_datetime(df_clv["date"])
+                zero_rule = alt.Chart(pd.DataFrame({"y":[0]})).mark_rule(color="#334155", strokeDash=[4,2]).encode(y="y:Q")
+                clv_bars = alt.Chart(df_clv).mark_bar().encode(
+                    x=alt.X("date:T", title=None, axis=alt.Axis(format="%b %d", labelColor="#475569")),
+                    y=alt.Y("Avg CLV:Q", title="Avg CLV %", axis=alt.Axis(labelColor="#475569", gridColor="#1c2540")),
+                    color=alt.condition(alt.datum["Avg CLV"] >= 0, alt.value("#00d97e"), alt.value("#ef4444")),
+                    tooltip=["date:T", "Avg CLV:Q"]
+                )
+                st.altair_chart((zero_rule+clv_bars).properties(height=200, background="#080c18", title=alt.TitleParams(text="Daily Avg CLV — Green = beat closing line", color="#475569", fontSize=11)).configure_view(strokeOpacity=0), use_container_width=True)
+
+            # Recent CLV table
+            st.markdown("<div style='font-size:0.75rem;color:#475569;margin-bottom:8px'>RECENT CLV BY GAME</div>", unsafe_allow_html=True)
+            for e in reversed(all_clv[-20:]):
+                clv_val = e["clv"]
+                clv_c = "#00d97e" if clv_val >= 0 else "#ef4444"
+                flag_txt = "🎯 " if e.get("flagged") else ""
+                won_txt = "✓" if e.get("won") else "✗"
+                won_c = "#00d97e" if e.get("won") else "#ef4444"
+                st.markdown(f"<div style='display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1c2540;font-size:0.8rem'><span style='color:#94a3b8'>{e['date']} · {flag_txt}{e['away']} @ {e['home']}</span><span>Model: <span style='color:#3b82f6'>{e['model_prob']}%</span> · Close: <span style='color:#f59e0b'>{e['closing_implied']}%</span> · CLV: <span style='color:{clv_c};font-weight:700'>{clv_val:+.1f}%</span> · <span style='color:{won_c}'>{won_txt}</span></span></div>", unsafe_allow_html=True)
+        else:
+            st.caption("No CLV data yet — runs automatically after tonight's check_results.py")
+    except:
+        st.caption("No CLV data yet — runs automatically after tonight's check_results.py")
 
 # ── DAILY RECORD
 st.markdown("<div class='sec'>Daily Record</div>", unsafe_allow_html=True)

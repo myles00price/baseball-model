@@ -1,19 +1,14 @@
 import requests
 import csv
 import os
+import json
 from datetime import datetime, timedelta, timezone
 
 def get_game_results(date_str):
-    """Pull final scores for a given date from MLB API"""
     schedule = requests.get(
         "https://statsapi.mlb.com/api/v1/schedule",
-        params={
-            "sportId": 1,
-            "date": date_str,
-            "hydrate": "linescore"
-        }
+        params={"sportId": 1, "date": date_str, "hydrate": "linescore"}
     ).json()
-
     results = {}
     for date in schedule.get("dates", []):
         for game in date.get("games", []):
@@ -26,13 +21,55 @@ def get_game_results(date_str):
             away_score = game["teams"]["away"].get("score", 0)
             winner = home if home_score > away_score else away
             results[f"{away}@{home}"] = {
-                "home": home,
-                "away": away,
-                "home_score": home_score,
-                "away_score": away_score,
+                "home": home, "away": away,
+                "home_score": home_score, "away_score": away_score,
                 "winner": winner
             }
     return results
+
+def get_closing_lines():
+    try:
+        odds_resp = requests.get(
+            "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
+            params={
+                "apiKey": os.environ.get("ODDS_API_KEY", "719921510f0839e3f61743f271956eea"),
+                "regions": "us",
+                "markets": "h2h",
+                "oddsFormat": "american",
+                "bookmakers": "draftkings"
+            }
+        ).json()
+        closing = {}
+        for game in odds_resp:
+            for bookmaker in game["bookmakers"]:
+                if bookmaker["key"] != "draftkings":
+                    continue
+                for market in bookmaker["markets"]:
+                    if market["key"] != "h2h":
+                        continue
+                    for outcome in market["outcomes"]:
+                        team = outcome["name"]
+                        price = outcome["price"]
+                        try:
+                            price = float(price)
+                            imp = round((-price) / (-price + 100) * 100, 1) if price < 0 else round(100 / (price + 100) * 100, 1)
+                            closing[team] = {"odds": int(price), "implied": imp}
+                        except:
+                            pass
+        return closing
+    except:
+        return {}
+
+def load_clv_log():
+    try:
+        with open("clv_log.json") as f:
+            return json.load(f)
+    except:
+        return []
+
+def save_clv_log(log):
+    with open("clv_log.json", "w") as f:
+        json.dump(log, f, indent=2)
 
 def check_picks(date_str):
     filename = f"picks_{date_str}.csv"
@@ -47,36 +84,32 @@ def check_picks(date_str):
         print("Games not final yet — check back later!")
         return
 
+    print("Pulling closing lines for CLV...")
+    closing = get_closing_lines()
+
     picks = []
     with open(filename, encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
         for row in reader:
             picks.append(row)
 
-    total = 0
-    correct = 0
-    bet_total = 0
-    bet_correct = 0
+    total = correct = bet_total = bet_correct = 0
+    clv_log = load_clv_log()
+    new_clv_entries = []
 
     for pick in picks:
-        away = pick["Away"]
-        home = pick["Home"]
+        away = pick["Away"]; home = pick["Home"]
         key = f"{away}@{home}"
-
-        away_prob = pick["Model Away%"]
-        home_prob = pick["Model Home%"]
+        away_prob = pick["Model Away%"]; home_prob = pick["Model Home%"]
         flag = pick["Flag"]
 
         if away_prob == "None" or home_prob == "None":
             continue
 
-        # Model's predicted winner
         model_winner = away if float(away_prob) > float(home_prob) else home
+        model_prob = float(away_prob) if float(away_prob) > float(home_prob) else float(home_prob)
 
-        result = results.get(key)
-        if not result:
-            result = results.get(f"{home}@{away}")
-
+        result = results.get(key) or results.get(f"{home}@{away}")
         if not result:
             print(f"  {away} @ {home} — No result found yet")
             continue
@@ -94,13 +127,62 @@ def check_picks(date_str):
             if model_winner == actual_winner:
                 bet_correct += 1
 
+        # CLV
+        closing_data = closing.get(model_winner, {})
+        closing_implied = closing_data.get("implied")
+        closing_odds = closing_data.get("odds")
+        clv = round(model_prob - closing_implied, 1) if closing_implied else None
+        clv_positive = clv > 0 if clv is not None else None
+
+        already_logged = any(
+            e.get("date") == date_str and e.get("away") == away and e.get("home") == home
+            for e in clv_log
+        )
+        if not already_logged:
+            new_clv_entries.append({
+                "date": date_str, "away": away, "home": home,
+                "model_pick": model_winner, "model_prob": model_prob,
+                "closing_implied": closing_implied, "closing_odds": closing_odds,
+                "clv": clv, "clv_positive": clv_positive,
+                "won": model_winner == actual_winner,
+                "flagged": flag == "** BET **"
+            })
+
         print(f"  {correct_flag} {away} @ {home}")
         print(f"     Score: {score} | Winner: {actual_winner}")
         print(f"     Model picked: {model_winner} ({away_prob}% vs {home_prob}%)")
+        if clv is not None:
+            print(f"     CLV: {model_prob}% model vs {closing_implied}% closing → {clv:+.1f}% {'✅' if clv_positive else '❌'}")
         if flag == "** BET **":
             result_str = "WIN" if model_winner == actual_winner else "LOSS"
             print(f"     *** FLAGGED BET — {result_str} ***")
         print()
+
+    if new_clv_entries:
+        clv_log.extend(new_clv_entries)
+        save_clv_log(clv_log)
+        print(f"CLV logged for {len(new_clv_entries)} games.")
+
+    # Today CLV summary
+    dated = [e for e in clv_log if e.get("date") == date_str and e.get("clv") is not None]
+    if dated:
+        avg = round(sum(e["clv"] for e in dated) / len(dated), 2)
+        pos = sum(1 for e in dated if e["clv_positive"])
+        print(f"\n📈 CLV for {date_str}:")
+        print(f"   Avg CLV: {avg:+.2f}%")
+        print(f"   Beat closing line: {pos}/{len(dated)}")
+
+    # Season CLV summary
+    all_clv = [e for e in clv_log if e.get("clv") is not None]
+    if all_clv:
+        s_avg = round(sum(e["clv"] for e in all_clv) / len(all_clv), 2)
+        s_pos = sum(1 for e in all_clv if e["clv_positive"])
+        flagged_clv = [e for e in all_clv if e.get("flagged")]
+        f_avg = round(sum(e["clv"] for e in flagged_clv) / len(flagged_clv), 2) if flagged_clv else 0
+        print(f"\n📊 Season CLV ({len(all_clv)} games):")
+        print(f"   Overall avg: {s_avg:+.2f}%")
+        print(f"   Beat close: {s_pos}/{len(all_clv)} ({s_pos/len(all_clv)*100:.1f}%)")
+        print(f"   Flagged avg CLV: {f_avg:+.2f}%")
 
     print("=" * 50)
     if total > 0:
@@ -111,7 +193,7 @@ def check_picks(date_str):
         print("No flagged bets today")
 
 if __name__ == '__main__':
-    las_vegas_offset = timezone(timedelta(hours=-7))
-    today = datetime.now(las_vegas_offset).strftime("%Y-%m-%d")
+    lv = timezone(timedelta(hours=-7))
+    today = datetime.now(lv).strftime("%Y-%m-%d")
     print(f"Checking results for: {today}")
     check_picks(today)
