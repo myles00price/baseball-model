@@ -39,19 +39,16 @@ def run_calibration():
     print("  MLB MODEL CALIBRATION REPORT")
     print("=" * 65)
 
-    # Stats trackers
     total_games       = 0
     total_correct     = 0
     flagged_games     = 0
     flagged_correct   = 0
 
-    # Category trackers
     home_fav_total    = 0; home_fav_correct    = 0
     home_dog_total    = 0; home_dog_correct    = 0
     away_fav_total    = 0; away_fav_correct    = 0
     away_dog_total    = 0; away_dog_correct    = 0
 
-    # Edge bucket trackers
     edge_buckets = {
         "0-3%":   [0, 0],
         "3-6%":   [0, 0],
@@ -59,11 +56,15 @@ def run_calibration():
         "10%+":   [0, 0],
     }
 
-    # Park trackers
     coors_total = 0; coors_correct = 0
-
-    # Day by day
     daily_results = []
+
+    # MAE trackers
+    mae_errors = []           # all games
+    mae_flagged_errors = []   # flagged bets only
+    mae_zone_errors = []      # 6-10% zone only
+    sharp_confirmed_errors = []
+    sharp_fade_errors = []
 
     picks_files = sorted(glob("picks_2026-*.csv"))
 
@@ -77,10 +78,7 @@ def run_calibration():
         if not results:
             continue
 
-        day_total = 0
-        day_correct = 0
-        day_flagged = 0
-        day_flagged_correct = 0
+        day_total = day_correct = day_flagged = day_flagged_correct = 0
 
         for pick in picks:
             away = pick.get("Away", "")
@@ -88,6 +86,7 @@ def run_calibration():
             away_prob = pick.get("Model Away%", "None")
             home_prob = pick.get("Model Home%", "None")
             flag = pick.get("Flag", "")
+            sharp = pick.get("Sharp Signal", "N/A")
 
             if away_prob == "None" or home_prob == "None":
                 continue
@@ -103,22 +102,48 @@ def run_calibration():
 
             actual_winner = result["winner"]
             model_winner = away if away_prob > home_prob else home
+            model_prob = away_prob if away_prob > home_prob else home_prob
             won = model_winner == actual_winner
 
-            total_games += 1
-            day_total += 1
-            if won:
-                total_correct += 1
-                day_correct += 1
+            # True outcome for MAE — 100 if won, 0 if lost
+            true_outcome = 100.0 if won else 0.0
+            abs_error = abs(model_prob - true_outcome)
+            mae_errors.append(abs_error)
 
-            # Flag tracking
+            total_games += 1; day_total += 1
+            if won: total_correct += 1; day_correct += 1
+
             is_flagged = "BET" in str(flag)
             if is_flagged:
-                flagged_games += 1
-                day_flagged += 1
-                if won:
-                    flagged_correct += 1
-                    day_flagged_correct += 1
+                flagged_games += 1; day_flagged += 1
+                mae_flagged_errors.append(abs_error)
+                if won: flagged_correct += 1; day_flagged_correct += 1
+
+            # Edge bucket
+            dk_edge_away = pick.get("DK Edge Away", "N/A")
+            try:
+                e = abs(float(dk_edge_away.replace("%", "").replace("** BET **", "").strip()))
+                if e < 3:
+                    edge_buckets["0-3%"][0] += 1
+                    if won: edge_buckets["0-3%"][1] += 1
+                elif e < 6:
+                    edge_buckets["3-6%"][0] += 1
+                    if won: edge_buckets["3-6%"][1] += 1
+                elif e < 10:
+                    edge_buckets["6-10%"][0] += 1
+                    if won: edge_buckets["6-10%"][1] += 1
+                    mae_zone_errors.append(abs_error)
+                else:
+                    edge_buckets["10%+"][0] += 1
+                    if won: edge_buckets["10%+"][1] += 1
+            except:
+                pass
+
+            # Sharp signal MAE
+            if "CONFIRMED" in str(sharp):
+                sharp_confirmed_errors.append(abs_error)
+            elif "FADE" in str(sharp):
+                sharp_fade_errors.append(abs_error)
 
             # Category tracking
             model_home_fav = home_prob > away_prob
@@ -135,39 +160,16 @@ def run_calibration():
                 away_dog_total += 1
                 if won and model_winner == away: away_dog_correct += 1
 
-            # Edge bucket
-            dk_edge_away = pick.get("DK Edge Away", "N/A")
-            try:
-                e = abs(float(dk_edge_away.replace("%", "").replace("** BET **", "").strip()))
-                if e < 3:
-                    edge_buckets["0-3%"][0] += 1
-                    if won: edge_buckets["0-3%"][1] += 1
-                elif e < 6:
-                    edge_buckets["3-6%"][0] += 1
-                    if won: edge_buckets["3-6%"][1] += 1
-                elif e < 10:
-                    edge_buckets["6-10%"][0] += 1
-                    if won: edge_buckets["6-10%"][1] += 1
-                else:
-                    edge_buckets["10%+"][0] += 1
-                    if won: edge_buckets["10%+"][1] += 1
-            except:
-                pass
-
-            # Coors tracking
             if home == "Colorado Rockies":
                 coors_total += 1
                 if won: coors_correct += 1
 
         daily_results.append({
-            "date": date_str,
-            "total": day_total,
-            "correct": day_correct,
-            "flagged": day_flagged,
-            "flagged_correct": day_flagged_correct
+            "date": date_str, "total": day_total, "correct": day_correct,
+            "flagged": day_flagged, "flagged_correct": day_flagged_correct
         })
 
-    # ── Display Results ───────────────────────────────────────────
+    # ── Display ───────────────────────────────────────────────────
 
     print("\n📅 Daily Breakdown:")
     print(f"  {'Date':<12} {'Overall':>10} {'Flagged':>10}")
@@ -183,6 +185,42 @@ def run_calibration():
         print(f"  Overall accuracy:    {total_correct}/{total_games} ({total_correct/total_games*100:.1f}%)")
     if flagged_games:
         print(f"  Flagged bets:        {flagged_correct}/{flagged_games} ({flagged_correct/flagged_games*100:.1f}%)")
+
+    # ── MAE Section ───────────────────────────────────────────────
+    print(f"\n📐 Mean Absolute Error (MAE):")
+    print(f"  MAE = avg distance between model's confidence % and true outcome (0 or 100)")
+    print(f"  Lower is better. A perfectly calibrated model at 60% confidence would have MAE ~40.")
+
+    if mae_errors:
+        overall_mae = round(sum(mae_errors) / len(mae_errors), 1)
+        # Baseline: what MAE would be if model always said 50%
+        baseline_mae = round(sum(abs(50 - (100 if i < total_correct else 0)) for i in range(total_games)) / total_games, 1)
+        improvement = round(baseline_mae - overall_mae, 1)
+        imp_str = f"+{improvement}" if improvement > 0 else str(improvement)
+        print(f"\n  Overall MAE:         {overall_mae} (baseline 50% = {baseline_mae}, model {'better' if improvement > 0 else 'worse'} by {abs(improvement)})")
+
+    if mae_flagged_errors:
+        flagged_mae = round(sum(mae_flagged_errors) / len(mae_flagged_errors), 1)
+        print(f"  Flagged bets MAE:    {flagged_mae}")
+
+    if mae_zone_errors:
+        zone_mae = round(sum(mae_zone_errors) / len(mae_zone_errors), 1)
+        print(f"  6-10% Zone MAE:      {zone_mae}")
+
+    if sharp_confirmed_errors:
+        conf_mae = round(sum(sharp_confirmed_errors) / len(sharp_confirmed_errors), 1)
+        print(f"  Sharp CONFIRMED MAE: {conf_mae}")
+
+    if sharp_fade_errors:
+        fade_mae = round(sum(sharp_fade_errors) / len(sharp_fade_errors), 1)
+        print(f"  Sharp FADE MAE:      {fade_mae}")
+
+    if mae_errors and mae_flagged_errors:
+        diff = round((sum(mae_errors)/len(mae_errors)) - (sum(mae_flagged_errors)/len(mae_flagged_errors)), 1)
+        if diff > 0:
+            print(f"\n  ✅ Model is {diff} MAE points MORE accurate on flagged bets than average")
+        elif diff < 0:
+            print(f"\n  ⚠️  Model is {abs(diff)} MAE points LESS accurate on flagged bets than average")
 
     print(f"\n🎯 Accuracy By Category:")
     cats = [
@@ -215,9 +253,7 @@ def run_calibration():
     if away_total:
         print(f"  When model picks away team: {away_correct}/{away_total} ({away_correct/away_total*100:.1f}%)")
     if home_total and away_total:
-        home_pct = home_correct/home_total*100
-        away_pct = away_correct/away_total*100
-        diff = home_pct - away_pct
+        diff = (home_correct/home_total*100) - (away_correct/away_total*100)
         if abs(diff) > 5:
             bias = "HOME" if diff > 0 else "AWAY"
             print(f"  ⚠️  Possible {bias} team bias detected ({abs(diff):.1f}% difference)")
