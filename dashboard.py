@@ -420,10 +420,23 @@ else:
             away_whiff=pick.get("Away SP Whiff","") or "—"; home_whiff=pick.get("Home SP Whiff","") or "—"
             park=pick.get("Park Factor","100")
             dk_ea=pick.get("DK Edge Away","N/A"); dk_eh=pick.get("DK Edge Home","N/A")
+            dk_away_odds=pick.get("DK Away Odds","N/A"); dk_home_odds=pick.get("DK Home Odds","N/A")
+            mgm_away_odds=pick.get("MGM Away Odds","N/A"); mgm_home_odds=pick.get("MGM Home Odds","N/A")
+            away_move=pick.get("Away Line Move",""); home_move=pick.get("Home Line Move","")
             sc="#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
             flag_txt="🎯 " if flag else ""
 
-            with st.expander(f"{flag_txt}{away} @ {home}   {ap}% / {hp}%   {sharp}"):
+            # Format odds display
+            def fmt_odds(o):
+                try:
+                    o=int(float(o))
+                    return f"+{o}" if o>0 else str(o)
+                except: return "N/A"
+
+            away_odds_str=f"({fmt_odds(dk_away_odds)} DK)"
+            home_odds_str=f"({fmt_odds(dk_home_odds)} DK)"
+
+            with st.expander(f"{flag_txt}{away} {away_odds_str} @ {home} {home_odds_str}   Sharp: {sharp}"):
                 c1, c2, c3 = st.columns(3)
                 with c1:
                     logo=logo_url(away)
@@ -431,7 +444,18 @@ else:
                         try: st.image(logo, width=40)
                         except: pass
                     st.markdown(f"**{away}**")
-                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.2rem;color:#3b82f6;font-weight:700'>{ap}%</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{ap}%</div><div class='sub'>model prob</div>", unsafe_allow_html=True)
+                    # Market data
+                    try:
+                        away_imp = round(abs(float(dk_away_odds)) / (abs(float(dk_away_odds)) + 100) * 100 if float(dk_away_odds) < 0 else 100 / (float(dk_away_odds) + 100) * 100, 1)
+                        st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{away_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_away_odds)}</span></div>", unsafe_allow_html=True)
+                    except: pass
+                    if away_move not in ("","N/A","0"):
+                        try:
+                            mv=float(away_move)
+                            mc="#00d97e" if mv>0 else "#ef4444"
+                            st.markdown(f"<span class='stat-pill' style='color:{mc}'>Line: {mv:+.1f}%</span>", unsafe_allow_html=True)
+                        except: pass
                     tid=TEAM_IDS.get(away)
                     if tid:
                         w,l,l10w,l10l=get_team_standings(tid)
@@ -439,15 +463,35 @@ else:
                         if l10w is not None:
                             c10="#00d97e" if l10w>=6 else "#f59e0b" if l10w>=4 else "#ef4444"
                             st.markdown(f"<span class='stat-pill' style='color:{c10}'>L10: {l10w}-{l10l}</span>", unsafe_allow_html=True)
+
                 with c2:
-                    st.markdown(f"<div style='text-align:center;padding-top:8px'><div style='color:#334155;font-size:1rem;font-weight:700'>VS</div><div style='margin-top:6px'><span style='font-size:0.75rem;color:#475569'>{lineup} · Park {park}</span></div><div style='margin-top:6px;color:{sc};font-size:0.8rem;font-weight:700'>{sharp}</div><div style='margin-top:4px;font-size:0.72rem;color:#475569'>Away: {dk_ea}</div><div style='font-size:0.72rem;color:#475569'>Home: {dk_eh}</div></div>", unsafe_allow_html=True)
+                    edge_color="#00d97e" if "BET" in str(flag) else "#475569"
+                    st.markdown(f"""<div style='text-align:center;padding-top:8px'>
+                        <div style='color:#334155;font-size:1rem;font-weight:700'>VS</div>
+                        <div style='margin-top:8px;color:{sc};font-size:0.85rem;font-weight:700'>{sharp}</div>
+                        <div style='margin-top:6px;font-size:0.72rem;color:#475569'>{lineup}</div>
+                        <div style='font-size:0.72rem;color:#475569'>Park: {park}</div>
+                        <div style='margin-top:8px;font-size:0.72rem;color:#94a3b8'>Away edge: <span style='color:{edge_color}'>{dk_ea}</span></div>
+                        <div style='font-size:0.72rem;color:#94a3b8'>Home edge: <span style='color:{edge_color}'>{dk_eh}</span></div>
+                    </div>""", unsafe_allow_html=True)
+
                 with c3:
                     logo=logo_url(home)
                     if logo:
                         try: st.image(logo, width=40)
                         except: pass
                     st.markdown(f"**{home}**")
-                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.2rem;color:#3b82f6;font-weight:700'>{hp}%</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{hp}%</div><div class='sub'>model prob</div>", unsafe_allow_html=True)
+                    try:
+                        home_imp = round(abs(float(dk_home_odds)) / (abs(float(dk_home_odds)) + 100) * 100 if float(dk_home_odds) < 0 else 100 / (float(dk_home_odds) + 100) * 100, 1)
+                        st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{home_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_home_odds)}</span></div>", unsafe_allow_html=True)
+                    except: pass
+                    if home_move not in ("","N/A","0"):
+                        try:
+                            mv=float(home_move)
+                            mc="#00d97e" if mv>0 else "#ef4444"
+                            st.markdown(f"<span class='stat-pill' style='color:{mc}'>Line: {mv:+.1f}%</span>", unsafe_allow_html=True)
+                        except: pass
                     tid=TEAM_IDS.get(home)
                     if tid:
                         w,l,l10w,l10l=get_team_standings(tid)
