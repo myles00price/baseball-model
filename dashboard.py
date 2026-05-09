@@ -62,21 +62,26 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700;800&display=swap');
 
-*, html, body, [class*="css"] { font-family: 'Barlow Condensed', sans-serif; background-color: #080c18; color: #dde3f0; }
+*, html, body, [class*="css"] { font-family: 'Barlow Condensed', sans-serif; background-color: #080c18; color: #dde3f0; font-size: 1rem; }
 .main, .block-container { background-color: #080c18 !important; }
 h1,h2,h3 { font-family: 'Space Mono', monospace !important; }
 .card { background: linear-gradient(145deg, #0f1628 0%, #0a1020 100%); border: 1px solid #1c2540; border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; }
 .bet-card { background: linear-gradient(145deg, #0a2018 0%, #061510 100%); border: 1px solid #166534; border-left: 4px solid #00d97e; border-radius: 10px; padding: 20px; margin-bottom: 14px; }
 .weather-card { background: #0a1020; border: 1px solid #1c2540; border-radius: 7px; padding: 10px 14px; margin-bottom: 6px; }
 .streak-box { background: #0f1628; border: 1px solid #1c2540; border-radius: 8px; padding: 16px 20px; text-align: center; }
-.badge { padding:3px 10px; border-radius:4px; font-size:0.7rem; font-weight:700; letter-spacing:1px; }
+.badge { padding:4px 12px; border-radius:4px; font-size:0.85rem; font-weight:700; letter-spacing:1px; }
 .badge-green { background:#166534; color:#00d97e; }
 .badge-red { background:#7f1d1d; color:#ef4444; }
-.lbl { font-size:0.72rem; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:4px; }
-.sub { font-size:0.78rem; color:#475569; }
+.lbl { font-size:0.85rem; color:#64748b; text-transform:uppercase; letter-spacing:1.5px; margin-top:4px; }
+.sub { font-size:0.9rem; color:#64748b; }
 .mono { font-family:'Space Mono',monospace; }
-.stat-pill { display:inline-block; background:#1c2540; border-radius:4px; padding:3px 8px; font-family:'Space Mono',monospace; font-size:0.72rem; margin:2px; }
-.sec { font-family:'Space Mono',monospace; font-size:0.65rem; color:#334155; text-transform:uppercase; letter-spacing:2.5px; border-bottom:1px solid #1c2540; padding-bottom:8px; margin:24px 0 16px 0; }
+.stat-pill { display:inline-block; background:#1c2540; border-radius:4px; padding:4px 10px; font-family:'Space Mono',monospace; font-size:0.85rem; margin:2px; }
+.sec { font-family:'Space Mono',monospace; font-size:0.75rem; color:#334155; text-transform:uppercase; letter-spacing:2.5px; border-bottom:1px solid #1c2540; padding-bottom:8px; margin:24px 0 16px 0; }
+p { font-size:0.95rem !important; }
+div[data-testid="stMetricLabel"] { font-size:0.85rem !important; }
+div[data-testid="stMetricValue"] { font-size:1.4rem !important; }
+.stExpander summary p { font-size:1rem !important; }
+.stTabs [data-baseweb="tab"] { font-size:0.85rem !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -406,8 +411,8 @@ else:
                         if l10w >= 7: home_streak = f"🔥 {l10w}-{l10l} L10"
                         elif l10w <= 3: home_streak = f"❄️ {l10w}-{l10l} L10"
                 streak_html = ""
-                if away_streak: streak_html += f"<div style='font-size:1.2rem;margin-top:4px'>{away} {away_streak}</div>"
-                if home_streak: streak_html += f"<div style='font-size:1.2rem;margin-top:2px'>{home} {home_streak}</div>"
+                if away_streak: streak_html += f"<div style='font-size:0.72rem;margin-top:4px'>{away} {away_streak}</div>"
+                if home_streak: streak_html += f"<div style='font-size:0.72rem;margin-top:2px'>{home} {home_streak}</div>"
                 st.markdown(f"<div style='text-align:center;padding-top:16px'><div style='color:#1e2940;font-size:1.4rem;font-weight:700'>VS</div><div style='margin-top:10px'><span class='badge badge-green'>PICK: {model_fav}</span></div>{streak_html}</div>", unsafe_allow_html=True)
 
             with t3:
