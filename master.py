@@ -249,14 +249,47 @@ def run_model(target_date, save_csv=True):
 
     picks = []
 
+    # Load existing picks CSV to freeze Live/Final games
+    existing_picks = {}
+    existing_csv = f"picks_{target_str}.csv"
+    if os.path.exists(existing_csv):
+        import csv as csv_module
+        with open(existing_csv, encoding="utf-8-sig") as f:
+            for row in csv_module.DictReader(f):
+                key = f"{row['Away']}@{row['Home']}"
+                existing_picks[key] = row
+        print(f"Loaded {len(existing_picks)} existing picks to freeze Live/Final games\n")
+
     for date in schedule.get("dates", []):
         for game in date.get("games", []):
             game_status = game.get("status", {}).get("abstractGameState", "")
-            if game_status in ["Live", "Final"]:
-                continue
-
             home = game["teams"]["home"]["team"]["name"]
             away = game["teams"]["away"]["team"]["name"]
+            game_key = f"{away}@{home}"
+
+            # Freeze Live and Final games — use existing pick unchanged
+            if game_status in ["Live", "Final"]:
+                if game_key in existing_picks:
+                    row = existing_picks[game_key]
+                    picks.append([row.get(col, "") for col in [
+                        "Date", "Away", "Home",
+                        "Model Away%", "Model Home%",
+                        "DK Away Odds", "DK Home Odds",
+                        "MGM Away Odds", "MGM Home Odds",
+                        "DK Edge Away", "MGM Edge Away",
+                        "DK Edge Home", "MGM Edge Home",
+                        "Away SP", "Away Hand", "Away Reliability%",
+                        "Away SP Velo", "Away SP Spin", "Away SP Whiff",
+                        "Home SP", "Home Hand", "Home Reliability%",
+                        "Home SP Velo", "Home SP Spin", "Home SP Whiff",
+                        "Away Lineup OPS", "Home Lineup OPS",
+                        "Away BP ERA(7d)", "Home BP ERA(7d)",
+                        "Away Line Move", "Home Line Move",
+                        "Sharp Signal", "Lineup Source", "Park Factor", "Flag"
+                    ]])
+                    status_label = "🔴 LIVE" if game_status == "Live" else "✅ FINAL"
+                    print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
+                continue
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
 
@@ -333,18 +366,14 @@ def run_model(target_date, save_csv=True):
             min_reliability = min(home_rel, away_rel)
             reliable = min_reliability >= 8 and home != "Colorado Rockies"
 
-# Sharp signal
+            # Sharp signal
             sharp_signal = "N/A"
             if away_move and home_move and away_prob and home_prob:
                 model_favors = away if away_prob > home_prob else home
                 away_movement = away_move.get("movement", 0)
                 home_movement = home_move.get("movement", 0)
                 market_moving_toward = away if away_movement > home_movement else home
-                away_mov = abs(away_move.get("movement", 0))
-                home_mov = abs(home_move.get("movement", 0))
-                if max(away_mov, home_mov) < 1.5:
-                    sharp_signal = "N/A"
-                elif model_favors == market_moving_toward:
+                if model_favors == market_moving_toward:
                     sharp_signal = "CONFIRMED ✓"
                 else:
                     sharp_signal = "FADE ✗"
