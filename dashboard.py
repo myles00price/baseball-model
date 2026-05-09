@@ -44,11 +44,27 @@ PARK_COORDS = {
 }
 
 METRIC_TOOLTIPS = {
-    "Overall Accuracy": "Percentage of all games where the model correctly predicted the winner. 50% = random coin flip. Anything above 53% consistently is meaningful.",
-    "6-10% Zone Accuracy": "Our primary signal zone — games where the model disagrees with the market by 6-10%. This zone has historically been the strongest predictor.",
-    "6-10% Zone P&L": "Paper profit/loss on flat $100 bets placed only in the 6-10% edge zone. Positive = the model is finding real value the market missed.",
-    "6-10% Zone ROI": "Return on investment for 6-10% zone bets only. Need sustained 5%+ ROI to confirm real edge over variance.",
-    "All Flagged Bets": "Win rate across every game the model flagged as a bet, including noisier edge zones outside 6-10%.",
+    "Overall Accuracy": "How often the model picks the right winner across ALL games — not just the ones we bet. 50% is what you'd get by flipping a coin. MLB is hard to predict, so anything consistently above 52-53% is meaningful. This number alone doesn't tell you if you should bet — look at the 6-10% Zone instead.",
+    "6-10% Zone Accuracy": "🎯 THIS IS THE KEY NUMBER. When the model thinks a team should be priced 6-10% higher than the sportsbook does, how often is it right? This is our betting sweet spot — big enough edge to be real, not so big the model might be overreacting. 60%+ here means the model is genuinely finding value.",
+    "6-10% Zone P&L": "How much money we would have made or lost betting $100 flat on every game in the 6-10% edge zone. Green = profitable. This is paper trading only — we are tracking to build confidence before risking real money.",
+    "6-10% Zone ROI": "Return on investment for the 6-10% zone bets. If this says +12.5%, every $100 bet returned $112.50 on average. We want to see this stay positive over 20+ bets before considering real money.",
+    "All Flagged Bets": "Win rate across every game the model flagged, including some outside the sweet spot. This is less important than the 6-10% zone number — think of it as a secondary check.",
+}
+
+MAE_TOOLTIPS = {
+    "Overall MAE": "Mean Absolute Error — measures how confident the model is vs what actually happened. If the model says 60% and the team wins, the error is 40 (100-60). If the team loses, error is 60. Lower MAE = model confidence lines up better with reality. A coin flip model would score around 50.",
+    "Flagged Bet MAE": "Same as Overall MAE but only for games we flagged as bets. If this is LOWER than Overall MAE, the model is more accurate on the games it's most confident about — a great sign.",
+    "6-10% Zone MAE": "MAE for only the 6-10% edge zone games. This is the most important MAE number — if it's lower than overall, the model's sweet spot is working correctly.",
+    "vs 50% Baseline": "How much better the model is compared to always guessing 50/50. Positive green number = the model adds real value. The bigger the number, the more the model is actually doing something useful.",
+}
+
+ANALYTICS_DESCRIPTIONS = {
+    "edge_zones": "The model looks at all games and measures how big its disagreement with the sportsbook is. Bigger edge = model is more confident it found a mistake in the market. The 6-10% zone ★ is our sweet spot — big enough to be meaningful, small enough that we're not overreaching.",
+    "calibration": "When the model says a team has a 60% chance of winning, does it actually win 60% of the time? This chart shows that relationship. A perfect model follows the dashed line exactly. If our line is above the dashed line, the model is UNDERCONFIDENT (teams win more than expected). Below = overconfident.",
+    "best_worst": "Tracks how accurate the model has been when picking each specific team. BEST = teams the model understands well and picks correctly often. WORST = teams where the model keeps getting it wrong. If your flagged bet is on a WORST team, be extra cautious.",
+    "bullpen": "The relief pitchers that come in after the starter. A bad bullpen can blow a lead in the late innings. ERA (Earned Run Average) shows how many runs they give up per 9 innings — lower is better. Under 3.00 is excellent, over 4.50 is a concern.",
+    "season_trend": "Shows the model's accuracy day by day over the whole season. The blue line is each day's result. The green dashed line smooths it out over 3 days so you can see the trend. The gray dashed line is 50% — anything above that means the model beat a coin flip that day.",
+    "clv": "Closing Line Value — did the model find value BEFORE the sharp bettors moved the line? If the model liked a team at +130 and by game time the line moved to +110, the model beat the market. Consistently positive CLV is one of the strongest signs of a real edge.",
 }
 
 def deg_to_compass(deg):
@@ -290,10 +306,18 @@ if S.get("mae") is not None:
     improvement = round(50.0 - mae_overall, 1)
     imp_color = "#00d97e" if improvement > 0 else "#ef4444"
     mc1,mc2,mc3,mc4 = st.columns(4)
-    with mc1: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{mae_overall}</div><div class='lbl'>Overall MAE</div><div class='sub'>lower = more calibrated</div></div>", unsafe_allow_html=True)
-    with mc2: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_flagged or '—'}</div><div class='lbl'>Flagged Bet MAE</div><div class='sub'>vs {mae_overall} overall</div></div>", unsafe_allow_html=True)
-    with mc3: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_zone or '—'}</div><div class='lbl'>6-10% Zone MAE</div><div class='sub'>key signal zone</div></div>", unsafe_allow_html=True)
-    with mc4: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{imp_color}'>{improvement:+.1f}</div><div class='lbl'>vs 50% Baseline</div><div class='sub'>{'✅ better' if improvement > 0 else '❌ worse'} than always picking 50%</div></div>", unsafe_allow_html=True)
+    with mc1:
+        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{mae_overall}</div><div class='lbl'>Overall MAE</div><div class='sub'>lower = more calibrated</div></div>", unsafe_allow_html=True)
+        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["Overall MAE"])
+    with mc2:
+        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_flagged or '—'}</div><div class='lbl'>Flagged Bet MAE</div><div class='sub'>vs {mae_overall} overall</div></div>", unsafe_allow_html=True)
+        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["Flagged Bet MAE"])
+    with mc3:
+        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_zone or '—'}</div><div class='lbl'>6-10% Zone MAE</div><div class='sub'>key signal zone</div></div>", unsafe_allow_html=True)
+        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["6-10% Zone MAE"])
+    with mc4:
+        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{imp_color}'>{improvement:+.1f}</div><div class='lbl'>vs 50% Baseline</div><div class='sub'>{'✅ better' if improvement > 0 else '❌ worse'} than always picking 50%</div></div>", unsafe_allow_html=True)
+        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["vs 50% Baseline"])
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -640,6 +664,8 @@ st.markdown("<div class='sec'>Model Analytics</div>", unsafe_allow_html=True)
 tabs=st.tabs(["📊 Edge Zones","🎯 Calibration","🏆 Best/Worst Teams","🔥 Bullpen","📈 Season Trend","📉 CLV"])
 
 with tabs[0]:
+    st.caption(ANALYTICS_DESCRIPTIONS["edge_zones"])
+    st.markdown("<br>", unsafe_allow_html=True)
     for bucket,(tot,cor) in S["edge_buckets"].items():
         if tot==0: continue
         pct=cor/tot*100; color="#00d97e" if pct>=58 else "#f59e0b" if pct>=50 else "#ef4444"
@@ -647,7 +673,8 @@ with tabs[0]:
         st.markdown(f"<div class='card' style='padding:12px 16px;margin-bottom:8px'><div style='display:flex;justify-content:space-between;margin-bottom:6px'><span style='font-weight:700'>{bucket}<span style='color:#00d97e;font-size:0.7rem'>{star}</span></span><span style='font-family:Space Mono,monospace;font-size:1rem;color:{color};font-weight:700'>{pct:.1f}%</span></div><div style='background:#1c2540;border-radius:3px;height:5px'><div style='background:{color};width:{int(pct)}%;height:5px;border-radius:3px'></div></div><div class='sub' style='margin-top:4px'>{cor}/{tot} games</div></div>", unsafe_allow_html=True)
 
 with tabs[1]:
-    st.caption("When the model says X%, how often does that pick actually win? Dashed line = perfect calibration.")
+    st.caption(ANALYTICS_DESCRIPTIONS["calibration"])
+    st.markdown("<br>", unsafe_allow_html=True)
     rows=[]
     for bk in sorted(S["calib_bins"].keys()):
         tot,cor=S["calib_bins"][bk]
@@ -663,6 +690,8 @@ with tabs[1]:
         st.caption("Need more graded games.")
 
 with tabs[2]:
+    st.caption(ANALYTICS_DESCRIPTIONS["best_worst"])
+    st.markdown("<br>", unsafe_allow_html=True)
     ts=S["team_stats"]
     team_rows=[{"Team":t,"W":r["correct"],"L":r["total"]-r["correct"],"Pct":round(r["correct"]/r["total"]*100,1)} for t,r in ts.items() if r["total"]>=3]
     if team_rows:
@@ -696,6 +725,8 @@ with tabs[2]:
         st.caption("Need more graded games.")
 
 with tabs[3]:
+    st.caption(ANALYTICS_DESCRIPTIONS["bullpen"])
+    st.markdown("<br>", unsafe_allow_html=True)
     bp=S["bullpen"]
     if bp:
         sorted_bp=sorted(bp.items(),key=lambda x:x[1])
@@ -715,6 +746,8 @@ with tabs[3]:
                 with rc[3]: st.markdown(f"<span style='font-family:Space Mono,monospace;font-size:0.85rem;font-weight:700;color:{color}'>{era:.2f}</span>",unsafe_allow_html=True)
 
 with tabs[4]:
+    st.caption(ANALYTICS_DESCRIPTIONS["season_trend"])
+    st.markdown("<br>", unsafe_allow_html=True)
     if len(S["daily"])>=3:
         df_t2=pd.DataFrame([{"date":d["date"],"Accuracy":round(d["pct"],1)} for d in S["daily"]])
         df_t2["date"]=pd.to_datetime(df_t2["date"]); df_t2=df_t2.sort_values("date")
@@ -726,7 +759,8 @@ with tabs[4]:
         st.caption("Need at least 3 days of data.")
 
 with tabs[5]:
-    st.caption("Closing Line Value — does the model consistently beat the closing line? Positive CLV = model found value before sharp money moved the line.")
+    st.caption(ANALYTICS_DESCRIPTIONS["clv"])
+    st.markdown("<br>", unsafe_allow_html=True)
     try:
         with open("clv_log.json") as f:
             clv_log = json.load(f)
