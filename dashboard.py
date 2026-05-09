@@ -406,8 +406,8 @@ else:
                         if l10w >= 7: home_streak = f"🔥 {l10w}-{l10l} L10"
                         elif l10w <= 3: home_streak = f"❄️ {l10w}-{l10l} L10"
                 streak_html = ""
-                if away_streak: streak_html += f"<div style='font-size:0.72rem;margin-top:4px'>{away} {away_streak}</div>"
-                if home_streak: streak_html += f"<div style='font-size:0.72rem;margin-top:2px'>{home} {home_streak}</div>"
+                if away_streak: streak_html += f"<div style='font-size:1.2rem;margin-top:4px'>{away} {away_streak}</div>"
+                if home_streak: streak_html += f"<div style='font-size:1.2rem;margin-top:2px'>{home} {home_streak}</div>"
                 st.markdown(f"<div style='text-align:center;padding-top:16px'><div style='color:#1e2940;font-size:1.4rem;font-weight:700'>VS</div><div style='margin-top:10px'><span class='badge badge-green'>PICK: {model_fav}</span></div>{streak_html}</div>", unsafe_allow_html=True)
 
             with t3:
