@@ -182,6 +182,7 @@ def load_season():
     daily = []; all_picks = []; bullpen_latest = {}
     team_stats = defaultdict(lambda: {"total": 0, "correct": 0})
     calib_bins = defaultdict(lambda: [0, 0])
+    mae_errors = []; mae_flagged_errors = []; mae_zone_errors = []
 
     for fn in files:
         date_str = fn.replace("picks_","").replace(".csv","")
@@ -225,6 +226,13 @@ def load_season():
                 zone_bets += 1
                 if won: zone_wins += 1; zone_pnl += 100
                 else: zone_pnl -= 100
+            # MAE — distance between model confidence and true outcome
+            model_prob = max(apf, hpf)
+            true_outcome = 100.0 if won else 0.0
+            abs_error = abs(model_prob - true_outcome)
+            mae_errors.append(abs_error)
+            if is_flagged: mae_flagged_errors.append(abs_error)
+            if b == "6-10%": mae_zone_errors.append(abs_error)
             g_rec = {"away": away, "home": home, "away_prob": ap, "home_prob": hp, "model_pick": model_pick, "actual_winner": winner, "won": won, "score": f"{as_}-{hs}", "flag": is_flagged, "date": date_str, "away_sp": p.get("Away SP",""), "home_sp": p.get("Home SP","")}
             day_games.append(g_rec); all_picks.append(g_rec)
 
@@ -237,7 +245,7 @@ def load_season():
         elif (g["won"] and streak_type=="W") or (not g["won"] and streak_type=="L"): streak += 1
         else: break
 
-    return {"total": total, "correct": correct, "flagged": flagged, "flag_correct": flag_correct, "zone_bets": zone_bets, "zone_wins": zone_wins, "zone_pnl": zone_pnl, "edge_buckets": edge_buckets, "daily": daily, "all_picks": all_picks, "bullpen": bullpen_latest, "streak": streak, "streak_type": streak_type, "team_stats": dict(team_stats), "calib_bins": dict(calib_bins)}
+    return {"total": total, "correct": correct, "flagged": flagged, "flag_correct": flag_correct, "zone_bets": zone_bets, "zone_wins": zone_wins, "zone_pnl": zone_pnl, "edge_buckets": edge_buckets, "daily": daily, "all_picks": all_picks, "bullpen": bullpen_latest, "streak": streak, "streak_type": streak_type, "team_stats": dict(team_stats), "calib_bins": dict(calib_bins), "mae": round(sum(mae_errors)/len(mae_errors),1) if mae_errors else None, "mae_flagged": round(sum(mae_flagged_errors)/len(mae_flagged_errors),1) if mae_flagged_errors else None, "mae_zone": round(sum(mae_zone_errors)/len(mae_zone_errors),1) if mae_zone_errors else None}
 
 # ── HEADER
 col_title, col_refresh = st.columns([5, 1])
@@ -275,6 +283,17 @@ for i, (label, value, sub, color) in enumerate(kpi_data):
         st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.85rem;font-weight:700;color:{color}'>{value}</div><div class='lbl'>{label}</div><div class='sub'>{sub}</div></div>", unsafe_allow_html=True)
         with st.expander("ℹ️"):
             st.caption(METRIC_TOOLTIPS.get(label,""))
+
+# ── MAE CARDS
+if S.get("mae") is not None:
+    mae_overall = S["mae"]; mae_flagged = S["mae_flagged"]; mae_zone = S["mae_zone"]
+    improvement = round(50.0 - mae_overall, 1)
+    imp_color = "#00d97e" if improvement > 0 else "#ef4444"
+    mc1,mc2,mc3,mc4 = st.columns(4)
+    with mc1: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{mae_overall}</div><div class='lbl'>Overall MAE</div><div class='sub'>lower = more calibrated</div></div>", unsafe_allow_html=True)
+    with mc2: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_flagged or '—'}</div><div class='lbl'>Flagged Bet MAE</div><div class='sub'>vs {mae_overall} overall</div></div>", unsafe_allow_html=True)
+    with mc3: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_zone or '—'}</div><div class='lbl'>6-10% Zone MAE</div><div class='sub'>key signal zone</div></div>", unsafe_allow_html=True)
+    with mc4: st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{imp_color}'>{improvement:+.1f}</div><div class='lbl'>vs 50% Baseline</div><div class='sub'>{'✅ better' if improvement > 0 else '❌ worse'} than always picking 50%</div></div>", unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
