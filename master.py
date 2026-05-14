@@ -351,7 +351,7 @@ def run_model(target_date, save_csv=True):
                         home_ops, home_kpct,
                         away_ops, away_kpct
                     )
-                    home_prob = min(65, home_prob + 2.0)
+                    home_prob = min(65, home_prob + 0.5)
                     home_prob = apply_park_factor(home_prob, home)
                     home_prob = apply_bullpen_adjustment(home_prob, home_bull, away_bull)
                     away_prob = round(100 - home_prob, 1)
@@ -372,11 +372,16 @@ def run_model(target_date, save_csv=True):
                 model_favors = away if away_prob > home_prob else home
                 away_movement = away_move.get("movement", 0)
                 home_movement = home_move.get("movement", 0)
-                market_moving_toward = away if away_movement > home_movement else home
-                if model_favors == market_moving_toward:
-                    sharp_signal = "CONFIRMED ✓"
+                away_mov = abs(away_movement)
+                home_mov = abs(home_movement)
+                if max(away_mov, home_mov) < 1.5:
+                    sharp_signal = "N/A"
                 else:
-                    sharp_signal = "FADE ✗"
+                    market_moving_toward = away if away_movement > home_movement else home
+                    if model_favors == market_moving_toward:
+                        sharp_signal = "CONFIRMED ✓"
+                    else:
+                        sharp_signal = "FADE ✗"
 
             print(f"\n{away} @ {home} [{lineup_source}] [Park: {park_factor}]")
             print(f"  {away_p} ({away_hand}) rel:{away_rel}% | {home_p} ({home_hand}) rel:{home_rel}%")
