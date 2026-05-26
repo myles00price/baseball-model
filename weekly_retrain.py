@@ -32,7 +32,7 @@ def get_sample_weight(season):
 def get_last_week_games():
     lv = timezone(timedelta(hours=-7))
     end   = datetime.now(lv)
-    start = end - timedelta(days=7)
+    start = end - timedelta(days=14)
     print(f"Pulling games from {start.strftime('%Y-%m-%d')} to {end.strftime('%Y-%m-%d')}...")
 
     games = []
