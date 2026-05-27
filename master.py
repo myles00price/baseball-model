@@ -14,6 +14,18 @@ from lineup_stats import get_platoon_lineup_ops
 from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
 
+# ─────────────────────────────────────────────────────────────
+# master.py — Problems 2 + 3 (+ 5) applied:
+#   2) Pitcher stat = FIP (not ERA/WHIP) — matches weekly_retrain.py
+#   3) Probability caps widened: 35–65 → 30–70 in all four spots
+#      (predict, park factor, bullpen adj, home boost)
+#   5) Feature list trimmed: era/whip dropped, FIP + K/9 + BB/9 kept
+#
+# Requires pitcher_stats.get_blended_pitcher_stats() to return "fip"
+# in its dict (alongside k9, bb9, hand, reliability). Update that
+# module before deploying or this will KeyError on home_stats["fip"].
+# ─────────────────────────────────────────────────────────────
+
 PARK_FACTORS = {
     "Colorado Rockies":        118,
     "Cincinnati Reds":         106,
@@ -52,7 +64,7 @@ def apply_park_factor(home_prob, home_team):
     multiplier = 0.6 if home_team == "Colorado Rockies" else 0.3
     adjustment = ((factor - 100) / 100) * (home_prob - 50) * multiplier
     home_prob = home_prob - adjustment
-    return round(max(35, min(65, home_prob)), 1)
+    return round(max(30, min(70, home_prob)), 1)
 
 def apply_bullpen_adjustment(home_prob, home_bullpen, away_bullpen):
     if not home_bullpen or not away_bullpen:
@@ -60,7 +72,7 @@ def apply_bullpen_adjustment(home_prob, home_bullpen, away_bullpen):
     score_diff = away_bullpen["bullpen_score"] - home_bullpen["bullpen_score"]
     adjustment = max(-5, min(5, score_diff * 10))
     home_prob = home_prob + adjustment
-    return round(max(35, min(65, home_prob)), 1)
+    return round(max(30, min(70, home_prob)), 1)
 
 def get_team_stats(season):
     data = requests.get(
@@ -103,23 +115,30 @@ def load_model():
     return model, scaler
 
 def predict_home_win_prob(
-    home_era, home_whip, home_k9, home_bb9,
-    away_era, away_whip, away_k9, away_bb9,
+    home_fip, home_k9, home_bb9,
+    away_fip, away_k9, away_bb9,
     home_ops, home_kpct, away_ops, away_kpct
 ):
+    """
+    Feature order MUST match weekly_retrain.py FEATURES:
+      home_fip, home_k9, home_bb9,
+      away_fip, away_k9, away_bb9,
+      home_ops, home_kpct, away_ops, away_kpct,
+      fip_diff, k9_diff, ops_diff
+    """
     model, scaler = load_model()
-    era_diff = away_era - home_era
-    k9_diff  = home_k9 - away_k9
+    fip_diff = away_fip - home_fip
+    k9_diff  = home_k9  - away_k9
     ops_diff = home_ops - away_ops
     features = np.array([[
-        home_era, home_whip, home_k9, home_bb9,
-        away_era, away_whip, away_k9, away_bb9,
+        home_fip, home_k9, home_bb9,
+        away_fip, away_k9, away_bb9,
         home_ops, home_kpct, away_ops, away_kpct,
-        era_diff, k9_diff, ops_diff
+        fip_diff, k9_diff, ops_diff
     ]])
     features_scaled = scaler.transform(features)
     prob = model.predict_proba(features_scaled)[0][1]
-    prob = max(0.35, min(0.65, prob))
+    prob = max(0.30, min(0.70, prob))
     return round(prob * 100, 1)
 
 def american_to_prob(odds):
@@ -293,7 +312,7 @@ def run_model(target_date, save_csv=True):
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
 
-            # Blended pitcher stats
+            # Blended pitcher stats — must return {"fip", "k9", "bb9", "hand", "reliability"}
             home_stats, home_pid = get_blended_pitcher_stats(home_p, season, playerid_lookup)
             away_stats, away_pid = get_blended_pitcher_stats(away_p, season, playerid_lookup)
 
@@ -344,14 +363,12 @@ def run_model(target_date, save_csv=True):
             try:
                 if home_stats and away_stats:
                     home_prob = predict_home_win_prob(
-                        home_stats["era"], home_stats["whip"],
-                        home_stats["k9"],  home_stats["bb9"],
-                        away_stats["era"], away_stats["whip"],
-                        away_stats["k9"],  away_stats["bb9"],
+                        home_stats["fip"], home_stats["k9"], home_stats["bb9"],
+                        away_stats["fip"], away_stats["k9"], away_stats["bb9"],
                         home_ops, home_kpct,
                         away_ops, away_kpct
                     )
-                    home_prob = min(65, home_prob + 0.5)
+                    home_prob = min(70, home_prob + 0.5)  # home field boost, capped at new ceiling
                     home_prob = apply_park_factor(home_prob, home)
                     home_prob = apply_bullpen_adjustment(home_prob, home_bull, away_bull)
                     away_prob = round(100 - home_prob, 1)

@@ -10,11 +10,30 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.metrics import accuracy_score, brier_score_loss
 
+# ─────────────────────────────────────────────────────────────
+# weekly_retrain.py — Problems 1 + 2 + 5 applied:
+#   1) Lineup OPS is platoon-adjusted (vs opposing pitcher hand)
+#   2) Pitcher stat = FIP (computed from HR/BB/K/IP) instead of ERA
+#   5) ERA and WHIP dropped (correlated with FIP); kept K/9 + BB/9
+#
+# Changes vs prior version:
+#   • NEW  parse_ip()           — MLB IP "182.1" = 182 + 1/3, not 182.1
+#   • MOD  get_pitcher_stats()  — computes FIP, drops era/whip
+#   • MOD  FEATURES list        — 15 → 13 features
+#   • MOD  build_new_rows()     — writes fip/fip_diff instead of era*/whip*
+#
+# IMPORTANT: existing training_data.csv must be backfilled with
+# home_fip / away_fip / fip_diff before this can retrain.
+# Run backfill_fip.py once before the next Monday cron fires.
+#
+# Still TODO (next sessions): wider prob cap (master.py), XGBoost.
+# ─────────────────────────────────────────────────────────────
+
 FEATURES = [
-    "home_era", "home_whip", "home_k9", "home_bb9",
-    "away_era", "away_whip", "away_k9", "away_bb9",
+    "home_fip", "home_k9", "home_bb9",
+    "away_fip", "away_k9", "away_bb9",
     "home_ops", "home_kpct", "away_ops", "away_kpct",
-    "era_diff", "k9_diff", "ops_diff"
+    "fip_diff", "k9_diff", "ops_diff"
 ]
 
 # ── Recency weights ───────────────────────────────────────────
@@ -26,13 +45,32 @@ SEASON_WEIGHTS = {
 }
 DEFAULT_WEIGHT = 1.0
 
+# League-average FIP constant. Roughly stable around 3.10 — the
+# exact value varies by year (3.05–3.20). Using a single constant
+# is fine because it shifts every pitcher equally and the model
+# only learns from the spread, not the absolute level.
+FIP_CONSTANT = 3.10
+
 def get_sample_weight(season):
     return SEASON_WEIGHTS.get(int(season), DEFAULT_WEIGHT)
+
+def parse_ip(ip_value):
+    """MLB stores innings pitched as e.g. '182.1' meaning 182 + 1/3 innings."""
+    if ip_value is None:
+        return 0.0
+    try:
+        s = str(ip_value)
+        if "." in s:
+            whole, frac = s.split(".")
+            return float(whole) + (int(frac) / 3.0)
+        return float(s)
+    except (ValueError, TypeError):
+        return 0.0
 
 def get_last_week_games():
     lv = timezone(timedelta(hours=-7))
     end   = datetime.now(lv)
-    start = end - timedelta(days=7S)
+    start = end - timedelta(days=7)
     print(f"Pulling games from {start.strftime('%Y-%m-%d')} to {end.strftime('%Y-%m-%d')}...")
 
     games = []
@@ -66,6 +104,11 @@ def get_last_week_games():
     return games
 
 def get_pitcher_stats(player_id, season):
+    """
+    Returns {fip, k9, bb9} for a pitcher's season. FIP is computed from raw
+    counting stats: (13*HR + 3*BB - 2*K) / IP + 3.10. Returns None if the
+    pitcher has no data or fewer than 1 IP for that season.
+    """
     try:
         data = requests.get(
             f"https://statsapi.mlb.com/api/v1/people/{player_id}/stats",
@@ -76,15 +119,29 @@ def get_pitcher_stats(player_id, season):
         if not splits:
             return None
         s = splits[0]["stat"]
-        ip = float(s.get("inningsPitched", 0))
+        ip = parse_ip(s.get("inningsPitched", 0))
         if ip < 1:
             return None
+        hr = int(s.get("homeRuns", 0))
+        bb = int(s.get("baseOnBalls", 0))
+        k  = int(s.get("strikeOuts", 0))
+        fip = (13 * hr + 3 * bb - 2 * k) / ip + FIP_CONSTANT
         return {
-            "era":  float(s.get("era", 4.50)),
-            "whip": float(s.get("whip", 1.30)),
-            "k9":   float(s.get("strikeoutsPer9Inn", 8.0)),
-            "bb9":  float(s.get("walksPer9Inn", 3.0)),
+            "fip": round(fip, 3),
+            "k9":  float(s.get("strikeoutsPer9Inn", 8.0)),
+            "bb9": float(s.get("walksPer9Inn", 3.0)),
         }
+    except:
+        return None
+
+def get_pitcher_hand(player_id):
+    """Returns 'L' or 'R' for the pitcher's throwing hand, or None."""
+    try:
+        data = requests.get(
+            f"https://statsapi.mlb.com/api/v1/people/{player_id}",
+            timeout=30
+        ).json()
+        return data["people"][0].get("pitchHand", {}).get("code")
     except:
         return None
 
@@ -102,12 +159,36 @@ def get_boxscore_pitchers(game_id):
     except:
         return None, None, [], []
 
-def get_batter_ops(player_id, season):
+def get_batter_ops(player_id, season, vs_hand=None):
+    """
+    Season OPS for a batter. If vs_hand ('L' or 'R') is provided, returns
+    platoon-split OPS via sitCodes (vl/vr). Falls back to full-season OPS
+    if the split is missing or zero (e.g. small sample).
+    """
     try:
+        if vs_hand in ("L", "R"):
+            sit_code = "vl" if vs_hand == "L" else "vr"
+            data = requests.get(
+                f"https://statsapi.mlb.com/api/v1/people/{player_id}/stats",
+                params={
+                    "stats": "statSplits",
+                    "season": season,
+                    "group": "hitting",
+                    "sitCodes": sit_code,
+                },
+                timeout=30,
+            ).json()
+            splits = data.get("stats", [{}])[0].get("splits", [])
+            if splits:
+                ops = float(splits[0]["stat"].get("ops", 0))
+                if ops > 0:
+                    return ops
+            # split missing/zero → fall through to season OPS
+
         data = requests.get(
             f"https://statsapi.mlb.com/api/v1/people/{player_id}/stats",
             params={"stats": "season", "season": season, "group": "hitting"},
-            timeout=30
+            timeout=30,
         ).json()
         splits = data["stats"][0]["splits"]
         if not splits:
@@ -117,10 +198,10 @@ def get_batter_ops(player_id, season):
     except:
         return None
 
-def get_lineup_ops(batters, season):
+def get_lineup_ops(batters, season, vs_hand=None):
     ops_list = []
     for pid in batters[:9]:
-        ops = get_batter_ops(pid, season)
+        ops = get_batter_ops(pid, season, vs_hand=vs_hand)
         if ops:
             ops_list.append(ops)
     if not ops_list:
@@ -157,8 +238,12 @@ def build_new_rows(games, season):
             if not home_p or not away_p:
                 continue
 
-            home_lineup_ops = get_lineup_ops(home_batters, season)
-            away_lineup_ops = get_lineup_ops(away_batters, season)
+            # Platoon adjustment — each lineup's OPS is looked up vs the OPPOSING pitcher's hand
+            home_pitcher_hand = get_pitcher_hand(home_sp_id)
+            away_pitcher_hand = get_pitcher_hand(away_sp_id)
+            home_lineup_ops = get_lineup_ops(home_batters, season, vs_hand=away_pitcher_hand)
+            away_lineup_ops = get_lineup_ops(away_batters, season, vs_hand=home_pitcher_hand)
+
             home_off = team_stats.get(game["home_team"], {})
             away_off = team_stats.get(game["away_team"], {})
             home_ops  = home_lineup_ops if home_lineup_ops else home_off.get("ops", 0.72)
@@ -174,19 +259,17 @@ def build_new_rows(games, season):
                 "home_team": game["home_team"],
                 "away_team": game["away_team"],
                 "home_win":  home_win,
-                "home_era":  home_p["era"],
-                "home_whip": home_p["whip"],
+                "home_fip":  home_p["fip"],
                 "home_k9":   home_p["k9"],
-                "home_bb9":  home_p["bb9"],
-                "away_era":  away_p["era"],
-                "away_whip": away_p["whip"],
+                "home_bb9": home_p["bb9"],
+                "away_fip":  away_p["fip"],
                 "away_k9":   away_p["k9"],
-                "away_bb9":  away_p["bb9"],
+                "away_bb9": away_p["bb9"],
                 "home_ops":  home_ops,
                 "home_kpct": home_kpct,
                 "away_ops":  away_ops,
                 "away_kpct": away_kpct,
-                "era_diff":  away_p["era"] - home_p["era"],
+                "fip_diff":  away_p["fip"] - home_p["fip"],
                 "k9_diff":   home_p["k9"]  - away_p["k9"],
                 "ops_diff":  home_ops - away_ops,
             })
@@ -301,6 +384,13 @@ def run_weekly_retrain():
             combined = combined.drop_duplicates(subset=["game_id"])
     else:
         combined = new_df
+
+    # Safety check — if training data still has old era/whip rows
+    # (backfill not run), bail out rather than train on NaN.
+    missing_fip = combined["home_fip"].isna().sum() if "home_fip" in combined.columns else len(combined)
+    if missing_fip > 0:
+        print(f"\n❌ {missing_fip} rows are missing FIP — run backfill_fip.py first")
+        return
 
     combined.to_csv(existing_file, index=False)
     print(f"Training data updated: {len(combined)} total rows (+{len(new_rows)} new)")
