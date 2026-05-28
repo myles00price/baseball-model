@@ -15,15 +15,10 @@ from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
 
 # ─────────────────────────────────────────────────────────────
-# master.py — Problems 2 + 3 (+ 5) applied:
-#   2) Pitcher stat = FIP (not ERA/WHIP) — matches weekly_retrain.py
-#   3) Probability caps widened: 35–65 → 30–70 in all four spots
-#      (predict, park factor, bullpen adj, home boost)
-#   5) Feature list trimmed: era/whip dropped, FIP + K/9 + BB/9 kept
-#
-# Requires pitcher_stats.get_blended_pitcher_stats() to return "fip"
-# in its dict (alongside k9, bb9, hand, reliability). Update that
-# module before deploying or this will KeyError on home_stats["fip"].
+# master.py — ERA/WHIP restored alongside FIP (18 features).
+# Matches weekly_retrain.py FEATURES exactly. Caps stay at 30–70.
+# pitcher_stats.get_blended_pitcher_stats already returns era,
+# whip, fip, k9, bb9 — no change needed there.
 # ─────────────────────────────────────────────────────────────
 
 PARK_FACTORS = {
@@ -115,26 +110,27 @@ def load_model():
     return model, scaler
 
 def predict_home_win_prob(
-    home_fip, home_k9, home_bb9,
-    away_fip, away_k9, away_bb9,
+    home_era, home_whip, home_fip, home_k9, home_bb9,
+    away_era, away_whip, away_fip, away_k9, away_bb9,
     home_ops, home_kpct, away_ops, away_kpct
 ):
     """
     Feature order MUST match weekly_retrain.py FEATURES:
-      home_fip, home_k9, home_bb9,
-      away_fip, away_k9, away_bb9,
+      home_era, home_whip, home_fip, home_k9, home_bb9,
+      away_era, away_whip, away_fip, away_k9, away_bb9,
       home_ops, home_kpct, away_ops, away_kpct,
-      fip_diff, k9_diff, ops_diff
+      era_diff, fip_diff, k9_diff, ops_diff
     """
     model, scaler = load_model()
+    era_diff = away_era - home_era
     fip_diff = away_fip - home_fip
     k9_diff  = home_k9  - away_k9
     ops_diff = home_ops - away_ops
     features = np.array([[
-        home_fip, home_k9, home_bb9,
-        away_fip, away_k9, away_bb9,
+        home_era, home_whip, home_fip, home_k9, home_bb9,
+        away_era, away_whip, away_fip, away_k9, away_bb9,
         home_ops, home_kpct, away_ops, away_kpct,
-        fip_diff, k9_diff, ops_diff
+        era_diff, fip_diff, k9_diff, ops_diff
     ]])
     features_scaled = scaler.transform(features)
     prob = model.predict_proba(features_scaled)[0][1]
@@ -312,7 +308,7 @@ def run_model(target_date, save_csv=True):
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
 
-            # Blended pitcher stats — must return {"fip", "k9", "bb9", "hand", "reliability"}
+            # Blended pitcher stats — returns {"era","whip","fip","k9","bb9","hand","reliability"}
             home_stats, home_pid = get_blended_pitcher_stats(home_p, season, playerid_lookup)
             away_stats, away_pid = get_blended_pitcher_stats(away_p, season, playerid_lookup)
 
@@ -363,8 +359,10 @@ def run_model(target_date, save_csv=True):
             try:
                 if home_stats and away_stats:
                     home_prob = predict_home_win_prob(
-                        home_stats["fip"], home_stats["k9"], home_stats["bb9"],
-                        away_stats["fip"], away_stats["k9"], away_stats["bb9"],
+                        home_stats["era"], home_stats["whip"], home_stats["fip"],
+                        home_stats["k9"], home_stats["bb9"],
+                        away_stats["era"], away_stats["whip"], away_stats["fip"],
+                        away_stats["k9"], away_stats["bb9"],
                         home_ops, home_kpct,
                         away_ops, away_kpct
                     )
