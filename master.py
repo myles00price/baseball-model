@@ -15,10 +15,18 @@ from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
 
 # ─────────────────────────────────────────────────────────────
-# master.py — ERA/WHIP restored alongside FIP (18 features).
-# Matches weekly_retrain.py FEATURES exactly. Caps stay at 30–70.
-# pitcher_stats.get_blended_pitcher_stats already returns era,
-# whip, fip, k9, bb9 — no change needed there.
+# master.py — vig sanity check added (diagnostic only)
+#
+# Season tracker showed 10%+ edge picks at 37.3% — likely
+# contaminated by bad odds (e.g. Tue's TOR/BAL showing -31% edge
+# with implied probs summing to 133%, way outside normal vig).
+#
+# This run LOGS bad vig but does not change picking/flagging.
+# After ~1 week we'll have data to decide whether to filter.
+#
+# Normal MLB moneyline vig: implied probs sum to 102–108%.
+# Below 102%: stale opener or arb-line glitch.
+# Above 108%: lopsided book / data error / wrong-game match.
 # ─────────────────────────────────────────────────────────────
 
 PARK_FACTORS = {
@@ -53,6 +61,19 @@ PARK_FACTORS = {
     "Athletics":               95,
     "San Diego Padres":        94,
 }
+
+VIG_MIN = 102.0
+VIG_MAX = 108.0
+
+def check_vig(away_prob, home_prob, bookmaker):
+    """Returns a warning string if vig is outside the normal 102–108% range,
+    or None if vig is normal or odds are missing."""
+    if away_prob is None or home_prob is None:
+        return None
+    vig = away_prob + home_prob
+    if VIG_MIN <= vig <= VIG_MAX:
+        return None
+    return f"{bookmaker} vig {vig:.1f}%"
 
 def apply_park_factor(home_prob, home_team):
     factor = PARK_FACTORS.get(home_team, 100)
@@ -110,27 +131,27 @@ def load_model():
     return model, scaler
 
 def predict_home_win_prob(
-    home_era, home_whip, home_fip, home_k9, home_bb9,
-    away_era, away_whip, away_fip, away_k9, away_bb9,
+    home_fip, home_era, home_whip, home_k9, home_bb9,
+    away_fip, away_era, away_whip, away_k9, away_bb9,
     home_ops, home_kpct, away_ops, away_kpct
 ):
     """
     Feature order MUST match weekly_retrain.py FEATURES:
-      home_era, home_whip, home_fip, home_k9, home_bb9,
-      away_era, away_whip, away_fip, away_k9, away_bb9,
+      home_fip, home_era, home_whip, home_k9, home_bb9,
+      away_fip, away_era, away_whip, away_k9, away_bb9,
       home_ops, home_kpct, away_ops, away_kpct,
-      era_diff, fip_diff, k9_diff, ops_diff
+      fip_diff, era_diff, k9_diff, ops_diff
     """
     model, scaler = load_model()
-    era_diff = away_era - home_era
     fip_diff = away_fip - home_fip
+    era_diff = away_era - home_era
     k9_diff  = home_k9  - away_k9
     ops_diff = home_ops - away_ops
     features = np.array([[
-        home_era, home_whip, home_fip, home_k9, home_bb9,
-        away_era, away_whip, away_fip, away_k9, away_bb9,
+        home_fip, home_era, home_whip, home_k9, home_bb9,
+        away_fip, away_era, away_whip, away_k9, away_bb9,
         home_ops, home_kpct, away_ops, away_kpct,
-        era_diff, fip_diff, k9_diff, ops_diff
+        fip_diff, era_diff, k9_diff, ops_diff
     ]])
     features_scaled = scaler.transform(features)
     prob = model.predict_proba(features_scaled)[0][1]
@@ -173,7 +194,8 @@ def save_picks_to_csv(picks, date_str):
             "Away BP ERA(7d)", "Home BP ERA(7d)",
             "Away Line Move", "Home Line Move",
             "Sharp Signal",
-            "Lineup Source", "Park Factor", "Flag"
+            "Lineup Source", "Park Factor", "Flag",
+            "Odds Warning"
         ])
         for pick in picks:
             writer.writerow([str(p) for p in pick])
@@ -188,7 +210,6 @@ def run_model(target_date, save_csv=True):
 
     print(f"Loading data for {target_str}...\n")
 
-    # Pull odds
     odds_resp = requests.get(
         "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
         params={
@@ -212,27 +233,22 @@ def run_model(target_date, save_csv=True):
                             odds_lookup[team] = {}
                         odds_lookup[team][bk] = outcome["price"]
 
-    # Pull schedule
     schedule = requests.get(
         "https://statsapi.mlb.com/api/v1/schedule",
         params={"sportId": 1, "date": target_str, "hydrate": "probablePitcher"}
     ).json()
 
-    # Pull team stats
     team_stats = get_team_stats(season)
 
-    # Pull confirmed lineups
     print("Pulling confirmed lineups...")
     lineups = get_todays_lineups(target_str, season)
     confirmed = sum(1 for v in lineups.values() if v)
     print(f"Lineups confirmed for {confirmed} teams")
 
-    # Pull bullpen stats
     print("Pulling bullpen stats...")
     bullpen = get_bullpen_stats(season)
     print(f"Bullpen data loaded for {len(bullpen)} teams")
 
-    # Save opening lines and get movement
     print("Pulling line movement...")
     save_current_lines(target_str)
     movement = get_line_movement(target_str)
@@ -264,7 +280,6 @@ def run_model(target_date, save_csv=True):
 
     picks = []
 
-    # Load existing picks CSV to freeze Live/Final games
     existing_picks = {}
     existing_csv = f"picks_{target_str}.csv"
     if os.path.exists(existing_csv):
@@ -282,7 +297,6 @@ def run_model(target_date, save_csv=True):
             away = game["teams"]["away"]["team"]["name"]
             game_key = f"{away}@{home}"
 
-            # Freeze Live and Final games — use existing pick unchanged
             if game_status in ["Live", "Final"]:
                 if game_key in existing_picks:
                     row = existing_picks[game_key]
@@ -300,7 +314,8 @@ def run_model(target_date, save_csv=True):
                         "Away Lineup OPS", "Home Lineup OPS",
                         "Away BP ERA(7d)", "Home BP ERA(7d)",
                         "Away Line Move", "Home Line Move",
-                        "Sharp Signal", "Lineup Source", "Park Factor", "Flag"
+                        "Sharp Signal", "Lineup Source", "Park Factor", "Flag",
+                        "Odds Warning"
                     ]])
                     status_label = "🔴 LIVE" if game_status == "Live" else "✅ FINAL"
                     print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
@@ -308,7 +323,6 @@ def run_model(target_date, save_csv=True):
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
 
-            # Blended pitcher stats — returns {"era","whip","fip","k9","bb9","hand","reliability"}
             home_stats, home_pid = get_blended_pitcher_stats(home_p, season, playerid_lookup)
             away_stats, away_pid = get_blended_pitcher_stats(away_p, season, playerid_lookup)
 
@@ -317,7 +331,6 @@ def run_model(target_date, save_csv=True):
             home_rel  = home_stats.get("reliability", 0) if home_stats else 0
             away_rel  = away_stats.get("reliability", 0) if away_stats else 0
 
-            # Pitcher whiff stats — now returns velo, spin, whiff separately
             away_velo, away_spin, away_whiff, away_str = get_pitcher_whiff(away_p)
             home_velo, home_spin, home_whiff, home_str = get_pitcher_whiff(home_p)
 
@@ -348,7 +361,6 @@ def run_model(target_date, save_csv=True):
             home_bull = bullpen.get(home)
             away_bull = bullpen.get(away)
 
-            # Line movement
             game_key = f"{away}@{home}"
             move_data = movement.get(game_key, {})
             away_move = move_data.get("teams", {}).get(away, {})
@@ -359,14 +371,14 @@ def run_model(target_date, save_csv=True):
             try:
                 if home_stats and away_stats:
                     home_prob = predict_home_win_prob(
-                        home_stats["era"], home_stats["whip"], home_stats["fip"],
-                        home_stats["k9"], home_stats["bb9"],
-                        away_stats["era"], away_stats["whip"], away_stats["fip"],
-                        away_stats["k9"], away_stats["bb9"],
+                        home_stats["fip"], home_stats["era"], home_stats["whip"],
+                        home_stats["k9"],  home_stats["bb9"],
+                        away_stats["fip"], away_stats["era"], away_stats["whip"],
+                        away_stats["k9"],  away_stats["bb9"],
                         home_ops, home_kpct,
                         away_ops, away_kpct
                     )
-                    home_prob = min(70, home_prob + 0.5)  # home field boost, capped at new ceiling
+                    home_prob = min(70, home_prob + 0.5)
                     home_prob = apply_park_factor(home_prob, home)
                     home_prob = apply_bullpen_adjustment(home_prob, home_bull, away_bull)
                     away_prob = round(100 - home_prob, 1)
@@ -378,10 +390,15 @@ def run_model(target_date, save_csv=True):
             dk_home  = american_to_prob(odds_lookup.get(home, {}).get("draftkings"))
             mgm_home = american_to_prob(odds_lookup.get(home, {}).get("betmgm"))
 
+            # ── Vig sanity check (diagnostic only — does not change picking) ──
+            dk_warning  = check_vig(dk_away,  dk_home,  "DK")
+            mgm_warning = check_vig(mgm_away, mgm_home, "MGM")
+            warnings_list = [w for w in [dk_warning, mgm_warning] if w]
+            odds_warning = " | ".join(warnings_list) if warnings_list else ""
+
             min_reliability = min(home_rel, away_rel)
             reliable = min_reliability >= 8 and home != "Colorado Rockies"
 
-            # Sharp signal
             sharp_signal = "N/A"
             if away_move and home_move and away_prob and home_prob:
                 model_favors = away if away_prob > home_prob else home
@@ -399,6 +416,8 @@ def run_model(target_date, save_csv=True):
                         sharp_signal = "FADE ✗"
 
             print(f"\n{away} @ {home} [{lineup_source}] [Park: {park_factor}]")
+            if odds_warning:
+                print(f"  ⚠️  ODDS WARNING: {odds_warning}  (logged; pick proceeds normally)")
             print(f"  {away_p} ({away_hand}) rel:{away_rel}% | {home_p} ({home_hand}) rel:{home_rel}%")
             print(f"  Platoon OPS — {away}: {away_ops:.3f} vs {home_hand}HP | {home}: {home_ops:.3f} vs {away_hand}HP")
             if home_bull and away_bull:
@@ -454,7 +473,8 @@ def run_model(target_date, save_csv=True):
                 away_move.get("movement", "N/A") if away_move else "N/A",
                 home_move.get("movement", "N/A") if home_move else "N/A",
                 sharp_signal,
-                lineup_source, park_factor, bet_flag
+                lineup_source, park_factor, bet_flag,
+                odds_warning
             ])
 
     if save_csv:
