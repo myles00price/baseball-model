@@ -46,7 +46,7 @@ PARK_COORDS = {
 METRIC_TOOLTIPS = {
     "Overall Accuracy": "How often the model picks the right winner across ALL games — not just the ones we bet. 50% is what you'd get by flipping a coin. MLB is hard to predict, so anything consistently above 52-53% is meaningful. This number alone doesn't tell you if you should bet — look at the 6-10% Zone instead.",
     "6-10% Zone Accuracy": "🎯 THIS IS THE KEY NUMBER. When the model thinks a team should be priced 6-10% higher than the sportsbook does, how often is it right? This is our betting sweet spot — big enough edge to be real, not so big the model might be overreacting. 60%+ here means the model is genuinely finding value.",
-    "6-10% Zone P&L": "How much money we would have made or lost betting $100 flat on every game in the 6-10% edge zone. Green = profitable. This is paper trading only — we are tracking to build confidence before risking real money.",
+    "6-10% Zone P&L": "How much money we would have made or lost betting $100 flat on every game in the 6-10% edge zone. Green = profitable. This is paper trading only — we are tracking to build confidence before risking real money. P&L uses actual moneyline odds: -200 favorites win $50, +180 dogs win $180.",
     "6-10% Zone ROI": "Return on investment for the 6-10% zone bets. If this says +12.5%, every $100 bet returned $112.50 on average. We want to see this stay positive over 20+ bets before considering real money.",
     "All Flagged Bets": "Win rate across every game the model flagged, including some outside the sweet spot. This is less important than the 6-10% zone number — think of it as a secondary check.",
 }
@@ -73,6 +73,46 @@ def deg_to_compass(deg):
 
 WIND_IN  = {"N","NNE","NE","ENE"}
 WIND_OUT = {"S","SSW","SW","WSW"}
+
+# ── Module-level helpers (used in multiple places) ──────────────────────────
+
+def fmt_odds(o):
+    """Format American odds with explicit + on positives."""
+    try:
+        o = int(float(o))
+        return f"+{o}" if o > 0 else str(o)
+    except:
+        return "N/A"
+
+def prob_to_american(p):
+    """Convert a 0-100% probability to American odds (no vig)."""
+    try:
+        p = float(p)
+        if p >= 50: return f"-{round((p/(100-p))*100)}"
+        else:       return f"+{round(((100-p)/p)*100)}"
+    except:
+        return "N/A"
+
+def moneyline_win(odds_str):
+    """Win amount on a $100 stake at given American odds.
+    +180 wins $180.  -200 wins $50.  Returns 100.0 if unparseable."""
+    try:
+        o = float(odds_str)
+        if o > 0:  return o
+        else:      return 10000.0 / abs(o)
+    except:
+        return 100.0
+
+def implied_prob(odds_str):
+    """American odds → implied probability %."""
+    try:
+        o = float(odds_str)
+        if o < 0:  return round(abs(o) / (abs(o) + 100) * 100, 1)
+        else:      return round(100 / (o + 100) * 100, 1)
+    except:
+        return None
+
+# ── Styling ─────────────────────────────────────────────────────────────────
 
 st.markdown("""
 <style>
@@ -224,6 +264,7 @@ def load_season():
             if not result: continue
             winner = result["winner"]; model_pick = away if apf > hpf else home
             won = model_pick == winner; hs = result.get("home_score", 0); as_ = result.get("away_score", 0)
+            picked_home = (hpf > apf)
             total += 1; day_total += 1
             if won: correct += 1; day_correct += 1
             team_stats[model_pick]["total"] += 1
@@ -235,13 +276,24 @@ def load_season():
             if is_flagged:
                 flagged += 1; day_flagged += 1
                 if won: flag_correct += 1; day_flag_correct += 1
-            e = parse_edge(p.get("DK Edge Away","")); b = edge_bucket(e)
+
+            # ── BUGFIX: use the edge column matching the side the model picked ──
+            edge_col = "DK Edge Home" if picked_home else "DK Edge Away"
+            e = parse_edge(p.get(edge_col, ""))
+            b = edge_bucket(e)
             edge_buckets[b][0] += 1
             if won: edge_buckets[b][1] += 1
+
             if b == "6-10%" and is_flagged:
                 zone_bets += 1
-                if won: zone_wins += 1; zone_pnl += 100
-                else: zone_pnl -= 100
+                if won:
+                    zone_wins += 1
+                    # ── BUGFIX: use actual moneyline payout on $100 stake ──
+                    odds_col = "DK Home Odds" if picked_home else "DK Away Odds"
+                    zone_pnl += moneyline_win(p.get(odds_col, ""))
+                else:
+                    zone_pnl -= 100
+
             # MAE — distance between model confidence and true outcome
             model_prob = max(apf, hpf)
             true_outcome = 100.0 if won else 0.0
@@ -391,19 +443,6 @@ else:
             away_whiff=pick.get("Away SP Whiff","") or "—"; home_whiff=pick.get("Home SP Whiff","") or "—"
             dk_away_odds=pick.get("DK Away Odds","N/A"); dk_home_odds=pick.get("DK Home Odds","N/A")
 
-            def fmt_odds(o):
-                try:
-                    o=int(float(o))
-                    return f"+{o}" if o>0 else str(o)
-                except: return "N/A"
-
-            def prob_to_american(p):
-                try:
-                    p=float(p)
-                    if p>=50: return f"-{round((p/(100-p))*100)}"
-                    else: return f"+{round(((100-p)/p)*100)}"
-                except: return "N/A"
-
             try:
                 apf=float(ap); hpf=float(hp)
                 model_fav=away if apf>hpf else home
@@ -427,10 +466,9 @@ else:
                     except: pass
                 st.markdown(f"**{away}**")
                 st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{ap}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(ap)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
-                try:
-                    away_imp=round(abs(float(dk_away_odds))/(abs(float(dk_away_odds))+100)*100 if float(dk_away_odds)<0 else 100/(float(dk_away_odds)+100)*100,1)
+                away_imp = implied_prob(dk_away_odds)
+                if away_imp is not None:
                     st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{away_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_away_odds)}</span></div>", unsafe_allow_html=True)
-                except: pass
                 tid = TEAM_IDS.get(away)
                 if tid:
                     w,l,l10w,l10l = get_team_standings(tid)
@@ -465,10 +503,9 @@ else:
                     except: pass
                 st.markdown(f"**{home}**")
                 st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.6rem;color:#3b82f6;font-weight:700'>{hp}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(hp)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
-                try:
-                    home_imp=round(abs(float(dk_home_odds))/(abs(float(dk_home_odds))+100)*100 if float(dk_home_odds)<0 else 100/(float(dk_home_odds)+100)*100,1)
+                home_imp = implied_prob(dk_home_odds)
+                if home_imp is not None:
                     st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{home_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_home_odds)}</span></div>", unsafe_allow_html=True)
-                except: pass
                 tid = TEAM_IDS.get(home)
                 if tid:
                     w,l,l10w,l10l = get_team_standings(tid)
@@ -537,20 +574,6 @@ else:
             sc="#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
             flag_txt="🎯 " if flag else ""
 
-            # Format odds display
-            def fmt_odds(o):
-                try:
-                    o=int(float(o))
-                    return f"+{o}" if o>0 else str(o)
-                except: return "N/A"
-
-            def prob_to_american(p):
-                try:
-                    p=float(p)
-                    if p>=50: return f"-{round((p/(100-p))*100)}"
-                    else: return f"+{round(((100-p)/p)*100)}"
-                except: return "N/A"
-
             away_odds_str=f"({fmt_odds(dk_away_odds)} DK)"
             home_odds_str=f"({fmt_odds(dk_home_odds)} DK)"
 
@@ -563,11 +586,9 @@ else:
                         except: pass
                     st.markdown(f"**{away}**")
                     st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{ap}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(ap)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
-                    # Market data
-                    try:
-                        away_imp = round(abs(float(dk_away_odds)) / (abs(float(dk_away_odds)) + 100) * 100 if float(dk_away_odds) < 0 else 100 / (float(dk_away_odds) + 100) * 100, 1)
+                    away_imp = implied_prob(dk_away_odds)
+                    if away_imp is not None:
                         st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{away_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_away_odds)}</span></div>", unsafe_allow_html=True)
-                    except: pass
                     if away_move not in ("","N/A","0"):
                         try:
                             mv=float(away_move)
@@ -600,10 +621,9 @@ else:
                         except: pass
                     st.markdown(f"**{home}**")
                     st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:1.5rem;color:#3b82f6;font-weight:700'>{hp}% <span style='font-size:1rem;color:#60a5fa'>({prob_to_american(hp)})</span></div><div class='sub'>model prob · model odds</div>", unsafe_allow_html=True)
-                    try:
-                        home_imp = round(abs(float(dk_home_odds)) / (abs(float(dk_home_odds)) + 100) * 100 if float(dk_home_odds) < 0 else 100 / (float(dk_home_odds) + 100) * 100, 1)
+                    home_imp = implied_prob(dk_home_odds)
+                    if home_imp is not None:
                         st.markdown(f"<div style='font-family:Space Mono,monospace;font-size:0.85rem;color:#94a3b8'>{home_imp}% implied · <span style='color:#f59e0b'>{fmt_odds(dk_home_odds)}</span></div>", unsafe_allow_html=True)
-                    except: pass
                     if home_move not in ("","N/A","0"):
                         try:
                             mv=float(home_move)
@@ -678,7 +698,8 @@ with tabs[1]:
     rows=[]
     for bk in sorted(S["calib_bins"].keys()):
         tot,cor=S["calib_bins"][bk]
-        if tot>=3: rows.append({"Label":f"{bk}-{bk+5}%","Model %":bk+2.5,"Actual %":round(cor/tot*100,1),"n":tot})
+        # BUGFIX: bumped minimum bin size from 3 → 10 for stable percentages
+        if tot>=10: rows.append({"Label":f"{bk}-{bk+5}%","Model %":bk+2.5,"Actual %":round(cor/tot*100,1),"n":tot})
     if rows:
         df_cal=pd.DataFrame(rows)
         df_perf=pd.DataFrame({"x":[35,40,45,50,55,60,65,70],"y":[35,40,45,50,55,60,65,70]})
@@ -687,13 +708,14 @@ with tabs[1]:
         dots=alt.Chart(df_cal).mark_circle(size=80,color="#00d97e").encode(x="Model %:Q",y="Actual %:Q",tooltip=["Label","Actual %:Q","n:Q"])
         st.altair_chart((line_perf+line_act+dots).properties(height=260,background="#080c18").configure_view(strokeOpacity=0),use_container_width=True)
     else:
-        st.caption("Need more graded games.")
+        st.caption("Need more graded games (10+ per bin).")
 
 with tabs[2]:
     st.caption(ANALYTICS_DESCRIPTIONS["best_worst"])
     st.markdown("<br>", unsafe_allow_html=True)
     ts=S["team_stats"]
-    team_rows=[{"Team":t,"W":r["correct"],"L":r["total"]-r["correct"],"Pct":round(r["correct"]/r["total"]*100,1)} for t,r in ts.items() if r["total"]>=3]
+    # BUGFIX: bumped team-game minimum from 3 → 10 so percentages aren't noise
+    team_rows=[{"Team":t,"W":r["correct"],"L":r["total"]-r["correct"],"Pct":round(r["correct"]/r["total"]*100,1)} for t,r in ts.items() if r["total"]>=10]
     if team_rows:
         df_t=pd.DataFrame(team_rows).sort_values("Pct",ascending=False)
         b_col,w_col=st.columns(2)
@@ -722,7 +744,7 @@ with tabs[2]:
                 with c3: st.write(f"{row['W']}-{row['L']}")
                 with c4: st.markdown(f"<span style='font-family:Space Mono,monospace;color:#ef4444;font-weight:700'>{row['Pct']:.0f}%</span>",unsafe_allow_html=True)
     else:
-        st.caption("Need more graded games.")
+        st.caption("Need more graded games (10+ per team).")
 
 with tabs[3]:
     st.caption(ANALYTICS_DESCRIPTIONS["bullpen"])
@@ -766,7 +788,6 @@ with tabs[5]:
             clv_log = json.load(f)
         all_clv = [e for e in clv_log if e.get("clv") is not None]
         if all_clv:
-            # Summary metrics
             avg_clv = round(sum(e["clv"] for e in all_clv) / len(all_clv), 2)
             pos_clv = sum(1 for e in all_clv if e["clv_positive"])
             flagged_clv = [e for e in all_clv if e.get("flagged")]
@@ -783,7 +804,6 @@ with tabs[5]:
 
             st.markdown("<br>", unsafe_allow_html=True)
 
-            # CLV chart by date
             daily_clv = {}
             for e in all_clv:
                 d = e["date"]
@@ -803,7 +823,6 @@ with tabs[5]:
                 )
                 st.altair_chart((zero_rule+clv_bars).properties(height=200, background="#080c18", title=alt.TitleParams(text="Daily Avg CLV — Green = beat closing line", color="#475569", fontSize=11)).configure_view(strokeOpacity=0), use_container_width=True)
 
-            # Recent CLV table
             st.markdown("<div style='font-size:0.75rem;color:#475569;margin-bottom:8px'>RECENT CLV BY GAME</div>", unsafe_allow_html=True)
             for e in reversed(all_clv[-20:]):
                 clv_val = e["clv"]
