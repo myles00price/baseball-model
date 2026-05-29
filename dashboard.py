@@ -25,6 +25,12 @@ TEAM_IDS = {
     "Texas Rangers": 140, "Toronto Blue Jays": 141, "Washington Nationals": 120,
 }
 
+# ── Dashboard-only date filter ──────────────────────────────────────────────
+# Hides picks before this date from season totals + analytics.
+# Picks files themselves are not modified; retrain_log/clv_log untouched.
+# Set to None to disable the filter and show full history.
+DASHBOARD_START_DATE = "2026-05-26"
+
 PARK_COORDS = {
     "Arizona Diamondbacks": (33.4453,-112.0667), "Atlanta Braves": (33.8908,-84.4678),
     "Baltimore Orioles": (39.2839,-76.6218), "Boston Red Sox": (42.3467,-71.0972),
@@ -242,6 +248,8 @@ def load_season():
 
     for fn in files:
         date_str = fn.replace("picks_","").replace(".csv","")
+        if DASHBOARD_START_DATE and date_str < DASHBOARD_START_DATE:
+            continue
         picks = load_picks(fn)
         if not picks: continue
         results = get_results(date_str)
@@ -886,4 +894,5 @@ if search and len(search)>=2:
     else:
         st.caption(f"No results for '{search}'")
 
-st.markdown("<br><br><div style='text-align:center;border-top:1px solid #1c2540;padding-top:16px'><span class='sub'>MLB Prediction Model · Personal Use Only · Nightly auto-update</span></div>", unsafe_allow_html=True)
+_filter_note = f"<br><span class='sub' style='font-size:0.7rem;color:#334155'>Dashboard showing picks from {DASHBOARD_START_DATE} onward (logs unchanged)</span>" if DASHBOARD_START_DATE else ""
+st.markdown(f"<br><br><div style='text-align:center;border-top:1px solid #1c2540;padding-top:16px'><span class='sub'>MLB Prediction Model · Personal Use Only · Nightly auto-update</span>{_filter_note}</div>", unsafe_allow_html=True)
