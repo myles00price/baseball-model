@@ -15,18 +15,22 @@ from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
 
 # ─────────────────────────────────────────────────────────────
-# master.py — vig sanity check added (diagnostic only)
+# master.py — Sharp FADE veto added (single change vs prior version)
 #
-# Season tracker showed 10%+ edge picks at 37.3% — likely
-# contaminated by bad odds (e.g. Tue's TOR/BAL showing -31% edge
-# with implied probs summing to 133%, way outside normal vig).
+# Six weeks of paper-trading data showed Sharp FADE bets going
+# 2/15 (13.3%) for -$1,062 P&L — single biggest leak in the
+# system. The veto suppresses BET flags when smart money is
+# moving against the model.
 #
-# This run LOGS bad vig but does not change picking/flagging.
-# After ~1 week we'll have data to decide whether to filter.
+# Implementation: sharp_signal computation moved to BEFORE the
+# `reliable` boolean, then reliable now includes a sharp_veto
+# check. Every downstream edge() call inherits the veto with
+# zero further changes — they take `reliable` as input.
 #
-# Normal MLB moneyline vig: implied probs sum to 102–108%.
-# Below 102%: stale opener or arb-line glitch.
-# Above 108%: lopsided book / data error / wrong-game match.
+# Behavior: FADE games still display their model %, market %,
+# and edge values normally. They just don't get the ** BET **
+# annotation in the per-bookmaker edge strings or the Flag column.
+# CONFIRMED and N/A games behave exactly as before.
 # ─────────────────────────────────────────────────────────────
 
 PARK_FACTORS = {
@@ -290,6 +294,9 @@ def run_model(target_date, save_csv=True):
                 existing_picks[key] = row
         print(f"Loaded {len(existing_picks)} existing picks to freeze Live/Final games\n")
 
+    # Session-level FADE veto counter for end-of-run summary
+    fade_vetoes = []
+
     for date in schedule.get("dates", []):
         for game in date.get("games", []):
             game_status = game.get("status", {}).get("abstractGameState", "")
@@ -396,9 +403,7 @@ def run_model(target_date, save_csv=True):
             warnings_list = [w for w in [dk_warning, mgm_warning] if w]
             odds_warning = " | ".join(warnings_list) if warnings_list else ""
 
-            min_reliability = min(home_rel, away_rel)
-            reliable = min_reliability >= 8 and home != "Colorado Rockies"
-
+            # ── Sharp signal — computed BEFORE the reliable check so it can veto BETs ──
             sharp_signal = "N/A"
             if away_move and home_move and away_prob and home_prob:
                 model_favors = away if away_prob > home_prob else home
@@ -415,9 +420,35 @@ def run_model(target_date, save_csv=True):
                     else:
                         sharp_signal = "FADE ✗"
 
+            # ── Reliable: pitcher reliability + Coors exclusion + Sharp FADE veto ──
+            # FADE bets went 2/15 (13.3%) for -$1,062 P&L over 6 weeks of paper trading.
+            # When sharps move against the model, we suppress the BET flag.
+            min_reliability = min(home_rel, away_rel)
+            sharp_veto = "FADE" in str(sharp_signal)
+            reliable = (min_reliability >= 8
+                        and home != "Colorado Rockies"
+                        and not sharp_veto)
+
+            # Track veto for end-of-run summary (only flag if BET would have fired otherwise)
+            if sharp_veto and min_reliability >= 8 and home != "Colorado Rockies":
+                # Check if any edge column would have triggered BET without the veto
+                would_have_bet = any(
+                    market_p is not None
+                    and model_p is not None
+                    and 6 <= round(model_p - market_p, 1) <= 10
+                    for model_p, market_p in [
+                        (away_prob, dk_away), (away_prob, mgm_away),
+                        (home_prob, dk_home), (home_prob, mgm_home),
+                    ]
+                )
+                if would_have_bet:
+                    fade_vetoes.append(f"{away} @ {home}")
+
             print(f"\n{away} @ {home} [{lineup_source}] [Park: {park_factor}]")
             if odds_warning:
                 print(f"  ⚠️  ODDS WARNING: {odds_warning}  (logged; pick proceeds normally)")
+            if sharp_veto and min_reliability >= 8 and home != "Colorado Rockies":
+                print(f"  🚫 SHARP FADE VETO — BET flag suppressed (sharps moving against model)")
             print(f"  {away_p} ({away_hand}) rel:{away_rel}% | {home_p} ({home_hand}) rel:{home_rel}%")
             print(f"  Platoon OPS — {away}: {away_ops:.3f} vs {home_hand}HP | {home}: {home_ops:.3f} vs {away_hand}HP")
             if home_bull and away_bull:
@@ -476,6 +507,14 @@ def run_model(target_date, save_csv=True):
                 lineup_source, park_factor, bet_flag,
                 odds_warning
             ])
+
+    # End-of-run FADE veto summary
+    if fade_vetoes:
+        print("\n" + "=" * 75)
+        print(f"  🚫 SHARP FADE VETO SUMMARY — {len(fade_vetoes)} BET(s) suppressed today:")
+        for g in fade_vetoes:
+            print(f"     • {g}")
+        print("=" * 75)
 
     if save_csv:
         save_picks_to_csv(picks, target_str)
