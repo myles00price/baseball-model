@@ -31,6 +31,9 @@ TEAM_IDS = {
 # Set to None to disable the filter and show full history.
 DASHBOARD_START_DATE = "2026-05-26"
 
+# Sharp FADE veto deploy date — used to footnote pre-filter bets in the P&L
+FADE_FILTER_START_DATE = "2026-06-01"
+
 PARK_COORDS = {
     "Arizona Diamondbacks": (33.4453,-112.0667), "Atlanta Braves": (33.8908,-84.4678),
     "Baltimore Orioles": (39.2839,-76.6218), "Boston Red Sox": (42.3467,-71.0972),
@@ -50,22 +53,22 @@ PARK_COORDS = {
 }
 
 METRIC_TOOLTIPS = {
-    "Overall Accuracy": "How often the model picks the right winner across ALL games — not just the ones we bet. 50% is what you'd get by flipping a coin. MLB is hard to predict, so anything consistently above 52-53% is meaningful. This number alone doesn't tell you if you should bet — look at the 6-10% Zone instead.",
-    "6-10% Zone Accuracy": "🎯 THIS IS THE KEY NUMBER. When the model thinks a team should be priced 6-10% higher than the sportsbook does, how often is it right? This is our betting sweet spot — big enough edge to be real, not so big the model might be overreacting. 60%+ here means the model is genuinely finding value.",
-    "6-10% Zone P&L": "How much money we would have made or lost betting $100 flat on every game in the 6-10% edge zone. Green = profitable. This is paper trading only — we are tracking to build confidence before risking real money. P&L uses actual moneyline odds: -200 favorites win $50, +180 dogs win $180.",
-    "6-10% Zone ROI": "Return on investment for the 6-10% zone bets. If this says +12.5%, every $100 bet returned $112.50 on average. We want to see this stay positive over 20+ bets before considering real money.",
-    "All Flagged Bets": "Win rate across every game the model flagged, including some outside the sweet spot. This is less important than the 6-10% zone number — think of it as a secondary check.",
+    "Overall Accuracy": "How often the model picks the right winner across ALL games — not just the ones we bet. 50% is what you'd get by flipping a coin. MLB is hard to predict, so anything consistently above 52-53% is meaningful. This number alone doesn't tell you if you should bet — look at the Model P&L instead.",
+    "Model P&L": "Total profit/loss across every flagged bet ($100 flat stake). This is the bottom line — is the model actually making money on the games it decides to bet? Uses real moneyline payouts: -200 favorites win $50, +180 dogs win $180. Note: bets prior to 6/1/26 include FADE games that the current filter would now suppress.",
+    "Model ROI": "Return on investment across all flagged bets. +5% means every $100 wagered came back as $105 on average. We want this consistently positive over a large sample (50+ bets). Negative ROI = model is bleeding money; positive ROI in green = potentially profitable.",
+    "Flagged Record": "Win/loss record on flagged bets. Win % matters less than ROI because moneyline payouts vary — winning 55% on -150 favorites loses money, winning 45% on +150 dogs makes money.",
+    "Avg CLV": "Average Closing Line Value across flagged bets. Did the model identify value before the sharp market did? Positive CLV = model beats the market consistently. This is the LEADING indicator of edge — it usually shows up before W/L stabilizes, because closing lines move toward true probability.",
+    "If Bet All Games": "Sanity check: what would happen if you flat-bet $100 on every model pick (not just flagged bets)? If this is positive and similar to flagged ROI → model has no real edge, you're just riding home bias or vig. If this is deeply negative while flagged is positive → the BET filter is genuinely identifying value spots.",
 }
 
 MAE_TOOLTIPS = {
     "Overall MAE": "Mean Absolute Error — measures how confident the model is vs what actually happened. If the model says 60% and the team wins, the error is 40 (100-60). If the team loses, error is 60. Lower MAE = model confidence lines up better with reality. A coin flip model would score around 50.",
     "Flagged Bet MAE": "Same as Overall MAE but only for games we flagged as bets. If this is LOWER than Overall MAE, the model is more accurate on the games it's most confident about — a great sign.",
-    "6-10% Zone MAE": "MAE for only the 6-10% edge zone games. This is the most important MAE number — if it's lower than overall, the model's sweet spot is working correctly.",
     "vs 50% Baseline": "How much better the model is compared to always guessing 50/50. Positive green number = the model adds real value. The bigger the number, the more the model is actually doing something useful.",
 }
 
 ANALYTICS_DESCRIPTIONS = {
-    "edge_zones": "The model looks at all games and measures how big its disagreement with the sportsbook is. Bigger edge = model is more confident it found a mistake in the market. The 6-10% zone ★ is our sweet spot — big enough to be meaningful, small enough that we're not overreaching.",
+    "edge_zones": "The model looks at all games and measures how big its disagreement with the sportsbook is. Bigger edge = model is more confident it found a mistake in the market. Note: edge buckets are diagnostic only — small samples can show misleading hit rates (e.g. a small-sample 80% in the 0-3% bucket is almost certainly noise, not a signal). Wait for 4+ weeks of post-XGBoost data before treating any single bucket as 'the key zone.'",
     "calibration": "When the model says a team has a 60% chance of winning, does it actually win 60% of the time? This chart shows that relationship. A perfect model follows the dashed line exactly. If our line is above the dashed line, the model is UNDERCONFIDENT (teams win more than expected). Below = overconfident.",
     "best_worst": "Tracks how accurate the model has been when picking each specific team. BEST = teams the model understands well and picks correctly often. WORST = teams where the model keeps getting it wrong. If your flagged bet is on a WORST team, be extra cautious.",
     "bullpen": "The relief pitchers that come in after the starter. A bad bullpen can blow a lead in the late innings. ERA (Earned Run Average) shows how many runs they give up per 9 innings — lower is better. Under 3.00 is excellent, over 4.50 is a concern.",
@@ -80,7 +83,7 @@ def deg_to_compass(deg):
 WIND_IN  = {"N","NNE","NE","ENE"}
 WIND_OUT = {"S","SSW","SW","WSW"}
 
-# ── Module-level helpers (used in multiple places) ──────────────────────────
+# ── Module-level helpers ────────────────────────────────────────────────────
 
 def fmt_odds(o):
     """Format American odds with explicit + on positives."""
@@ -117,6 +120,17 @@ def implied_prob(odds_str):
         else:      return round(100 / (o + 100) * 100, 1)
     except:
         return None
+
+def pnl_color(v):
+    """Green if positive, red if negative, gray if zero."""
+    if v > 0:  return "#00d97e"
+    if v < 0:  return "#ef4444"
+    return "#64748b"
+
+def pnl_str(v):
+    """Format P&L as +$X or -$X."""
+    if v >= 0: return f"+${v:.0f}"
+    return f"-${abs(v):.0f}"
 
 # ── Styling ─────────────────────────────────────────────────────────────────
 
@@ -238,13 +252,19 @@ def load_today():
 @st.cache_data(ttl=300, show_spinner=False)
 def load_season():
     files = sorted(glob("picks_2026-*.csv"))
-    total = correct = flagged = flag_correct = zone_bets = zone_wins = 0
-    zone_pnl = 0.0
+    total = correct = flagged = flag_correct = 0
+    # Full model P&L — across ALL flagged bets (not just 6-10% zone)
+    model_pnl = 0.0
+    # If-bet-on-all baseline — if you flat-bet every model pick
+    all_bets_pnl = 0.0
+    all_bets_count = 0
+    all_bets_wins = 0
+    # Per-edge-bucket diagnostic
     edge_buckets = {"0-3%":[0,0], "3-6%":[0,0], "6-10%":[0,0], "10%+":[0,0]}
     daily = []; all_picks = []; bullpen_latest = {}
     team_stats = defaultdict(lambda: {"total": 0, "correct": 0})
     calib_bins = defaultdict(lambda: [0, 0])
-    mae_errors = []; mae_flagged_errors = []; mae_zone_errors = []
+    mae_errors = []; mae_flagged_errors = []
 
     for fn in files:
         date_str = fn.replace("picks_","").replace(".csv","")
@@ -255,6 +275,8 @@ def load_season():
         results = get_results(date_str)
         if not results: continue
         day_total = day_correct = day_flagged = day_flag_correct = 0
+        day_pnl = 0.0   # NEW — P&L for this day's flagged bets
+        day_all_pnl = 0.0  # NEW — what every pick would have made
         day_games = []
 
         for p in picks:
@@ -280,27 +302,34 @@ def load_season():
             conf = max(apf, hpf); bk = int(conf // 5) * 5
             calib_bins[bk][0] += 1
             if won: calib_bins[bk][1] += 1
+
+            # Compute the per-pick P&L using real moneyline odds
+            odds_col = "DK Home Odds" if picked_home else "DK Away Odds"
+            pick_odds = p.get(odds_col, "")
+            if won:
+                pick_pnl = moneyline_win(pick_odds)
+            else:
+                pick_pnl = -100
+
+            # If-bet-on-all baseline: every pick counts, win or lose
+            all_bets_count += 1
+            all_bets_pnl += pick_pnl
+            day_all_pnl += pick_pnl
+            if won: all_bets_wins += 1
+
             is_flagged = "BET" in str(flag)
             if is_flagged:
                 flagged += 1; day_flagged += 1
+                model_pnl += pick_pnl
+                day_pnl += pick_pnl
                 if won: flag_correct += 1; day_flag_correct += 1
 
-            # ── BUGFIX: use the edge column matching the side the model picked ──
+            # Use the edge column matching the side the model picked
             edge_col = "DK Edge Home" if picked_home else "DK Edge Away"
             e = parse_edge(p.get(edge_col, ""))
             b = edge_bucket(e)
             edge_buckets[b][0] += 1
             if won: edge_buckets[b][1] += 1
-
-            if b == "6-10%" and is_flagged:
-                zone_bets += 1
-                if won:
-                    zone_wins += 1
-                    # ── BUGFIX: use actual moneyline payout on $100 stake ──
-                    odds_col = "DK Home Odds" if picked_home else "DK Away Odds"
-                    zone_pnl += moneyline_win(p.get(odds_col, ""))
-                else:
-                    zone_pnl -= 100
 
             # MAE — distance between model confidence and true outcome
             model_prob = max(apf, hpf)
@@ -308,12 +337,27 @@ def load_season():
             abs_error = abs(model_prob - true_outcome)
             mae_errors.append(abs_error)
             if is_flagged: mae_flagged_errors.append(abs_error)
-            if b == "6-10%": mae_zone_errors.append(abs_error)
-            g_rec = {"away": away, "home": home, "away_prob": ap, "home_prob": hp, "model_pick": model_pick, "actual_winner": winner, "won": won, "score": f"{as_}-{hs}", "flag": is_flagged, "date": date_str, "away_sp": p.get("Away SP",""), "home_sp": p.get("Home SP","")}
+
+            g_rec = {
+                "away": away, "home": home, "away_prob": ap, "home_prob": hp,
+                "model_pick": model_pick, "actual_winner": winner, "won": won,
+                "score": f"{as_}-{hs}", "flag": is_flagged, "date": date_str,
+                "away_sp": p.get("Away SP",""), "home_sp": p.get("Home SP",""),
+                "pnl": pick_pnl,                  # per-pick P&L on $100 stake
+                "odds": pick_odds,                # the actual odds taken
+                "picked_home": picked_home,
+            }
             day_games.append(g_rec); all_picks.append(g_rec)
 
         if day_total > 0:
-            daily.append({"date": date_str, "total": day_total, "correct": day_correct, "pct": day_correct/day_total*100, "flagged": day_flagged, "flag_correct": day_flag_correct, "games": day_games})
+            daily.append({
+                "date": date_str, "total": day_total, "correct": day_correct,
+                "pct": day_correct/day_total*100,
+                "flagged": day_flagged, "flag_correct": day_flag_correct,
+                "pnl": day_pnl,          # NEW — flagged-bet P&L for the day
+                "all_pnl": day_all_pnl,  # NEW — if-bet-all P&L for the day
+                "games": day_games,
+            })
 
     streak = 0; streak_type = None
     for g in reversed([g for g in all_picks if g["flag"]]):
@@ -321,7 +365,31 @@ def load_season():
         elif (g["won"] and streak_type=="W") or (not g["won"] and streak_type=="L"): streak += 1
         else: break
 
-    return {"total": total, "correct": correct, "flagged": flagged, "flag_correct": flag_correct, "zone_bets": zone_bets, "zone_wins": zone_wins, "zone_pnl": zone_pnl, "edge_buckets": edge_buckets, "daily": daily, "all_picks": all_picks, "bullpen": bullpen_latest, "streak": streak, "streak_type": streak_type, "team_stats": dict(team_stats), "calib_bins": dict(calib_bins), "mae": round(sum(mae_errors)/len(mae_errors),1) if mae_errors else None, "mae_flagged": round(sum(mae_flagged_errors)/len(mae_flagged_errors),1) if mae_flagged_errors else None, "mae_zone": round(sum(mae_zone_errors)/len(mae_zone_errors),1) if mae_zone_errors else None}
+    return {
+        "total": total, "correct": correct,
+        "flagged": flagged, "flag_correct": flag_correct,
+        "model_pnl": model_pnl,
+        "all_bets_pnl": all_bets_pnl,
+        "all_bets_count": all_bets_count,
+        "all_bets_wins": all_bets_wins,
+        "edge_buckets": edge_buckets,
+        "daily": daily, "all_picks": all_picks, "bullpen": bullpen_latest,
+        "streak": streak, "streak_type": streak_type,
+        "team_stats": dict(team_stats), "calib_bins": dict(calib_bins),
+        "mae": round(sum(mae_errors)/len(mae_errors),1) if mae_errors else None,
+        "mae_flagged": round(sum(mae_flagged_errors)/len(mae_flagged_errors),1) if mae_flagged_errors else None,
+    }
+
+# Pull avg CLV from log for the headline tile
+def get_avg_clv_flagged():
+    try:
+        with open("clv_log.json") as f:
+            clv_log = json.load(f)
+        flagged_clv = [e["clv"] for e in clv_log if e.get("flagged") and e.get("clv") is not None]
+        if flagged_clv:
+            return round(sum(flagged_clv) / len(flagged_clv), 2), len(flagged_clv)
+    except: pass
+    return None, 0
 
 # ── HEADER
 col_title, col_refresh = st.columns([5, 1])
@@ -336,22 +404,39 @@ with col_refresh:
 with st.spinner("Loading..."):
     S = load_season()
     todays, today_str = load_today()
+    avg_clv_flagged, clv_n = get_avg_clv_flagged()
 
-# ── KPIs
+# ── KPIs — new headline row
 st.markdown("<div class='sec'>Season Performance</div>", unsafe_allow_html=True)
 overall_pct = S["correct"]/S["total"]*100 if S["total"] else 0
 flag_pct    = S["flag_correct"]/S["flagged"]*100 if S["flagged"] else 0
-b610        = S["edge_buckets"]["6-10%"]
-pct_610     = b610[1]/b610[0]*100 if b610[0] else 0
-zone_roi    = S["zone_pnl"]/(S["zone_bets"]*100)*100 if S["zone_bets"] else 0
-pnl_str     = f"+${S['zone_pnl']:.0f}" if S["zone_pnl"]>=0 else f"-${abs(S['zone_pnl']):.0f}"
+model_roi   = S["model_pnl"]/(S["flagged"]*100)*100 if S["flagged"] else 0
 
 kpi_data = [
-    ("Overall Accuracy",    f"{overall_pct:.1f}%", f"{S['correct']}/{S['total']} games",   "#3b82f6" if overall_pct>=50 else "#ef4444"),
-    ("6-10% Zone Accuracy", f"{pct_610:.1f}%",     f"{b610[1]}/{b610[0]} games",           "#00d97e" if pct_610>=60 else "#f59e0b" if pct_610>=52 else "#ef4444"),
-    ("6-10% Zone P&L",      pnl_str,               f"{S['zone_bets']} bets",               "#00d97e" if S["zone_pnl"]>=0 else "#ef4444"),
-    ("6-10% Zone ROI",      f"{zone_roi:+.1f}%",   f"{S['zone_wins']}/{S['zone_bets']}",   "#00d97e" if zone_roi>=0 else "#ef4444"),
-    ("All Flagged Bets",    f"{flag_pct:.1f}%",    f"{S['flag_correct']}/{S['flagged']}",  "#00d97e" if flag_pct>=55 else "#f59e0b" if flag_pct>=47 else "#ef4444"),
+    ("Overall Accuracy",
+     f"{overall_pct:.1f}%",
+     f"{S['correct']}/{S['total']} games",
+     "#3b82f6" if overall_pct>=50 else "#ef4444"),
+
+    ("Model P&L",
+     pnl_str(S["model_pnl"]),
+     f"{S['flagged']} flagged bets · $100 flat",
+     pnl_color(S["model_pnl"])),
+
+    ("Model ROI",
+     f"{model_roi:+.1f}%",
+     f"on ${S['flagged']*100:,} wagered",
+     pnl_color(S["model_pnl"])),
+
+    ("Flagged Record",
+     f"{S['flag_correct']}-{S['flagged']-S['flag_correct']}",
+     f"{flag_pct:.1f}% win rate",
+     "#00d97e" if flag_pct>=55 else "#f59e0b" if flag_pct>=47 else "#ef4444"),
+
+    ("Avg CLV",
+     f"{avg_clv_flagged:+.2f}%" if avg_clv_flagged is not None else "—",
+     f"flagged bets · n={clv_n}" if avg_clv_flagged is not None else "no CLV data yet",
+     pnl_color(avg_clv_flagged) if avg_clv_flagged is not None else "#64748b"),
 ]
 kpi_cols = st.columns(5)
 for i, (label, value, sub, color) in enumerate(kpi_data):
@@ -360,12 +445,41 @@ for i, (label, value, sub, color) in enumerate(kpi_data):
         with st.expander("ℹ️"):
             st.caption(METRIC_TOOLTIPS.get(label,""))
 
+# Footnote about the FADE filter cutover
+st.markdown(
+    f"<div class='sub' style='font-size:0.72rem;color:#334155;margin-top:-4px;margin-bottom:8px'>"
+    f"Note: bets prior to {FADE_FILTER_START_DATE} include FADE games the current filter would now suppress. "
+    f"Post-filter window is the cleaner read of model performance going forward."
+    f"</div>",
+    unsafe_allow_html=True
+)
+
+# ── IF BET ON ALL GAMES — sanity check
+st.markdown("<br>", unsafe_allow_html=True)
+all_pct = S["all_bets_wins"]/S["all_bets_count"]*100 if S["all_bets_count"] else 0
+all_roi = S["all_bets_pnl"]/(S["all_bets_count"]*100)*100 if S["all_bets_count"] else 0
+ac1, ac2, ac3 = st.columns([1, 3, 1])
+with ac2:
+    st.markdown(
+        f"<div class='card' style='text-align:center;border:1px dashed #334155'>"
+        f"<div class='lbl' style='margin-top:0'>📊 If you bet $100 on every model pick (sanity check)</div>"
+        f"<div style='display:flex;justify-content:space-around;margin-top:12px'>"
+        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:{pnl_color(S['all_bets_pnl'])}'>{pnl_str(S['all_bets_pnl'])}</div><div class='sub'>P&L</div></div>"
+        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:{pnl_color(S['all_bets_pnl'])}'>{all_roi:+.1f}%</div><div class='sub'>ROI</div></div>"
+        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:#94a3b8'>{S['all_bets_wins']}-{S['all_bets_count']-S['all_bets_wins']}</div><div class='sub'>Record ({all_pct:.1f}%)</div></div>"
+        f"</div></div>",
+        unsafe_allow_html=True
+    )
+    with st.expander("ℹ️ What does this tell me?"):
+        st.caption(METRIC_TOOLTIPS["If Bet All Games"])
+
 # ── MAE CARDS
 if S.get("mae") is not None:
-    mae_overall = S["mae"]; mae_flagged = S["mae_flagged"]; mae_zone = S["mae_zone"]
+    mae_overall = S["mae"]; mae_flagged = S["mae_flagged"]
     improvement = round(50.0 - mae_overall, 1)
     imp_color = "#00d97e" if improvement > 0 else "#ef4444"
-    mc1,mc2,mc3,mc4 = st.columns(4)
+    st.markdown("<br>", unsafe_allow_html=True)
+    mc1,mc2,mc3 = st.columns(3)
     with mc1:
         st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{mae_overall}</div><div class='lbl'>Overall MAE</div><div class='sub'>lower = more calibrated</div></div>", unsafe_allow_html=True)
         with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["Overall MAE"])
@@ -373,9 +487,6 @@ if S.get("mae") is not None:
         st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_flagged or '—'}</div><div class='lbl'>Flagged Bet MAE</div><div class='sub'>vs {mae_overall} overall</div></div>", unsafe_allow_html=True)
         with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["Flagged Bet MAE"])
     with mc3:
-        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_zone or '—'}</div><div class='lbl'>6-10% Zone MAE</div><div class='sub'>key signal zone</div></div>", unsafe_allow_html=True)
-        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["6-10% Zone MAE"])
-    with mc4:
         st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{imp_color}'>{improvement:+.1f}</div><div class='lbl'>vs 50% Baseline</div><div class='sub'>{'✅ better' if improvement > 0 else '❌ worse'} than always picking 50%</div></div>", unsafe_allow_html=True)
         with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["vs 50% Baseline"])
 
@@ -393,11 +504,14 @@ with sc1:
 
 with sc2:
     st.markdown("<div class='sec'>Betting Confidence</div>", unsafe_allow_html=True)
-    zpct = S["zone_wins"]/S["zone_bets"]*100 if S["zone_bets"] else 0
-    if S["zone_bets"]>=20 and zpct>=60: cc="#00d97e"; bp2=100; cm=f"✅ READY — {zpct:.1f}% on {S['zone_bets']} bets → consider real money"
-    elif S["zone_bets"]>=15 and zpct>=55: cc="#f59e0b"; bp2=66; cm=f"🟡 CLOSE — {zpct:.1f}% on {S['zone_bets']} bets → paper trade only"
-    else: cc="#ef4444"; bp2=33; cm=f"🔴 NOT YET — {zpct:.1f}% on {S['zone_bets']} bets → need 60%+ over 20+ bets"
-    st.markdown(f"<div class='card'><div style='font-family:Space Mono,monospace;color:{cc};font-weight:700;font-size:0.95rem;margin-bottom:10px'>{cm}</div><div style='background:#1c2540;border-radius:4px;height:8px'><div style='background:{cc};width:{bp2}%;height:8px;border-radius:4px'></div></div><div style='display:flex;justify-content:space-between;margin-top:5px'><span class='sub'>0%</span><span class='sub'>Target: 60%+ / 20+ bets</span><span class='sub'>100%</span></div></div>", unsafe_allow_html=True)
+    # Now anchored to overall flagged ROI instead of 6-10% zone specifically
+    if S["flagged"] >= 30 and model_roi >= 5:
+        cc="#00d97e"; bp2=100; cm=f"✅ READY — {flag_pct:.1f}% record / {model_roi:+.1f}% ROI on {S['flagged']} bets → consider real money"
+    elif S["flagged"] >= 20 and model_roi >= 0:
+        cc="#f59e0b"; bp2=66; cm=f"🟡 PROMISING — {flag_pct:.1f}% record / {model_roi:+.1f}% ROI on {S['flagged']} bets → paper trade more"
+    else:
+        cc="#ef4444"; bp2=33; cm=f"🔴 NOT YET — {flag_pct:.1f}% record / {model_roi:+.1f}% ROI on {S['flagged']} bets → need 30+ bets at +ROI"
+    st.markdown(f"<div class='card'><div style='font-family:Space Mono,monospace;color:{cc};font-weight:700;font-size:0.95rem;margin-bottom:10px'>{cm}</div><div style='background:#1c2540;border-radius:4px;height:8px'><div style='background:{cc};width:{bp2}%;height:8px;border-radius:4px'></div></div><div style='display:flex;justify-content:space-between;margin-top:5px'><span class='sub'>0%</span><span class='sub'>Target: +5% ROI / 30+ bets</span><span class='sub'>100%</span></div></div>", unsafe_allow_html=True)
 
 # ── PITCHER SCRATCH ALERTS
 scratch_file = f"scratches_{today_str}.json"
@@ -697,8 +811,9 @@ with tabs[0]:
     for bucket,(tot,cor) in S["edge_buckets"].items():
         if tot==0: continue
         pct=cor/tot*100; color="#00d97e" if pct>=58 else "#f59e0b" if pct>=50 else "#ef4444"
-        star=" ★ KEY ZONE" if bucket=="6-10%" else ""
-        st.markdown(f"<div class='card' style='padding:12px 16px;margin-bottom:8px'><div style='display:flex;justify-content:space-between;margin-bottom:6px'><span style='font-weight:700'>{bucket}<span style='color:#00d97e;font-size:0.7rem'>{star}</span></span><span style='font-family:Space Mono,monospace;font-size:1rem;color:{color};font-weight:700'>{pct:.1f}%</span></div><div style='background:#1c2540;border-radius:3px;height:5px'><div style='background:{color};width:{int(pct)}%;height:5px;border-radius:3px'></div></div><div class='sub' style='margin-top:4px'>{cor}/{tot} games</div></div>", unsafe_allow_html=True)
+        # Sample-size warning if bucket is too small to read confidently
+        n_warn = " <span style='color:#f59e0b;font-size:0.7rem'>· small sample</span>" if tot < 20 else ""
+        st.markdown(f"<div class='card' style='padding:12px 16px;margin-bottom:8px'><div style='display:flex;justify-content:space-between;margin-bottom:6px'><span style='font-weight:700'>{bucket}{n_warn}</span><span style='font-family:Space Mono,monospace;font-size:1rem;color:{color};font-weight:700'>{pct:.1f}%</span></div><div style='background:#1c2540;border-radius:3px;height:5px'><div style='background:{color};width:{int(pct)}%;height:5px;border-radius:3px'></div></div><div class='sub' style='margin-top:4px'>{cor}/{tot} games</div></div>", unsafe_allow_html=True)
 
 with tabs[1]:
     st.caption(ANALYTICS_DESCRIPTIONS["calibration"])
@@ -706,7 +821,6 @@ with tabs[1]:
     rows=[]
     for bk in sorted(S["calib_bins"].keys()):
         tot,cor=S["calib_bins"][bk]
-        # BUGFIX: bumped minimum bin size from 3 → 10 for stable percentages
         if tot>=10: rows.append({"Label":f"{bk}-{bk+5}%","Model %":bk+2.5,"Actual %":round(cor/tot*100,1),"n":tot})
     if rows:
         df_cal=pd.DataFrame(rows)
@@ -722,7 +836,6 @@ with tabs[2]:
     st.caption(ANALYTICS_DESCRIPTIONS["best_worst"])
     st.markdown("<br>", unsafe_allow_html=True)
     ts=S["team_stats"]
-    # BUGFIX: bumped team-game minimum from 3 → 10 so percentages aren't noise
     team_rows=[{"Team":t,"W":r["correct"],"L":r["total"]-r["correct"],"Pct":round(r["correct"]/r["total"]*100,1)} for t,r in ts.items() if r["total"]>=10]
     if team_rows:
         df_t=pd.DataFrame(team_rows).sort_values("Pct",ascending=False)
@@ -844,17 +957,37 @@ with tabs[5]:
     except:
         st.caption("No CLV data yet — runs automatically after tonight's check_results.py")
 
-# ── DAILY RECORD
+# ── DAILY RECORD — now with per-day P&L and per-game P&L
 st.markdown("<div class='sec'>Daily Record</div>", unsafe_allow_html=True)
 for d in reversed(S["daily"][-12:]):
     flag_txt=f"{d['flag_correct']}/{d['flagged']}" if d["flagged"] else "—"
-    with st.expander(f"{d['date']}   {d['correct']}/{d['total']} ({d['pct']:.0f}%)   Flags: {flag_txt}"):
+    day_pnl = d.get("pnl", 0)
+    day_pnl_str = pnl_str(day_pnl) if d["flagged"] else "—"
+    day_pnl_c = pnl_color(day_pnl)
+    # Show daily P&L in the expander header
+    pnl_header = f"  · <span style='color:{day_pnl_c};font-weight:700'>{day_pnl_str}</span>" if d["flagged"] else ""
+    # Streamlit expanders don't render HTML in their title, so fall back to plain text
+    header_plain = f"{d['date']}   {d['correct']}/{d['total']} ({d['pct']:.0f}%)   Flags: {flag_txt}   P&L: {day_pnl_str}"
+    with st.expander(header_plain):
+        # All-bets-on-this-day P&L summary line up top
+        all_day_pnl = d.get("all_pnl", 0)
+        st.markdown(
+            f"<div style='display:flex;justify-content:space-between;padding:6px 0 10px 0;border-bottom:1px solid #1c2540;margin-bottom:8px'>"
+            f"<span class='sub'>Flagged-bet P&L: <span style='color:{day_pnl_c};font-weight:700'>{day_pnl_str}</span> ({d['flagged']} bets)</span>"
+            f"<span class='sub'>If-bet-all P&L: <span style='color:{pnl_color(all_day_pnl)};font-weight:700'>{pnl_str(all_day_pnl)}</span> ({d['total']} picks)</span>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
         for g in d.get("games",[]):
             away=g["away"]; home=g["home"]; winner=g["actual_winner"]
             away_bold=f"**{away}**" if winner==away else away
             home_bold=f"**{home}**" if winner==home else home
             flag_badge=" 🎯" if g["flag"] else ""
-            cols=st.columns([1,1,4,1,2,1])
+            game_pnl = g.get("pnl", 0)
+            game_pnl_c = pnl_color(game_pnl)
+            # Only display P&L next to flagged games — clutter-free for the rest
+            pnl_disp = f"<span style='color:{game_pnl_c};font-family:Space Mono,monospace;font-weight:700'>{pnl_str(game_pnl)}</span>" if g["flag"] else "<span class='sub'>—</span>"
+            cols=st.columns([1,1,3,1,2,1,1])
             for ci,team in [(0,away),(1,home)]:
                 with cols[ci]:
                     l=logo_url(team)
@@ -864,7 +997,8 @@ for d in reversed(S["daily"][-12:]):
             with cols[2]: st.write(f"{away_bold} @ {home_bold}{flag_badge}")
             with cols[3]: st.write(g["score"])
             with cols[4]: st.write(f"{g['away_prob']}% / {g['home_prob']}%")
-            with cols[5]:
+            with cols[5]: st.markdown(pnl_disp, unsafe_allow_html=True)
+            with cols[6]:
                 if g["won"]: st.success("✓")
                 else: st.error("✗")
 
@@ -876,10 +1010,14 @@ if search and len(search)>=2:
     hits=[g for g in S["all_picks"] if q in g.get("away","").lower() or q in g.get("home","").lower() or q in g.get("away_sp","").lower() or q in g.get("home_sp","").lower()]
     if hits:
         wins=sum(1 for h in hits if h["won"])
-        st.markdown(f"<div class='sub' style='margin-bottom:8px'>{len(hits)} results · Record: {wins}/{len(hits)} ({wins/len(hits)*100:.1f}%)</div>",unsafe_allow_html=True)
+        flagged_hits = [h for h in hits if h["flag"]]
+        hit_pnl = sum(h.get("pnl", 0) for h in flagged_hits)
+        st.markdown(f"<div class='sub' style='margin-bottom:8px'>{len(hits)} results · Record: {wins}/{len(hits)} ({wins/len(hits)*100:.1f}%) · Flagged P&L: <span style='color:{pnl_color(hit_pnl)}'>{pnl_str(hit_pnl)}</span> ({len(flagged_hits)} bets)</div>",unsafe_allow_html=True)
         for g in reversed(hits[-20:]):
             flag=" 🎯" if g["flag"] else ""
-            cols=st.columns([1,1,4,2,1])
+            game_pnl = g.get("pnl", 0)
+            pnl_disp = f"<span style='color:{pnl_color(game_pnl)};font-family:Space Mono,monospace;font-weight:700;font-size:0.85rem'>{pnl_str(game_pnl)}</span>" if g["flag"] else ""
+            cols=st.columns([1,1,4,2,1,1])
             for ci,team in [(0,g["away"]),(1,g["home"])]:
                 with cols[ci]:
                     l=logo_url(team)
@@ -888,11 +1026,12 @@ if search and len(search)>=2:
                         except: pass
             with cols[2]: st.write(f"**{g['date']}** — {g['away']} @ {g['home']}{flag}")
             with cols[3]: st.write(f"{g['score']} | Pick: {g['model_pick']}")
-            with cols[4]:
+            with cols[4]: st.markdown(pnl_disp, unsafe_allow_html=True)
+            with cols[5]:
                 if g["won"]: st.success("✓")
                 else: st.error("✗")
     else:
         st.caption(f"No results for '{search}'")
 
-_filter_note = f"<br><span class='sub' style='font-size:0.7rem;color:#334155'>Dashboard showing picks from {DASHBOARD_START_DATE} onward (logs unchanged)</span>" if DASHBOARD_START_DATE else ""
+_filter_note = f"<br><span class='sub' style='font-size:0.7rem;color:#334155'>Dashboard showing picks from {DASHBOARD_START_DATE} onward (logs unchanged) · FADE filter live from {FADE_FILTER_START_DATE}</span>" if DASHBOARD_START_DATE else ""
 st.markdown(f"<br><br><div style='text-align:center;border-top:1px solid #1c2540;padding-top:16px'><span class='sub'>MLB Prediction Model · Personal Use Only · Nightly auto-update</span>{_filter_note}</div>", unsafe_allow_html=True)
