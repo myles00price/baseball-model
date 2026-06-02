@@ -915,13 +915,32 @@ with tabs[5]:
             flag_avg = round(sum(e["clv"] for e in flagged_clv) / len(flagged_clv), 2) if flagged_clv else 0
             flag_pos = sum(1 for e in flagged_clv if e["clv_positive"])
 
-            m1,m2,m3,m4 = st.columns(4)
+            # NEW: Open→Close drift on flagged bets — only entries where opening was captured
+            flagged_with_drift = [e for e in flagged_clv if e.get("open_close_drift") is not None]
+            drift_avg = round(sum(e["open_close_drift"] for e in flagged_with_drift) / len(flagged_with_drift), 2) if flagged_with_drift else None
+
+            # 5 KPI tiles now — adds Open→Close drift card
+            m1,m2,m3,m4,m5 = st.columns(5)
             clv_color = "#00d97e" if avg_clv >= 0 else "#ef4444"
             flag_clv_color = "#00d97e" if flag_avg >= 0 else "#ef4444"
-            m1.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{clv_color}'>{avg_clv:+.2f}%</div><div class='lbl'>Avg CLV All Picks</div></div>", unsafe_allow_html=True)
-            m2.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{flag_clv_color}'>{flag_avg:+.2f}%</div><div class='lbl'>Avg CLV Flagged</div></div>", unsafe_allow_html=True)
-            m3.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{pos_clv}/{len(all_clv)}</div><div class='lbl'>Beat Closing Line</div></div>", unsafe_allow_html=True)
-            m4.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{flag_pos}/{len(flagged_clv)}</div><div class='lbl'>Flagged Beat Close</div></div>", unsafe_allow_html=True)
+            drift_color = "#00d97e" if drift_avg is not None and drift_avg >= 0 else ("#ef4444" if drift_avg is not None else "#64748b")
+            drift_val = f"{drift_avg:+.2f}%" if drift_avg is not None else "—"
+            drift_sub = f"flagged · n={len(flagged_with_drift)}" if drift_avg is not None else "needs opening data"
+
+            m1.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:{clv_color}'>{avg_clv:+.2f}%</div><div class='lbl'>Avg CLV All</div></div>", unsafe_allow_html=True)
+            m2.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:{flag_clv_color}'>{flag_avg:+.2f}%</div><div class='lbl'>Avg CLV Flagged</div></div>", unsafe_allow_html=True)
+            m3.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:{drift_color}'>{drift_val}</div><div class='lbl'>Open→Close Drift</div><div class='sub' style='font-size:0.72rem'>{drift_sub}</div></div>", unsafe_allow_html=True)
+            m4.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:#3b82f6'>{pos_clv}/{len(all_clv)}</div><div class='lbl'>Beat Close</div></div>", unsafe_allow_html=True)
+            m5.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:#3b82f6'>{flag_pos}/{len(flagged_clv)}</div><div class='lbl'>Flagged Beat Close</div></div>", unsafe_allow_html=True)
+
+            # Helper text for the new drift metric
+            st.markdown(
+                "<div class='sub' style='font-size:0.72rem;color:#334155;margin-top:-2px;margin-bottom:10px'>"
+                "Open→Close drift = how the market moved from opening to closing on the model's pick. "
+                "Positive = market moved toward your pick (sharps confirming the model). Negative = sharps faded you."
+                "</div>",
+                unsafe_allow_html=True
+            )
 
             st.markdown("<br>", unsafe_allow_html=True)
 
@@ -944,14 +963,46 @@ with tabs[5]:
                 )
                 st.altair_chart((zero_rule+clv_bars).properties(height=200, background="#080c18", title=alt.TitleParams(text="Daily Avg CLV — Green = beat closing line", color="#475569", fontSize=11)).configure_view(strokeOpacity=0), use_container_width=True)
 
-            st.markdown("<div style='font-size:0.75rem;color:#475569;margin-bottom:8px'>RECENT CLV BY GAME</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size:0.75rem;color:#475569;margin-bottom:8px'>RECENT CLV BY GAME — Model → Open → Close</div>", unsafe_allow_html=True)
             for e in reversed(all_clv[-20:]):
                 clv_val = e["clv"]
                 clv_c = "#00d97e" if clv_val >= 0 else "#ef4444"
                 flag_txt = "🎯 " if e.get("flagged") else ""
                 won_txt = "✓" if e.get("won") else "✗"
                 won_c = "#00d97e" if e.get("won") else "#ef4444"
-                st.markdown(f"<div style='display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1c2540;font-size:0.8rem'><span style='color:#94a3b8'>{e['date']} · {flag_txt}{e['away']} @ {e['home']}</span><span>Model: <span style='color:#3b82f6'>{e['model_prob']}%</span> · Close: <span style='color:#f59e0b'>{e['closing_implied']}%</span> · CLV: <span style='color:{clv_c};font-weight:700'>{clv_val:+.1f}%</span> · <span style='color:{won_c}'>{won_txt}</span></span></div>", unsafe_allow_html=True)
+
+                # Build the price-journey snippet with graceful fallback when opening is missing.
+                # Entries logged before this patch went live won't have opening_implied — show "—"
+                # instead of erroring out, so the existing 88 entries still render.
+                open_imp = e.get("opening_implied")
+                close_imp = e.get("closing_implied")
+                drift = e.get("open_close_drift")
+                if open_imp is not None and drift is not None:
+                    drift_c = "#00d97e" if drift >= 0 else "#ef4444"
+                    journey = (
+                        f"Model: <span style='color:#3b82f6'>{e['model_prob']}%</span> · "
+                        f"Open: <span style='color:#94a3b8'>{open_imp}%</span> · "
+                        f"Close: <span style='color:#f59e0b'>{close_imp}%</span> · "
+                        f"Δ: <span style='color:{drift_c};font-weight:700'>{drift:+.1f}%</span> · "
+                        f"CLV: <span style='color:{clv_c};font-weight:700'>{clv_val:+.1f}%</span> · "
+                        f"<span style='color:{won_c}'>{won_txt}</span>"
+                    )
+                else:
+                    journey = (
+                        f"Model: <span style='color:#3b82f6'>{e['model_prob']}%</span> · "
+                        f"Open: <span style='color:#475569'>—</span> · "
+                        f"Close: <span style='color:#f59e0b'>{close_imp}%</span> · "
+                        f"CLV: <span style='color:{clv_c};font-weight:700'>{clv_val:+.1f}%</span> · "
+                        f"<span style='color:{won_c}'>{won_txt}</span>"
+                    )
+
+                st.markdown(
+                    f"<div style='display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1c2540;font-size:0.8rem'>"
+                    f"<span style='color:#94a3b8'>{e['date']} · {flag_txt}{e['away']} @ {e['home']}</span>"
+                    f"<span>{journey}</span>"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
         else:
             st.caption("No CLV data yet — runs automatically after tonight's check_results.py")
     except:

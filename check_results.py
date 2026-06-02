@@ -60,6 +60,41 @@ def get_closing_lines():
     except:
         return {}
 
+# ── NEW: load opening lines from saved_lines.json ───────────────────────────
+def load_opening_lines():
+    """Returns the saved_lines.json dict, or {} if missing."""
+    try:
+        with open("saved_lines.json") as f:
+            return json.load(f)
+    except:
+        return {}
+
+def odds_to_implied(odds):
+    """American odds → implied probability %. Returns None on failure."""
+    try:
+        o = float(odds)
+        if o < 0:
+            return round((-o) / (-o + 100) * 100, 1)
+        else:
+            return round(100 / (o + 100) * 100, 1)
+    except:
+        return None
+
+def lookup_opening(saved, away, home, team):
+    """Find the opening DK odds + implied % for `team` in the matchup.
+    Returns (opening_odds, opening_implied) or (None, None) if not found."""
+    # saved_lines.json keys are formatted "Away@Home" — exact match required
+    key = f"{away}@{home}"
+    entry = saved.get(key)
+    if not entry:
+        return None, None
+    team_odds_block = entry.get("odds", {}).get(team, {})
+    dk = team_odds_block.get("draftkings")
+    if dk is None:
+        return None, None
+    return int(dk), odds_to_implied(dk)
+# ────────────────────────────────────────────────────────────────────────────
+
 def load_clv_log():
     try:
         with open("clv_log.json") as f:
@@ -86,6 +121,7 @@ def check_picks(date_str):
 
     print("Pulling closing lines for CLV...")
     closing = get_closing_lines()
+    saved_opening = load_opening_lines()   # NEW
 
     picks = []
     with open(filename, encoding="utf-8-sig") as f:
@@ -127,12 +163,22 @@ def check_picks(date_str):
             if model_winner == actual_winner:
                 bet_correct += 1
 
-        # CLV
+        # Closing line lookup (existing)
         closing_data = closing.get(model_winner, {})
         closing_implied = closing_data.get("implied")
         closing_odds = closing_data.get("odds")
         clv = round(model_prob - closing_implied, 1) if closing_implied else None
         clv_positive = clv > 0 if clv is not None else None
+
+        # ── NEW: opening line lookup ────────────────────────────────────────
+        opening_odds, opening_implied = lookup_opening(saved_opening, away, home, model_winner)
+        # Open→close drift = how much the market moved toward the model's pick
+        # Positive drift = market agreed with model over the day (sharp confirmation)
+        if opening_implied is not None and closing_implied is not None:
+            open_close_drift = round(closing_implied - opening_implied, 1)
+        else:
+            open_close_drift = None
+        # ─────────────────────────────────────────────────────────────────────
 
         already_logged = any(
             e.get("date") == date_str and e.get("away") == away and e.get("home") == home
@@ -142,7 +188,11 @@ def check_picks(date_str):
             new_clv_entries.append({
                 "date": date_str, "away": away, "home": home,
                 "model_pick": model_winner, "model_prob": model_prob,
-                "closing_implied": closing_implied, "closing_odds": closing_odds,
+                "opening_implied": opening_implied,       # NEW
+                "opening_odds": opening_odds,             # NEW
+                "closing_implied": closing_implied,
+                "closing_odds": closing_odds,
+                "open_close_drift": open_close_drift,     # NEW
                 "clv": clv, "clv_positive": clv_positive,
                 "won": model_winner == actual_winner,
                 "flagged": flag == "** BET **"
@@ -151,7 +201,11 @@ def check_picks(date_str):
         print(f"  {correct_flag} {away} @ {home}")
         print(f"     Score: {score} | Winner: {actual_winner}")
         print(f"     Model picked: {model_winner} ({away_prob}% vs {home_prob}%)")
-        if clv is not None:
+        # NEW: print opening alongside closing when available
+        if opening_implied is not None and closing_implied is not None:
+            drift_str = f"{open_close_drift:+.1f}%" if open_close_drift is not None else "—"
+            print(f"     Open: {opening_implied}% → Close: {closing_implied}% (Δ {drift_str}) | Model: {model_prob}% → CLV: {clv:+.1f}% {'✅' if clv_positive else '❌'}")
+        elif clv is not None:
             print(f"     CLV: {model_prob}% model vs {closing_implied}% closing → {clv:+.1f}% {'✅' if clv_positive else '❌'}")
         if flag == "** BET **":
             result_str = "WIN" if model_winner == actual_winner else "LOSS"
@@ -171,6 +225,11 @@ def check_picks(date_str):
         print(f"\n📈 CLV for {date_str}:")
         print(f"   Avg CLV: {avg:+.2f}%")
         print(f"   Beat closing line: {pos}/{len(dated)}")
+        # NEW: today's drift summary if any opening data captured
+        dated_drift = [e for e in dated if e.get("open_close_drift") is not None]
+        if dated_drift:
+            avg_drift = round(sum(e["open_close_drift"] for e in dated_drift) / len(dated_drift), 2)
+            print(f"   Avg Open→Close drift: {avg_drift:+.2f}% ({len(dated_drift)} games)")
 
     # Season CLV summary
     all_clv = [e for e in clv_log if e.get("clv") is not None]
@@ -183,6 +242,11 @@ def check_picks(date_str):
         print(f"   Overall avg: {s_avg:+.2f}%")
         print(f"   Beat close: {s_pos}/{len(all_clv)} ({s_pos/len(all_clv)*100:.1f}%)")
         print(f"   Flagged avg CLV: {f_avg:+.2f}%")
+        # NEW: season-level drift on entries where opening was captured
+        flagged_drift = [e for e in flagged_clv if e.get("open_close_drift") is not None]
+        if flagged_drift:
+            f_drift = round(sum(e["open_close_drift"] for e in flagged_drift) / len(flagged_drift), 2)
+            print(f"   Flagged Open→Close drift: {f_drift:+.2f}% ({len(flagged_drift)} games)")
 
     print("=" * 50)
     if total > 0:
