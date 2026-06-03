@@ -34,6 +34,11 @@ DASHBOARD_START_DATE = "2026-05-26"
 # Sharp FADE veto deploy date — used to footnote pre-filter bets in the P&L
 FADE_FILTER_START_DATE = "2026-06-01"
 
+# The historically best-performing edge bucket — picks in this bucket get ⭐
+# Based on calibration data; update if BET threshold changes (Sunday FADE review).
+# Currently 0-3% at 64.1% on 103 games. 3-6% is also strong at 57.5%.
+WINNING_EDGE_BUCKET = "0-3%"
+
 PARK_COORDS = {
     "Arizona Diamondbacks": (33.4453,-112.0667), "Atlanta Braves": (33.8908,-84.4678),
     "Baltimore Orioles": (39.2839,-76.6218), "Boston Red Sox": (42.3467,-71.0972),
@@ -677,6 +682,15 @@ else:
 
     # ── All games clickable
     with st.expander(f"All {len(todays)} Games Today — Click Any to Expand"):
+        # Mini legend so coworkers know what symbols mean without asking
+        st.markdown(
+            "<div class='sub' style='font-size:0.72rem;color:#475569;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #1c2540'>"
+            "🎯 = BET-flagged (model has 6-10% edge & passes filters) · "
+            f"⭐ = pick is in best historical bucket ({WINNING_EDGE_BUCKET} edge, 64% accurate on 103 games) · "
+            "Edge bucket shown next to each game"
+            "</div>",
+            unsafe_allow_html=True
+        )
         for pick in todays:
             away=pick.get("Away",""); home=pick.get("Home","")
             ap=pick.get("Model Away%","N/A"); hp=pick.get("Model Home%","N/A")
@@ -694,12 +708,48 @@ else:
             mgm_away_odds=pick.get("MGM Away Odds","N/A"); mgm_home_odds=pick.get("MGM Home Odds","N/A")
             away_move=pick.get("Away Line Move",""); home_move=pick.get("Home Line Move","")
             sc="#00d97e" if "CONFIRMED" in str(sharp) else "#ef4444" if "FADE" in str(sharp) else "#475569"
-            flag_txt="🎯 " if flag else ""
 
-            away_odds_str=f"({fmt_odds(dk_away_odds)} DK)"
-            home_odds_str=f"({fmt_odds(dk_home_odds)} DK)"
+            # ── Compute who the model picks + which edge bucket it falls into ──
+            # The "model pick" is whichever side has the higher probability.
+            # The "edge" is on that side specifically (matching column).
+            model_pick = None
+            model_edge_str = "—"
+            model_bucket = None
+            try:
+                apf = float(ap); hpf = float(hp)
+                if apf > hpf:
+                    model_pick = away
+                    model_edge_str = dk_ea
+                else:
+                    model_pick = home
+                    model_edge_str = dk_eh
+                edge_num = parse_edge(model_edge_str)
+                model_bucket = edge_bucket(edge_num) if edge_num > 0 else None
+            except:
+                pass
 
-            with st.expander(f"{flag_txt}{away} {away_odds_str} @ {home} {home_odds_str}   Sharp: {sharp}"):
+            # ⭐ if the pick is in the historically best-performing bucket
+            star = "⭐ " if model_bucket == WINNING_EDGE_BUCKET else ""
+            flag_txt = "🎯 " if flag else ""
+
+            # Build a short pick label (last word of team name for compactness)
+            pick_label = model_pick.split()[-1] if model_pick else "—"
+
+            # Build the expander title — leads with PICK so coworkers see it immediately
+            if model_pick:
+                title = (
+                    f"{flag_txt}{star}PICK: {pick_label} ({model_edge_str}) · "
+                    f"{away} ({fmt_odds(dk_away_odds)}) @ {home} ({fmt_odds(dk_home_odds)}) · "
+                    f"Sharp: {sharp}"
+                )
+            else:
+                # Fallback for N/A games (pitcher lookup failures etc)
+                title = (
+                    f"{flag_txt}{away} ({fmt_odds(dk_away_odds)}) @ "
+                    f"{home} ({fmt_odds(dk_home_odds)}) · PICK: N/A · Sharp: {sharp}"
+                )
+
+            with st.expander(title):
                 c1, c2, c3 = st.columns(3)
                 with c1:
                     logo=logo_url(away)
@@ -726,15 +776,42 @@ else:
                             st.markdown(f"<span class='stat-pill' style='color:{c10}'>L10: {l10w}-{l10l}</span>", unsafe_allow_html=True)
 
                 with c2:
-                    edge_color="#00d97e" if "BET" in str(flag) else "#475569"
-                    st.markdown(f"""<div style='text-align:center;padding-top:8px'>
-                        <div style='color:#334155;font-size:1rem;font-weight:700'>VS</div>
-                        <div style='margin-top:8px;color:{sc};font-size:0.85rem;font-weight:700'>{sharp}</div>
-                        <div style='margin-top:6px;font-size:0.72rem;color:#475569'>{lineup}</div>
-                        <div style='font-size:0.72rem;color:#475569'>Park: {park}</div>
-                        <div style='margin-top:8px;font-size:0.72rem;color:#94a3b8'>Away edge: <span style='color:{edge_color}'>{dk_ea}</span></div>
-                        <div style='font-size:0.72rem;color:#94a3b8'>Home edge: <span style='color:{edge_color}'>{dk_eh}</span></div>
-                    </div>""", unsafe_allow_html=True)
+                    # New: prominent MODEL PICK badge first, then context.
+                    # Pick badge is always shown (whether flagged or not), so coworkers
+                    # don't need anyone to explain which side the model likes.
+                    if model_pick:
+                        pick_badge_color = "#166534" if flag else "#1e3a8a"
+                        pick_text_color = "#00d97e" if flag else "#60a5fa"
+                        bucket_label = f" · {model_bucket} edge" if model_bucket else ""
+                        star_in_badge = "⭐ " if star else ""
+                        st.markdown(
+                            f"<div style='text-align:center;padding-top:4px'>"
+                            f"<div style='color:#334155;font-size:1rem;font-weight:700'>VS</div>"
+                            f"<div style='margin-top:8px;background:{pick_badge_color};border-radius:6px;padding:8px 10px;border:1px solid {pick_text_color}'>"
+                            f"<div style='color:#94a3b8;font-size:0.65rem;letter-spacing:1.5px;font-weight:700'>{star_in_badge}MODEL PICK</div>"
+                            f"<div style='color:{pick_text_color};font-size:1rem;font-weight:800;margin-top:2px'>{model_pick}</div>"
+                            f"<div style='color:#94a3b8;font-size:0.7rem;margin-top:2px'>{model_edge_str}{bucket_label}</div>"
+                            f"</div>"
+                            f"<div style='margin-top:8px;color:{sc};font-size:0.8rem;font-weight:700'>{sharp}</div>"
+                            f"<div style='margin-top:4px;font-size:0.7rem;color:#475569'>{lineup}</div>"
+                            f"<div style='font-size:0.7rem;color:#475569'>Park: {park}</div>"
+                            f"</div>",
+                            unsafe_allow_html=True
+                        )
+                    else:
+                        # N/A game fallback — no pick to show
+                        st.markdown(
+                            f"<div style='text-align:center;padding-top:8px'>"
+                            f"<div style='color:#334155;font-size:1rem;font-weight:700'>VS</div>"
+                            f"<div style='margin-top:8px;background:#1c2540;border-radius:6px;padding:6px 10px'>"
+                            f"<div style='color:#64748b;font-size:0.72rem;font-weight:700'>PICK: N/A — pitcher data missing</div>"
+                            f"</div>"
+                            f"<div style='margin-top:8px;color:{sc};font-size:0.8rem;font-weight:700'>{sharp}</div>"
+                            f"<div style='margin-top:4px;font-size:0.7rem;color:#475569'>{lineup}</div>"
+                            f"<div style='font-size:0.7rem;color:#475569'>Park: {park}</div>"
+                            f"</div>",
+                            unsafe_allow_html=True
+                        )
 
                 with c3:
                     logo=logo_url(home)
