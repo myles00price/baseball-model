@@ -257,7 +257,11 @@ def check_picks(date_str):
         print("No flagged bets today")
 
 if __name__ == '__main__':
+    import sys
     lv = timezone(timedelta(hours=-7))
-    today = datetime.now(lv).strftime("%Y-%m-%d")
-    print(f"Checking results for: {today}")
-    check_picks(today)
+    if len(sys.argv) > 1:
+        target = sys.argv[1]   # e.g. "2026-06-02"
+    else:
+        target = datetime.now(lv).strftime("%Y-%m-%d")
+    print(f"Checking results for: {target}")
+    check_picks(target)
