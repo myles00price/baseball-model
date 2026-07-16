@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLB Model — Teardown Vault</title>
+<style>
+:root{
+  --bg:#1e1e1e; --bg2:#161616; --bg3:#262626; --line:#333;
+  --tx:#dcddde; --mut:#8f8f8f; --faint:#5c5c5c;
+  --purple:#a882ff; --purple-dim:#7c5fd3; --purple-bg:rgba(168,130,255,.12);
+  --red:#ff6b6b; --red-bg:rgba(255,107,107,.10);
+  --green:#4ade80; --green-bg:rgba(74,222,128,.10);
+  --amber:#fbbf24;
+  --mono:'JetBrains Mono','Cascadia Code',Consolas,monospace;
+  --sans:'Inter',-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);font-size:15px}
+
+/* ── App frame ─────────────────────────────── */
+#app{display:flex;height:100vh}
+#sidebar{width:250px;min-width:250px;background:var(--bg2);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;overflow:hidden}
+#vaultname{padding:14px 16px 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--mut);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+#vaultname .gem{width:14px;height:14px;background:linear-gradient(135deg,var(--purple),#6a4fc4);
+  border-radius:3px;transform:rotate(45deg)}
+#tree{flex:1;overflow-y:auto;padding:8px 0}
+.folder{padding:6px 14px 4px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.file{padding:5px 14px 5px 24px;font-size:13.5px;color:var(--mut);cursor:pointer;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:2px solid transparent}
+.file:hover{color:var(--tx);background:var(--bg3)}
+.file.active{color:var(--purple);background:var(--purple-bg);border-left-color:var(--purple)}
+.file .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:1px}
+.dot.b{background:var(--red)} .dot.f{background:var(--green)} .dot.n{background:var(--purple-dim)}
+
+#main{flex:1;display:flex;flex-direction:column;min-width:0}
+#tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--line)}
+.tab{padding:9px 20px;font-size:13px;color:var(--mut);cursor:pointer;border-right:1px solid var(--line)}
+.tab.on{color:var(--tx);background:var(--bg);box-shadow:inset 0 -2px 0 var(--purple)}
+#panes{flex:1;display:flex;min-height:0}
+
+/* ── Graph pane ────────────────────────────── */
+#graphwrap{flex:1.15;position:relative;min-width:0;border-right:1px solid var(--line)}
+#graph{width:100%;height:100%;display:block;cursor:grab}
+#graph:active{cursor:grabbing}
+#legend{position:absolute;left:14px;bottom:12px;font-size:11.5px;color:var(--mut);
+  background:rgba(22,22,22,.85);padding:8px 12px;border-radius:6px;border:1px solid var(--line);line-height:1.9}
+#legend span{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}
+#hint{position:absolute;top:12px;left:14px;font-size:12px;color:var(--faint)}
+
+/* ── Note pane ─────────────────────────────── */
+#note{flex:1;overflow-y:auto;padding:30px 36px 60px;line-height:1.65;min-width:0}
+#note::-webkit-scrollbar,#tree::-webkit-scrollbar{width:9px}
+#note::-webkit-scrollbar-thumb,#tree::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:5px}
+#note h1{font-size:26px;font-weight:700;margin-bottom:6px;letter-spacing:-.01em}
+#note h2{font-size:18px;font-weight:600;margin:26px 0 8px;color:var(--tx)}
+#note h3{font-size:15px;font-weight:600;margin:18px 0 6px;color:var(--purple)}
+#note p{margin:10px 0;color:#c9cacc}
+#note ul{margin:8px 0 8px 22px;color:#c9cacc}
+#note li{margin:4px 0}
+#note code{font-family:var(--mono);font-size:12.5px;background:var(--bg3);
+  padding:2px 6px;border-radius:4px;color:#e0b0ff}
+#note pre{background:#141414;border:1px solid var(--line);border-radius:8px;
+  padding:14px 16px;overflow-x:auto;margin:12px 0;font-family:var(--mono);font-size:12.5px;line-height:1.55}
+#note pre code{background:none;padding:0;color:#c9d1d9}
+.tags{margin:4px 0 14px}
+.tag{display:inline-block;font-size:12px;color:var(--purple);background:var(--purple-bg);
+  padding:2px 10px;border-radius:20px;margin-right:6px;font-family:var(--mono)}
+.wl{color:var(--purple);cursor:pointer;border-bottom:1px dotted var(--purple-dim)}
+.wl:hover{color:#c8aaff}
+.callout{border-radius:8px;padding:12px 16px;margin:14px 0;border-left:3px solid;font-size:14px}
+.callout .ct{font-weight:700;font-size:13px;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.co-bug{background:var(--red-bg);border-color:var(--red)} .co-bug .ct{color:var(--red)}
+.co-fix{background:var(--green-bg);border-color:var(--green)} .co-fix .ct{color:var(--green)}
+.co-info{background:var(--purple-bg);border-color:var(--purple)} .co-info .ct{color:var(--purple)}
+.co-warn{background:rgba(251,191,36,.1);border-color:var(--amber)} .co-warn .ct{color:var(--amber)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
+.stat{background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.stat .v{font-size:22px;font-weight:700;font-family:var(--mono);letter-spacing:-.02em}
+.stat .l{font-size:11.5px;color:var(--mut);margin-top:3px;line-height:1.35}
+.v.good{color:var(--green)} .v.bad{color:var(--red)} .v.pur{color:var(--purple)}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px}
+th{color:var(--mut);font-weight:600;text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);font-size:12px}
+td{padding:6px 10px;border-bottom:1px solid #2a2a2a;font-family:var(--mono);font-size:12.5px}
+td:first-child{font-family:var(--sans)}
+.chart{background:#141414;border:1px solid var(--line);border-radius:8px;padding:14px;margin:14px 0}
+.chart .title{font-size:12px;color:var(--mut);margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase}
+svg text{font-family:var(--mono)}
+.strike{color:var(--faint);text-decoration:line-through}
+@media(max-width:900px){
+  #sidebar{display:none}
+  #panes{flex-direction:column}
+  #graphwrap{flex:0 0 44vh;border-right:none;border-bottom:1px solid var(--line)}
+  #note{padding:22px 18px 50px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <div id="vaultname"><div class="gem"></div>baseball-model · teardown</div>
+    <div id="tree"></div>
+  </div>
+  <div id="main">
+    <div id="tabs">
+      <div class="tab on" data-view="graph">Graph view</div>
+      <div class="tab" data-view="note">Reading view</div>
+    </div>
+    <div id="panes">
+      <div id="graphwrap">
+        <canvas id="graph"></canvas>
+        <div id="hint">drag nodes · click to open note · hover to trace links</div>
+        <div id="legend">
+          <span style="background:var(--purple-dim)"></span>pipeline / concept<br>
+          <span style="background:var(--red)"></span>hole found<br>
+          <span style="background:var(--green)"></span>V2 fix
+        </div>
+      </div>
+      <div id="note"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════ DATA (all real numbers from the analysis run) ══════════ */
+const WF = {
+  months:["25-03","25-04","25-05","25-06","25-07","25-08","25-09","26-04","26-05","26-06"],
+  old:[.6269,.6183,.5666,.5729,.5489,.5943,.5860,.5810,.6268,.5581],
+  v2:[.6418,.6336,.5811,.5829,.5679,.5800,.6048,.6333,.6435,.5814]
+};
+const CAL = [ // [bucket label, n, predicted, actual]
+  ["<40",548,.331,.332],["40-45",375,.427,.507],["45-50",474,.476,.456],
+  ["50-55",452,.525,.533],["55-60",479,.574,.570],["60-65",336,.624,.595],["65+",523,.711,.755]
+];
+const COEF = [["era_diff_w",.3948],["ops_diff_c",.2232],["kpct_diff",.0821],["whip_diff_w",.0326],["home field (intercept)",.0933]];
+const PERM = [["era_diff",.0295],["home_era",.0021],["away_kpct",.0010],["home_ops",.0009],["home_kpct",.0007],
+  ["away_era",-.0002],["home_fip",-.0004],["home_k9",-.0006],["away_ops",-.0006],["away_whip",-.0006],
+  ["ops_diff",-.0012],["fip_diff",-.0014],["home_whip",-.0015],["away_fip",-.0019],["away_k9",-.0023],
+  ["away_bb9",-.0025],["home_bb9",-.0029],["k9_diff",-.0042]];
+
+/* ══════════ CHART BUILDERS (inline SVG) ══════════ */
+function wfChart(){
+  const W=560,H=230,P={l:44,r:10,t:14,b:30},iw=W-P.l-P.r,ih=H-P.t-P.b;
+  const ymin=.52,ymax=.66;
+  const x=i=>P.l+i/(WF.months.length-1)*iw, y=v=>P.t+(1-(v-ymin)/(ymax-ymin))*ih;
+  const line=(a,c)=>`<polyline fill="none" stroke="${c}" stroke-width="2" points="${a.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`
+    + a.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${c}"/>`).join('');
+  let g='';
+  for(let v=.54;v<=.64;v+=.02){g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(v)}" y2="${y(v)}" stroke="#2a2a2a"/>
+    <text x="${P.l-6}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="#777">${(v*100).toFixed(0)}%</text>`;}
+  g+=`<line x1="${P.l}" x2="${W-P.r}" y1="${y(.522)}" y2="${y(.522)}" stroke="#555" stroke-dasharray="4 4"/>
+      <text x="${W-P.r}" y="${y(.522)-5}" text-anchor="end" font-size="9.5" fill="#777">always-home 52.2%</text>`;
+  g+=WF.months.map((m,i)=>`<text x="${x(i)}" y="${H-8}" text-anchor="middle" font-size="9.5" fill="#777">${m}</text>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%">${g}${line(WF.old,'#ff6b6b')}${line(WF.v2,'#4ade80')}
+    <circle cx="${P.l+8}" cy="${P.t}" r="4" fill="#ff6b6b"/><text x="${P.l+18}" y="${P.t+4}" font-size="11" fill="#aaa">old 18-feat XGBoost (58.7%)</text>
+    <circle cx="${P.l+230}" cy="${P.t}" r="4" fill="#4ade80"/><text x="${P.l+240}" y="${P.t+4}" font-size="11" fill="#aaa">V2 4-feat logistic (60.2%)</text></svg>`;
+}
+function calChart(){
+  const W=560,H=250,P={l:46,r:12,t:12,b:34},iw=W-P.l-P.r,ih=H-P.t-P.b;
+  const x=v=>P.l+(v-.28)/(.52)*iw, y=v=>P.t+(1-(v-.28)/(.52))*ih;
+  let g=`<line x1="${x(.3)}" y1="${y(.3)}" x2="${x(.78)}" y2="${y(.78)}" stroke="#555" stroke-dasharray="4 4"/>`;
+  for(let v=.3;v<=.75;v+=.15){g+=`<text x="${x(v)}" y="${H-10}" text-anchor="middle" font-size="10" fill="#777">${(v*100).toFixed(0)}</text>
+    <text x="${P.l-8}" y="${y(v)+4}" text-anchor="end" font-size="10" fill="#777">${(v*100).toFixed(0)}</text>`;}
+  g+=CAL.map(([b,n,p,a])=>{const r=4+Math.sqrt(n)/4;
+    return `<circle cx="${x(p)}" cy="${y(a)}" r="${r}" fill="rgba(168,130,255,.35)" stroke="#a882ff" stroke-width="1.5"/>`;}).join('');
+  g+=`<text x="${W/2}" y="${H-24}" text-anchor="middle" font-size="10.5" fill="#999">predicted home win %</text>
+      <text x="14" y="${H/2}" font-size="10.5" fill="#999" transform="rotate(-90 14 ${H/2})" text-anchor="middle">actual %</text>`;
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%">${g}</svg>`;
+}
+function barChart(data,fmt,color,neg){
+  const W=560,rowH=22,P={l:170,r:60,t:6,b:6},H=P.t+P.b+data.length*rowH;
+  const vals=data.map(d=>d[1]),mx=Math.max(...vals.map(Math.abs));
+  const zero=neg?P.l+(W-P.l-P.r)/2:P.l, span=neg?(W-P.l-P.r)/2:(W-P.l-P.r);
+  let g=neg?`<line x1="${zero}" x2="${zero}" y1="${P.t}" y2="${H-P.b}" stroke="#444"/>`:'';
+  data.forEach((d,i)=>{const v=d[1],w=Math.abs(v)/mx*span,yy=P.t+i*rowH;
+    const c=typeof color==='function'?color(v):color;
+    g+=`<text x="${P.l-8}" y="${yy+15}" text-anchor="end" font-size="11" fill="#bbb">${d[0]}</text>
+        <rect x="${v<0?zero-w:zero}" y="${yy+4}" width="${Math.max(w,1)}" height="13" rx="2" fill="${c}"/>
+        <text x="${(v<0?zero-w:zero+w)+(v<0?-5:5)}" y="${yy+15}" text-anchor="${v<0?'end':'start'}" font-size="10.5" fill="#999">${fmt(v)}</text>`;});
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%">${g}</svg>`;
+}
+
+/* ══════════ NOTES ══════════ */
+const NOTES = {
+home:{t:"README — start here",k:"n",tags:["mlb-model","teardown","v2"],h:()=>`
+<p>Full dissection of the moneyline model: every file, 8,044 training rows, 133 live-graded picks. Six holes found, five fixed in code, one flagged. The graph on the left is the map — <span class="wl" data-n="pipeline">pipeline nodes</span> in purple, <span style="color:var(--red)">holes</span> in red, <span style="color:var(--green)">V2 fixes</span> in green.</p>
+<div class="kv">
+<div class="stat"><div class="v bad">53.9%</div><div class="l">live pipeline pick accuracy (117 graded games)</div></div>
+<div class="stat"><div class="v bad">30%</div><div class="l">flagged ** BET ** hit rate (6/20)</div></div>
+<div class="stat"><div class="v good">60.2%</div><div class="l">V2 walk-forward accuracy (3,187 OOS games)</div></div>
+<div class="stat"><div class="v good">0.2325</div><div class="l">V2 Brier vs 0.2372 old (lower = better)</div></div>
+</div>
+<div class="callout co-info"><div class="ct">◈ The headline finding</div>
+The model itself was never the biggest problem — the <b>machinery around it</b> was. The raw model picked at 58.1% on your live-graded games while the full pipeline picked at 53.9%. The lineup-swap bug and the post-calibration adjustment layers flipped the pick in 28% of games — and lost most of those flips.</div>
+<h2>The six holes</h2>
+<ul>
+<li><span class="wl" data-n="bug1">Hole 1 — lineup OPS swap at inference</span> (critical)</li>
+<li><span class="wl" data-n="bug2">Hole 2 — post-model adjustment layers</span> (critical, includes backlog #2)</li>
+<li><span class="wl" data-n="bug3">Hole 3 — 2026 games never trained on</span> (critical)</li>
+<li><span class="wl" data-n="bug4">Hole 4 — retrain accuracy was inflated by look-ahead</span></li>
+<li><span class="wl" data-n="bug5">Hole 5 — 13 of 18 features were hurting</span></li>
+<li><span class="wl" data-n="bug6">Hole 6 — small-sample pollution + exposed API key</span></li>
+</ul>
+<h2>What V2 ships</h2>
+<p><span class="wl" data-n="v2model">The V2 model</span> · <span class="wl" data-n="results">Results &amp; calibration</span> · <span class="wl" data-n="deploy">Deploy checklist</span> · <span class="wl" data-n="edges">Edge window &amp; betting rules</span></p>`},
+
+pipeline:{t:"How the model works",k:"n",tags:["architecture"],h:()=>`
+<p>End-to-end, one game prediction flows through five stages:</p>
+<h3>1 · Data pull</h3>
+<p><code>master.py</code> pulls tomorrow's slate: odds (The Odds API — DK/MGM), probable starters + confirmed lineups (MLB StatsAPI), team hitting stats, bullpen stats, and line movement vs the opening lines <code>line_tracker.py</code> snapshotted.</p>
+<h3>2 · Feature build</h3>
+<p>Each starter gets a <b>Bayesian blend</b>: current-season stats weighted by IP/200 toward career priors (<code>pitcher_stats.py</code>). Each lineup gets <b>platoon-adjusted OPS</b> — every confirmed batter's split vs the opposing starter's hand, blended toward career by PA/150 (<code>lineup_stats.py</code>).</p>
+<h3>3 · Model</h3>
+<p><span class="strike">18 features → scaled → XGBoost → isotonic calibration</span> → <b>V2: 4 winsorized difference features → calibrated logistic regression</b>. Output: home win probability. See <span class="wl" data-n="v2model">the V2 model</span>.</p>
+<h3>4 · Edge computation</h3>
+<p>Model % minus each book's implied % (vig included — that's fine, it makes flagged edges conservative). Edges inside the BET window get flagged if the game passes the gates: pitcher reliability ≥ 8%, not Coors, and no <b>Sharp FADE veto</b> (market moving against the model — empirically 2/15 when ignored, so the veto stays).</p>
+<h3>5 · Grade & learn</h3>
+<p><code>check_results.py</code> grades picks and logs CLV; <code>weekly_retrain_v2.py</code> ingests the week's finals every Thursday 6am and refits.</p>
+<div class="callout co-info"><div class="ct">◈ What the model is really doing</div>
+It's a starting-pitching-gap model with a lineup kicker. Standardized weights: pitcher run-prevention gap carries ~4.8× the weight of the WHIP gap, lineup OPS gap ~2.7×. Home-field advantage lives in the intercept (+0.093 ≈ the 52.2% base rate). Everything else the pipeline collects — velo, spin, whiff, bullpen ERA, park factor — is <b>display context</b>, not model input.</div>`},
+
+bug1:{t:"Hole 1 — the lineup swap",k:"b",tags:["critical","inference"],h:()=>`
+<div class="callout co-bug"><div class="ct">✗ Severity: critical — corrupted every confirmed-lineup prediction</div>
+In <code>master.py</code>, the home team's lineup OPS variable was filled with the <b>away</b> team's batters, and vice versa. The model received each offense under the other team's label.</div>
+<pre><code>// master.py (old) — confirmed-lineup branch
+home_lineup_ops = get_platoon_lineup_ops(<b style="color:#ff6b6b">away_players</b>, season, home_hand)
+away_lineup_ops = get_platoon_lineup_ops(<b style="color:#ff6b6b">home_players</b>, season, away_hand)
+
+// weekly_retrain.py (training) — correct the whole time
+home_lineup_ops = get_lineup_ops(<b style="color:#4ade80">home_batters</b>, vs_hand=away_pitcher_hand)</code></pre>
+<p>The values computed were individually correct (away batters vs home pitcher's hand <i>is</i> the away offense) — they were just assigned to the wrong variables. So <code>ops_diff</code> — the model's #2 feature — had its <b>sign flipped at inference</b> relative to training, on every game where lineups were confirmed. Games without confirmed lineups fell back to team OPS and were unaffected, which is why the model didn't look uniformly broken — it looked <i>streaky</i>.</p>
+<div class="callout co-fix"><div class="ct">✓ Fixed in master_v2.py</div>
+Home lineup OPS = home batters vs away pitcher's hand, matching training exactly. The feature definition now lives in one shared module (<code>features_v2.py</code>) imported by both trainer and inference, so this class of drift can't recur.</div>`},
+
+bug2:{t:"Hole 2 — post-model adjustment layers",k:"b",tags:["critical","calibration","backlog-2"],h:()=>`
+<div class="callout co-bug"><div class="ct">✗ Severity: critical — flipped 28% of picks, lost most of them</div>
+After the calibrated model produced a probability, master.py stacked <b>four</b> hand-tuned layers on top: a +0.5 home boost, the park factor adjustment, a ±5% bullpen nudge, and a 30–70 clamp.</div>
+<p>Isotonic calibration means the output <i>is already</i> the best probability estimate given the features. Any additive tweak after that point un-calibrates it. And the park layer was worse than neutral — it's your backlog #2 double count: season pitcher and lineup stats already contain each park's run environment, then the layer adjusted for park <i>again</i>, and its own math pushed Coors <i>toward</i> 50/50 hardest (the 0.6 multiplier), which is part of why Coors graded at 33%.</p>
+<p>Re-scoring your 117 live-graded games with the exact same model.pkl, minus the layers:</p>
+<div class="kv">
+<div class="stat"><div class="v bad">53.9%</div><div class="l">full pipeline (with layers)</div></div>
+<div class="stat"><div class="v good">58.1%</div><div class="l">raw model, same games</div></div>
+<div class="stat"><div class="v pur">33 games</div><div class="l">where the layers flipped the pick (28%)</div></div>
+<div class="stat"><div class="v pur">57.6% vs 42.4%</div><div class="l">raw model vs layered pipeline on those flips</div></div>
+</div>
+<p>The 30–70 clamp was also clipping <b>12.9%</b> of predictions — throwing away the model's most confident (and per calibration data, most <i>accurate</i>) calls.</p>
+<div class="callout co-fix"><div class="ct">✓ Fixed in master_v2.py</div>
+All four layers deleted. The calibrated number is used as-is (a wide 22–78 guard remains for pathological inputs only). Park factor and bullpen stats still print as context. Backlog #2 closes with this — the double count is gone because the layer is gone.</div>`},
+
+bug3:{t:"Hole 3 — 2026 was never trained on",k:"b",tags:["critical","training"],h:()=>`
+<div class="callout co-bug"><div class="ct">✗ Severity: critical — the freshest 757 games taught the model nothing</div>
+<code>weekly_retrain.py</code> split train/test by <code>season == current_season</code>. Once 2026 had 50+ rows, every 2026 game went to the <b>test</b> set — permanently excluded from training.</div>
+<pre><code>test_mask  = df["season"] == current_season   # all of 2026
+train_mask = ~test_mask                       # model only ever sees 2023-25
+...
+model.fit(X_train_scaled, y_train, sample_weight=w_train)</code></pre>
+<p>Two consequences. First, the model spent the entire season frozen on 2023–25 patterns while you retrained weekly — the retrains only changed the <i>test</i> score. Second, the <code>SEASON_WEIGHTS = {2026: 3.0}</code> upweighting was <b>dead code</b>: the rows it applied to were never in the training set. The log line "2026 data weighted 3x" printed every week and was never true.</p>
+<div class="callout co-fix"><div class="ct">✓ Fixed in train_model_v2.py / weekly_retrain_v2.py</div>
+The deployed model trains on <b>all</b> rows including the current season. Validation moved to walk-forward (see <span class="wl" data-n="bug4">Hole 4</span>), so no held-out season is needed to get an honest number.</div>`},
+
+bug4:{t:"Hole 4 — inflated accuracy (look-ahead)",k:"b",tags:["leakage","backlog-10"],h:()=>`
+<div class="callout co-bug"><div class="ct">✗ The retrain log's 62–65% was never real</div>
+Historical training rows were built with <b>full-season</b> pitcher and lineup stats — a game from April 2025 carries the pitcher's complete 2025 ERA, including starts that hadn't happened yet. The test score inherited that future information.</div>
+<p>This is your backlog #10, and it explains the gap you've been living with: retrain log says 62–65%, live picks hit ~51–54%. Under honest <b>walk-forward validation</b> — every month predicted by a model trained only on prior months — the old pipeline scores <b>58.7%</b>, not 62+. That's the number forward betting actually sees.</p>
+<table><tr><th>Metric</th><th>Claimed</th><th>Honest (walk-forward)</th></tr>
+<tr><td>Old model accuracy</td><td>61.7–64.6%</td><td>58.7%</td></tr>
+<tr><td>Old model Brier</td><td>0.226–0.229</td><td>0.2372</td></tr></table>
+<div class="callout co-fix"><div class="ct">✓ Fixed (metric) / ⚠ flagged (data)</div>
+<b>Fixed:</b> retrain_log.csv now records walk-forward accuracy — comparable week to week, no look-ahead. <b>Still open:</b> the underlying historical rows still contain full-season stats. The 2026 rows are near point-in-time (built weekly, ≤7 days of drift), which is why they're the most trustworthy slice. A point-in-time rebuild of 2023–25 (backlog #10 proper) needs live API access and stays on your list — it will make the walk-forward numbers even more honest.</div>`},
+
+bug5:{t:"Hole 5 — 13 of 18 features were hurting",k:"b",tags:["features","overfitting"],h:()=>`
+<div class="callout co-bug"><div class="ct">✗ The model was era_diff plus 17 columns of noise</div>
+Permutation importance on the 2026 holdout: shuffle each feature, measure how much held-out log loss degrades. Positive = the feature carries real signal. Only <b>one</b> feature clearly did.</div>
+<div class="chart"><div class="title">Permutation importance — 2026 holdout, 20 repeats (positive = helps)</div>
+${barChart(PERM,v=>v.toFixed(4),v=>v>0.0005?'#4ade80':(v<-0.0002?'#ff6b6b':'#666'),true)}</div>
+<p><code>era_diff</code> towers over everything. The redundant raw home/away copies of each stat, both FIP variants, K/9, BB/9 — all noise or actively negative out-of-sample. Every extra noise feature gives XGBoost another way to memorize the training set, which is why the in-sample-flavored scores looked fine while live performance sagged.</p>
+<p>Your own instinct here was right, by the way — the header comment in weekly_retrain.py worried FIP "deliberately discards realized run-prevention." It does: both FIP features grade negative.</p>
+<div class="callout co-fix"><div class="ct">✓ Fixed in features_v2.py</div>
+Feature set cut 18 → 4 de-correlated differences: <code>era_diff_w</code>, <code>whip_diff_w</code>, <code>ops_diff_c</code>, <code>kpct_diff</code>. With 4 near-linear features, XGBoost loses its advantage — a calibrated logistic regression won every metric in walk-forward testing (9 configurations tried, including regularized XGBoost, recency weights, and LR+XGB ensembles). Simpler, better, and you can read the whole model in five coefficients.</div>`},
+
+bug6:{t:"Hole 6 — small samples & the exposed key",k:"b",tags:["data-quality","security"],h:()=>`
+<h2>Small-sample pollution</h2>
+<div class="callout co-bug"><div class="ct">✗ A 2-inning reliever with a 27.00 ERA fed raw 27.0 into the model</div>
+103 training rows had a starter ERA above 9.00 (max 34.7); FIP ran to 18.9, BB/9 to 33.8. Early-season call-ups and misclassified openers (your backlog #9 names) produce these. StandardScaler + tree splits partially absorb it, but each one distorts the feature distribution the calibrator learned on.</div>
+<div class="callout co-fix"><div class="ct">✓ Fixed — winsorization in features_v2.py</div>
+Every pitcher stat is clipped to a plausible talent range before differencing (ERA 1.5–8.0, WHIP 0.8–2.0, OPS gap ±0.25). A garbage input now produces a bounded prediction instead of a blowup. This also softens the blast radius of backlog #9 name-lookup failures.</div>
+<h2>API key in plain text</h2>
+<div class="callout co-bug"><div class="ct">✗ Odds API key hardcoded in 3 files</div>
+<code>fetch_games.py</code>, <code>line_tracker.py</code>, and as the env-var fallback in <code>master.py</code> / <code>check_results.py</code>. The repo is on GitHub — treat the key as burned.</div>
+<div class="callout co-fix"><div class="ct">✓ Fixed in V2 files / ⚠ action needed</div>
+master_v2.py reads <code>ODDS_API_KEY</code> from the environment with no fallback. <b>You still need to rotate the key</b> at the-odds-api.com and set it: <code>setx ODDS_API_KEY "new_key"</code> — then strip it from the remaining fetch scripts.</div>`},
+
+v2model:{t:"V2 — the new model",k:"f",tags:["v2","logistic-regression"],h:()=>`
+<p>Four winsorized difference features into a calibrated logistic regression, trained on all 8,044 rows including 2026. That's the entire model:</p>
+<pre><code>era_diff_w  = clip(away_era, 1.5, 8.0)  − clip(home_era, 1.5, 8.0)
+whip_diff_w = clip(away_whip, 0.8, 2.0) − clip(home_whip, 0.8, 2.0)
+ops_diff_c  = clip(home_ops − away_ops, −0.25, +0.25)
+kpct_diff   = away_kpct − home_kpct
+
+P(home win) = σ( 0.395·era_diff_w + 0.223·ops_diff_c
+             + 0.082·kpct_diff + 0.033·whip_diff_w + 0.093 )   // standardized</code></pre>
+<div class="chart"><div class="title">Standardized coefficients — what actually moves a prediction</div>
+${barChart(COEF,v=>'+'+v.toFixed(3),'#a882ff',false)}</div>
+<h2>Why logistic beat XGBoost</h2>
+<p>Nine configurations went through the same monthly walk-forward gauntlet (2025-03 → 2026-06). Every LR variant beat every XGBoost variant. With only ~4 real signals and near-linear relationships, trees have nothing to split on except noise; the 8,044-game sample rewards the low-variance learner.</p>
+<table><tr><th>Config</th><th>Acc</th><th>Brier</th></tr>
+<tr><td>old — 18 feat, XGBoost + isotonic</td><td>.5874</td><td>.2372</td></tr>
+<tr><td>18 feat winsorized, XGBoost</td><td>.5880</td><td>.2370</td></tr>
+<tr><td>7 diffs, regularized XGBoost</td><td>.5868</td><td>.2353</td></tr>
+<tr><td>7 diffs + recency weights + temporal cal.</td><td>.5965</td><td>.2375</td></tr>
+<tr><td>7 diffs, calibrated LR</td><td>.5974</td><td>.2325</td></tr>
+<tr><td>LR + XGB ensemble</td><td>.5952</td><td>.2332</td></tr>
+<tr><td><b style="color:var(--green)">V2 — 4 diffs, calibrated LR</b></td><td><b style="color:var(--green)">.6018</b></td><td><b style="color:var(--green)">.2325</b></td></tr></table>
+<p>Bonus properties: trains in seconds, no scaler/feature-order fragility (one shared module), fully interpretable — when a pick looks weird you can decompose it by hand in 30 seconds.</p>`},
+
+results:{t:"V2 — results & calibration",k:"f",tags:["validation","walk-forward"],h:()=>`
+<p>Every number below is out-of-sample: monthly walk-forward, each month predicted by a model that never saw it. 3,187 graded predictions across 10 months.</p>
+<div class="chart"><div class="title">Walk-forward accuracy by month — old vs V2</div>${wfChart()}</div>
+<p>V2 wins or ties 8 of 10 months, with the biggest gains in the freshest, least-leaky data (April 2026: 58.1% → 63.3%; May 2026: 62.7% → 64.4%). The two months it trails (Aug/Sep 2025) are within noise, and both models sag mid-season 2025 — consistent with that slice carrying the most look-ahead distortion in its features.</p>
+<div class="chart"><div class="title">V2 calibration — pooled walk-forward, bubble size = games</div>${calChart()}</div>
+<p>Points hug the diagonal: when V2 says 57%, home teams win ~57%. The one soft spot (40–45% bucket reads a bit pessimistic) sits on modest volume. This calibration is what makes <span class="wl" data-n="edges">edge math</span> meaningful at all — an "edge" from an uncalibrated model is just error with a plus sign.</p>
+<div class="kv">
+<div class="stat"><div class="v good">60.2%</div><div class="l">walk-forward accuracy (vs 58.7% old)</div></div>
+<div class="stat"><div class="v good">0.2325</div><div class="l">Brier (vs 0.2372 old)</div></div>
+<div class="stat"><div class="v good">0.6564</div><div class="l">log loss (vs 0.6669 old)</div></div>
+<div class="stat"><div class="v pur">+8.0%</div><div class="l">acc edge over always-home baseline</div></div>
+</div>
+<div class="callout co-warn"><div class="ct">⚠ Set expectations correctly</div>
+60% pick accuracy is a solid MLB model, but pick accuracy isn't profit — the market prices favorites near their true rate. Profit comes from the <i>calibrated edge</i> on the subset of games where the model and the closing line disagree and the model is right. That's why the deploy plan below is paper-trade first.</div>`},
+
+edges:{t:"Edge window & betting rules",k:"f",tags:["backlog-1","kelly"],h:()=>`
+<h2>Why the 6–10% window was upside down</h2>
+<p>Your graded data said it plainly: 3–6% edges hit 57.5%, 6–10% edges hit 38.9%. That inversion is exactly what an uncalibrated model produces — the <b>bigger</b> the model's disagreement with the closing market, the more likely the model was simply wrong. The flagged bets confirmed it: +5.6% average "edge," 77.8% beat the close on paper… and won 30% of the actual games. The edges were measuring model error, not market error.</p>
+<h2>V2 rules (shipped in master_v2.py)</h2>
+<ul>
+<li><b>BET window: +3% to +8%</b> (<code>EDGE_MIN</code>/<code>EDGE_MAX</code> constants). Closes backlog #1 — the 3–6 shift, widened to 8 because V2's calibration makes mid-size edges trustworthy where the old model's weren't. Above 8% still reads as "too good to be true" until V2 has its own graded history.</li>
+<li><b>Sharp FADE veto stays.</b> 2/15 (13.3%) when ignored is a real market signal — respect it.</li>
+<li><b>Coors exclusion stays</b> until a real park solution (backlog #6, weather-adjusted) exists. Note the 33% Coors record was partly the park layer's own doing — the removed adjustment squeezed Coors predictions toward 50/50 hardest.</li>
+<li><b>Reliability gate ≥ 8% stays</b>; winsorization now also bounds the damage when it fails.</li></ul>
+<div class="callout co-info"><div class="ct">◈ Kelly sizing (backlog #3) — do it after revalidation</div>
+Quarter-Kelly with a 2% cap only makes sense once the input probabilities are trusted. Run V2 flat-stake on paper for ~100 flagged picks first. If the 3–8% bucket grades ≥ 54% (break-even at −110 is 52.4%), layer Kelly on — the calibrated probabilities plug straight into the formula.</div>`},
+
+deploy:{t:"Deploy checklist",k:"f",tags:["ops"],h:()=>`
+<p>Files shipped, in dependency order:</p>
+<table><tr><th>File</th><th>What it is</th></tr>
+<tr><td><code>features_v2.py</code></td><td>Shared feature definitions + cached predictor — single source of truth</td></tr>
+<tr><td><code>train_model_v2.py</code></td><td>Trainer with walk-forward report; writes model_v2.pkl + scaler_v2.pkl</td></tr>
+<tr><td><code>weekly_retrain_v2.py</code></td><td>Weekly cron entrypoint — reuses old ingestion, new trainer, honest log</td></tr>
+<tr><td><code>master_v2.py</code></td><td>Patched inference — swap fixed, layers removed, 3–8% window, env-only key</td></tr>
+<tr><td><code>model_v2.pkl / scaler_v2.pkl</code></td><td>Trained on all 8,044 rows — ready to run</td></tr></table>
+<h2>Rollout on your box</h2>
+<pre><code>cd C:\\Users\\Poons\\baseball-model
+# 1. drop in the five new files (keep old ones for rollback)
+# 2. rotate the Odds API key, then:
+setx ODDS_API_KEY "your_new_key"
+# 3. smoke test
+py -3.11 .\\train_model_v2.py        # expect wf acc ≈ 0.60
+py -3.11 .\\master_v2.py             # tomorrow's slate with V2 numbers
+# 4. point Task Scheduler:  master.py → master_v2.py
+#                           weekly_retrain.py → weekly_retrain_v2.py</code></pre>
+<h2>Watch for</h2>
+<ul>
+<li><b>CSV schema is unchanged</b> — dashboard.py keeps working. One edit: <code>WINNING_EDGE_BUCKET = "0-3%"</code> (line 40) reflects old-model history; V2's target bucket is 3–8%, but let it re-earn the star on V2 graded data.</li>
+<li><b>Fresh CLV history:</b> V2 probabilities are a different distribution (wider, since the 30–70 clamp is gone). Old-model edge buckets don't transfer — tag or archive clv_log.json at the cutover so V2 grades cleanly.</li>
+<li><b>Backlog after this:</b> #10 point-in-time rebuild is now the highest-value data fix. #5 pitching simulator becomes a candidate <i>fifth feature</i> — walk-forward it against these exact V2 numbers before it earns a slot. #1 and #2 are closed by this work.</li></ul>
+<div class="callout co-fix"><div class="ct">✓ Definition of done</div>
+100 flagged V2 picks graded ≥54% in the 3–8% window → turn on quarter-Kelly (backlog #3) and start tracking real P&L.</div>`}
+};
+
+/* ══════════ GRAPH ══════════ */
+const NODE_DEFS = [
+  {id:"odds",label:"Odds API",k:"n",note:"pipeline"},
+  {id:"mlb",label:"MLB StatsAPI",k:"n",note:"pipeline"},
+  {id:"pitcher",label:"pitcher blend",k:"n",note:"pipeline"},
+  {id:"lineup",label:"platoon OPS",k:"n",note:"pipeline"},
+  {id:"feat",label:"features",k:"n",note:"v2model"},
+  {id:"model",label:"MODEL",k:"n",note:"v2model",big:true},
+  {id:"edge",label:"edge calc",k:"n",note:"edges"},
+  {id:"picks",label:"picks CSV",k:"n",note:"pipeline"},
+  {id:"grade",label:"grade + CLV",k:"n",note:"pipeline"},
+  {id:"retrain",label:"weekly retrain",k:"n",note:"bug3"},
+  {id:"b1",label:"lineup swap",k:"b",note:"bug1"},
+  {id:"b2",label:"post-hoc layers",k:"b",note:"bug2"},
+  {id:"b3",label:"2026 excluded",k:"b",note:"bug3"},
+  {id:"b4",label:"look-ahead",k:"b",note:"bug4"},
+  {id:"b5",label:"noise features",k:"b",note:"bug5"},
+  {id:"b6",label:"small samples",k:"b",note:"bug6"},
+  {id:"f1",label:"swap fixed",k:"f",note:"bug1"},
+  {id:"f2",label:"layers removed",k:"f",note:"bug2"},
+  {id:"f3",label:"trains on 2026",k:"f",note:"bug3"},
+  {id:"f4",label:"walk-forward",k:"f",note:"results"},
+  {id:"f5",label:"4-feat logistic",k:"f",note:"v2model"},
+  {id:"f6",label:"winsorized",k:"f",note:"bug6"},
+  {id:"f7",label:"3–8% window",k:"f",note:"edges"},
+];
+const EDGES = [
+ ["odds","edge"],["odds","grade"],["mlb","pitcher"],["mlb","lineup"],
+ ["pitcher","feat"],["lineup","feat"],["feat","model"],["model","edge"],
+ ["edge","picks"],["picks","grade"],["grade","retrain"],["retrain","model"],
+ ["b1","lineup"],["b2","model"],["b3","retrain"],["b4","retrain"],["b5","feat"],["b6","pitcher"],
+ ["f1","b1"],["f2","b2"],["f3","b3"],["f4","b4"],["f5","b5"],["f5","model"],["f6","b6"],["f7","edge"]
+];
+
+const canvas=document.getElementById('graph'),ctx=canvas.getContext('2d');
+let nodes=[],links=[],hoverN=null,dragN=null,W=0,H=0,DPR=window.devicePixelRatio||1;
+function resize(){
+  const r=canvas.parentElement.getBoundingClientRect();
+  W=r.width;H=r.height;canvas.width=W*DPR;canvas.height=H*DPR;
+  canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+function init(){
+  resize();
+  nodes=NODE_DEFS.map((d,i)=>({...d,
+    x:W/2+(Math.cos(i/NODE_DEFS.length*6.283)*Math.min(W,H)*.32)+(Math.random()-.5)*40,
+    y:H/2+(Math.sin(i/NODE_DEFS.length*6.283)*Math.min(W,H)*.32)+(Math.random()-.5)*40,
+    vx:0,vy:0,r:d.big?13:(d.k==='n'?9:8)}));
+  const byId=Object.fromEntries(nodes.map(n=>[n.id,n]));
+  links=EDGES.map(([a,b])=>({a:byId[a],b:byId[b]}));
+}
+function tick(){
+  // forces
+  for(const n of nodes){n.vx*=.85;n.vy*=.85;}
+  for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
+    const a=nodes[i],b=nodes[j];let dx=b.x-a.x,dy=b.y-a.y,d2=dx*dx+dy*dy;
+    if(d2<1)d2=1;const d=Math.sqrt(d2),f=Math.min(1400/d2,3);
+    dx/=d;dy/=d;a.vx-=dx*f;a.vy-=dy*f;b.vx+=dx*f;b.vy+=dy*f;}
+  for(const l of links){
+    let dx=l.b.x-l.a.x,dy=l.b.y-l.a.y;const d=Math.sqrt(dx*dx+dy*dy)||1;
+    const f=(d-90)*.012;dx/=d;dy/=d;
+    l.a.vx+=dx*f;l.a.vy+=dy*f;l.b.vx-=dx*f;l.b.vy-=dy*f;}
+  for(const n of nodes){
+    n.vx+=(W/2-n.x)*.0012;n.vy+=(H/2-n.y)*.0012;
+    if(n!==dragN){n.x+=n.vx;n.y+=n.vy;}
+    n.x=Math.max(24,Math.min(W-24,n.x));n.y=Math.max(24,Math.min(H-24,n.y));}
+  draw();requestAnimationFrame(tick);
+}
+const COLORS={n:'#7c5fd3',b:'#ff6b6b',f:'#4ade80'};
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const hood=hoverN?new Set([hoverN,...links.filter(l=>l.a===hoverN||l.b===hoverN).flatMap(l=>[l.a,l.b])]):null;
+  for(const l of links){
+    const hot=hoverN&&(l.a===hoverN||l.b===hoverN);
+    ctx.strokeStyle=hot?'rgba(168,130,255,.7)':'rgba(120,120,120,'+(hood?'.08':'.22')+')';
+    ctx.lineWidth=hot?1.6:1;
+    ctx.beginPath();ctx.moveTo(l.a.x,l.a.y);ctx.lineTo(l.b.x,l.b.y);ctx.stroke();}
+  for(const n of nodes){
+    const dim=hood&&!hood.has(n);
+    ctx.globalAlpha=dim?.25:1;
+    if(n===hoverN){ctx.beginPath();ctx.arc(n.x,n.y,n.r+6,0,7);ctx.fillStyle='rgba(168,130,255,.18)';ctx.fill();}
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,7);
+    ctx.fillStyle=COLORS[n.k];ctx.fill();
+    ctx.font=(n.big?'600 12.5px':'11.5px ')+" 'Inter',sans-serif";
+    ctx.fillStyle=dim?'#666':(n===hoverN?'#e8e0ff':'#b8b8b8');
+    ctx.textAlign='center';ctx.fillText(n.label,n.x,n.y+n.r+14);
+    ctx.globalAlpha=1;}
+}
+function pick(e){
+  const r=canvas.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  return nodes.find(n=>(n.x-mx)**2+(n.y-my)**2<(n.r+9)**2);
+}
+let moved=false;
+canvas.addEventListener('mousedown',e=>{dragN=pick(e);moved=false;});
+canvas.addEventListener('mousemove',e=>{
+  const r=canvas.getBoundingClientRect();
+  if(dragN){dragN.x=e.clientX-r.left;dragN.y=e.clientY-r.top;moved=true;}
+  hoverN=pick(e);canvas.style.cursor=hoverN?'pointer':'grab';});
+canvas.addEventListener('mouseup',e=>{
+  if(dragN&&!moved)openNote(dragN.note);dragN=null;});
+canvas.addEventListener('mouseleave',()=>{hoverN=null;dragN=null;});
+canvas.addEventListener('touchstart',e=>{const t=e.touches[0];const n=pick(t);if(n)openNote(n.note);},{passive:true});
+window.addEventListener('resize',resize);
+
+/* ══════════ NAV ══════════ */
+const ORDER=[["Map","home"],["Architecture","pipeline"],
+ ["Holes found","bug1","bug2","bug3","bug4","bug5","bug6"],
+ ["V2","v2model","results","edges","deploy"]];
+const tree=document.getElementById('tree');
+for(const grp of ORDER){
+  const f=document.createElement('div');f.className='folder';f.textContent=grp[0];tree.appendChild(f);
+  for(const id of grp.slice(1)){
+    const n=NOTES[id],el=document.createElement('div');
+    el.className='file';el.dataset.n=id;
+    el.innerHTML=`<span class="dot ${n.k}"></span>${n.t}`;
+    el.onclick=()=>openNote(id);tree.appendChild(el);}
+}
+function openNote(id){
+  const n=NOTES[id];if(!n)return;
+  document.querySelectorAll('.file').forEach(e=>e.classList.toggle('active',e.dataset.n===id));
+  document.getElementById('note').innerHTML=
+    `<h1>${n.t}</h1><div class="tags">${n.tags.map(t=>`<span class="tag">#${t}</span>`).join('')}</div>${n.h()}`;
+  document.getElementById('note').scrollTop=0;
+  document.querySelectorAll('.wl').forEach(w=>w.onclick=()=>openNote(w.dataset.n));
+  if(window.innerWidth<=900&&event&&event.target.closest('#graphwrap'))
+    document.getElementById('note').scrollIntoView({behavior:'smooth'});
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
+  const g=document.getElementById('graphwrap');
+  if(t.dataset.view==='note'){g.style.display='none';}else{g.style.display='';resize();}
+});
+
+init();openNote('home');tick();
+</script>
+</body>
+</html>
