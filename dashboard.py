@@ -35,9 +35,9 @@ DASHBOARD_START_DATE = "2026-05-26"
 FADE_FILTER_START_DATE = "2026-06-01"
 
 # The historically best-performing edge bucket — picks in this bucket get ⭐
-# Based on calibration data; update if BET threshold changes (Sunday FADE review).
-# Currently 0-3% at 64.1% on 103 games. 3-6% is also strong at 57.5%.
-WINNING_EDGE_BUCKET = "0-3%"
+# V2 NOTE: the 0-3% @ 64% history belongs to the OLD model. V2's BET window
+# is 3-8%; let 3-6% re-earn the star on V2 graded data before trusting it.
+WINNING_EDGE_BUCKET = "3-6%"
 
 PARK_COORDS = {
     "Arizona Diamondbacks": (33.4453,-112.0667), "Atlanta Braves": (33.8908,-84.4678),
@@ -232,9 +232,30 @@ def get_results(date_str):
     except: return {}
 
 def load_picks(filename):
+    """Robust CSV load: tolerates missing files, BOM, partial/old schemas,
+    and blank rows. Every row comes back with every expected column so
+    downstream code can never KeyError on a schema change."""
+    EXPECTED = [
+        "Date","Away","Home","Model Away%","Model Home%",
+        "DK Away Odds","DK Home Odds","MGM Away Odds","MGM Home Odds",
+        "DK Edge Away","MGM Edge Away","DK Edge Home","MGM Edge Home",
+        "Away SP","Away Hand","Away Reliability%","Away SP Velo","Away SP Spin","Away SP Whiff",
+        "Home SP","Home Hand","Home Reliability%","Home SP Velo","Home SP Spin","Home SP Whiff",
+        "Away Lineup OPS","Home Lineup OPS","Away BP ERA(7d)","Home BP ERA(7d)",
+        "Away Line Move","Home Line Move","Sharp Signal","Lineup Source","Park Factor","Flag","Odds Warning"
+    ]
     try:
-        with open(filename, encoding="utf-8-sig") as f: return list(csv.DictReader(f))
-    except: return []
+        with open(filename, encoding="utf-8-sig") as f:
+            rows = []
+            for r in csv.DictReader(f):
+                if not r.get("Away") or not r.get("Home"):
+                    continue  # skip blank/corrupt lines
+                rows.append({c: (r.get(c) or "").strip() if isinstance(r.get(c), str) else (r.get(c) if r.get(c) is not None else "N/A") for c in EXPECTED} | {c: r[c] for c in r if c not in EXPECTED and c})
+            return rows
+    except FileNotFoundError:
+        return []
+    except Exception:
+        return []
 
 def parse_edge(s):
     try: return abs(float(str(s).replace("%","").replace("** BET **","").replace("+","").strip()))
@@ -396,7 +417,120 @@ def get_avg_clv_flagged():
     except: pass
     return None, 0
 
+# ── TICKER TAPE — stock-floor band across the top ────────────────────────────
+TEAM_ABBREV = {
+    "Arizona Diamondbacks":"ARI","Atlanta Braves":"ATL","Baltimore Orioles":"BAL",
+    "Boston Red Sox":"BOS","Chicago Cubs":"CHC","Chicago White Sox":"CWS",
+    "Cincinnati Reds":"CIN","Cleveland Guardians":"CLE","Colorado Rockies":"COL",
+    "Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC",
+    "Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA",
+    "Milwaukee Brewers":"MIL","Minnesota Twins":"MIN","New York Mets":"NYM",
+    "New York Yankees":"NYY","Athletics":"ATH","Philadelphia Phillies":"PHI",
+    "Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF",
+    "Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB",
+    "Texas Rangers":"TEX","Toronto Blue Jays":"TOR","Washington Nationals":"WSH",
+}
+
+TICKER_CSS = """
+<style>
+.tkr-wrap { position:relative; overflow:hidden; background:#04060d;
+  border-top:1px solid #1c2540; border-bottom:1px solid #1c2540;
+  margin:0 0 6px 0; padding:9px 0; }
+.tkr-track { display:inline-flex; white-space:nowrap; will-change:transform;
+  animation:tkr-scroll 75s linear infinite; }
+.tkr-wrap:hover .tkr-track { animation-play-state:paused; }
+@keyframes tkr-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@media (prefers-reduced-motion: reduce){ .tkr-track{animation:none} }
+.tkr-item { display:inline-flex; align-items:center; gap:9px; padding:0 22px;
+  border-right:1px solid #131b30; font-family:'Space Mono',monospace; font-size:0.82rem; }
+.tkr-teams { font-weight:700; color:#dde3f0; letter-spacing:0.5px; }
+.tkr-odds { color:#94a3b8; }
+.tkr-up { color:#00d97e; } .tkr-dn { color:#ef4444; } .tkr-flat { color:#64748b; }
+.tkr-mdl { color:#3b82f6; }
+.tkr-bet { background:#166534; color:#00d97e; border-radius:3px;
+  padding:1px 7px; font-size:0.7rem; font-weight:700; letter-spacing:1px; }
+.tkr-fade { color:#f59e0b; font-size:0.72rem; }
+.tkr-live { color:#ef4444; font-weight:700; font-size:0.72rem; animation:tkr-blink 1.4s steps(2) infinite; }
+@keyframes tkr-blink { 50%{opacity:0.25} }
+.tkr-final { color:#64748b; font-size:0.72rem; font-weight:700; }
+.tkr-lab { position:absolute; left:0; top:0; bottom:0; z-index:2; display:flex; align-items:center;
+  background:linear-gradient(90deg,#04060d 68%,transparent); padding:0 26px 0 14px;
+  font-family:'Space Mono',monospace; font-size:0.7rem; color:#3b82f6; letter-spacing:2px; font-weight:700; }
+</style>"""
+
+def _tkr_num(v):
+    """Odds/percent string -> float or None. Never raises."""
+    try:
+        s = str(v).replace("%","").replace("+","").strip()
+        if s in ("", "N/A", "None", "nan"): return None
+        return float(s)
+    except Exception:
+        return None
+
+def _tkr_fmt_odds(v):
+    n = _tkr_num(v)
+    if n is None: return "—"
+    return f"+{n:.0f}" if n > 0 else f"{n:.0f}"
+
+def build_ticker(rows, results):
+    """One ticker cell per matchup: teams, both books' odds, model %, edge, status.
+    Pure string building — any bad field degrades to a dash, never an exception."""
+    items = []
+    for r in rows:
+        try:
+            away, home = r.get("Away",""), r.get("Home","")
+            if not away or not home: continue
+            a, h = TEAM_ABBREV.get(away, away[:3].upper()), TEAM_ABBREV.get(home, home[:3].upper())
+
+            dk_a, dk_h = _tkr_fmt_odds(r.get("DK Away Odds")), _tkr_fmt_odds(r.get("DK Home Odds"))
+            mgm_a, mgm_h = _tkr_fmt_odds(r.get("MGM Away Odds")), _tkr_fmt_odds(r.get("MGM Home Odds"))
+            ma, mh = _tkr_num(r.get("Model Away%")), _tkr_num(r.get("Model Home%"))
+
+            # model lean + best edge on the model's side
+            pick_side, mdl_txt = None, "MDL —"
+            if ma is not None and mh is not None:
+                pick_side = "away" if ma > mh else "home"
+                mdl_txt = f"MDL {a if pick_side=='away' else h} {max(ma,mh):.0f}%"
+            edges = [_tkr_num(str(r.get(c,"")).split("*")[0]) for c in
+                     (["DK Edge Away","MGM Edge Away"] if pick_side=="away" else ["DK Edge Home","MGM Edge Home"])] if pick_side else []
+            edges = [e for e in edges if e is not None]
+            best_edge = max(edges) if edges else None
+            e_cls = "tkr-flat"
+            if best_edge is not None: e_cls = "tkr-up" if best_edge > 0 else ("tkr-dn" if best_edge < 0 else "tkr-flat")
+            edge_txt = f"<span class='{e_cls}'>{best_edge:+.1f}</span>" if best_edge is not None else "<span class='tkr-flat'>—</span>"
+
+            bits = [f"<span class='tkr-teams'>{a}&thinsp;@&thinsp;{h}</span>",
+                    f"<span class='tkr-odds'>DK {dk_a}/{dk_h}</span>",
+                    f"<span class='tkr-odds'>MGM {mgm_a}/{mgm_h}</span>",
+                    f"<span class='tkr-mdl'>{mdl_txt}</span>", edge_txt]
+
+            if "BET" in str(r.get("Flag","")): bits.append("<span class='tkr-bet'>BET</span>")
+            elif "FADE" in str(r.get("Sharp Signal","")): bits.append("<span class='tkr-fade'>FADE✗</span>")
+
+            res = results.get(home) or results.get(away) if isinstance(results, dict) else None
+            if res:
+                w = TEAM_ABBREV.get(res.get("winner",""), "")
+                bits.append(f"<span class='tkr-final'>F {res.get('away_score','')}–{res.get('home_score','')} {w}</span>")
+            items.append(f"<span class='tkr-item'>{' '.join(bits)}</span>")
+        except Exception:
+            continue
+    if not items:
+        items = ["<span class='tkr-item'><span class='tkr-flat'>No picks file for today — run master_v2.py</span></span>"]
+    track = "".join(items)
+    # duplicate content for a seamless infinite loop
+    return (TICKER_CSS +
+        f"<div class='tkr-wrap'><div class='tkr-lab'>⚾ BOARD</div>"
+        f"<div class='tkr-track'><span>{track}</span><span>{track}</span></div></div>")
+
 # ── HEADER
+# Ticker paints first — needs today's rows + any finals
+try:
+    _tkr_rows, _tkr_date = load_today()
+    _tkr_results = get_results(_tkr_date) or {}
+except Exception:
+    _tkr_rows, _tkr_date, _tkr_results = [], "", {}
+st.markdown(build_ticker(_tkr_rows, _tkr_results), unsafe_allow_html=True)
+
 col_title, col_refresh = st.columns([5, 1])
 with col_title:
     st.markdown("<div style='padding:20px 0 4px 0'><span style='font-family:Space Mono,monospace;font-size:1.6rem;font-weight:700;color:#3b82f6'>⚾ MLB MODEL</span><span style='font-family:Space Mono,monospace;font-size:1.6rem;color:#1e2940'> // DASHBOARD</span></div>", unsafe_allow_html=True)
@@ -408,7 +542,7 @@ with col_refresh:
 
 with st.spinner("Loading..."):
     S = load_season()
-    todays, today_str = load_today()
+    todays, today_str = _tkr_rows, _tkr_date
     avg_clv_flagged, clv_n = get_avg_clv_flagged()
 
 # ── KPIs — new headline row
