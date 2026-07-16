@@ -508,6 +508,11 @@ def run_model(target_date, save_csv=True):
         save_picks_to_csv(picks, target_str)
 
 if __name__ == '__main__':
+    # Optional YYYY-MM-DD argument (used by notify_pick.py / auto_lineup_push.py
+    # to refresh TODAY's picks when lineups confirm). Default: tomorrow's slate.
     las_vegas_offset = timezone(timedelta(hours=-7))
-    tomorrow = datetime.now(las_vegas_offset) + timedelta(days=1)
-    run_model(tomorrow, save_csv=True)
+    if len(sys.argv) > 1:
+        target = datetime.strptime(sys.argv[1], "%Y-%m-%d")
+    else:
+        target = datetime.now(las_vegas_offset) + timedelta(days=1)
+    run_model(target, save_csv=True)

@@ -1,6 +1,11 @@
 import csv
 import os
+import sys
 import requests
+
+# Task Scheduler consoles use cp1252, which can't encode emoji glyphs
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(errors="replace")
 from datetime import datetime, timedelta, timezone
 from glob import glob
 

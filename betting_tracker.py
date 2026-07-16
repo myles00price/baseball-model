@@ -1,8 +1,13 @@
 import csv
 import os
+import sys
 import requests
 from glob import glob
 from datetime import datetime, timedelta, timezone
+
+# Task Scheduler consoles use cp1252, which can't encode emoji glyphs
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(errors="replace")
 
 # ─────────────────────────────────────────────────────────────
 # betting_tracker.py — Additions:

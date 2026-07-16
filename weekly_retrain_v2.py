@@ -21,9 +21,15 @@ Run:  py -3.11 .\\weekly_retrain_v2.py
 """
 
 import os
+import sys
 import warnings; warnings.filterwarnings("ignore")
 import pandas as pd
 from datetime import datetime
+
+# Task Scheduler consoles use cp1252, which can't encode emoji glyphs
+# (the old ingestion helpers imported below print them)
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(errors="replace")
 
 # reuse the battle-tested ingestion from the old file
 from weekly_retrain import get_last_week_games, build_new_rows

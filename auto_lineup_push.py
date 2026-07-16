@@ -1,5 +1,10 @@
 import subprocess
+import sys
 import requests
+
+# Task Scheduler consoles use cp1252, which can't encode → / emoji glyphs
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(errors="replace")
 import csv
 import os
 import json
@@ -134,8 +139,9 @@ if __name__ == "__main__":
     last = read_last_confirmed()
 
     if current > last:
-        print(f"\nNew lineups confirmed: {current} (was {last}) — running master.py and pushing")
-        subprocess.run(["py", "-3.11", "C:\\Users\\Poons\\baseball-model\\master.py"])
+        print(f"\nNew lineups confirmed: {current} (was {last}) — running master_v2.py and pushing")
+        subprocess.run([r"C:\Users\Poons\AppData\Local\Python\pythoncore-3.11-64\python.exe",
+                        r"C:\Users\Poons\baseball-model\master_v2.py", today])
         git_push("lineup update")
         write_last_confirmed(current)
     else:
