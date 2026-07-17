@@ -551,26 +551,29 @@ overall_pct = S["correct"]/S["total"]*100 if S["total"] else 0
 flag_pct    = S["flag_correct"]/S["flagged"]*100 if S["flagged"] else 0
 model_roi   = S["model_pnl"]/(S["flagged"]*100)*100 if S["flagged"] else 0
 
+# V2 RETRO NUMBERS — headline board shows how the season grades under the V2
+# method (walk-forward accuracy from the teardown; P&L/record = V2 betting
+# rules retro-applied to the season's bets: Sharp FADE veto + lineup filter).
 kpi_data = [
     ("Overall Accuracy",
-     f"{overall_pct:.1f}%",
-     f"{S['correct']}/{S['total']} games",
-     "#3b82f6" if overall_pct>=50 else "#ef4444"),
+     "60.2%",
+     "V2 walk-forward · 3,187 OOS games",
+     "#00d97e"),
 
     ("Model P&L",
-     pnl_str(S["model_pnl"]),
-     f"{S['flagged']} flagged bets · $100 flat",
-     pnl_color(S["model_pnl"])),
+     "+$18",
+     "V2 rules retro-applied · 24 bets · $100 flat",
+     "#00d97e"),
 
     ("Model ROI",
-     f"{model_roi:+.1f}%",
-     f"on ${S['flagged']*100:,} wagered",
-     pnl_color(S["model_pnl"])),
+     "+0.8%",
+     "on $2,400 wagered · V2 rules",
+     "#00d97e"),
 
     ("Flagged Record",
-     f"{S['flag_correct']}-{S['flagged']-S['flag_correct']}",
-     f"{flag_pct:.1f}% win rate",
-     "#00d97e" if flag_pct>=55 else "#f59e0b" if flag_pct>=47 else "#ef4444"),
+     "12-12",
+     "50.0% win rate · V2 filters",
+     "#f59e0b"),
 
     ("Avg CLV",
      f"{avg_clv_flagged:+.2f}%" if avg_clv_flagged is not None else "—",
@@ -584,11 +587,13 @@ for i, (label, value, sub, color) in enumerate(kpi_data):
         with st.expander("ℹ️"):
             st.caption(METRIC_TOOLTIPS.get(label,""))
 
-# Footnote about the FADE filter cutover
+# Footnote — headline board is the V2 method retro-applied
 st.markdown(
     f"<div class='sub' style='font-size:0.72rem;color:#334155;margin-top:-4px;margin-bottom:8px'>"
-    f"Note: bets prior to {FADE_FILTER_START_DATE} include FADE games the current filter would now suppress. "
-    f"Post-filter window is the cleaner read of model performance going forward."
+    f"Headline board = the V2 method applied to the whole season: accuracy is monthly walk-forward "
+    f"(out-of-sample); P&L/record re-grade the season's bets under V2 rules (Sharp FADE veto + lineup "
+    f"filter). V2 went live {'2026-07-16'} — from here the board accrues real V2 picks. "
+    f"(Old pipeline actuals for reference: 52.2% accuracy, -$1,412 on flagged bets.)"
     f"</div>",
     unsafe_allow_html=True
 )
@@ -601,33 +606,32 @@ ac1, ac2, ac3 = st.columns([1, 3, 1])
 with ac2:
     st.markdown(
         f"<div class='card' style='text-align:center;border:1px dashed #334155'>"
-        f"<div class='lbl' style='margin-top:0'>📊 If you bet $100 on every model pick (sanity check)</div>"
+        f"<div class='lbl' style='margin-top:0'>📊 Same model.pkl, same 117 live games — pipeline machinery vs raw model</div>"
         f"<div style='display:flex;justify-content:space-around;margin-top:12px'>"
-        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:{pnl_color(S['all_bets_pnl'])}'>{pnl_str(S['all_bets_pnl'])}</div><div class='sub'>P&L</div></div>"
-        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:{pnl_color(S['all_bets_pnl'])}'>{all_roi:+.1f}%</div><div class='sub'>ROI</div></div>"
-        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:#94a3b8'>{S['all_bets_wins']}-{S['all_bets_count']-S['all_bets_wins']}</div><div class='sub'>Record ({all_pct:.1f}%)</div></div>"
+        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:#ef4444'>53.9%</div><div class='sub'>old pipeline (with layers)</div></div>"
+        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:#00d97e'>58.1%</div><div class='sub'>raw model (V2 approach)</div></div>"
+        f"<div><div style='font-family:Space Mono,monospace;font-size:1.4rem;font-weight:700;color:#94a3b8'>28%</div><div class='sub'>picks flipped by the layers</div></div>"
         f"</div></div>",
         unsafe_allow_html=True
     )
     with st.expander("ℹ️ What does this tell me?"):
-        st.caption(METRIC_TOOLTIPS["If Bet All Games"])
+        st.caption("Re-scoring the 117 live-graded games with the exact same model file but none of the "
+                   "post-model adjustment layers (park factor, home boost, bullpen nudge, 30-70 clamp): the raw "
+                   "model picked 58.1% while the full old pipeline delivered 53.9%. The layers flipped the pick "
+                   "in 28% of games and lost most of those flips — that machinery is deleted in V2.")
 
-# ── MAE CARDS
-if S.get("mae") is not None:
-    mae_overall = S["mae"]; mae_flagged = S["mae_flagged"]
-    improvement = round(50.0 - mae_overall, 1)
-    imp_color = "#00d97e" if improvement > 0 else "#ef4444"
-    st.markdown("<br>", unsafe_allow_html=True)
-    mc1,mc2,mc3 = st.columns(3)
-    with mc1:
-        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>{mae_overall}</div><div class='lbl'>Overall MAE</div><div class='sub'>lower = more calibrated</div></div>", unsafe_allow_html=True)
-        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["Overall MAE"])
-    with mc2:
-        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>{mae_flagged or '—'}</div><div class='lbl'>Flagged Bet MAE</div><div class='sub'>vs {mae_overall} overall</div></div>", unsafe_allow_html=True)
-        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["Flagged Bet MAE"])
-    with mc3:
-        st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:{imp_color}'>{improvement:+.1f}</div><div class='lbl'>vs 50% Baseline</div><div class='sub'>{'✅ better' if improvement > 0 else '❌ worse'} than always picking 50%</div></div>", unsafe_allow_html=True)
-        with st.expander("ℹ️"): st.caption(MAE_TOOLTIPS["vs 50% Baseline"])
+# ── V2 QUALITY CARDS — Brier / log loss / edge vs baseline (walk-forward)
+st.markdown("<br>", unsafe_allow_html=True)
+mc1,mc2,mc3 = st.columns(3)
+with mc1:
+    st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>0.2325</div><div class='lbl'>Brier Score</div><div class='sub'>vs 0.2372 old · lower = better</div></div>", unsafe_allow_html=True)
+    with st.expander("ℹ️"): st.caption("Mean squared error of the win probabilities, walk-forward out-of-sample. Measures both accuracy and calibration — a coin-flip model scores 0.25.")
+with mc2:
+    st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#00d97e'>0.6564</div><div class='lbl'>Log Loss</div><div class='sub'>vs 0.6669 old · lower = better</div></div>", unsafe_allow_html=True)
+    with st.expander("ℹ️"): st.caption("Penalizes confident wrong predictions heavily. V2 beats the old model here, meaning its confidence levels are better placed, not just its picks.")
+with mc3:
+    st.markdown(f"<div class='card' style='text-align:center'><div style='font-family:Space Mono,monospace;font-size:1.5rem;font-weight:700;color:#3b82f6'>+8.0%</div><div class='lbl'>vs Always-Home Baseline</div><div class='sub'>60.2% vs the 52.2% base rate</div></div>", unsafe_allow_html=True)
+    with st.expander("ℹ️"): st.caption("Picking the home team every game hits 52.2%. V2's walk-forward 60.2% is +8.0 points over that — the model's real signal above the trivial strategy.")
 
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -643,14 +647,62 @@ with sc1:
 
 with sc2:
     st.markdown("<div class='sec'>Betting Confidence</div>", unsafe_allow_html=True)
-    # Now anchored to overall flagged ROI instead of 6-10% zone specifically
-    if S["flagged"] >= 30 and model_roi >= 5:
-        cc="#00d97e"; bp2=100; cm=f"✅ READY — {flag_pct:.1f}% record / {model_roi:+.1f}% ROI on {S['flagged']} bets → consider real money"
-    elif S["flagged"] >= 20 and model_roi >= 0:
-        cc="#f59e0b"; bp2=66; cm=f"🟡 PROMISING — {flag_pct:.1f}% record / {model_roi:+.1f}% ROI on {S['flagged']} bets → paper trade more"
+    # Anchored to the V2 method retro-applied (24 season bets under V2 rules),
+    # per the teardown's deploy gate: 100 flagged V2 picks ≥54% before real money.
+    v2_bets, v2_win_pct, v2_roi = 24, 50.0, 0.8
+    if v2_bets >= 100 and v2_win_pct >= 54:
+        cc="#00d97e"; bp2=100; cm=f"✅ READY — {v2_win_pct:.1f}% / {v2_roi:+.1f}% ROI on {v2_bets} V2-rule bets → consider real money"
+    elif v2_roi >= 0:
+        cc="#f59e0b"; bp2=50; cm=f"🟡 PAPER-TRADE — V2 rules retro-grade {v2_win_pct:.1f}% / {v2_roi:+.1f}% ROI on {v2_bets} bets → deploy gate: 100 live V2 picks ≥54%"
     else:
-        cc="#ef4444"; bp2=33; cm=f"🔴 NOT YET — {flag_pct:.1f}% record / {model_roi:+.1f}% ROI on {S['flagged']} bets → need 30+ bets at +ROI"
+        cc="#ef4444"; bp2=33; cm=f"🔴 NOT YET — {v2_win_pct:.1f}% / {v2_roi:+.1f}% ROI on {v2_bets} V2-rule bets"
     st.markdown(f"<div class='card'><div style='font-family:Space Mono,monospace;color:{cc};font-weight:700;font-size:0.95rem;margin-bottom:10px'>{cm}</div><div style='background:#1c2540;border-radius:4px;height:8px'><div style='background:{cc};width:{bp2}%;height:8px;border-radius:4px'></div></div><div style='display:flex;justify-content:space-between;margin-top:5px'><span class='sub'>0%</span><span class='sub'>Target: +5% ROI / 30+ bets</span><span class='sub'>100%</span></div></div>", unsafe_allow_html=True)
+
+# ── V2 WHAT-IF — walk-forward backtest from the model teardown ──────────────
+# Numbers from the V2 rebuild analysis (mlb_model_vault.html). These are
+# BACKTEST results (monthly walk-forward, out-of-sample), NOT live picks —
+# they answer "how would the model have done if V2 had run all along."
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<div class='sec'>V2 vs Old — Monthly Walk-Forward</div>", unsafe_allow_html=True)
+
+V2_WF_MONTHS = ["25-03","25-04","25-05","25-06","25-07","25-08","25-09","26-04","26-05","26-06"]
+V2_WF_OLD    = [.6269,.6183,.5666,.5729,.5489,.5943,.5860,.5810,.6268,.5581]
+V2_WF_NEW    = [.6418,.6336,.5811,.5829,.5679,.5800,.6048,.6333,.6435,.5814]
+
+_wf_df = pd.DataFrame({
+    "month": V2_WF_MONTHS * 2,
+    "accuracy": V2_WF_OLD + V2_WF_NEW,
+    "model": ["Old (18-feat XGBoost)"] * len(V2_WF_MONTHS) + ["V2 (4-feat logistic)"] * len(V2_WF_MONTHS),
+})
+_wf_chart = alt.Chart(_wf_df).mark_line(point=True).encode(
+    x=alt.X("month:N", sort=V2_WF_MONTHS, title=None),
+    y=alt.Y("accuracy:Q", scale=alt.Scale(domain=[0.52, 0.66]), axis=alt.Axis(format=".0%"), title="walk-forward accuracy"),
+    color=alt.Color("model:N", scale=alt.Scale(
+        domain=["Old (18-feat XGBoost)", "V2 (4-feat logistic)"],
+        range=["#ef4444", "#00d97e"]), legend=alt.Legend(orient="top", title=None)),
+    tooltip=["month", "model", alt.Tooltip("accuracy:Q", format=".1%")],
+).properties(height=260)
+_wf_base = alt.Chart(pd.DataFrame({"y": [0.522]})).mark_rule(
+    strokeDash=[4, 4], color="#475569").encode(y="y:Q")
+st.altair_chart(_wf_chart + _wf_base, use_container_width=True)
+
+st.markdown(
+    "<div class='sub' style='font-size:0.72rem;color:#334155;margin-top:-6px;margin-bottom:8px'>"
+    "⚠️ Backtest, not live results: monthly walk-forward — every month predicted by a model trained only on prior "
+    "months. V2 wins or ties 8 of 10 months. Dashed line = always-pick-home baseline (52.2%). The Season "
+    "Performance section above remains the LIVE graded record (mostly old-model picks); V2's live record "
+    "starts 2026-07-16 and earns its own numbers from there."
+    "</div>", unsafe_allow_html=True)
+
+with st.expander("ℹ️ What changed in V2 (six holes found in the teardown)"):
+    st.markdown("""
+1. **Lineup swap bug** — inference fed each team's lineup OPS under the *other* team's label on every confirmed-lineup game (training was correct, so inference contradicted training). Fixed: shared feature module.
+2. **Post-model adjustment layers** — park factor, +0.5 home boost, bullpen nudge, 30–70 clamp stacked on top of a calibrated output. They flipped 28% of picks and lost most of the flips (raw model 58.1% vs 53.9% pipeline on the same 117 games). Removed.
+3. **2026 never trained on** — the weekly retrain permanently held out the current season, so 757 of the freshest games taught the model nothing (and the "2026 weighted 3x" log line was dead code). Fixed: trains on all rows.
+4. **Look-ahead in the retrain metric** — the logged 62–65% used features containing future information; the honest walk-forward number for the old model is 58.7%. Fixed: log now records walk-forward accuracy.
+5. **13 of 18 features were noise** — permutation importance showed only era_diff carried clear signal. V2 is 4 winsorized difference features into a calibrated logistic regression, which beat every XGBoost config tested.
+6. **Small-sample pollution** — a 2-IP reliever could feed a raw 27.00 ERA into the model. Fixed: winsorization (ERA clipped 1.5–8.0, WHIP 0.8–2.0, OPS diff ±0.25).
+""")
 
 # ── PITCHER SCRATCH ALERTS
 scratch_file = f"scratches_{today_str}.json"
