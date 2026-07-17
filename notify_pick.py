@@ -30,6 +30,51 @@ NTFY_TOPIC = "poons-mlb-picks-k7d24q"   # subscribe to this in the ntfy app
 PYTHON = r"C:\Users\Poons\AppData\Local\Python\pythoncore-3.11-64\python.exe"
 MASTER = r"C:\Users\Poons\baseball-model\master_v2.py"
 
+# Major US books for best-price shopping on confirmed picks
+BOOKS = [
+    ("draftkings", "DK"), ("betmgm", "MGM"), ("fanduel", "FD"),
+    ("williamhill_us", "CZR"), ("hardrockbet", "HardRock"), ("circasports", "Circa"),
+]
+BOOK_LABEL = dict(BOOKS)
+
+
+def _payout(odds):
+    """$ won on a $100 stake at American odds — the line-shopping yardstick."""
+    return odds if odds > 0 else 10000.0 / abs(odds)
+
+
+def _fmt_odds(o):
+    return f"+{o}" if o > 0 else str(o)
+
+
+def fetch_market_odds():
+    """team name -> {bookmaker_key: american_price} across the six books."""
+    key = os.environ.get("ODDS_API_KEY")
+    if not key:
+        return {}
+    try:
+        resp = requests.get(
+            "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
+            params={
+                "apiKey": key, "markets": "h2h", "oddsFormat": "american",
+                "bookmakers": ",".join(k for k, _ in BOOKS),
+            },
+            timeout=20,
+        )
+        resp.raise_for_status()
+        out = {}
+        for game in resp.json():
+            for bk in game.get("bookmakers", []):
+                for mkt in bk.get("markets", []):
+                    if mkt.get("key") != "h2h":
+                        continue
+                    for o in mkt.get("outcomes", []):
+                        out.setdefault(o["name"], {})[bk["key"]] = o["price"]
+        return out
+    except Exception as e:
+        print(f"odds fetch failed ({e}) — notifying without line shop")
+        return {}
+
 
 def lv_today():
     return datetime.now(timezone(timedelta(hours=-7))).strftime("%Y-%m-%d")
@@ -85,7 +130,7 @@ def save_state(date_str, notified):
         json.dump(sorted(notified), f)
 
 
-def format_pick(row, started=False):
+def format_pick(row, book_odds=None, started=False):
     away, home = row["Away"], row["Home"]
     away_p, home_p = float(row["Model Away%"]), float(row["Model Home%"])
     side = away if away_p > home_p else home
@@ -104,6 +149,13 @@ def format_pick(row, started=False):
         f"MGM {mgm_odds} (edge {mgm_edge.replace(' ** BET **', '')})",
         "** BET **" if bet else "No bet (outside 3-8% window)",
     ]
+    # Line shop the pick side across the six major books
+    prices = (book_odds or {}).get(side, {})
+    if prices:
+        ranked = sorted(prices.items(), key=lambda kv: -_payout(kv[1]))
+        best_bk, best_px = ranked[0]
+        lines.append(f"Best price: {BOOK_LABEL.get(best_bk, best_bk)} {_fmt_odds(best_px)}")
+        lines.append(" | ".join(f"{BOOK_LABEL.get(k, k)} {_fmt_odds(v)}" for k, v in ranked))
     sharp = row.get("Sharp Signal", "N/A")
     if "FADE" in str(sharp):
         lines.append("Sharp FADE veto active")
@@ -170,6 +222,8 @@ def main():
         subprocess.run([PYTHON, MASTER, date_str], timeout=1800)
         picks = load_picks(date_str)
 
+    book_odds = fetch_market_odds() if pending else {}
+
     for g in pending:
         key = f"{g['away']}@{g['home']}"
         if key in notified:  # doubleheader: same key appears twice in one run
@@ -181,7 +235,7 @@ def main():
         if row.get("Model Away%") in (None, "", "None") or row.get("Model Home%") in (None, "", "None"):
             print(f"{key}: no model pick yet (starter unresolved) — will retry next run")
             continue
-        body, bet = format_pick(row, started=g["state"] in ("Live", "Final"))
+        body, bet = format_pick(row, book_odds, started=g["state"] in ("Live", "Final"))
         title = f"MLB pick locked: {g['away']} @ {g['home']}"
         send_push(title, body, bet)
         notified.add(key)
