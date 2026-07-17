@@ -62,7 +62,13 @@ def load_picks(date_str):
     picks = {}
     with open(filename, encoding="utf-8-sig") as f:
         for row in csv.DictReader(f):
-            picks[f"{row['Away']}@{row['Home']}"] = row
+            key = f"{row['Away']}@{row['Home']}"
+            # doubleheaders: two rows share a key — keep the one with a pick
+            existing = picks.get(key)
+            if existing and existing.get("Model Away%") not in (None, "", "None") \
+                    and row.get("Model Away%") in (None, "", "None"):
+                continue
+            picks[key] = row
     return picks
 
 
@@ -166,9 +172,14 @@ def main():
 
     for g in pending:
         key = f"{g['away']}@{g['home']}"
+        if key in notified:  # doubleheader: same key appears twice in one run
+            continue
         row = picks.get(key)
         if not row:
             print(f"{key}: lineups confirmed but no pick row yet — will retry next run")
+            continue
+        if row.get("Model Away%") in (None, "", "None") or row.get("Model Home%") in (None, "", "None"):
+            print(f"{key}: no model pick yet (starter unresolved) — will retry next run")
             continue
         body, bet = format_pick(row, started=g["state"] in ("Live", "Final"))
         title = f"MLB pick locked: {g['away']} @ {g['home']}"
