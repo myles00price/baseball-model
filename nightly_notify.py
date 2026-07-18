@@ -41,8 +41,14 @@ def main():
     for key, row in picks.items():
         if "BET" in str(row.get("Flag", "")):
             away_p, home_p = float(row["Model Away%"]), float(row["Model Home%"])
-            side = row["Away"] if away_p > home_p else row["Home"]
-            bets.append(f"{side} ({max(away_p, home_p):.1f}%) in {row['Away']} @ {row['Home']}")
+            if away_p > home_p:
+                side, odds, dk_e, mgm_e = row["Away"], row["DK Away Odds"], row["DK Edge Away"], row["MGM Edge Away"]
+            else:
+                side, odds, dk_e, mgm_e = row["Home"], row["DK Home Odds"], row["DK Edge Home"], row["MGM Edge Home"]
+            dk_e = str(dk_e).replace(" ** BET **", "")
+            mgm_e = str(mgm_e).replace(" ** BET **", "")
+            bets.append(f"{side} ({max(away_p, home_p):.1f}%) vs {row['Away'] if side == row['Home'] else row['Home']}"
+                        f" - DK {odds}, edge DK {dk_e} / MGM {mgm_e}")
 
     lines = [f"Nightly run complete. {len(picks)} game(s) on tomorrow's slate ({date_str})."]
     if bets:
