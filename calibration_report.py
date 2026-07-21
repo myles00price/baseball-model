@@ -3,6 +3,8 @@ import os
 import sys
 import requests
 
+from features_v2 import flagged_side
+
 # Task Scheduler consoles use cp1252, which can't encode emoji glyphs
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
@@ -118,11 +120,16 @@ def run_calibration():
             total_games += 1; day_total += 1
             if won: total_correct += 1; day_correct += 1
 
+            # Grade flagged bets on the side that carried the flag (often the
+            # value dog), not the model's pick side — see features_v2.flagged_side
             is_flagged = "BET" in str(flag)
             if is_flagged:
+                side = flagged_side(pick)
+                bet_team = away if side == "away" else home if side == "home" else model_winner
+                bet_won = bet_team == actual_winner
                 flagged_games += 1; day_flagged += 1
                 mae_flagged_errors.append(abs_error)
-                if won: flagged_correct += 1; day_flagged_correct += 1
+                if bet_won: flagged_correct += 1; day_flagged_correct += 1
 
             # Edge bucket
             dk_edge_away = pick.get("DK Edge Away", "N/A")
