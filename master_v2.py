@@ -17,7 +17,7 @@ from pitcher_stats import get_blended_pitcher_stats
 from lineup_stats import get_platoon_lineup_ops
 from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
-from features_v2 import predict_home_win_prob_v2
+from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX
 
 # ─────────────────────────────────────────────────────────────
 # master_v2.py — V2 inference. Four fixes vs master.py:
@@ -52,8 +52,11 @@ from features_v2 import predict_home_win_prob_v2
 # rows, CSV schema (downstream dashboard unchanged).
 # ─────────────────────────────────────────────────────────────
 
-EDGE_MIN = 3.0   # ** BET ** window — revisit after 100+ graded V2 picks
-EDGE_MAX = 8.0
+# ** BET ** window lives in features_v2 (BET_MIN/BET_MAX) — single source
+# of truth shared with graders and notifications. Revisit after 100+ graded
+# V2 picks.
+EDGE_MIN = BET_MIN
+EDGE_MAX = BET_MAX
 
 PARK_FACTORS = {
     "Colorado Rockies":        118,
@@ -158,7 +161,7 @@ def american_to_prob(odds):
 def edge(model_p, market_p, reliable=True):
     if model_p and market_p:
         e = round(model_p - market_p, 1)
-        flag = " ** BET **" if (EDGE_MIN <= e <= EDGE_MAX and reliable) else ""
+        flag = " ** BET **" if (is_bet(e) and reliable) else ""
         return f"{e:+.1f}%{flag}"
     return "N/A"
 

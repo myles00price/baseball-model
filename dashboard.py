@@ -561,18 +561,18 @@ kpi_data = [
      "#00d97e"),
 
     ("Model P&L",
-     "+$18",
-     "V2 rules retro-applied · 24 bets · $100 flat",
+     "+$187",
+     "V2 rules retro-applied · 31 bets · $100 flat",
      "#00d97e"),
 
     ("Model ROI",
-     "+0.8%",
-     "on $2,400 wagered · V2 rules",
+     "+6.0%",
+     "on $3,100 wagered · V2 rules",
      "#00d97e"),
 
     ("Flagged Record",
-     "12-12",
-     "50.0% win rate · V2 filters",
+     "16-15",
+     "51.6% win rate · V2 filters",
      "#f59e0b"),
 
     ("Avg CLV",
@@ -593,7 +593,8 @@ st.markdown(
     f"Headline board = the V2 method applied to the whole season: accuracy is monthly walk-forward "
     f"(out-of-sample); P&L/record re-grade the season's bets under V2 rules (Sharp FADE veto + lineup "
     f"filter). V2 went live {'2026-07-16'} — from here the board accrues real V2 picks. "
-    f"(Old pipeline actuals for reference: 52.2% accuracy, -$1,412 on flagged bets.)"
+    f"(Old pipeline actuals for reference: 52.3% accuracy, -$152 on flagged bets — corrected 2026-07-20 "
+    f"for a grading bug that scored value-dog bets on the wrong side.)"
     f"</div>",
     unsafe_allow_html=True
 )
@@ -649,7 +650,7 @@ with sc2:
     st.markdown("<div class='sec'>Betting Confidence</div>", unsafe_allow_html=True)
     # Anchored to the V2 method retro-applied (24 season bets under V2 rules),
     # per the teardown's deploy gate: 100 flagged V2 picks ≥54% before real money.
-    v2_bets, v2_win_pct, v2_roi = 24, 50.0, 0.8
+    v2_bets, v2_win_pct, v2_roi = 31, 51.6, 6.0
     if v2_bets >= 100 and v2_win_pct >= 54:
         cc="#00d97e"; bp2=100; cm=f"✅ READY — {v2_win_pct:.1f}% / {v2_roi:+.1f}% ROI on {v2_bets} V2-rule bets → consider real money"
     elif v2_roi >= 0:

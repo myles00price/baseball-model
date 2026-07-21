@@ -5,6 +5,8 @@ import json
 import sys
 from datetime import datetime, timedelta, timezone
 
+from features_v2 import flagged_side
+
 # Task Scheduler consoles use cp1252, which can't encode emoji glyphs
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
@@ -164,8 +166,12 @@ def check_picks(date_str):
             correct += 1
 
         if flag == "** BET **":
+            # Grade the side that actually carried the BET flag — often the
+            # value dog, NOT the model's pick side (features_v2.flagged_side).
+            side = flagged_side(pick)
+            bet_team = away if side == "away" else home if side == "home" else model_winner
             bet_total += 1
-            if model_winner == actual_winner:
+            if bet_team == actual_winner:
                 bet_correct += 1
 
         # Closing line lookup (existing)
@@ -213,8 +219,10 @@ def check_picks(date_str):
         elif clv is not None:
             print(f"     CLV: {model_prob}% model vs {closing_implied}% closing → {clv:+.1f}% {'✅' if clv_positive else '❌'}")
         if flag == "** BET **":
-            result_str = "WIN" if model_winner == actual_winner else "LOSS"
-            print(f"     *** FLAGGED BET — {result_str} ***")
+            side = flagged_side(pick)
+            bet_team = away if side == "away" else home if side == "home" else model_winner
+            result_str = "WIN" if bet_team == actual_winner else "LOSS"
+            print(f"     *** FLAGGED BET ({bet_team}) — {result_str} ***")
         print()
 
     if new_clv_entries:

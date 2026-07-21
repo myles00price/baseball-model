@@ -142,15 +142,26 @@ def format_pick(row, book_odds=None, started=False):
         dk_odds, mgm_odds = row["DK Home Odds"], row["MGM Home Odds"]
         dk_edge, mgm_edge = row["DK Edge Home"], row["MGM Edge Home"]
     bet = "BET" in str(row.get("Flag", ""))
+    # The BET flag belongs to the value side (features_v2.flagged_side),
+    # which is not always the model's pick — name it explicitly.
+    from features_v2 import flagged_side
+    bside = flagged_side(row) if bet else None
+    bet_team = row["Away"] if bside == "away" else row["Home"] if bside == "home" else None
+    if bet and bet_team:
+        bet_line = (f"** BET: {bet_team} **" if bet_team == side
+                    else f"** BET: {bet_team} ** (value dog — model still picks {side} to win)")
+    else:
+        bet_line = "No bet (outside 3-8% window)"
     lines = [
         f"{away} @ {home}",
         f"Pick: {side} ({prob:.1f}%)",
         f"DK {dk_odds} (edge {dk_edge.replace(' ** BET **', '')}) | "
         f"MGM {mgm_odds} (edge {mgm_edge.replace(' ** BET **', '')})",
-        "** BET **" if bet else "No bet (outside 3-8% window)",
+        bet_line,
     ]
-    # Line shop the pick side across the six major books
-    prices = (book_odds or {}).get(side, {})
+    # Line shop the BET side when flagged, otherwise the pick side
+    shop_team = bet_team if (bet and bet_team) else side
+    prices = (book_odds or {}).get(shop_team, {})
     if prices:
         ranked = sorted(prices.items(), key=lambda kv: -_payout(kv[1]))
         best_bk, best_px = ranked[0]

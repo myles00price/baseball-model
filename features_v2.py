@@ -45,6 +45,33 @@ OPS_DIFF_CAP     = 0.25
 # tuning knob. (Old pipeline clamped 30-70 and clipped 12.9% of preds.)
 PROB_LO, PROB_HI = 0.22, 0.78
 
+# ── BET window — single source of truth ─────────────────────────────────
+# Edge sign convention: edge = model_prob - implied_prob (both 0-100 scale,
+# vig included). Positive = value on that side. The window is applied to the
+# SIGNED edge of each side independently; a game's BET flag can therefore
+# belong to the value side, which is NOT always the side the model picks to
+# win (value-dog bets). Graders and notifications must use flagged_side(),
+# never assume the flag means "bet the model's pick".
+BET_MIN, BET_MAX = 3.0, 8.0
+
+
+def is_bet(edge):
+    """True iff a SIGNED edge sits inside the bet window [BET_MIN, BET_MAX]."""
+    return edge is not None and BET_MIN <= edge <= BET_MAX
+
+
+def flagged_side(row):
+    """Which side of a picks-CSV row carries the BET flag: 'away', 'home',
+    or None. Reads the per-book edge strings, which embed ' ** BET **' at
+    flag time — the authoritative record of which side was bet."""
+    away_flagged = "BET" in str(row.get("DK Edge Away", "")) + str(row.get("MGM Edge Away", ""))
+    home_flagged = "BET" in str(row.get("DK Edge Home", "")) + str(row.get("MGM Edge Home", ""))
+    if away_flagged:
+        return "away"
+    if home_flagged:
+        return "home"
+    return None
+
 
 def add_v2_features(df):
     """Add V2 feature columns to a training dataframe in place-safe copy."""

@@ -5,6 +5,8 @@ import requests
 from glob import glob
 from datetime import datetime, timedelta, timezone
 
+from features_v2 import flagged_side
+
 # Task Scheduler consoles use cp1252, which can't encode emoji glyphs
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
@@ -203,16 +205,20 @@ def run_tracker():
             sharp_cat = categorize_sharp(sharp)
             lineup_cat = categorize_lineup(lineup_src)
 
-            # Flagged bet tracking
+            # Flagged bet tracking — grade the side that carried the BET flag
+            # (features_v2.flagged_side): often the value dog, NOT model_winner.
             is_flagged = "BET" in str(flag)
             bet_profit = 0.0
             if is_flagged:
                 flagged_total += 1
                 day_flagged += 1
-                bet_odds = dk_home if model_winner == home else dk_away
+                side = flagged_side(pick)
+                bet_team = away if side == "away" else home if side == "home" else model_winner
+                bet_won = bet_team == actual_winner
+                bet_odds = dk_home if bet_team == home else dk_away
                 payout = american_to_payout(bet_odds, stake)
 
-                if won:
+                if bet_won:
                     flagged_correct += 1
                     day_flagged_correct += 1
                     bet_profit = payout if payout else 0
@@ -224,11 +230,11 @@ def run_tracker():
 
                 # NEW: per-sharp and per-lineup flagged breakdowns
                 flag_by_sharp[sharp_cat]["total"] += 1
-                if won: flag_by_sharp[sharp_cat]["correct"] += 1
+                if bet_won: flag_by_sharp[sharp_cat]["correct"] += 1
                 flag_by_sharp[sharp_cat]["profit"] += bet_profit
 
                 flag_by_lineup[lineup_cat]["total"] += 1
-                if won: flag_by_lineup[lineup_cat]["correct"] += 1
+                if bet_won: flag_by_lineup[lineup_cat]["correct"] += 1
                 flag_by_lineup[lineup_cat]["profit"] += bet_profit
 
                 # NEW: hypothetical veto P&L
