@@ -113,6 +113,17 @@ def main():
     sb_w = sum(1 for g in sb if g["bet_won"])
     sb_pnl = sum(g["bet_profit"] for g in sb)
 
+    # Value-dog vs aligned split (bet side != model pick side = value dog)
+    def split(gs):
+        out = {}
+        for name, sub in (("value-dog", [g for g in gs if g["bet_team"] and g["bet_team"] != g["pick"]]),
+                          ("aligned", [g for g in gs if g["bet_team"] and g["bet_team"] == g["pick"]])):
+            w = sum(1 for g in sub if g["bet_won"])
+            pnl = sum(g["bet_profit"] for g in sub)
+            out[name] = (w, len(sub), pnl)
+        return out
+    season_split, v2_split = split(games), split(v2)
+
     # Team analytics
     picked = defaultdict(lambda: [0, 0])
     bet_on = defaultdict(lambda: [0, 0])
@@ -156,7 +167,13 @@ def main():
     lines += ["", "## Season flagged bets (correct-side grading)",
               f"- Record: {sb_w}-{len(sb)-sb_w} ({sb_w/len(sb)*100 if sb else 0:.1f}%), "
               f"P&L {sb_pnl:+.0f} (ROI {sb_pnl/(len(sb)*100)*100 if sb else 0:+.1f}%)", "",
-              "## Team analytics", "**Best when picked (min 8):**"]
+              "## Value-dog vs aligned bets",
+              "| Class | Season | V2 window |", "|---|---|---|"]
+    for name in ("value-dog", "aligned"):
+        sw, st, spnl = season_split[name]
+        vw, vt, vpnl = v2_split[name]
+        lines.append(f"| {name} | {sw}-{st-sw}, {spnl:+.0f} | {vw}-{vt-vw}, {vpnl:+.0f} |")
+    lines += ["", "## Team analytics", "**Best when picked (min 8):**"]
     lines += [f"- {tm}: {c}/{t} ({p*100:.0f}%)" for p, c, t, tm in best]
     lines.append("**Worst when picked:**")
     lines += [f"- {tm}: {c}/{t} ({p*100:.0f}%)" for p, c, t, tm in worst]
