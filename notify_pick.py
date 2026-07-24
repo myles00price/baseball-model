@@ -47,6 +47,31 @@ def _fmt_odds(o):
     return f"+{o}" if o > 0 else str(o)
 
 
+def fair_odds(prob_pct):
+    """Model probability (0-100) -> no-vig American odds equivalent, so
+    subscribers who think in odds can compare model vs book directly."""
+    p = float(prob_pct)
+    if p >= 50:
+        return f"-{round(p / (100 - p) * 100)}"
+    return f"+{round((100 - p) / p * 100)}"
+
+
+def quarter_kelly(prob_pct, american_odds):
+    """Quarter-Kelly stake as % of bankroll, capped at 2%.
+
+    INFORMATIONAL until the 100-pick deploy gate passes — Kelly is only as
+    good as the probability feeding it, and the model's live calibration
+    isn't proven yet. Returns None when there is no positive-EV stake."""
+    p = float(prob_pct) / 100.0
+    b = _payout(float(american_odds)) / 100.0
+    if b <= 0:
+        return None
+    k = (b * p - (1 - p)) / b
+    if k <= 0:
+        return None
+    return min(k / 4 * 100, 2.0)
+
+
 def fetch_market_odds():
     """team name -> {bookmaker_key: american_price} across the six books."""
     key = os.environ.get("ODDS_API_KEY")
@@ -148,13 +173,15 @@ def format_pick(row, book_odds=None, started=False):
     bside = flagged_side(row) if bet else None
     bet_team = row["Away"] if bside == "away" else row["Home"] if bside == "home" else None
     if bet and bet_team:
-        bet_line = (f"** BET: {bet_team} **" if bet_team == side
-                    else f"** BET: {bet_team} ** (value dog — model still picks {side} to win)")
+        bt_prob = row["Model Away%"] if bet_team == row["Away"] else row["Model Home%"]
+        bt_fair = f"{float(bt_prob):.1f}% = fair {fair_odds(bt_prob)}"
+        bet_line = (f"** BET: {bet_team} ({bt_fair}) **" if bet_team == side
+                    else f"** BET: {bet_team} ({bt_fair}) ** (value dog — model still picks {side} to win)")
     else:
         bet_line = "No bet (outside 3-8% window)"
     lines = [
         f"{away} @ {home}",
-        f"Pick: {side} ({prob:.1f}%)",
+        f"Pick: {side} ({prob:.1f}% = fair {fair_odds(prob)})",
         f"DK {dk_odds} (edge {dk_edge.replace(' ** BET **', '')}) | "
         f"MGM {mgm_odds} (edge {mgm_edge.replace(' ** BET **', '')})",
         bet_line,
@@ -162,11 +189,24 @@ def format_pick(row, book_odds=None, started=False):
     # Line shop the BET side when flagged, otherwise the pick side
     shop_team = bet_team if (bet and bet_team) else side
     prices = (book_odds or {}).get(shop_team, {})
+    best_px = None
     if prices:
         ranked = sorted(prices.items(), key=lambda kv: -_payout(kv[1]))
         best_bk, best_px = ranked[0]
         lines.append(f"Best price: {BOOK_LABEL.get(best_bk, best_bk)} {_fmt_odds(best_px)}")
         lines.append(" | ".join(f"{BOOK_LABEL.get(k, k)} {_fmt_odds(v)}" for k, v in ranked))
+    # Quarter-Kelly sizing on official bets (informational until the gate)
+    if bet and bet_team:
+        bet_prob = row["Model Away%"] if bet_team == row["Away"] else row["Model Home%"]
+        kelly_px = best_px
+        if kelly_px is None:
+            kelly_px = row["DK Away Odds"] if bet_team == row["Away"] else row["DK Home Odds"]
+        try:
+            k = quarter_kelly(bet_prob, kelly_px)
+        except Exception:
+            k = None
+        if k:
+            lines.append(f"Kelly 1/4 (informational until 100-pick gate): {k:.1f}% of bankroll")
     sharp = row.get("Sharp Signal", "N/A")
     if "FADE" in str(sharp):
         lines.append("Sharp FADE veto active")

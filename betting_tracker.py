@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import os
 import sys
 import requests
@@ -11,17 +11,17 @@ from features_v2 import flagged_side
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
-# ─────────────────────────────────────────────────────────────
-# betting_tracker.py — Additions:
-#   • BUGFIX: edge bucket assignment now uses the edge column
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# betting_tracker.py â€” Additions:
+#   â€¢ BUGFIX: edge bucket assignment now uses the edge column
 #     matching the model's pick (was: always DK Edge Away)
-#   • NEW: flagged-bet breakdown by Sharp signal (CONFIRMED/FADE/N/A)
-#   • NEW: flagged-bet breakdown by Lineup Source (CONFIRMED/PARTIAL/ESTIMATED)
-#   • NEW: hypothetical filter P&L — what would season P&L look like
+#   â€¢ NEW: flagged-bet breakdown by Sharp signal (CONFIRMED/FADE/N/A)
+#   â€¢ NEW: flagged-bet breakdown by Lineup Source (CONFIRMED/PARTIAL/ESTIMATED)
+#   â€¢ NEW: hypothetical filter P&L â€” what would season P&L look like
 #     if we had vetoed certain BET flags? Pure analysis, no behavior change.
 #
-# P&L math already used real moneyline payout (american_to_payout) — unchanged.
-# ─────────────────────────────────────────────────────────────
+# P&L math already used real moneyline payout (american_to_payout) â€” unchanged.
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def get_game_results(date_str):
     schedule = requests.get(
@@ -37,6 +37,8 @@ def get_game_results(date_str):
             away = game["teams"]["away"]["team"]["name"]
             home_score = game["teams"]["home"].get("score", 0)
             away_score = game["teams"]["away"].get("score", 0)
+            if home_score == 0 and away_score == 0:
+                continue  # suspended/glitched "final" - a real MLB game can't end 0-0
             winner = home if home_score > away_score else away
             results[home] = {"winner": winner, "home": home, "away": away,
                            "home_score": home_score, "away_score": away_score}
@@ -72,7 +74,7 @@ def categorize_sharp(sharp_str):
     return "N/A"
 
 def categorize_lineup(lineup_str):
-    """Bucket Lineup Source — same vocabulary master.py writes."""
+    """Bucket Lineup Source â€” same vocabulary master.py writes."""
     s = str(lineup_str).upper()
     if "CONFIRMED" in s: return "CONFIRMED"
     if "PARTIAL"   in s: return "PARTIAL"
@@ -80,7 +82,7 @@ def categorize_lineup(lineup_str):
 
 def run_tracker():
     print("\n" + "=" * 65)
-    print("  MLB BETTING TRACKER — FULL SEASON")
+    print("  MLB BETTING TRACKER â€” FULL SEASON")
     print("=" * 65)
 
     stake = 100.0
@@ -96,7 +98,7 @@ def run_tracker():
     temp_streak = 0
     temp_type = None
 
-    # Category tracking — overall (all games, flagged or not)
+    # Category tracking â€” overall (all games, flagged or not)
     sharp_confirmed_total = 0
     sharp_confirmed_correct = 0
     sharp_fade_total = 0
@@ -110,7 +112,7 @@ def run_tracker():
         "10%+":  {"total": 0, "correct": 0, "profit": 0.0},
     }
 
-    # ── NEW: flagged-bet breakdown by sharp signal and lineup source ──
+    # â”€â”€ NEW: flagged-bet breakdown by sharp signal and lineup source â”€â”€
     flag_by_sharp = {
         "CONFIRMED": {"total": 0, "correct": 0, "profit": 0.0},
         "FADE":      {"total": 0, "correct": 0, "profit": 0.0},
@@ -122,7 +124,7 @@ def run_tracker():
         "ESTIMATED": {"total": 0, "correct": 0, "profit": 0.0},
     }
 
-    # ── NEW: hypothetical filter P&L scenarios ──
+    # â”€â”€ NEW: hypothetical filter P&L scenarios â”€â”€
     # Each scenario tracks the P&L you'd have if certain BET flags were vetoed.
     hypo = {
         "no_fade":           {"bets": 0, "wins": 0, "profit": 0.0},  # skip Sharp FADE
@@ -205,7 +207,7 @@ def run_tracker():
             sharp_cat = categorize_sharp(sharp)
             lineup_cat = categorize_lineup(lineup_src)
 
-            # Flagged bet tracking — grade the side that carried the BET flag
+            # Flagged bet tracking â€” grade the side that carried the BET flag
             # (features_v2.flagged_side): often the value dog, NOT model_winner.
             is_flagged = "BET" in str(flag)
             bet_profit = 0.0
@@ -262,7 +264,7 @@ def run_tracker():
                 sharp_fade_total += 1
                 if won: sharp_fade_correct += 1
 
-            # ── BUGFIX: edge bucket now uses the edge matching the picked side ──
+            # â”€â”€ BUGFIX: edge bucket now uses the edge matching the picked side â”€â”€
             try:
                 edge_col = "DK Edge Home" if picked_home else "DK Edge Away"
                 dk_edge_str = pick.get(edge_col, "N/A")
@@ -287,9 +289,9 @@ def run_tracker():
             "profit": day_profit
         })
 
-    # ── Display ──────────────────────────────────────────────────────
+    # â”€â”€ Display â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-    print("\n📅 Daily Breakdown:")
+    print("\nðŸ“… Daily Breakdown:")
     print(f"  {'Date':<12} {'Overall':>10} {'Flagged':>10} {'P&L':>8}")
     print(f"  {'-'*44}")
     for d in daily:
@@ -298,7 +300,7 @@ def run_tracker():
         pnl = f"+${d['profit']:.2f}" if d['profit'] >= 0 else f"-${abs(d['profit']):.2f}"
         print(f"  {d['date']:<12} {overall:>10} {flagged:>10} {pnl:>8}")
 
-    print(f"\n📊 Season Summary:")
+    print(f"\nðŸ“Š Season Summary:")
     if total_games:
         print(f"  Total games graded:    {total_games}")
         print(f"  Overall accuracy:      {total_correct}/{total_games} ({total_correct/total_games*100:.1f}%)")
@@ -311,46 +313,46 @@ def run_tracker():
     print(f"  Best win streak:       {best_win_streak}")
     print(f"  Worst loss streak:     {worst_loss_streak}")
 
-    print(f"\n📈 Accuracy By Edge Size (picked-side edge):")
+    print(f"\nðŸ“ˆ Accuracy By Edge Size (picked-side edge):")
     for bucket, data in buckets.items():
         if data["total"]:
             pct = data["correct"] / data["total"] * 100
-            bar = "█" * int(pct / 5)
+            bar = "â–ˆ" * int(pct / 5)
             print(f"  {bucket:<8} {data['correct']}/{data['total']} ({pct:.1f}%) {bar}")
 
-    # ── NEW: Flagged breakdown by Sharp signal ──
+    # â”€â”€ NEW: Flagged breakdown by Sharp signal â”€â”€
     if flagged_total:
-        print(f"\n🎯 Flagged Bets — by Sharp Signal:")
+        print(f"\nðŸŽ¯ Flagged Bets â€” by Sharp Signal:")
         for cat in ["CONFIRMED", "FADE", "N/A"]:
             d = flag_by_sharp[cat]
             if d["total"]:
                 pct = d["correct"]/d["total"]*100
                 pnl = f"+${d['profit']:.2f}" if d['profit'] >= 0 else f"-${abs(d['profit']):.2f}"
-                print(f"  {cat:<10} {d['correct']}/{d['total']} ({pct:.1f}%) — P&L {pnl}")
+                print(f"  {cat:<10} {d['correct']}/{d['total']} ({pct:.1f}%) â€” P&L {pnl}")
 
-    # ── NEW: Flagged breakdown by Lineup Source ──
+    # â”€â”€ NEW: Flagged breakdown by Lineup Source â”€â”€
     if flagged_total:
-        print(f"\n📋 Flagged Bets — by Lineup Source:")
+        print(f"\nðŸ“‹ Flagged Bets â€” by Lineup Source:")
         for cat in ["CONFIRMED", "PARTIAL", "ESTIMATED"]:
             d = flag_by_lineup[cat]
             if d["total"]:
                 pct = d["correct"]/d["total"]*100
                 pnl = f"+${d['profit']:.2f}" if d['profit'] >= 0 else f"-${abs(d['profit']):.2f}"
-                print(f"  {cat:<10} {d['correct']}/{d['total']} ({pct:.1f}%) — P&L {pnl}")
+                print(f"  {cat:<10} {d['correct']}/{d['total']} ({pct:.1f}%) â€” P&L {pnl}")
 
-    # ── Overall Sharp signal (all games, kept for reference) ──
+    # â”€â”€ Overall Sharp signal (all games, kept for reference) â”€â”€
     if sharp_confirmed_total or sharp_fade_total:
-        print(f"\n🎯 Sharp Signal — All Games (not just flagged):")
+        print(f"\nðŸŽ¯ Sharp Signal â€” All Games (not just flagged):")
         if sharp_confirmed_total:
             cp = sharp_confirmed_correct/sharp_confirmed_total*100
-            print(f"  CONFIRMED ✓:  {sharp_confirmed_correct}/{sharp_confirmed_total} ({cp:.1f}%)")
+            print(f"  CONFIRMED âœ“:  {sharp_confirmed_correct}/{sharp_confirmed_total} ({cp:.1f}%)")
         if sharp_fade_total:
             fp = sharp_fade_correct/sharp_fade_total*100
-            print(f"  FADE ✗:       {sharp_fade_correct}/{sharp_fade_total} ({fp:.1f}%)")
+            print(f"  FADE âœ—:       {sharp_fade_correct}/{sharp_fade_total} ({fp:.1f}%)")
 
-    # ── NEW: Hypothetical filter P&L — does NOT change behavior ──
+    # â”€â”€ NEW: Hypothetical filter P&L â€” does NOT change behavior â”€â”€
     if flagged_total:
-        print(f"\n🧪 Hypothetical Filter P&L (read-only — what if these BETs had been vetoed):")
+        print(f"\nðŸ§ª Hypothetical Filter P&L (read-only â€” what if these BETs had been vetoed):")
         print(f"  {'Scenario':<28} {'Bets':>6} {'Wins':>6} {'Win%':>7} {'P&L':>10} {'ROI':>8}")
         print(f"  {'-'*70}")
 
@@ -370,17 +372,17 @@ def run_tracker():
             pnl = f"+${profit:.2f}" if profit >= 0 else f"-${abs(profit):.2f}"
             print(f"  {label:<28} {bets:>6} {wins:>6} {win_pct:>6.1f}% {pnl:>10} {roi:>+7.1f}%")
 
-    print(f"\n💡 Betting Confidence:")
+    print(f"\nðŸ’¡ Betting Confidence:")
     if flagged_total >= 10:
         flag_pct = flagged_correct/flagged_total*100
         if flag_pct >= 57 and flagged_total >= 30:
-            print(f"  ✅ READY — {flag_pct:.1f}% on {flagged_total} bets → consider $100 bets")
+            print(f"  âœ… READY â€” {flag_pct:.1f}% on {flagged_total} bets â†’ consider $100 bets")
         elif flag_pct >= 55 and flagged_total >= 20:
-            print(f"  🟡 CLOSE — {flag_pct:.1f}% on {flagged_total} bets → paper trade only")
+            print(f"  ðŸŸ¡ CLOSE â€” {flag_pct:.1f}% on {flagged_total} bets â†’ paper trade only")
         else:
-            print(f"  🔴 NOT YET — {flag_pct:.1f}% on {flagged_total} bets → need 55%+ over 30+ bets")
+            print(f"  ðŸ”´ NOT YET â€” {flag_pct:.1f}% on {flagged_total} bets â†’ need 55%+ over 30+ bets")
     else:
-        print(f"  ⏳ Need more data — only {flagged_total} flagged bets so far")
+        print(f"  â³ Need more data â€” only {flagged_total} flagged bets so far")
 
     print("\n" + "=" * 65)
 
