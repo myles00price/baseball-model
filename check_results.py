@@ -41,7 +41,7 @@ def get_closing_lines():
         odds_resp = requests.get(
             "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
             params={
-                "apiKey": os.environ.get("ODDS_API_KEY", "719921510f0839e3f61743f271956eea"),
+                "apiKey": os.environ.get("ODDS_API_KEY", ""),
                 "regions": "us",
                 "markets": "h2h",
                 "oddsFormat": "american",
@@ -280,3 +280,4 @@ if __name__ == '__main__':
         target = datetime.now(lv).strftime("%Y-%m-%d")
     print(f"Checking results for: {target}")
     check_picks(target)
+

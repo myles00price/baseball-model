@@ -10,7 +10,7 @@ def save_current_lines(date_str):
     data = requests.get(
         "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
         params={
-            "apiKey": "719921510f0839e3f61743f271956eea",
+            "apiKey": os.environ.get("ODDS_API_KEY", ""),
             "regions": "us",
             "markets": "h2h",
             "oddsFormat": "american",
@@ -80,7 +80,7 @@ def get_line_movement(date_str):
     data = requests.get(
         "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
         params={
-            "apiKey": "719921510f0839e3f61743f271956eea",
+            "apiKey": os.environ.get("ODDS_API_KEY", ""),
             "regions": "us",
             "markets": "h2h",
             "oddsFormat": "american",

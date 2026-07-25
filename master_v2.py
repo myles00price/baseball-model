@@ -215,6 +215,11 @@ def run_model(target_date, save_csv=True):
     ).json()
 
     odds_lookup = {}
+    if not isinstance(odds_resp, list):
+        # API error object (quota exhausted, bad key, outage). Run degraded:
+        # model probabilities still compute; edges/flags need odds and will be N/A.
+        print(f"WARNING: odds API unavailable ({str(odds_resp)[:120]}) - running without odds")
+        odds_resp = []
     for game in odds_resp:
         for bookmaker in game["bookmakers"]:
             bk = bookmaker["key"]
@@ -243,8 +248,12 @@ def run_model(target_date, save_csv=True):
     print(f"Bullpen data loaded for {len(bullpen)} teams")
 
     print("Pulling line movement...")
-    save_current_lines(target_str)
-    movement = get_line_movement(target_str)
+    try:
+        save_current_lines(target_str)
+        movement = get_line_movement(target_str)
+    except Exception as e:
+        print(f"WARNING: line movement unavailable ({e})")
+        movement = {}
     print(f"Line movement data for {len(movement)} games\n")
 
     def get_pitcher_whiff(full_name):

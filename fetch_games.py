@@ -1,7 +1,8 @@
+import os
 import requests
 from datetime import datetime, timedelta, timezone
 
-ODDS_API_KEY = "719921510f0839e3f61743f271956eea"
+ODDS_API_KEY = os.environ.get("ODDS_API_KEY", "")
 
 url = "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/"
 

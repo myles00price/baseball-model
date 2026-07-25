@@ -1,4 +1,4 @@
-import requests
+﻿import requests
 import pandas as pd
 from pybaseball import statcast_pitcher, playerid_lookup
 from datetime import datetime, timedelta, timezone
@@ -14,24 +14,24 @@ from lineup_stats import get_platoon_lineup_ops
 from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
 
-# ─────────────────────────────────────────────────────────────
-# master.py — Sharp FADE veto added (single change vs prior version)
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# master.py â€” Sharp FADE veto added (single change vs prior version)
 #
 # Six weeks of paper-trading data showed Sharp FADE bets going
-# 2/15 (13.3%) for -$1,062 P&L — single biggest leak in the
+# 2/15 (13.3%) for -$1,062 P&L â€” single biggest leak in the
 # system. The veto suppresses BET flags when smart money is
 # moving against the model.
 #
 # Implementation: sharp_signal computation moved to BEFORE the
 # `reliable` boolean, then reliable now includes a sharp_veto
 # check. Every downstream edge() call inherits the veto with
-# zero further changes — they take `reliable` as input.
+# zero further changes â€” they take `reliable` as input.
 #
 # Behavior: FADE games still display their model %, market %,
 # and edge values normally. They just don't get the ** BET **
 # annotation in the per-bookmaker edge strings or the Flag column.
 # CONFIRMED and N/A games behave exactly as before.
-# ─────────────────────────────────────────────────────────────
+# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 PARK_FACTORS = {
     "Colorado Rockies":        118,
@@ -70,7 +70,7 @@ VIG_MIN = 102.0
 VIG_MAX = 108.0
 
 def check_vig(away_prob, home_prob, bookmaker):
-    """Returns a warning string if vig is outside the normal 102–108% range,
+    """Returns a warning string if vig is outside the normal 102â€“108% range,
     or None if vig is normal or odds are missing."""
     if away_prob is None or home_prob is None:
         return None
@@ -217,7 +217,7 @@ def run_model(target_date, save_csv=True):
     odds_resp = requests.get(
         "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
         params={
-            "apiKey": os.environ.get("ODDS_API_KEY", "719921510f0839e3f61743f271956eea"),
+            "apiKey": os.environ.get("ODDS_API_KEY", ""),
             "regions": "us",
             "markets": "h2h",
             "oddsFormat": "american",
@@ -279,7 +279,7 @@ def run_model(target_date, save_csv=True):
             return None, None, None, f"{full_name} | Error"
 
     print("=" * 75)
-    print(f"  MLB MODEL REPORT — {target_str}")
+    print(f"  MLB MODEL REPORT â€” {target_str}")
     print("=" * 75)
 
     picks = []
@@ -324,8 +324,8 @@ def run_model(target_date, save_csv=True):
                         "Sharp Signal", "Lineup Source", "Park Factor", "Flag",
                         "Odds Warning"
                     ]])
-                    status_label = "🔴 LIVE" if game_status == "Live" else "✅ FINAL"
-                    print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
+                    status_label = "ðŸ”´ LIVE" if game_status == "Live" else "âœ… FINAL"
+                    print(f"  {status_label} â€” {away} @ {home} [FROZEN â€” using pre-game pick]")
                 continue
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
@@ -397,13 +397,13 @@ def run_model(target_date, save_csv=True):
             dk_home  = american_to_prob(odds_lookup.get(home, {}).get("draftkings"))
             mgm_home = american_to_prob(odds_lookup.get(home, {}).get("betmgm"))
 
-            # ── Vig sanity check (diagnostic only — does not change picking) ──
+            # â”€â”€ Vig sanity check (diagnostic only â€” does not change picking) â”€â”€
             dk_warning  = check_vig(dk_away,  dk_home,  "DK")
             mgm_warning = check_vig(mgm_away, mgm_home, "MGM")
             warnings_list = [w for w in [dk_warning, mgm_warning] if w]
             odds_warning = " | ".join(warnings_list) if warnings_list else ""
 
-            # ── Sharp signal — computed BEFORE the reliable check so it can veto BETs ──
+            # â”€â”€ Sharp signal â€” computed BEFORE the reliable check so it can veto BETs â”€â”€
             sharp_signal = "N/A"
             if away_move and home_move and away_prob and home_prob:
                 model_favors = away if away_prob > home_prob else home
@@ -416,11 +416,11 @@ def run_model(target_date, save_csv=True):
                 else:
                     market_moving_toward = away if away_movement > home_movement else home
                     if model_favors == market_moving_toward:
-                        sharp_signal = "CONFIRMED ✓"
+                        sharp_signal = "CONFIRMED âœ“"
                     else:
-                        sharp_signal = "FADE ✗"
+                        sharp_signal = "FADE âœ—"
 
-            # ── Reliable: pitcher reliability + Coors exclusion + Sharp FADE veto ──
+            # â”€â”€ Reliable: pitcher reliability + Coors exclusion + Sharp FADE veto â”€â”€
             # FADE bets went 2/15 (13.3%) for -$1,062 P&L over 6 weeks of paper trading.
             # When sharps move against the model, we suppress the BET flag.
             min_reliability = min(home_rel, away_rel)
@@ -446,11 +446,11 @@ def run_model(target_date, save_csv=True):
 
             print(f"\n{away} @ {home} [{lineup_source}] [Park: {park_factor}]")
             if odds_warning:
-                print(f"  ⚠️  ODDS WARNING: {odds_warning}  (logged; pick proceeds normally)")
+                print(f"  âš ï¸  ODDS WARNING: {odds_warning}  (logged; pick proceeds normally)")
             if sharp_veto and min_reliability >= 8 and home != "Colorado Rockies":
-                print(f"  🚫 SHARP FADE VETO — BET flag suppressed (sharps moving against model)")
+                print(f"  ðŸš« SHARP FADE VETO â€” BET flag suppressed (sharps moving against model)")
             print(f"  {away_p} ({away_hand}) rel:{away_rel}% | {home_p} ({home_hand}) rel:{home_rel}%")
-            print(f"  Platoon OPS — {away}: {away_ops:.3f} vs {home_hand}HP | {home}: {home_ops:.3f} vs {away_hand}HP")
+            print(f"  Platoon OPS â€” {away}: {away_ops:.3f} vs {home_hand}HP | {home}: {home_ops:.3f} vs {away_hand}HP")
             if home_bull and away_bull:
                 print(f"  Away BP: ERA(7d): {away_bull['era_recent']} | "
                       f"Sv/BSv: {away_bull['saves']}/{away_bull['blown_saves']} | "
@@ -459,10 +459,10 @@ def run_model(target_date, save_csv=True):
                       f"Sv/BSv: {home_bull['saves']}/{home_bull['blown_saves']} | "
                       f"Score: {home_bull['bullpen_score']}")
             if away_move and home_move:
-                print(f"  Line Move — "
-                      f"{away}: {away_move.get('open_odds')} → {away_move.get('current_odds')} "
+                print(f"  Line Move â€” "
+                      f"{away}: {away_move.get('open_odds')} â†’ {away_move.get('current_odds')} "
                       f"({away_move.get('movement', 0):+.1f}%) {away_move.get('direction', '')} | "
-                      f"{home}: {home_move.get('open_odds')} → {home_move.get('current_odds')} "
+                      f"{home}: {home_move.get('open_odds')} â†’ {home_move.get('current_odds')} "
                       f"({home_move.get('movement', 0):+.1f}%) {home_move.get('direction', '')} | "
                       f"Sharp: {sharp_signal}")
             print(f"  {'Team':<30} {'Model%':>7} {'DK Imp%':>8} {'MGM Imp%':>9} {'DK Edge':>8} {'MGM Edge':>9}")
@@ -511,9 +511,9 @@ def run_model(target_date, save_csv=True):
     # End-of-run FADE veto summary
     if fade_vetoes:
         print("\n" + "=" * 75)
-        print(f"  🚫 SHARP FADE VETO SUMMARY — {len(fade_vetoes)} BET(s) suppressed today:")
+        print(f"  ðŸš« SHARP FADE VETO SUMMARY â€” {len(fade_vetoes)} BET(s) suppressed today:")
         for g in fade_vetoes:
-            print(f"     • {g}")
+            print(f"     â€¢ {g}")
         print("=" * 75)
 
     if save_csv:
