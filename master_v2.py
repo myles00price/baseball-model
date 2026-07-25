@@ -185,7 +185,10 @@ def save_picks_to_csv(picks, date_str):
             "Away Line Move", "Home Line Move",
             "Sharp Signal",
             "Lineup Source", "Park Factor", "Flag",
-            "Odds Warning"
+            "Odds Warning",
+            "Devig DK Edge Away", "Devig DK Edge Home",
+            "Devig MGM Edge Away", "Devig MGM Edge Home",
+            "Devig Bet"
         ])
         for pick in picks:
             writer.writerow([str(p) for p in pick])
@@ -308,7 +311,10 @@ def run_model(target_date, save_csv=True):
                         "Away BP ERA(7d)", "Home BP ERA(7d)",
                         "Away Line Move", "Home Line Move",
                         "Sharp Signal", "Lineup Source", "Park Factor", "Flag",
-                        "Odds Warning"
+                        "Odds Warning",
+                        "Devig DK Edge Away", "Devig DK Edge Home",
+                        "Devig MGM Edge Away", "Devig MGM Edge Home",
+                        "Devig Bet"
                     ]])
                     status_label = "🔴 LIVE" if game_status == "Live" else "✅ FINAL"
                     print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
@@ -383,6 +389,17 @@ def run_model(target_date, save_csv=True):
             except:
                 pass
 
+            def _devig_edges(imp_a, imp_h):
+                """SHADOW de-vig edges (no behavior change): remove the vig by
+                scaling both implied probs to sum to 100, then edge vs model.
+                Logged to the CSV so live data can confirm the backtest before
+                any switch of the real flag logic."""
+                if imp_a is None or imp_h is None or away_prob is None or home_prob is None:
+                    return "N/A", "N/A"
+                tot = imp_a + imp_h
+                dva, dvh = imp_a / tot * 100, imp_h / tot * 100
+                return f"{away_prob - dva:+.1f}%", f"{home_prob - dvh:+.1f}%"
+
             dk_away  = american_to_prob(odds_lookup.get(away, {}).get("draftkings"))
             mgm_away = american_to_prob(odds_lookup.get(away, {}).get("betmgm"))
             dk_home  = american_to_prob(odds_lookup.get(home, {}).get("draftkings"))
@@ -393,6 +410,22 @@ def run_model(target_date, save_csv=True):
             mgm_warning = check_vig(mgm_away, mgm_home, "MGM")
             warnings_list = [w for w in [dk_warning, mgm_warning] if w]
             odds_warning = " | ".join(warnings_list) if warnings_list else ""
+
+            # ── SHADOW: de-vig edges + would-be flag (logged only) ──
+            dv_dk_away, dv_dk_home = _devig_edges(dk_away, dk_home)
+            dv_mgm_away, dv_mgm_home = _devig_edges(mgm_away, mgm_home)
+
+            def _in_window(s):
+                try:
+                    return is_bet(float(str(s).replace("%", "")))
+                except (ValueError, TypeError):
+                    return False
+            if _in_window(dv_dk_away) or _in_window(dv_mgm_away):
+                devig_bet = away
+            elif _in_window(dv_dk_home) or _in_window(dv_mgm_home):
+                devig_bet = home
+            else:
+                devig_bet = ""
 
             # ── Sharp signal — computed BEFORE the reliable check so it can veto BETs ──
             sharp_signal = "N/A"
@@ -496,7 +529,10 @@ def run_model(target_date, save_csv=True):
                 home_move.get("movement", "N/A") if home_move else "N/A",
                 sharp_signal,
                 lineup_source, park_factor, bet_flag,
-                odds_warning
+                odds_warning,
+                dv_dk_away, dv_dk_home,
+                dv_mgm_away, dv_mgm_home,
+                devig_bet
             ])
 
     # End-of-run FADE veto summary
