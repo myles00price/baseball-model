@@ -16,7 +16,7 @@ from datetime import datetime, timedelta, timezone
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
-from notify_pick import load_picks, send_push
+from notify_pick import load_picks, send_push, send_ops
 
 STALE_SECONDS = 45 * 60  # picks file older than this = nightly run failed
 
@@ -28,12 +28,10 @@ def main():
 
     fresh = os.path.exists(filename) and (time.time() - os.path.getmtime(filename)) < STALE_SECONDS
     if not fresh:
-        send_push(
-            "MLB model: nightly run PROBLEM",
-            f"No fresh picks file for {date_str} after the 10:50 PM run — check the machine.",
-            bet=False,
-        )
-        print(f"{date_str}: picks file missing or stale — failure alert sent")
+        # System problem: ops topic only — subscribers never see plumbing.
+        send_ops("Nightly run PROBLEM",
+                 f"No fresh picks file for {date_str} after the 10:50 PM run - check the machine.")
+        print(f"{date_str}: picks file missing or stale — ops alert sent")
         return
 
     picks = load_picks(date_str)

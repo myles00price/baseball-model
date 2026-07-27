@@ -26,7 +26,8 @@ import requests
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
-NTFY_TOPIC = "poons-mlb-picks-k7d24q"   # subscribe to this in the ntfy app
+NTFY_TOPIC = "poons-mlb-picks-k7d24q"   # shared: plays, results, weekly report ONLY
+OPS_TOPIC = "poons-mlb-ops-x9r31m"      # private (owner only): system/failure alerts
 PYTHON = r"C:\Users\Poons\AppData\Local\Python\pythoncore-3.11-64\python.exe"
 MASTER = r"C:\Users\Poons\baseball-model\master_v2.py"
 
@@ -215,6 +216,12 @@ def format_pick(row, book_odds=None, started=False):
     return "\n".join(lines), bet
 
 
+def send_ops(title, body):
+    """System/failure alerts — private ops topic, never the shared one."""
+    requests.post(f"https://ntfy.sh/{OPS_TOPIC}", data=body.encode("utf-8"),
+                  headers={"Title": title, "Priority": "high", "Tags": "wrench"}, timeout=15)
+
+
 def send_push(title, body, bet):
     requests.post(
         f"https://ntfy.sh/{NTFY_TOPIC}",
@@ -235,8 +242,11 @@ def send_heartbeat(date_str):
         body = (f"Model is working. {len(picks)} game(s) on today's slate. "
                 "The pick will be sent as soon as both lineups are confirmed.")
     else:
-        body = ("Model is working, but no picks file for today "
-                "(off day, or check the overnight run). Lineup watch is active.")
+        body = "Model is working. No slate loaded yet today - picks will follow if there are games."
+        try:
+            send_ops("Heartbeat: no picks file", "No picks file for today - check the overnight run.")
+        except Exception:
+            pass
     send_push("MLB model: morning check-in", body, bet=False)
 
 
