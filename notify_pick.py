@@ -73,8 +73,13 @@ def quarter_kelly(prob_pct, american_odds):
     return min(k / 4 * 100, 2.0)
 
 
-def fetch_market_odds():
-    """team name -> {bookmaker_key: american_price} across the six books."""
+def fetch_market_odds(date_str=None):
+    """team name -> {bookmaker_key: american_price}, six books, ONE slate.
+    date_str filters to that Las Vegas date (default today) — the API
+    returns multiple days and team-name keys would mix games otherwise."""
+    from features_v2 import commence_lv_date
+    if date_str is None:
+        date_str = lv_today()
     key = os.environ.get("ODDS_API_KEY")
     if not key:
         return {}
@@ -90,6 +95,8 @@ def fetch_market_odds():
         resp.raise_for_status()
         out = {}
         for game in resp.json():
+            if commence_lv_date(game.get("commence_time")) != date_str:
+                continue
             for bk in game.get("bookmakers", []):
                 for mkt in bk.get("markets", []):
                     if mkt.get("key") != "h2h":
@@ -283,7 +290,7 @@ def main():
         subprocess.run([PYTHON, MASTER, date_str], timeout=1800)
         picks = load_picks(date_str)
 
-    book_odds = fetch_market_odds() if pending else {}
+    book_odds = fetch_market_odds(date_str) if pending else {}
 
     for g in pending:
         key = f"{g['away']}@{g['home']}"

@@ -17,7 +17,7 @@ from pitcher_stats import get_blended_pitcher_stats
 from lineup_stats import get_platoon_lineup_ops
 from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
-from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX
+from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX, commence_lv_date
 
 # ─────────────────────────────────────────────────────────────
 # master_v2.py — V2 inference. Four fixes vs master.py:
@@ -221,6 +221,8 @@ def run_model(target_date, save_csv=True):
         print(f"WARNING: odds API unavailable ({str(odds_resp)[:120]}) - running without odds")
         odds_resp = []
     for game in odds_resp:
+        if commence_lv_date(game.get("commence_time")) != target_str:
+            continue  # only THIS slate's games — the API returns multiple days
         for bookmaker in game["bookmakers"]:
             bk = bookmaker["key"]
             for market in bookmaker["markets"]:

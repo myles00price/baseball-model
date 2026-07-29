@@ -28,7 +28,22 @@ the current season from training — see weekly_retrain_v2.py).
 """
 
 import pickle
+from datetime import datetime, timedelta, timezone
+
 import numpy as np
+
+
+def commence_lv_date(iso_utc):
+    """the-odds-api commence_time (ISO UTC) -> Las Vegas calendar date string.
+
+    The odds endpoint returns MULTIPLE days of upcoming games. Keying prices
+    by team name without this filter mixes today's and tomorrow's lines
+    (2026-07-28 bug: texts carried next-day odds; one phantom flag)."""
+    try:
+        dt = datetime.fromisoformat(str(iso_utc).replace("Z", "+00:00"))
+        return dt.astimezone(timezone(timedelta(hours=-7))).strftime("%Y-%m-%d")
+    except (ValueError, TypeError):
+        return None
 
 FEATURES_V2 = ["era_diff_w", "whip_diff_w", "ops_diff_c", "kpct_diff"]
 

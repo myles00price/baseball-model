@@ -36,7 +36,8 @@ def get_game_results(date_str):
             }
     return results
 
-def get_closing_lines():
+def get_closing_lines(date_str=None):
+    from features_v2 import commence_lv_date
     try:
         odds_resp = requests.get(
             "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
@@ -50,6 +51,8 @@ def get_closing_lines():
         ).json()
         closing = {}
         for game in odds_resp:
+            if date_str and commence_lv_date(game.get("commence_time")) != date_str:
+                continue  # only the graded slate — API returns future days too
             for bookmaker in game["bookmakers"]:
                 if bookmaker["key"] != "draftkings":
                     continue
@@ -129,7 +132,7 @@ def check_picks(date_str):
         return
 
     print("Pulling closing lines for CLV...")
-    closing = get_closing_lines()
+    closing = get_closing_lines(date_str)
     saved_opening = load_opening_lines()   # NEW
 
     picks = []
