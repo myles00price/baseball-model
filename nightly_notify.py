@@ -17,6 +17,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 from notify_pick import load_picks, send_push, send_ops
+from features_v2 import flagged_side
 
 STALE_SECONDS = 45 * 60  # picks file older than this = nightly run failed
 
@@ -38,14 +39,20 @@ def main():
     bets = []
     for key, row in picks.items():
         if "BET" in str(row.get("Flag", "")):
-            away_p, home_p = float(row["Model Away%"]), float(row["Model Home%"])
-            if away_p > home_p:
-                side, odds, dk_e, mgm_e = row["Away"], row["DK Away Odds"], row["DK Edge Away"], row["MGM Edge Away"]
+            # List the FLAGGED side (may be the value dog), not the model's pick
+            s = flagged_side(row)
+            if s == "away":
+                side, prob, odds, dk_e, mgm_e = (row["Away"], row["Model Away%"],
+                    row["DK Away Odds"], row["DK Edge Away"], row["MGM Edge Away"])
+            elif s == "home":
+                side, prob, odds, dk_e, mgm_e = (row["Home"], row["Model Home%"],
+                    row["DK Home Odds"], row["DK Edge Home"], row["MGM Edge Home"])
             else:
-                side, odds, dk_e, mgm_e = row["Home"], row["DK Home Odds"], row["DK Edge Home"], row["MGM Edge Home"]
+                continue
             dk_e = str(dk_e).replace(" ** BET **", "")
             mgm_e = str(mgm_e).replace(" ** BET **", "")
-            bets.append(f"{side} ({max(away_p, home_p):.1f}%) vs {row['Away'] if side == row['Home'] else row['Home']}"
+            opp = row["Away"] if side == row["Home"] else row["Home"]
+            bets.append(f"{side} ({float(prob):.1f}%) vs {opp}"
                         f" - DK {odds}, edge DK {dk_e} / MGM {mgm_e}")
 
     lines = [f"Nightly run complete. {len(picks)} game(s) on tomorrow's slate ({date_str})."]
