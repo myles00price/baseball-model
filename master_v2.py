@@ -292,6 +292,20 @@ def run_model(target_date, save_csv=True):
                 existing_picks[key] = row
         print(f"Loaded {len(existing_picks)} existing picks to freeze Live/Final games\n")
 
+    # LOCK-ON-TEXT: once a pick has been texted to subscribers it is the
+    # official play — later pre-game reruns must NOT change its flag or odds.
+    # (2026-07-28 bug: a rerun dropped the texted Cardinals flag, so the
+    # nightly grade missed a play subscribers had bet.)
+    texted_keys = set()
+    try:
+        import json as json_module
+        with open(f"notified_{target_str}.json") as f:
+            texted_keys = {k for k in json_module.load(f) if not k.startswith("_")}
+        if texted_keys:
+            print(f"{len(texted_keys)} texted picks are locked and will not be re-evaluated\n")
+    except OSError:
+        pass
+
     # Session-level FADE veto counter for end-of-run summary
     fade_vetoes = []
 
@@ -302,7 +316,7 @@ def run_model(target_date, save_csv=True):
             away = game["teams"]["away"]["team"]["name"]
             game_key = f"{away}@{home}"
 
-            if game_status in ["Live", "Final"]:
+            if game_status in ["Live", "Final"] or game_key in texted_keys:
                 if game_key in existing_picks:
                     row = existing_picks[game_key]
                     picks.append([row.get(col, "") for col in [
@@ -325,7 +339,9 @@ def run_model(target_date, save_csv=True):
                         "Devig MGM Edge Away", "Devig MGM Edge Home",
                         "Devig Bet"
                     ]])
-                    status_label = "🔴 LIVE" if game_status == "Live" else "✅ FINAL"
+                    status_label = ("🔴 LIVE" if game_status == "Live"
+                                    else "✅ FINAL" if game_status == "Final"
+                                    else "🔒 TEXTED/LOCKED")
                     print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
                 continue
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
