@@ -591,40 +591,48 @@ def render_terminal_board(rows, date_str):
     except OSError:
         locked = set()
     st.markdown("""<style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;700&display=swap');
-    .tb-wrap{background:#000;border:1px solid #1a1a1a;padding:14px;margin:6px 0 12px}
-    .tb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:10px}
-    .tb-card{background:#050505;border:1px solid #232323;border-radius:0;padding:0;font-family:'Oswald',sans-serif}
-    .tb-card.tb-play{border:1px solid #b8860b}
-    .tb-playbar{background:#b8860b;color:#000;font-family:'Bebas Neue',sans-serif;font-size:12px;
-      letter-spacing:.35em;text-align:center;padding:2px 0 1px}
-    .tb-top{display:flex;justify-content:space-between;font-family:'Bebas Neue',sans-serif;font-size:13px;
-      letter-spacing:.2em;color:#555;padding:7px 12px 5px;border-bottom:1px solid #161616}
-    .tb-live{color:#ff2e2e;text-shadow:0 0 8px rgba(255,46,46,.7)}
-    .tb-final{color:#9aa}.tb-sched{color:#777}
-    .tb-row{display:flex;align-items:center;gap:10px;padding:5px 12px}
-    .tb-ab{font-family:'Bebas Neue',sans-serif;font-size:23px;width:56px;color:#eee;letter-spacing:.06em}
-    .tb-score{font-family:'Bebas Neue',sans-serif;font-size:25px;width:30px;text-align:right;
-      color:#ffb000;text-shadow:0 0 10px rgba(255,176,0,.55)}
-    .tb-mdl{font-size:12px;width:50px;color:#8ab4ff;font-family:'Space Mono',monospace}
-    .tb-odds{font-size:10.5px;color:#666;width:104px;font-family:'Space Mono',monospace}
-    .tb-chip{font-size:10.5px;border-radius:0;padding:1px 7px;margin-left:auto;font-family:'Space Mono',monospace;border:1px solid #222}
-    .tb-pos{border-color:#0d5c3d;color:#00e07f;background:#00170d}
-    .tb-neg{border-color:#5c1515;color:#ff4d4d;background:#170505}
-    .tb-dim{color:#555;background:#0a0a0a}
-    .tb-foot{display:flex;justify-content:space-between;font-size:10px;color:#555;
-      border-top:1px solid #161616;padding:6px 12px 7px;letter-spacing:.06em;font-family:'Oswald',sans-serif;text-transform:uppercase}
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@600;700&family=VT323&display=swap');
+    .tb-wrap{background:#000;border:2px solid #181818;padding:16px;margin:6px 0 12px}
+    .tb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:9px}
+    .tb-card{background:#020202;border:1px solid #1c1c1c;border-radius:0;padding:0}
+    .tb-card.tb-play{border:1px solid #8a6d1a}
+    .tb-playbar{background:linear-gradient(90deg,#8a6d1a,#c9992b,#8a6d1a);color:#000;font-family:'Bebas Neue',sans-serif;
+      font-size:12.5px;letter-spacing:.4em;text-align:center;padding:2px 0 1px}
+    .tb-top{display:flex;justify-content:space-between;align-items:baseline;
+      font-family:'Oswald',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.14em;
+      color:#f2f2f2;padding:7px 12px 5px;border-bottom:1px solid #141414;text-transform:uppercase}
+    .tb-live{font-family:'VT323',monospace;font-size:17px;color:#ff2020;text-shadow:0 0 9px rgba(255,32,32,.8);letter-spacing:.05em}
+    .tb-final{font-family:'VT323',monospace;font-size:17px;color:#8f8f8f;letter-spacing:.05em}
+    .tb-sched{font-family:'VT323',monospace;font-size:17px;color:#2bff64;text-shadow:0 0 7px rgba(43,255,100,.5);letter-spacing:.05em}
+    .tb-row{display:flex;align-items:center;gap:9px;padding:4px 12px}
+    .tb-rot{font-family:'VT323',monospace;font-size:16px;color:#1f7a3d;width:34px}
+    .tb-ab{font-family:'Bebas Neue',sans-serif;font-size:22px;width:52px;color:#f5f5f5;letter-spacing:.05em}
+    .tb-score{font-family:'VT323',monospace;font-size:27px;width:30px;text-align:right;
+      color:#ffb000;text-shadow:0 0 11px rgba(255,176,0,.65)}
+    .tb-mdl{font-family:'VT323',monospace;font-size:18px;width:48px;color:#2bff64;text-shadow:0 0 6px rgba(43,255,100,.45)}
+    .tb-odds{font-family:'VT323',monospace;font-size:16.5px;color:#2bff64;width:112px;
+      text-shadow:0 0 6px rgba(43,255,100,.35)}
+    .tb-chip{font-family:'VT323',monospace;font-size:15px;border-radius:0;padding:0 6px;margin-left:auto;border:1px solid #1c1c1c}
+    .tb-pos{border-color:#0d5c2d;color:#2bff64;background:#001408;text-shadow:0 0 6px rgba(43,255,100,.5)}
+    .tb-neg{border-color:#5c1515;color:#ff3838;background:#140303;text-shadow:0 0 6px rgba(255,56,56,.4)}
+    .tb-dim{color:#3d3d3d;background:#070707}
+    .tb-foot{display:flex;justify-content:space-between;font-family:'Oswald',sans-serif;font-size:9.5px;
+      color:#5c5c5c;border-top:1px solid #141414;padding:5px 12px 6px;letter-spacing:.12em;text-transform:uppercase}
     .tb-badge{display:none}
-    .tb-sharp-c{color:#00e07f}.tb-sharp-f{color:#ff4d4d}
-    .tb-sechead{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.3em;color:#eee;
-      border-left:4px solid #ffb000;padding-left:12px;margin:4px 0 10px}
-    .tb-sechead small{color:#555;font-size:15px;letter-spacing:.2em}
+    .tb-sharp-c{font-family:'VT323',monospace;font-size:14px;color:#2bff64;text-shadow:0 0 6px rgba(43,255,100,.5)}
+    .tb-sharp-f{font-family:'VT323',monospace;font-size:14px;color:#ff3838;text-shadow:0 0 6px rgba(255,56,56,.5)}
+    .tb-sechead{display:flex;justify-content:space-between;align-items:baseline;
+      font-family:'Bebas Neue',sans-serif;font-size:27px;letter-spacing:.32em;color:#fff;
+      background:#0c0c0c;border:1px solid #1c1c1c;padding:6px 14px 3px;margin:0 0 10px}
+    .tb-sechead small{font-family:'VT323',monospace;color:#2bff64;font-size:17px;letter-spacing:.12em;
+      text-shadow:0 0 7px rgba(43,255,100,.5)}
     </style>""", unsafe_allow_html=True)
     cards = []
-    for r in rows:
+    for gi, r in enumerate(rows):
         away, home = r.get("Away", ""), r.get("Home", "")
         if not away or not home:
             continue
+        rot_a, rot_h = 951 + gi * 2, 952 + gi * 2  # Vegas-style rotation numbers
         key = f"{away}@{home}"
         lv_ = live.get(key, {})
         state = lv_.get("state", "Preview")
@@ -653,14 +661,14 @@ def render_terminal_board(rows, date_str):
         playbar = f"<div class='tb-playbar'>{'🔒 ' if key in locked else ''}OFFICIAL PLAY</div>" if flagged else ""
         cards.append(
             f"<div class='tb-card{' tb-play' if flagged else ''}'>{playbar}"
-            f"<div class='tb-top'><span>{status}</span><span class='tb-badge'>{badge}</span></div>"
-            f"<div class='tb-row'><span class='tb-ab'>{a_ab}</span><span class='tb-score'>{a_sc}</span>"
-            f"<span class='tb-mdl'>{ma_txt}</span><span class='tb-odds'>DK {fmt_odds(r.get('DK Away Odds'))} · MGM {fmt_odds(r.get('MGM Away Odds'))}</span>"
+            f"<div class='tb-top'><span>{a_ab} @ {h_ab}</span><span>{status}</span></div>"
+            f"<div class='tb-row'><span class='tb-rot'>{rot_a}</span><span class='tb-ab'>{a_ab}</span><span class='tb-score'>{a_sc}</span>"
+            f"<span class='tb-mdl'>{ma_txt}</span><span class='tb-odds'>DK {fmt_odds(r.get('DK Away Odds'))} MGM {fmt_odds(r.get('MGM Away Odds'))}</span>"
             f"{_board_edge_chip(r.get('DK Edge Away'))}</div>"
-            f"<div class='tb-row'><span class='tb-ab'>{h_ab}</span><span class='tb-score'>{h_sc}</span>"
-            f"<span class='tb-mdl'>{mh_txt}</span><span class='tb-odds'>DK {fmt_odds(r.get('DK Home Odds'))} · MGM {fmt_odds(r.get('MGM Home Odds'))}</span>"
+            f"<div class='tb-row'><span class='tb-rot'>{rot_h}</span><span class='tb-ab'>{h_ab}</span><span class='tb-score'>{h_sc}</span>"
+            f"<span class='tb-mdl'>{mh_txt}</span><span class='tb-odds'>DK {fmt_odds(r.get('DK Home Odds'))} MGM {fmt_odds(r.get('MGM Home Odds'))}</span>"
             f"{_board_edge_chip(r.get('DK Edge Home'))}</div>"
-            f"<div class='tb-foot'><span>{sp[:52]}</span><span>{sharp_html}</span></div>"
+            f"<div class='tb-foot'><span>{sp[:50]}</span><span>{sharp_html}</span></div>"
             f"</div>")
     if cards:
         st.markdown(
