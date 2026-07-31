@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BOARD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --phos:#2bff64; --phos-dim:#1f7a3d; --amber:#ffb000; --hot:#ff2020;
+  --gold:#c9992b; --ink:#f2f2f2; --mut:#5c5c5c; --line:#1c1c1c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;min-height:100%}
+body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px 16px 40px}
+.frame{max-width:1280px;margin:0 auto}
+
+/* ── marquee ── */
+.marquee{display:flex;justify-content:space-between;align-items:baseline;
+  background:#0a0a0a;border:1px solid var(--line);padding:10px 18px 6px;margin-bottom:12px}
+.marquee h1{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:.38em;color:#fff;font-weight:400}
+.marquee .sub{font-family:'VT323',monospace;font-size:19px;color:var(--phos);
+  text-shadow:0 0 8px rgba(43,255,100,.5);letter-spacing:.08em}
+.statusline{display:flex;justify-content:space-between;font-family:'VT323',monospace;
+  font-size:16px;color:var(--mut);padding:0 4px 10px;letter-spacing:.06em}
+.statusline .lit{color:var(--phos);text-shadow:0 0 6px rgba(43,255,100,.4)}
+
+/* ── grid & cards ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:9px}
+.card{background:#020202;border:1px solid var(--line)}
+.card.play{border-color:#8a6d1a}
+.playbar{background:linear-gradient(90deg,#8a6d1a,var(--gold),#8a6d1a);color:#000;
+  font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.4em;text-align:center;padding:3px 0 1px}
+.top{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;
+  font-size:13px;letter-spacing:.14em;color:var(--ink);padding:7px 12px 5px;
+  border-bottom:1px solid #141414;text-transform:uppercase}
+.st{font-family:'VT323',monospace;font-size:18px;letter-spacing:.04em}
+.st.live{color:var(--hot);text-shadow:0 0 9px rgba(255,32,32,.8);animation:blink 1.6s infinite}
+.st.final{color:#8f8f8f}
+.st.sched{color:var(--phos);text-shadow:0 0 7px rgba(43,255,100,.5)}
+@keyframes blink{50%{opacity:.55}}
+.row{display:flex;align-items:center;gap:9px;padding:5px 12px}
+.rot{font-family:'VT323',monospace;font-size:17px;color:var(--phos-dim);width:36px}
+.ab{font-family:'Bebas Neue',sans-serif;font-size:23px;width:54px;letter-spacing:.05em}
+.score{font-family:'VT323',monospace;font-size:29px;width:32px;text-align:right;
+  color:var(--amber);text-shadow:0 0 12px rgba(255,176,0,.65)}
+.mdl{font-family:'VT323',monospace;font-size:19px;width:50px;color:var(--phos);
+  text-shadow:0 0 6px rgba(43,255,100,.45)}
+.odds{font-family:'VT323',monospace;font-size:17px;color:var(--phos);width:118px;
+  text-shadow:0 0 6px rgba(43,255,100,.35)}
+.chip{font-family:'VT323',monospace;font-size:16px;padding:0 7px;margin-left:auto;border:1px solid var(--line)}
+.chip.pos{border-color:#0d5c2d;color:var(--phos);background:#001408;text-shadow:0 0 6px rgba(43,255,100,.5)}
+.chip.neg{border-color:#5c1515;color:#ff3838;background:#140303;text-shadow:0 0 6px rgba(255,56,56,.4)}
+.chip.dim{color:#3d3d3d;background:#070707}
+.foot{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);
+  border-top:1px solid #141414;padding:6px 12px 7px;letter-spacing:.12em;text-transform:uppercase}
+.sharp-c{font-family:'VT323',monospace;font-size:15px;color:var(--phos);text-shadow:0 0 6px rgba(43,255,100,.5)}
+.sharp-f{font-family:'VT323',monospace;font-size:15px;color:#ff3838;text-shadow:0 0 6px rgba(255,56,56,.5)}
+.err{font-family:'VT323',monospace;color:var(--hot);font-size:20px;padding:30px;text-align:center}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="marquee"><h1>THE BOARD</h1><span class="sub" id="mq-sub">LOADING…</span></div>
+  <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const REPO = "https://raw.githubusercontent.com/myles00price/baseball-model/main";
+const AB = {"Arizona Diamondbacks":"ARI","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS",
+"Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE",
+"Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC",
+"Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL",
+"Minnesota Twins":"MIN","New York Mets":"NYM","New York Yankees":"NYY","Athletics":"ATH",
+"Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF",
+"Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX",
+"Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
+
+const lvDate = (offsetDays=0) => {
+  const d = new Date(Date.now() - 7*3600e3 + offsetDays*86400e3);
+  return d.toISOString().slice(0,10);
+};
+
+function parseCSV(text){
+  const lines = text.replace(/^﻿/,"").split(/\r?\n/).filter(l=>l.trim());
+  const head = lines[0].split(",");
+  return lines.slice(1).map(l=>{
+    const cells=[]; let cur="", q=false;
+    for(const ch of l){
+      if(ch==='"'){q=!q;continue}
+      if(ch===","&&!q){cells.push(cur);cur="";continue}
+      cur+=ch;
+    }
+    cells.push(cur);
+    return Object.fromEntries(head.map((h,i)=>[h,cells[i]??""]));
+  });
+}
+
+async function tryFetch(url){
+  try{const r=await fetch(url+"?t="+Date.now());return r.ok?await r.text():null}catch{return null}
+}
+
+const fmtOdds = o => {
+  const n = parseFloat(o);
+  return isNaN(n) ? "—" : (n>0?"+":"")+Math.round(n);
+};
+const chip = e => {
+  const s = String(e||"").replace("** BET **","").replace("%","").trim();
+  const v = parseFloat(s);
+  if(isNaN(v)) return "<span class='chip dim'>—</span>";
+  const c = v>=3 ? "pos" : v<0 ? "neg" : "dim";
+  return `<span class="chip ${c}">${v>0?"+":""}${v.toFixed(1)}</span>`;
+};
+
+let boardDate=null, picks=[], locked=new Set();
+
+async function loadPicks(){
+  for(const off of [1,0]){                 // prefer tomorrow's slate if built
+    const d = lvDate(off);
+    const txt = await tryFetch(`${REPO}/picks_${d}.csv`) || await tryFetch(`picks_${d}.csv`);
+    if(txt){ boardDate=d; picks=parseCSV(txt); break; }
+  }
+  if(!boardDate){document.getElementById("grid").innerHTML="<div class='err'>NO SLATE FOUND</div>";return false}
+  const nj = await tryFetch(`${REPO}/notified_${boardDate}.json`) || await tryFetch(`notified_${boardDate}.json`);
+  if(nj){ try{ locked = new Set(JSON.parse(nj).filter(k=>!k.startsWith("_"))) }catch{} }
+  return true;
+}
+
+async function loadLive(){
+  try{
+    const r = await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${boardDate}&hydrate=linescore`);
+    const j = await r.json();
+    const out={};
+    for(const d of j.dates||[]) for(const g of d.games||[]){
+      const a=g.teams.away.team.name, h=g.teams.home.team.name;
+      const ls=g.linescore||{};
+      let start="";
+      try{ start=new Date(g.gameDate).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}) }catch{}
+      out[`${a}@${h}`]={state:g.status.abstractGameState,
+        as:g.teams.away.score, hs:g.teams.home.score,
+        inn:(ls.inningHalf==="Top"?"▲":"▼")+" "+(ls.currentInning||""), start};
+    }
+    return out;
+  }catch{return {}}
+}
+
+function render(live){
+  const grid=document.getElementById("grid");
+  let plays=0; const cards=[];
+  picks.forEach((r,gi)=>{
+    const away=r["Away"], home=r["Home"];
+    if(!away||!home) return;
+    const key=`${away}@${home}`, lv=live[key]||{};
+    const flagged=String(r["Flag"]||"").includes("BET");
+    if(flagged) plays++;
+    const st = lv.state==="Live" ? `<span class="st live">● LIVE ${lv.inn||""}</span>`
+             : lv.state==="Final" ? `<span class="st final">FINAL</span>`
+             : `<span class="st sched">${lv.start||""}</span>`;
+    const aab=AB[away]||away.slice(0,3).toUpperCase(), hab=AB[home]||home.slice(0,3).toUpperCase();
+    const num = v => (v===""||v==null||v==="None") ? "—" : Math.round(parseFloat(v))+"%";
+    const sc = v => (lv.state==="Preview"||v==null) ? "" : v;
+    const sharp=String(r["Sharp Signal"]||"");
+    const sharpHtml = sharp.includes("CONFIRMED") ? "<span class='sharp-c'>SHARP ✓</span>"
+                    : sharp.includes("FADE") ? "<span class='sharp-f'>FADE ✗</span>" : "";
+    const sp=`${r["Away SP"]||""} v ${r["Home SP"]||""}`;
+    cards.push(`<div class="card${flagged?" play":""}">
+      ${flagged?`<div class="playbar">${locked.has(key)?"🔒 ":""}OFFICIAL PLAY</div>`:""}
+      <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
+      <div class="row"><span class="rot">${951+gi*2}</span><span class="ab">${aab}</span><span class="score">${sc(lv.as)}</span>
+        <span class="mdl">${num(r["Model Away%"])}</span>
+        <span class="odds">DK ${fmtOdds(r["DK Away Odds"])} MGM ${fmtOdds(r["MGM Away Odds"])}</span>
+        ${chip(r["DK Edge Away"])}</div>
+      <div class="row"><span class="rot">${952+gi*2}</span><span class="ab">${hab}</span><span class="score">${sc(lv.hs)}</span>
+        <span class="mdl">${num(r["Model Home%"])}</span>
+        <span class="odds">DK ${fmtOdds(r["DK Home Odds"])} MGM ${fmtOdds(r["MGM Home Odds"])}</span>
+        ${chip(r["DK Edge Home"])}</div>
+      <div class="foot"><span>${sp.slice(0,52)}</span>${sharpHtml}</div>
+    </div>`);
+  });
+  grid.innerHTML=cards.join("");
+  document.getElementById("mq-sub").textContent=`// ${boardDate} // ${plays} PLAYS`;
+  document.getElementById("sl-date").textContent=`MLB · ${picks.length} GAMES`;
+  document.getElementById("sl-upd").textContent=new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit",second:"2-digit"});
+}
+
+async function tick(){ render(await loadLive()); }
+(async()=>{
+  if(await loadPicks()){ await tick(); setInterval(tick,60000); setInterval(loadPicks,300000); }
+})();
+</script>
+</body>
+</html>
