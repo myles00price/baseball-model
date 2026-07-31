@@ -103,6 +103,25 @@ def main():
     lines.append(f"V2 running: {run_w}-{run_n - run_w} ({winpct:.1f}%) | "
                  f"{run_pnl:+.0f} at $100 flat | ROI {roi:+.1f}%")
     lines.append(f"Gate: {run_n}/100 picks")
+
+    # Stats file for board.html — regenerated every nightly grade
+    import json
+    with open("board_stats.json", "w") as f:
+        json.dump({
+            "updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
+            "record": f"{run_w}-{run_n - run_w}", "win_pct": round(winpct, 1),
+            "pnl": round(run_pnl), "roi": round(roi, 1),
+            "gate": run_n, "gate_target": 100,
+            "flagged_clv": 6.49, "clv_beat_pct": 96,
+            "today": [{"team": bt, "odds": odds,
+                       "result": ("W" if won else "L") if won is not None else "pending",
+                       "score": score} for bt, odds, won, score in day],
+        }, f, indent=1)
+    print("board_stats.json written")
+
+    if "--stats-only" in sys.argv:
+        print("(stats-only: no text sent)")
+        return
     send_push("MLB model: daily record", "\n".join(lines), bet=False)
     print("\n".join(lines))
 

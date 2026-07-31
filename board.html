@@ -15,61 +15,131 @@
 html,body{background:#000;min-height:100%}
 body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px 16px 40px}
 .frame{max-width:1280px;margin:0 auto}
+.vt{font-family:'VT323',monospace}
+.bebas{font-family:'Bebas Neue',sans-serif}
 
-/* ── marquee ── */
-.marquee{display:flex;justify-content:space-between;align-items:baseline;
-  background:#0a0a0a;border:1px solid var(--line);padding:10px 18px 6px;margin-bottom:12px}
-.marquee h1{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:.38em;color:#fff;font-weight:400}
-.marquee .sub{font-family:'VT323',monospace;font-size:19px;color:var(--phos);
-  text-shadow:0 0 8px rgba(43,255,100,.5);letter-spacing:.08em}
+/* ── marquee + search ── */
+.marquee{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  background:#0a0a0a;border:1px solid var(--line);padding:8px 18px;margin-bottom:10px;flex-wrap:wrap}
+.marquee h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.38em;font-weight:400}
+.marquee .sub{font-family:'VT323',monospace;font-size:18px;color:var(--phos);text-shadow:0 0 8px rgba(43,255,100,.5)}
+.searchbox{position:relative;flex:1;max-width:330px;min-width:220px}
+.searchbox input{width:100%;background:#050505;border:1px solid #222;color:var(--phos);
+  font-family:'VT323',monospace;font-size:17px;padding:6px 12px;outline:none;letter-spacing:.05em}
+.searchbox input::placeholder{color:#333}
+.sr{position:absolute;top:100%;left:0;right:0;background:#0a0a0a;border:1px solid #222;z-index:60;max-height:300px;overflow-y:auto}
+.sr div{padding:6px 12px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;border-bottom:1px solid #141414}
+.sr div:hover{background:#141414}
+.sr .pos{color:var(--mut);font-family:'VT323',monospace}
+
+/* ── stats strip ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:10px}
+.stat{background:#020202;border:1px solid var(--line);padding:9px 14px 7px;text-align:center}
+.stat .v{font-family:'VT323',monospace;font-size:31px;color:var(--amber);text-shadow:0 0 11px rgba(255,176,0,.6)}
+.stat .v.grn{color:var(--phos);text-shadow:0 0 9px rgba(43,255,100,.55)}
+.stat .k{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.25em;color:var(--mut);margin-top:1px}
 .statusline{display:flex;justify-content:space-between;font-family:'VT323',monospace;
-  font-size:16px;color:var(--mut);padding:0 4px 10px;letter-spacing:.06em}
-.statusline .lit{color:var(--phos);text-shadow:0 0 6px rgba(43,255,100,.4)}
+  font-size:15px;color:var(--mut);padding:0 4px 8px;letter-spacing:.06em}
+.statusline .lit{color:var(--phos)}
 
 /* ── grid & cards ── */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:9px}
-.card{background:#020202;border:1px solid var(--line)}
+.card{background:#020202;border:1px solid var(--line);cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:#3a3a3a}
 .card.play{border-color:#8a6d1a}
 .playbar{background:linear-gradient(90deg,#8a6d1a,var(--gold),#8a6d1a);color:#000;
   font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.4em;text-align:center;padding:3px 0 1px}
 .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;
-  font-size:13px;letter-spacing:.14em;color:var(--ink);padding:7px 12px 5px;
-  border-bottom:1px solid #141414;text-transform:uppercase}
-.st{font-family:'VT323',monospace;font-size:18px;letter-spacing:.04em}
+  font-size:13px;letter-spacing:.14em;padding:7px 12px 5px;border-bottom:1px solid #141414;text-transform:uppercase}
+.st{font-family:'VT323',monospace;font-size:18px}
 .st.live{color:var(--hot);text-shadow:0 0 9px rgba(255,32,32,.8);animation:blink 1.6s infinite}
 .st.final{color:#8f8f8f}
 .st.sched{color:var(--phos);text-shadow:0 0 7px rgba(43,255,100,.5)}
 @keyframes blink{50%{opacity:.55}}
-.row{display:flex;align-items:center;gap:9px;padding:5px 12px}
-.rot{font-family:'VT323',monospace;font-size:17px;color:var(--phos-dim);width:36px}
-.ab{font-family:'Bebas Neue',sans-serif;font-size:23px;width:54px;letter-spacing:.05em}
-.score{font-family:'VT323',monospace;font-size:29px;width:32px;text-align:right;
+.row{display:flex;align-items:center;gap:8px;padding:5px 12px}
+.rot{font-family:'VT323',monospace;font-size:17px;color:var(--phos-dim);width:32px}
+.tlogo{width:22px;height:22px;filter:drop-shadow(0 0 3px rgba(255,255,255,.15))}
+.ab{font-family:'Bebas Neue',sans-serif;font-size:22px;width:48px}
+.score{font-family:'VT323',monospace;font-size:28px;width:30px;text-align:right;
   color:var(--amber);text-shadow:0 0 12px rgba(255,176,0,.65)}
-.mdl{font-family:'VT323',monospace;font-size:19px;width:50px;color:var(--phos);
-  text-shadow:0 0 6px rgba(43,255,100,.45)}
-.odds{font-family:'VT323',monospace;font-size:17px;color:var(--phos);width:118px;
-  text-shadow:0 0 6px rgba(43,255,100,.35)}
-.chip{font-family:'VT323',monospace;font-size:16px;padding:0 7px;margin-left:auto;border:1px solid var(--line)}
-.chip.pos{border-color:#0d5c2d;color:var(--phos);background:#001408;text-shadow:0 0 6px rgba(43,255,100,.5)}
-.chip.neg{border-color:#5c1515;color:#ff3838;background:#140303;text-shadow:0 0 6px rgba(255,56,56,.4)}
+.mdl{font-family:'VT323',monospace;font-size:18px;width:46px;color:var(--phos);text-shadow:0 0 6px rgba(43,255,100,.45)}
+.odds{font-family:'VT323',monospace;font-size:16px;color:var(--phos);width:108px;text-shadow:0 0 6px rgba(43,255,100,.35)}
+.chip{font-family:'VT323',monospace;font-size:15px;padding:0 7px;margin-left:auto;border:1px solid var(--line)}
+.chip.pos{border-color:#0d5c2d;color:var(--phos);background:#001408}
+.chip.neg{border-color:#5c1515;color:#ff3838;background:#140303}
 .chip.dim{color:#3d3d3d;background:#070707}
 .foot{display:flex;justify-content:space-between;font-size:10px;color:var(--mut);
   border-top:1px solid #141414;padding:6px 12px 7px;letter-spacing:.12em;text-transform:uppercase}
-.sharp-c{font-family:'VT323',monospace;font-size:15px;color:var(--phos);text-shadow:0 0 6px rgba(43,255,100,.5)}
-.sharp-f{font-family:'VT323',monospace;font-size:15px;color:#ff3838;text-shadow:0 0 6px rgba(255,56,56,.5)}
-.err{font-family:'VT323',monospace;color:var(--hot);font-size:20px;padding:30px;text-align:center}
+.sharp-c{font-family:'VT323',monospace;font-size:14px;color:var(--phos)}
+.sharp-f{font-family:'VT323',monospace;font-size:14px;color:#ff3838}
+
+/* ── news rail ── */
+.news{margin-top:14px;background:#0a0a0a;border:1px solid var(--line);padding:10px 14px}
+.news h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:8px}
+.newsrow{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+.newsitem{min-width:250px;max-width:250px;background:#020202;border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.newsitem img{width:100%;height:110px;object-fit:cover;display:block;filter:saturate(.7)}
+.newsitem .h{font-size:12.5px;padding:8px 10px;line-height:1.4}
+
+/* ── overlay (gameday) ── */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;overflow-y:auto;padding:30px 14px}
+.ov.on{display:block}
+.panel{max-width:760px;margin:0 auto;background:#050505;border:1px solid #2a2a2a}
+.ph{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.ph .x{font-family:'VT323',monospace;font-size:26px;color:var(--mut);cursor:pointer;padding:0 8px}
+.ph .x:hover{color:var(--hot)}
+.matchhead{display:flex;justify-content:center;align-items:center;gap:22px;padding:16px}
+.mh-team{text-align:center;width:150px}
+.mh-team img{width:64px;height:64px}
+.mh-team .n{font-family:'Bebas Neue',sans-serif;font-size:20px;margin-top:4px}
+.mh-score{font-family:'VT323',monospace;font-size:56px;color:var(--amber);text-shadow:0 0 16px rgba(255,176,0,.6)}
+.mh-mid{text-align:center}
+.mh-mid .st{font-size:22px}
+.innings{margin:0 16px;overflow-x:auto}
+.innings table{border-collapse:collapse;margin:0 auto;font-family:'VT323',monospace;font-size:17px}
+.innings th,.innings td{border:1px solid #161616;padding:2px 9px;text-align:center;color:#bbb}
+.innings th{color:var(--mut);font-size:14px}
+.innings .rhe{color:var(--amber)}
+.gd{display:flex;gap:14px;justify-content:center;align-items:center;padding:16px;flex-wrap:wrap}
+.diamond{width:170px;height:170px;position:relative}
+.base{position:absolute;width:34px;height:34px;background:#111;border:1.5px solid #333;transform:rotate(45deg)}
+.base.on{background:var(--amber);border-color:var(--amber);box-shadow:0 0 16px rgba(255,176,0,.8)}
+.b1{right:12px;top:68px}.b2{left:68px;top:12px}.b3{left:12px;top:68px}
+.homep{position:absolute;left:68px;bottom:6px;width:34px;height:34px;border:1.5px solid #2a2a2a;transform:rotate(45deg)}
+.count{font-family:'VT323',monospace;font-size:20px;color:var(--phos);text-shadow:0 0 7px rgba(43,255,100,.45);line-height:1.9}
+.count .o{color:var(--hot)}
+.pbox{display:flex;gap:12px;justify-content:center;padding:0 16px 14px;flex-wrap:wrap}
+.pcard{display:flex;gap:10px;align-items:center;background:#0a0a0a;border:1px solid var(--line);padding:8px 14px;min-width:300px}
+.pcard img{width:52px;height:52px;border-radius:50%;background:#111;object-fit:cover}
+.pcard .nm{font-size:14px;font-weight:600}
+.pcard .role{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.2em;color:var(--mut)}
+.pcard .ln{font-family:'VT323',monospace;font-size:16px;color:var(--phos)}
+.plays{padding:0 16px 16px}
+.plays h3{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.25em;color:var(--mut);margin-bottom:6px}
+.plays div{font-size:12.5px;color:#aaa;padding:5px 0;border-top:1px solid #121212;line-height:1.5}
+.ourline{margin:0 16px 16px;border:1px solid #8a6d1a;padding:9px 14px;font-family:'VT323',monospace;
+  font-size:17px;color:var(--gold);text-shadow:0 0 7px rgba(201,153,43,.4)}
 </style>
 </head>
 <body>
 <div class="frame">
-  <div class="marquee"><h1>THE BOARD</h1><span class="sub" id="mq-sub">LOADING…</span></div>
+  <div class="marquee">
+    <h1>THE BOARD</h1>
+    <div class="searchbox"><input id="psearch" placeholder="► SEARCH PLAYERS…" autocomplete="off">
+      <div class="sr" id="sr" style="display:none"></div></div>
+    <span class="sub" id="mq-sub">LOADING…</span>
+  </div>
+  <div class="stats" id="stats"></div>
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
   <div class="grid" id="grid"></div>
+  <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
 </div>
 
+<div class="ov" id="ov"><div class="panel" id="panel"></div></div>
+
 <script>
-const REPO = "https://raw.githubusercontent.com/myles00price/baseball-model/main";
-const AB = {"Arizona Diamondbacks":"ARI","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS",
+const REPO="https://raw.githubusercontent.com/myles00price/baseball-model/main";
+const AB={"Arizona Diamondbacks":"ARI","Atlanta Braves":"ATL","Baltimore Orioles":"BAL","Boston Red Sox":"BOS",
 "Chicago Cubs":"CHC","Chicago White Sox":"CWS","Cincinnati Reds":"CIN","Cleveland Guardians":"CLE",
 "Colorado Rockies":"COL","Detroit Tigers":"DET","Houston Astros":"HOU","Kansas City Royals":"KC",
 "Los Angeles Angels":"LAA","Los Angeles Dodgers":"LAD","Miami Marlins":"MIA","Milwaukee Brewers":"MIL",
@@ -77,107 +147,89 @@ const AB = {"Arizona Diamondbacks":"ARI","Atlanta Braves":"ATL","Baltimore Oriol
 "Philadelphia Phillies":"PHI","Pittsburgh Pirates":"PIT","San Diego Padres":"SD","San Francisco Giants":"SF",
 "Seattle Mariners":"SEA","St. Louis Cardinals":"STL","Tampa Bay Rays":"TB","Texas Rangers":"TEX",
 "Toronto Blue Jays":"TOR","Washington Nationals":"WSH"};
+const TID={"Arizona Diamondbacks":109,"Atlanta Braves":144,"Baltimore Orioles":110,"Boston Red Sox":111,
+"Chicago Cubs":112,"Chicago White Sox":145,"Cincinnati Reds":113,"Cleveland Guardians":114,
+"Colorado Rockies":115,"Detroit Tigers":116,"Houston Astros":117,"Kansas City Royals":118,
+"Los Angeles Angels":108,"Los Angeles Dodgers":119,"Miami Marlins":146,"Milwaukee Brewers":158,
+"Minnesota Twins":142,"New York Mets":121,"New York Yankees":147,"Athletics":133,
+"Philadelphia Phillies":143,"Pittsburgh Pirates":134,"San Diego Padres":135,"San Francisco Giants":137,
+"Seattle Mariners":136,"St. Louis Cardinals":138,"Tampa Bay Rays":139,"Texas Rangers":140,
+"Toronto Blue Jays":141,"Washington Nationals":120};
+const logo=t=>`https://www.mlbstatic.com/team-logos/${TID[t]||0}.svg`;
+const mug=id=>`https://img.mlbstatic.com/mlb-photos/image/upload/w_120,q_90/v1/people/${id}/headshot/67/current`;
 
-const lvDate = (offsetDays=0) => {
-  const d = new Date(Date.now() - 7*3600e3 + offsetDays*86400e3);
-  return d.toISOString().slice(0,10);
-};
+const lvDate=(o=0)=>new Date(Date.now()-7*3600e3+o*86400e3).toISOString().slice(0,10);
+async function tryFetch(u){try{const r=await fetch(u.includes("statsapi")||u.includes("espn")?u:u+"?t="+Date.now());return r.ok?await r.text():null}catch{return null}}
+function parseCSV(t){const L=t.replace(/^﻿/,"").split(/\r?\n/).filter(x=>x.trim());const H=L[0].split(",");
+  return L.slice(1).map(l=>{const c=[];let cur="",q=false;for(const ch of l){if(ch==='"'){q=!q;continue}
+  if(ch===","&&!q){c.push(cur);cur="";continue}cur+=ch}c.push(cur);
+  return Object.fromEntries(H.map((h,i)=>[h,c[i]??""]))})}
+const fmtO=o=>{const n=parseFloat(o);return isNaN(n)?"—":(n>0?"+":"")+Math.round(n)};
+const chip=e=>{const v=parseFloat(String(e||"").replace("** BET **","").replace("%",""));
+  if(isNaN(v))return"<span class='chip dim'>—</span>";
+  return`<span class="chip ${v>=3?"pos":v<0?"neg":"dim"}">${v>0?"+":""}${v.toFixed(1)}</span>`};
 
-function parseCSV(text){
-  const lines = text.replace(/^﻿/,"").split(/\r?\n/).filter(l=>l.trim());
-  const head = lines[0].split(",");
-  return lines.slice(1).map(l=>{
-    const cells=[]; let cur="", q=false;
-    for(const ch of l){
-      if(ch==='"'){q=!q;continue}
-      if(ch===","&&!q){cells.push(cur);cur="";continue}
-      cur+=ch;
-    }
-    cells.push(cur);
-    return Object.fromEntries(head.map((h,i)=>[h,cells[i]??""]));
-  });
-}
-
-async function tryFetch(url){
-  try{const r=await fetch(url+"?t="+Date.now());return r.ok?await r.text():null}catch{return null}
-}
-
-const fmtOdds = o => {
-  const n = parseFloat(o);
-  return isNaN(n) ? "—" : (n>0?"+":"")+Math.round(n);
-};
-const chip = e => {
-  const s = String(e||"").replace("** BET **","").replace("%","").trim();
-  const v = parseFloat(s);
-  if(isNaN(v)) return "<span class='chip dim'>—</span>";
-  const c = v>=3 ? "pos" : v<0 ? "neg" : "dim";
-  return `<span class="chip ${c}">${v>0?"+":""}${v.toFixed(1)}</span>`;
-};
-
-let boardDate=null, picks=[], locked=new Set();
+let boardDate=null,picks=[],locked=new Set(),liveMap={};
 
 async function loadPicks(){
-  for(const off of [1,0]){                 // prefer tomorrow's slate if built
-    const d = lvDate(off);
-    const txt = await tryFetch(`${REPO}/picks_${d}.csv`) || await tryFetch(`picks_${d}.csv`);
-    if(txt){ boardDate=d; picks=parseCSV(txt); break; }
-  }
-  if(!boardDate){document.getElementById("grid").innerHTML="<div class='err'>NO SLATE FOUND</div>";return false}
-  const nj = await tryFetch(`${REPO}/notified_${boardDate}.json`) || await tryFetch(`notified_${boardDate}.json`);
-  if(nj){ try{ locked = new Set(JSON.parse(nj).filter(k=>!k.startsWith("_"))) }catch{} }
+  for(const o of [1,0]){const d=lvDate(o);
+    const t=await tryFetch(`picks_${d}.csv`)||await tryFetch(`${REPO}/picks_${d}.csv`);
+    if(t){boardDate=d;picks=parseCSV(t);break}}
+  if(!boardDate)return false;
+  const nj=await tryFetch(`notified_${boardDate}.json`)||await tryFetch(`${REPO}/notified_${boardDate}.json`);
+  if(nj){try{locked=new Set(JSON.parse(nj).filter(k=>!k.startsWith("_")))}catch{}}
   return true;
 }
-
+async function loadStats(){
+  const t=await tryFetch("board_stats.json")||await tryFetch(`${REPO}/board_stats.json`);
+  if(!t)return;
+  try{const s=JSON.parse(t);
+    document.getElementById("stats").innerHTML=[
+      [s.record,"RECORD"],[(s.pnl>=0?"+$":"-$")+Math.abs(s.pnl),"P&L $100 FLAT"],
+      [(s.roi>=0?"+":"")+s.roi+"%","ROI"],[s.win_pct+"%","WIN RATE"],
+      ["+"+s.flagged_clv+"%","CLV · "+s.clv_beat_pct+"% BEAT","grn"],
+      [s.gate+"/"+s.gate_target,"KELLY GATE","grn"],
+    ].map(([v,k,c])=>`<div class="stat"><div class="v ${c||""}">${v}</div><div class="k">${k}</div></div>`).join("");
+  }catch{}
+}
 async function loadLive(){
   try{
-    const r = await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${boardDate}&hydrate=linescore`);
-    const j = await r.json();
+    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${boardDate}&hydrate=linescore,probablePitcher`)).json();
     const out={};
-    for(const d of j.dates||[]) for(const g of d.games||[]){
-      const a=g.teams.away.team.name, h=g.teams.home.team.name;
-      const ls=g.linescore||{};
-      let start="";
-      try{ start=new Date(g.gameDate).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}) }catch{}
-      out[`${a}@${h}`]={state:g.status.abstractGameState,
-        as:g.teams.away.score, hs:g.teams.home.score,
-        inn:(ls.inningHalf==="Top"?"▲":"▼")+" "+(ls.currentInning||""), start};
+    for(const d of j.dates||[])for(const g of d.games||[]){
+      const a=g.teams.away.team.name,h=g.teams.home.team.name,ls=g.linescore||{};
+      let start="";try{start=new Date(g.gameDate).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})}catch{}
+      out[`${a}@${h}`]={pk:g.gamePk,state:g.status.abstractGameState,
+        as:g.teams.away.score,hs:g.teams.home.score,
+        inn:(ls.inningHalf==="Top"?"▲":"▼")+" "+(ls.currentInning||""),start,
+        pa:g.teams.away.probablePitcher,ph:g.teams.home.probablePitcher};
     }
-    return out;
-  }catch{return {}}
+    liveMap=out;return out;
+  }catch{return liveMap}
 }
-
-function render(live){
-  const grid=document.getElementById("grid");
-  let plays=0; const cards=[];
+function render(){
+  const grid=document.getElementById("grid");let plays=0;const cards=[];
   picks.forEach((r,gi)=>{
-    const away=r["Away"], home=r["Home"];
-    if(!away||!home) return;
-    const key=`${away}@${home}`, lv=live[key]||{};
-    const flagged=String(r["Flag"]||"").includes("BET");
-    if(flagged) plays++;
-    const st = lv.state==="Live" ? `<span class="st live">● LIVE ${lv.inn||""}</span>`
-             : lv.state==="Final" ? `<span class="st final">FINAL</span>`
-             : `<span class="st sched">${lv.start||""}</span>`;
-    const aab=AB[away]||away.slice(0,3).toUpperCase(), hab=AB[home]||home.slice(0,3).toUpperCase();
-    const num = v => (v===""||v==null||v==="None") ? "—" : Math.round(parseFloat(v))+"%";
-    const sc = v => (lv.state==="Preview"||v==null) ? "" : v;
-    const sharp=String(r["Sharp Signal"]||"");
-    const sharpHtml = sharp.includes("CONFIRMED") ? "<span class='sharp-c'>SHARP ✓</span>"
-                    : sharp.includes("FADE") ? "<span class='sharp-f'>FADE ✗</span>" : "";
-    const sp=`${r["Away SP"]||""} v ${r["Home SP"]||""}`;
-    cards.push(`<div class="card${flagged?" play":""}">
+    const away=r["Away"],home=r["Home"];if(!away||!home)return;
+    const key=`${away}@${home}`,lv=liveMap[key]||{};
+    const flagged=String(r["Flag"]||"").includes("BET");if(flagged)plays++;
+    const st=lv.state==="Live"?`<span class="st live">● LIVE ${lv.inn||""}</span>`
+      :lv.state==="Final"?`<span class="st final">FINAL</span>`:`<span class="st sched">${lv.start||""}</span>`;
+    const aab=AB[away]||"?",hab=AB[home]||"?";
+    const num=v=>(v===""||v==null||v==="None")?"—":Math.round(parseFloat(v))+"%";
+    const sc=v=>(lv.state==="Preview"||v==null)?"":v;
+    const sh=String(r["Sharp Signal"]||"");
+    const shH=sh.includes("CONFIRMED")?"<span class='sharp-c'>SHARP ✓</span>":sh.includes("FADE")?"<span class='sharp-f'>FADE ✗</span>":"";
+    cards.push(`<div class="card${flagged?" play":""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
       ${flagged?`<div class="playbar">${locked.has(key)?"🔒 ":""}OFFICIAL PLAY</div>`:""}
       <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
-      <div class="row"><span class="rot">${951+gi*2}</span><span class="ab">${aab}</span><span class="score">${sc(lv.as)}</span>
-        <span class="mdl">${num(r["Model Away%"])}</span>
-        <span class="odds">DK ${fmtOdds(r["DK Away Odds"])} MGM ${fmtOdds(r["MGM Away Odds"])}</span>
-        ${chip(r["DK Edge Away"])}</div>
-      <div class="row"><span class="rot">${952+gi*2}</span><span class="ab">${hab}</span><span class="score">${sc(lv.hs)}</span>
-        <span class="mdl">${num(r["Model Home%"])}</span>
-        <span class="odds">DK ${fmtOdds(r["DK Home Odds"])} MGM ${fmtOdds(r["MGM Home Odds"])}</span>
-        ${chip(r["DK Edge Home"])}</div>
-      <div class="foot"><span>${sp.slice(0,52)}</span>${sharpHtml}</div>
-    </div>`);
+      <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt=""><span class="ab">${aab}</span>
+        <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
+        <span class="odds">DK ${fmtO(r["DK Away Odds"])} MGM ${fmtO(r["MGM Away Odds"])}</span>${chip(r["DK Edge Away"])}</div>
+      <div class="row"><span class="rot">${952+gi*2}</span><img class="tlogo" src="${logo(home)}" alt=""><span class="ab">${hab}</span>
+        <span class="score">${sc(lv.hs)}</span><span class="mdl">${num(r["Model Home%"])}</span>
+        <span class="odds">DK ${fmtO(r["DK Home Odds"])} MGM ${fmtO(r["MGM Home Odds"])}</span>${chip(r["DK Edge Home"])}</div>
+      <div class="foot"><span>${(r["Away SP"]||"")+" v "+(r["Home SP"]||"")}</span>${shH}</div></div>`);
   });
   grid.innerHTML=cards.join("");
   document.getElementById("mq-sub").textContent=`// ${boardDate} // ${plays} PLAYS`;
@@ -185,9 +237,149 @@ function render(live){
   document.getElementById("sl-upd").textContent=new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit",second:"2-digit"});
 }
 
-async function tick(){ render(await loadLive()); }
+/* ── gameday overlay ── */
+let ovTimer=null,ovKey=null;
+window.openGame=async key=>{
+  ovKey=key;document.getElementById("ov").classList.add("on");
+  await drawGame();ovTimer=setInterval(drawGame,20000);
+};
+function closeOv(){document.getElementById("ov").classList.remove("on");clearInterval(ovTimer);ovTimer=null}
+document.getElementById("ov").addEventListener("click",e=>{if(e.target.id==="ov")closeOv()});
+
+async function drawGame(){
+  const key=ovKey;if(!key)return;
+  const [away,home]=key.split("@");
+  const lv=liveMap[key]||{};
+  const r=picks.find(p=>`${p["Away"]}@${p["Home"]}`===key)||{};
+  const P=document.getElementById("panel");
+  let head=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">${AB[away]} @ ${AB[home]}</span><span class="x" onclick="closeOv()">[X]</span></div>
+  <div class="matchhead">
+    <div class="mh-team"><img src="${logo(away)}"><div class="n">${away}</div></div>
+    <div class="mh-mid"><div class="mh-score">${lv.as??"–"} : ${lv.hs??"–"}</div>
+      <div class="st ${lv.state==="Live"?"live":lv.state==="Final"?"final":"sched"}">${lv.state==="Live"?"LIVE "+(lv.inn||""):lv.state==="Final"?"FINAL":(lv.start||"")}</div></div>
+    <div class="mh-team"><img src="${logo(home)}"><div class="n">${home}</div></div>
+  </div>`;
+  const flagged=String(r["Flag"]||"").includes("BET");
+  let ourline="";
+  if(r["Model Away%"]&&r["Model Away%"]!=="None"){
+    const ma=parseFloat(r["Model Away%"]),mh=parseFloat(r["Model Home%"]);
+    ourline=`<div class="ourline">MODEL: ${AB[away]} ${ma.toFixed(1)}% / ${AB[home]} ${mh.toFixed(1)}%`+
+      (flagged?` · ${locked.has(key)?"🔒 OFFICIAL PLAY":"BET WINDOW"}`:" · NO PLAY")+`</div>`;
+  }
+  let body="";
+  if(lv.pk&&lv.state!=="Preview"){
+    try{
+      const f=await(await fetch(`https://statsapi.mlb.com/api/v1.1/game/${lv.pk}/feed/live`)).json();
+      const ld=f.liveData||{},ls=ld.linescore||{};
+      const inns=ls.innings||[];
+      let itab="<div class='innings'><table><tr><th></th>"+inns.map(i=>`<th>${i.num}</th>`).join("")+"<th class='rhe'>R</th><th class='rhe'>H</th><th class='rhe'>E</th></tr>";
+      for(const side of ["away","home"]){
+        itab+=`<tr><td>${AB[side==="away"?away:home]}</td>`+inns.map(i=>`<td>${i[side]?.runs??""}</td>`).join("")+
+        `<td class='rhe'>${ls.teams?.[side]?.runs??""}</td><td class='rhe'>${ls.teams?.[side]?.hits??""}</td><td class='rhe'>${ls.teams?.[side]?.errors??""}</td></tr>`;
+      }
+      itab+="</table></div>";
+      let gd="";
+      if(lv.state==="Live"){
+        const off=ls.offense||{},b=ls.balls??0,s=ls.strikes??0,o=ls.outs??0;
+        const cur=ld.plays?.currentPlay?.matchup||{};
+        gd=`<div class="gd">
+          <div class="diamond">
+            <div class="base b2 ${off.second?"on":""}"></div>
+            <div class="base b3 ${off.third?"on":""}"></div>
+            <div class="base b1 ${off.first?"on":""}"></div>
+            <div class="homep"></div></div>
+          <div class="count">BALLS ${b}<br>STRIKES ${s}<br><span class="o">OUTS ${o}</span></div></div>
+        <div class="pbox">
+          ${cur.batter?`<div class="pcard"><img src="${mug(cur.batter.id)}"><div><div class="role">AT BAT</div><div class="nm">${cur.batter.fullName}</div></div></div>`:""}
+          ${cur.pitcher?`<div class="pcard"><img src="${mug(cur.pitcher.id)}"><div><div class="role">PITCHING</div><div class="nm">${cur.pitcher.fullName}</div></div></div>`:""}
+        </div>`;
+      }
+      let playsH="";
+      const sp=(ld.plays?.scoringPlays||[]).slice(-4).reverse();
+      if(sp.length){
+        playsH="<div class='plays'><h3>SCORING PLAYS</h3>"+sp.map(i=>{
+          const p=ld.plays.allPlays[i];return`<div>▸ ${p?.result?.description||""}</div>`}).join("")+"</div>";
+      }
+      body=itab+gd+playsH;
+    }catch{body="<div class='plays'><div>LIVE FEED UNAVAILABLE</div></div>"}
+  }else{
+    const pa=lv.pa,ph=lv.ph;
+    const pline=async p=>{
+      if(!p)return"TBD";
+      try{const j=await(await fetch(`https://statsapi.mlb.com/api/v1/people/${p.id}?hydrate=stats(group=[pitching],type=[season],season=2026)`)).json();
+        const st=j.people?.[0]?.stats?.[0]?.splits?.[0]?.stat||{};
+        return`${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.strikeOuts??"–"} K`}catch{return""}
+    };
+    const [la,lh]=await Promise.all([pline(pa),pline(ph)]);
+    body=`<div class="pbox" style="padding-top:4px">
+      ${pa?`<div class="pcard"><img src="${mug(pa.id)}"><div><div class="role">${AB[away]} STARTER</div><div class="nm">${pa.fullName}</div><div class="ln">${la}</div></div></div>`:`<div class="pcard"><div class="nm">${AB[away]}: TBD</div></div>`}
+      ${ph?`<div class="pcard"><img src="${mug(ph.id)}"><div><div class="role">${AB[home]} STARTER</div><div class="nm">${ph.fullName}</div><div class="ln">${lh}</div></div></div>`:`<div class="pcard"><div class="nm">${AB[home]}: TBD</div></div>`}
+    </div>`;
+  }
+  P.innerHTML=head+ourline+body;
+}
+
+/* ── news ── */
+async function loadNews(){
+  try{
+    const j=await(await fetch("https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news?limit=12")).json();
+    const arts=(j.articles||[]).slice(0,12);
+    if(!arts.length)return;
+    document.getElementById("newsrow").innerHTML=arts.map(a=>{
+      const img=a.images?.[0]?.url;
+      return`<a class="newsitem" href="${a.links?.web?.href||"#"}" target="_blank" rel="noopener">
+        ${img?`<img src="${img}" alt="">`:""}<div class="h">${a.headline||""}</div></a>`}).join("");
+    document.getElementById("news").style.display="block";
+  }catch{}
+}
+
+/* ── player search ── */
+let roster=null;
+async function ensureRoster(){
+  if(roster)return;
+  try{
+    const j=await(await fetch("https://statsapi.mlb.com/api/v1/sports/1/players?season=2026&fields=people,id,fullName,primaryPosition,abbreviation,currentTeam,id")).json();
+    roster=(j.people||[]).map(p=>({id:p.id,n:p.fullName,pos:p.primaryPosition?.abbreviation||"",t:p.currentTeam?.id}));
+  }catch{roster=[]}
+}
+const si=document.getElementById("psearch"),sr=document.getElementById("sr");
+si.addEventListener("focus",ensureRoster);
+si.addEventListener("input",async()=>{
+  await ensureRoster();
+  const q=si.value.trim().toLowerCase();
+  if(q.length<2){sr.style.display="none";return}
+  const hits=roster.filter(p=>p.n.toLowerCase().includes(q)).slice(0,12);
+  sr.innerHTML=hits.map(p=>`<div onclick="openPlayer(${p.id})">${p.n}<span class="pos">${p.pos}</span></div>`).join("")||"<div>NO MATCH</div>";
+  sr.style.display="block";
+});
+document.addEventListener("click",e=>{if(!e.target.closest(".searchbox"))sr.style.display="none"});
+window.openPlayer=async id=>{
+  sr.style.display="none";si.value="";
+  document.getElementById("ov").classList.add("on");clearInterval(ovTimer);ovKey=null;
+  const P=document.getElementById("panel");
+  P.innerHTML="<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADING…</span><span class='x' onclick='closeOv()'>[X]</span></div>";
+  try{
+    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/people/${id}?hydrate=stats(group=[hitting,pitching],type=[season],season=2026),currentTeam`)).json();
+    const p=j.people?.[0]||{};
+    const rows=[];
+    for(const s of p.stats||[]){
+      const g=s.group?.displayName,st=s.splits?.[0]?.stat||{};
+      if(g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">2026 HITTING</div>
+        <div class="ln">${st.avg??"–"} AVG · ${st.homeRuns??0} HR · ${st.rbi??0} RBI · ${st.ops??"–"} OPS · ${st.stolenBases??0} SB</div></div></div>`);
+      if(g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">2026 PITCHING</div>
+        <div class="ln">${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.wins??0}-${st.losses??0} · ${st.strikeOuts??0} K · ${st.inningsPitched??0} IP</div></div></div>`);
+    }
+    P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">PLAYER FILE</span><span class="x" onclick="closeOv()">[X]</span></div>
+      <div class="matchhead"><div class="mh-team"><img src="${mug(id)}" style="border-radius:50%;background:#111"><div class="n">${p.fullName||""}</div>
+      <div class="vt" style="color:var(--mut);font-size:15px">${p.primaryPosition?.abbreviation||""} · ${p.currentTeam?.name||""}</div></div></div>
+      <div class="pbox" style="flex-direction:column;align-items:center">${rows.join("")||"<div class='pcard'><div class='ln'>NO 2026 STATS</div></div>"}</div>`;
+  }catch{P.innerHTML="<div class='ph'><span class='vt' style='color:var(--hot)'>LOAD FAILED</span><span class='x' onclick='closeOv()'>[X]</span></div>"}
+};
+
+async function tick(){await loadLive();render();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
-  if(await loadPicks()){ await tick(); setInterval(tick,60000); setInterval(loadPicks,300000); }
+  if(await loadPicks()){loadStats();await tick();loadNews();setInterval(tick,60000);setInterval(loadPicks,300000)}
+  else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();
 </script>
 </body>
