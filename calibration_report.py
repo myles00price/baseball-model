@@ -114,7 +114,7 @@ def run_calibration():
             model_prob = away_prob if away_prob > home_prob else home_prob
             won = model_winner == actual_winner
 
-            # True outcome for MAE â€” 100 if won, 0 if lost
+            # True outcome for MAE — 100 if won, 0 if lost
             true_outcome = 100.0 if won else 0.0
             abs_error = abs(model_prob - true_outcome)
             mae_errors.append(abs_error)
@@ -123,7 +123,7 @@ def run_calibration():
             if won: total_correct += 1; day_correct += 1
 
             # Grade flagged bets on the side that carried the flag (often the
-            # value dog), not the model's pick side â€” see features_v2.flagged_side
+            # value dog), not the model's pick side — see features_v2.flagged_side
             is_flagged = "BET" in str(flag)
             if is_flagged:
                 side = flagged_side(pick)
@@ -183,9 +183,9 @@ def run_calibration():
             "flagged": day_flagged, "flagged_correct": day_flagged_correct
         })
 
-    # â”€â”€ Display â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # ── Display ───────────────────────────────────────────────────
 
-    print("\nðŸ“… Daily Breakdown:")
+    print("\n📅 Daily Breakdown:")
     print(f"  {'Date':<12} {'Overall':>10} {'Flagged':>10}")
     print(f"  {'-'*35}")
     for d in daily_results:
@@ -193,15 +193,15 @@ def run_calibration():
         flagged = f"{d['flagged_correct']}/{d['flagged']} ({d['flagged_correct']/d['flagged']*100:.0f}%)" if d['flagged'] else "No flags"
         print(f"  {d['date']:<12} {overall:>10} {flagged:>10}")
 
-    print(f"\nðŸ“Š Overall Performance:")
+    print(f"\n📊 Overall Performance:")
     if total_games:
         print(f"  Total games graded:  {total_games}")
         print(f"  Overall accuracy:    {total_correct}/{total_games} ({total_correct/total_games*100:.1f}%)")
     if flagged_games:
         print(f"  Flagged bets:        {flagged_correct}/{flagged_games} ({flagged_correct/flagged_games*100:.1f}%)")
 
-    # â”€â”€ MAE Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-    print(f"\nðŸ“ Mean Absolute Error (MAE):")
+    # ── MAE Section ───────────────────────────────────────────────
+    print(f"\n📐 Mean Absolute Error (MAE):")
     print(f"  MAE = avg distance between model's confidence % and true outcome (0 or 100)")
     print(f"  Lower is better. A perfectly calibrated model at 60% confidence would have MAE ~40.")
 
@@ -232,11 +232,11 @@ def run_calibration():
     if mae_errors and mae_flagged_errors:
         diff = round((sum(mae_errors)/len(mae_errors)) - (sum(mae_flagged_errors)/len(mae_flagged_errors)), 1)
         if diff > 0:
-            print(f"\n  âœ… Model is {diff} MAE points MORE accurate on flagged bets than average")
+            print(f"\n  ✅ Model is {diff} MAE points MORE accurate on flagged bets than average")
         elif diff < 0:
-            print(f"\n  âš ï¸  Model is {abs(diff)} MAE points LESS accurate on flagged bets than average")
+            print(f"\n  ⚠️  Model is {abs(diff)} MAE points LESS accurate on flagged bets than average")
 
-    print(f"\nðŸŽ¯ Accuracy By Category:")
+    print(f"\n🎯 Accuracy By Category:")
     cats = [
         ("Home favorites (>55%)", home_fav_total, home_fav_correct),
         ("Home underdogs (<55%)", home_dog_total, home_dog_correct),
@@ -247,17 +247,17 @@ def run_calibration():
         if total:
             print(f"  {label:<28} {correct}/{total} ({correct/total*100:.1f}%)")
 
-    print(f"\nðŸ“ˆ Accuracy By Edge Size:")
+    print(f"\n📈 Accuracy By Edge Size:")
     for bucket, (total, correct) in edge_buckets.items():
         if total:
             pct = correct/total*100
-            bar = "â–ˆ" * int(pct/5)
+            bar = "█" * int(pct/5)
             print(f"  {bucket:<8} {correct}/{total} ({pct:.1f}%) {bar}")
 
     if coors_total:
-        print(f"\nðŸ”ï¸  Coors Field:  {coors_correct}/{coors_total} ({coors_correct/coors_total*100:.1f}%)")
+        print(f"\n🏔️  Coors Field:  {coors_correct}/{coors_total} ({coors_correct/coors_total*100:.1f}%)")
 
-    print(f"\nðŸ’¡ Bias Check:")
+    print(f"\n💡 Bias Check:")
     home_total = home_fav_total + home_dog_total
     away_total = away_fav_total + away_dog_total
     home_correct = home_fav_correct + home_dog_correct
@@ -270,9 +270,9 @@ def run_calibration():
         diff = (home_correct/home_total*100) - (away_correct/away_total*100)
         if abs(diff) > 5:
             bias = "HOME" if diff > 0 else "AWAY"
-            print(f"  âš ï¸  Possible {bias} team bias detected ({abs(diff):.1f}% difference)")
+            print(f"  ⚠️  Possible {bias} team bias detected ({abs(diff):.1f}% difference)")
         else:
-            print(f"  âœ… No significant home/away bias detected")
+            print(f"  ✅ No significant home/away bias detected")
 
     print("\n" + "=" * 65)
 

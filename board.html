@@ -28,7 +28,7 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.
 .vt{font-family:'VT323',monospace}
 .bebas{font-family:'Bebas Neue',sans-serif}
 
-/* â”€â”€ marquee + search â”€â”€ */
+/* ── marquee + search ── */
 .marquee{display:flex;justify-content:space-between;align-items:center;gap:14px;
   background:#0a0a0a;border:1px solid var(--line);padding:8px 18px;margin-bottom:10px;flex-wrap:wrap}
 .marquee h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.38em;font-weight:400}
@@ -42,7 +42,7 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.
 .sr div:hover{background:#141414}
 .sr .pos{color:var(--mut);font-family:'VT323',monospace}
 
-/* â”€â”€ stats strip â”€â”€ */
+/* ── stats strip ── */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:10px}
 .stat{background:#020202;border:1px solid var(--line);padding:9px 14px 7px;text-align:center}
 .stat .v{font-family:'VT323',monospace;font-size:31px;color:var(--amber);text-shadow:0 0 11px rgba(255,176,0,.6)}
@@ -52,7 +52,7 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.
   font-size:15px;color:var(--mut);padding:0 4px 8px;letter-spacing:.06em}
 .statusline .lit{color:var(--phos)}
 
-/* â”€â”€ lean showcase â”€â”€ */
+/* ── lean showcase ── */
 .showcase{margin:0 0 14px}
 .sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:10px}
 .sc-card{background:#050505;border:1px solid #8a6d1a;position:relative}
@@ -83,7 +83,7 @@ body.light .sc-sp{background:#f4f1e8}
 body.light .sc-why p{color:#57534a}
 body.light .sc-news a{color:#1a56b0}
 
-/* â”€â”€ grid & cards â”€â”€ */
+/* ── grid & cards ── */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:9px}
 .card{background:#020202;border:1px solid var(--line);cursor:pointer;transition:border-color .15s}
 .card:hover{border-color:#3a3a3a}
@@ -116,7 +116,7 @@ body.light .sc-news a{color:#1a56b0}
 .sharp-c{font-family:'VT323',monospace;font-size:14px;color:var(--phos)}
 .sharp-f{font-family:'VT323',monospace;font-size:14px;color:#ff3838}
 
-/* â”€â”€ news rail â”€â”€ */
+/* ── news rail ── */
 .news{margin-top:14px;background:#0a0a0a;border:1px solid var(--line);padding:10px 14px}
 .news h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:8px}
 .newsrow{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
@@ -124,7 +124,7 @@ body.light .sc-news a{color:#1a56b0}
 .newsitem img{width:100%;height:110px;object-fit:cover;display:block;filter:saturate(.7)}
 .newsitem .h{font-size:12.5px;padding:8px 10px;line-height:1.4}
 
-/* â”€â”€ standings + leaders â”€â”€ */
+/* ── standings + leaders ── */
 .duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:14px}
 .sect{background:#0a0a0a;border:1px solid var(--line);padding:12px 14px}
 .sect h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:8px}
@@ -147,7 +147,7 @@ body.light .sc-news a{color:#1a56b0}
 .ldr .v{margin-left:auto;color:var(--amber);text-shadow:0 0 8px rgba(255,176,0,.5)}
 .ldr .cat{color:var(--phos-dim);width:38px}
 
-/* â”€â”€ gameday extras â”€â”€ */
+/* ── gameday extras ── */
 .wx{font-family:'VT323',monospace;font-size:15px;color:var(--mut);text-align:center;padding:0 16px 10px;letter-spacing:.05em}
 .boxcols{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 12px}
 .boxcol h4{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--mut);
@@ -160,7 +160,7 @@ body.light .sc-news a{color:#1a56b0}
 .pcard.click:hover{border-color:#3a3a3a}
 @media(max-width:560px){.boxcols{grid-template-columns:1fr}}
 
-/* â”€â”€ ledger (analytics) â”€â”€ */
+/* ── ledger (analytics) ── */
 .ledger{margin-top:14px;background:#0a0a0a;border:1px solid var(--line);padding:12px 14px}
 .ledger h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:10px}
 .lg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
@@ -182,7 +182,7 @@ body.light .sc-news a{color:#1a56b0}
 .bucketbar .bar.red{background:linear-gradient(90deg,#5c1515,#ff3838);box-shadow:0 0 8px rgba(255,56,56,.3)}
 .bucketbar .bv{color:var(--mut)}
 
-/* â”€â”€ engine + updates + archive â”€â”€ */
+/* ── engine + updates + archive ── */
 .stat{cursor:pointer}.stat:hover{border-color:#3a3a3a}
 .lg-box h3{cursor:pointer}.lg-box h3:hover{color:#ddd}
 .eng-formula{font-family:'VT323',monospace;font-size:19px;color:var(--phos);text-align:center;
@@ -212,7 +212,7 @@ body.light .sc-news a{color:#1a56b0}
 .mdbody td,.mdbody th{border:1px solid #1c1c1c;padding:3px 9px;color:#bbb}
 .mdbody strong{color:#eee}
 .mdbody li{margin-left:18px;padding:2px 0}
-/* inline info drop-downs (replaces popups for â“˜ content) */
+/* inline info drop-downs (replaces popups for ⓘ content) */
 .info-drop{grid-column:1/-1;background:#0a0a0a;border:1px solid #2a2a2a;border-left:3px solid var(--gold);
   padding:11px 15px;margin:6px 0;animation:dropin .18s ease-out}
 @keyframes dropin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
@@ -242,7 +242,7 @@ body.light .leak .lx p{color:#57534a}
 .info-x .ins{margin-top:12px;border:1px solid #8a6d1a;padding:10px 13px;font-size:13px;color:var(--gold);line-height:1.6}
 .info-x .ins b{font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:12px}
 
-/* â”€â”€ light mode ("print edition") â”€â”€ */
+/* ── light mode ("print edition") ── */
 .modebtn{font-family:'VT323',monospace;font-size:22px;color:var(--mut);cursor:pointer;
   border:1px solid var(--line);padding:1px 10px;user-select:none}
 .modebtn:hover{color:var(--amber)}
@@ -307,7 +307,7 @@ body.light .info-x .ins{background:#fbf6e6}
 body.light .newsitem{color:#14171c}
 body.light .newsitem img{filter:none}
 
-/* â”€â”€ overlay (gameday) â”€â”€ */
+/* ── overlay (gameday) ── */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;overflow-y:auto;padding:30px 14px}
 .ov.on{display:block}
 .panel{max-width:min(92vw,900px);margin:0 auto;background:#050505;border:1px solid #2a2a2a}
@@ -351,13 +351,13 @@ body.light .newsitem img{filter:none}
 <div class="frame">
   <div class="marquee">
     <h1>THE BOARD</h1>
-    <div class="searchbox"><input id="psearch" placeholder="â–º SEARCH PLAYERSâ€¦" autocomplete="off">
+    <div class="searchbox"><input id="psearch" placeholder="► SEARCH PLAYERS…" autocomplete="off">
       <div class="sr" id="sr" style="display:none"></div></div>
-    <span class="sub" id="mq-sub">LOADINGâ€¦</span>
-    <span class="modebtn" id="modebtn" title="light/dark">â˜€</span>
+    <span class="sub" id="mq-sub">LOADING…</span>
+    <span class="modebtn" id="modebtn" title="light/dark">☀</span>
   </div>
   <div class="stats" id="stats"></div>
-  <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">â€”</span> Â· AUTO 60s</span></div>
+  <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
   <div class="showcase" id="showcase" style="display:none"><div class="sc-grid" id="sc-grid"></div></div>
   <div class="grid" id="grid"></div>
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
@@ -370,21 +370,21 @@ body.light .newsitem img{filter:none}
   <div class="ledger" id="ledger" style="display:none">
     <h2>THE LEDGER</h2>
     <div class="lg-grid">
-      <div class="lg-box" style="grid-column:1/-1"><h3 onclick="openInfo(event,'eq')">V2 EQUITY Â· $100 FLAT Â· OFFICIAL PLAYS â“˜</h3><canvas id="cv-eq" height="170"></canvas></div>
-      <div class="lg-box"><h3 onclick="openInfo(event,'wf')">WALK-FORWARD Â· OLD VS V2 â“˜</h3><canvas id="cv-wf" height="170"></canvas></div>
-      <div class="lg-box"><h3>DAILY RECORD Â· V2</h3>
+      <div class="lg-box" style="grid-column:1/-1"><h3 onclick="openInfo(event,'eq')">V2 EQUITY · $100 FLAT · OFFICIAL PLAYS ⓘ</h3><canvas id="cv-eq" height="170"></canvas></div>
+      <div class="lg-box"><h3 onclick="openInfo(event,'wf')">WALK-FORWARD · OLD VS V2 ⓘ</h3><canvas id="cv-wf" height="170"></canvas></div>
+      <div class="lg-box"><h3>DAILY RECORD · V2</h3>
         <table class="lg-table"><thead><tr><th>DAY</th><th>PICKS</th><th>PLAYS</th><th>P&amp;L</th><th>CUM</th></tr></thead>
         <tbody id="lg-days"></tbody></table></div>
-      <div class="lg-box"><h3 onclick="openInfo(event,'classes')">BET CLASSES Â· SEASON / V2 â“˜</h3><div class="lg-rows" id="lg-split"></div>
-        <h3 style="margin-top:12px" onclick="openInfo(event,'buckets')">DE-VIG EDGE BUCKETS Â· WIN% â“˜</h3><div id="lg-buckets"></div></div>
+      <div class="lg-box"><h3 onclick="openInfo(event,'classes')">BET CLASSES · SEASON / V2 ⓘ</h3><div class="lg-rows" id="lg-split"></div>
+        <h3 style="margin-top:12px" onclick="openInfo(event,'buckets')">DE-VIG EDGE BUCKETS · WIN% ⓘ</h3><div id="lg-buckets"></div></div>
       <div class="lg-box"><h3 onclick="openInfo(event,'teams')">TEAM SHEET</h3><div class="lg-rows" id="lg-teams"></div></div>
-      <div class="lg-box"><h3 onclick="openInfo(event,'splits')">THE SPLITS Â· OFFICIAL PLAYS</h3><div class="lg-rows" id="lg-xsplits"></div></div>
+      <div class="lg-box"><h3 onclick="openInfo(event,'splits')">THE SPLITS · OFFICIAL PLAYS</h3><div class="lg-rows" id="lg-xsplits"></div></div>
     </div>
   </div>
 
   <div class="duo">
-    <div class="sect"><h2>THE ENGINE Â· MODEL BIOLOGY</h2>
-      <div class="eng-formula">P(win) = Ïƒ( eraÂ·.395 + opsÂ·.223 + k%Â·.082 + whipÂ·.033 + .093 )</div>
+    <div class="sect"><h2>THE ENGINE · MODEL BIOLOGY</h2>
+      <div class="eng-formula">P(win) = σ( era·.395 + ops·.223 + k%·.082 + whip·.033 + .093 )</div>
       <div id="eng-coefs"></div>
       <div style="margin-top:10px">
         <span class="guard" onclick="openInfo(event,'window')">3-8% WINDOW</span>
@@ -398,8 +398,8 @@ body.light .newsitem img{filter:none}
   </div>
 
   <div class="duo">
-    <div class="sect"><h2>PATCHED LEAKS Â· EVERY HOLE WE FOUND & PLUGGED</h2><div id="leaks"></div></div>
-    <div class="sect"><h2>THE ARCHIVE Â· WEEKLY REPORTS</h2><div id="archive"></div></div>
+    <div class="sect"><h2>PATCHED LEAKS · EVERY HOLE WE FOUND & PLUGGED</h2><div id="leaks"></div></div>
+    <div class="sect"><h2>THE ARCHIVE · WEEKLY REPORTS</h2><div id="archive"></div></div>
   </div>
 </div>
 
@@ -432,9 +432,9 @@ function parseCSV(t){const L=t.replace(/^ï»¿/,"").split(/\r?\n/).filter(x=>x.
   return L.slice(1).map(l=>{const c=[];let cur="",q=false;for(const ch of l){if(ch==='"'){q=!q;continue}
   if(ch===","&&!q){c.push(cur);cur="";continue}cur+=ch}c.push(cur);
   return Object.fromEntries(H.map((h,i)=>[h,c[i]??""]))})}
-const fmtO=o=>{const n=parseFloat(o);return isNaN(n)?"â€”":(n>0?"+":"")+Math.round(n)};
+const fmtO=o=>{const n=parseFloat(o);return isNaN(n)?"—":(n>0?"+":"")+Math.round(n)};
 const chip=e=>{const v=parseFloat(String(e||"").replace("** BET **","").replace("%",""));
-  if(isNaN(v))return"<span class='chip dim'>â€”</span>";
+  if(isNaN(v))return"<span class='chip dim'>—</span>";
   return`<span class="chip ${v>=3?"pos":v<0?"neg":"dim"}">${v>0?"+":""}${v.toFixed(1)}</span>`};
 
 let boardDate=null,picks=[],locked=new Set(),liveMap={};
@@ -455,9 +455,9 @@ async function loadStats(){
     document.getElementById("stats").innerHTML=[
       [s.record,"RECORD","","record"],[(s.pnl>=0?"+$":"-$")+Math.abs(s.pnl),"P&L $100 FLAT","","pnl"],
       [(s.roi>=0?"+":"")+s.roi+"%","ROI","","roi"],[s.win_pct+"%","WIN RATE","","winrate"],
-      ["+"+s.flagged_clv+"%","CLV Â· "+s.clv_beat_pct+"% BEAT","grn","clv"],
+      ["+"+s.flagged_clv+"%","CLV · "+s.clv_beat_pct+"% BEAT","grn","clv"],
       [s.gate+"/"+s.gate_target,"KELLY GATE","grn","gate"],
-    ].map(([v,k,c,key])=>`<div class="stat" onclick="openInfo(event,'${key}')"><div class="v ${c||""}">${v}</div><div class="k">${k} â“˜</div></div>`).join("");
+    ].map(([v,k,c,key])=>`<div class="stat" onclick="openInfo(event,'${key}')"><div class="v ${c||""}">${v}</div><div class="k">${k} ⓘ</div></div>`).join("");
   }catch{}
 }
 async function loadLive(){
@@ -469,7 +469,7 @@ async function loadLive(){
       let start="";try{start=new Date(g.gameDate).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})}catch{}
       out[`${a}@${h}`]={pk:g.gamePk,state:g.status.abstractGameState,
         as:g.teams.away.score,hs:g.teams.home.score,
-        inn:(ls.inningHalf==="Top"?"â–²":"â–¼")+" "+(ls.currentInning||""),start,
+        inn:(ls.inningHalf==="Top"?"▲":"▼")+" "+(ls.currentInning||""),start,
         pa:g.teams.away.probablePitcher,ph:g.teams.home.probablePitcher};
     }
     liveMap=out;return out;
@@ -481,16 +481,16 @@ function render(){
     const away=r["Away"],home=r["Home"];if(!away||!home)return;
     const key=`${away}@${home}`,lv=liveMap[key]||{};
     const flagged=String(r["Flag"]||"").includes("BET");if(flagged)plays++;
-    const st=lv.state==="Live"?`<span class="st live">â— LIVE ${lv.inn||""}</span>`
+    const st=lv.state==="Live"?`<span class="st live">● LIVE ${lv.inn||""}</span>`
       :lv.state==="Final"?`<span class="st final">FINAL</span>`:`<span class="st sched">${lv.start||""}</span>`;
     const aab=AB[away]||"?",hab=AB[home]||"?";
-    const num=v=>(v===""||v==null||v==="None")?"â€”":Math.round(parseFloat(v))+"%";
+    const num=v=>(v===""||v==null||v==="None")?"—":Math.round(parseFloat(v))+"%";
     const sc=v=>(lv.state==="Preview"||v==null)?"":v;
     const sh=String(r["Sharp Signal"]||"");
-    const shH=sh.includes("CONFIRMED")?"<span class='sharp-c'>SHARP âœ“</span>":sh.includes("FADE")?"<span class='sharp-f'>FADE âœ—</span>":"";
+    const shH=sh.includes("CONFIRMED")?"<span class='sharp-c'>SHARP ✓</span>":sh.includes("FADE")?"<span class='sharp-f'>FADE ✗</span>":"";
     const isLocked=locked.has(key);
     cards.push(`<div class="card${flagged?(isLocked?" play":" play lean-card"):""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
-      ${flagged?(isLocked?`<div class="playbar">ðŸ”’ OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN Â· LOCKS AT LINEUPS</div>`):""}
+      ${flagged?(isLocked?`<div class="playbar">🔒 OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}
       <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
       <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt="" onclick="event.stopPropagation();openTeam(${TID[away]||0})"><span class="ab">${aab}</span>
         <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
@@ -502,11 +502,11 @@ function render(){
   });
   grid.innerHTML=cards.join("");
   document.getElementById("mq-sub").textContent=`// ${boardDate} // ${plays} PLAYS`;
-  document.getElementById("sl-date").textContent=`MLB Â· ${picks.length} GAMES`;
+  document.getElementById("sl-date").textContent=`MLB · ${picks.length} GAMES`;
   document.getElementById("sl-upd").textContent=new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit",second:"2-digit"});
 }
 
-/* â”€â”€ gameday overlay â”€â”€ */
+/* ── gameday overlay ── */
 let ovTimer=null,ovKey=null;
 window.openGame=async key=>{
   ovKey=key;document.getElementById("ov").classList.add("on");
@@ -524,7 +524,7 @@ async function drawGame(){
   let head=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">${AB[away]} @ ${AB[home]}</span><span class="x" onclick="closeOv()">[X]</span></div>
   <div class="matchhead">
     <div class="mh-team"><img src="${logo(away)}"><div class="n">${away}</div></div>
-    <div class="mh-mid"><div class="mh-score">${lv.as??"â€“"} : ${lv.hs??"â€“"}</div>
+    <div class="mh-mid"><div class="mh-score">${lv.as??"–"} : ${lv.hs??"–"}</div>
       <div class="st ${lv.state==="Live"?"live":lv.state==="Final"?"final":"sched"}">${lv.state==="Live"?"LIVE "+(lv.inn||""):lv.state==="Final"?"FINAL":(lv.start||"")}</div></div>
     <div class="mh-team"><img src="${logo(home)}"><div class="n">${home}</div></div>
   </div>`;
@@ -533,7 +533,7 @@ async function drawGame(){
   if(r["Model Away%"]&&r["Model Away%"]!=="None"){
     const ma=parseFloat(r["Model Away%"]),mh=parseFloat(r["Model Home%"]);
     ourline=`<div class="ourline">MODEL: ${AB[away]} ${ma.toFixed(1)}% / ${AB[home]} ${mh.toFixed(1)}%`+
-      (flagged?` Â· ${locked.has(key)?"ðŸ”’ OFFICIAL PLAY":"LEAN â€” LOCKS AT LINEUPS"}`:" Â· NO PLAY")+`</div>`;
+      (flagged?` · ${locked.has(key)?"🔒 OFFICIAL PLAY":"LEAN — LOCKS AT LINEUPS"}`:" · NO PLAY")+`</div>`;
   }
   let body="";
   if(lv.pk&&lv.state!=="Preview"){
@@ -549,7 +549,7 @@ async function drawGame(){
       itab+="</table></div>";
       const gm=f.gameData||{};
       const wx=gm.weather||{};
-      const wxH=`<div class="wx">${gm.venue?.name||""}${wx.temp?` Â· ${wx.temp}Â°F ${wx.condition||""}`:""}${wx.wind?` Â· WIND ${wx.wind}`:""}</div>`;
+      const wxH=`<div class="wx">${gm.venue?.name||""}${wx.temp?` · ${wx.temp}°F ${wx.condition||""}`:""}${wx.wind?` · WIND ${wx.wind}`:""}</div>`;
       let gd="";
       if(lv.state==="Live"){
         const off=ls.offense||{},b=ls.balls??0,s=ls.strikes??0,o=ls.outs??0;
@@ -566,7 +566,7 @@ async function drawGame(){
           ${cur.pitcher?`<div class="pcard click" onclick="openPlayer(${cur.pitcher.id})"><img src="${mug(cur.pitcher.id)}"><div><div class="role">PITCHING</div><div class="nm">${cur.pitcher.fullName}</div></div></div>`:""}
         </div>`;
       }
-      // box score â€” top performers, clickable
+      // box score — top performers, clickable
       const bx=ld.boxscore?.teams||{};
       const perf=side=>{
         const tt=bx[side]||{},pl=tt.players||{};
@@ -585,13 +585,13 @@ async function drawGame(){
           arms.slice(0,2).map(p=>`<div onclick="openPlayer(${p.id})"><b>${p.n}</b> <span class="ln">${p.ip}IP ${p.er}ER ${p.k}K</span></div>`).join("")+`</div>`;
       };
       const boxH=(lv.state!=="Preview"&&(bx.away||bx.home))?`<div class="boxcols">${perf("away")}${perf("home")}</div>`:"";
-      // play-by-play â€” last 6, newest first
+      // play-by-play — last 6, newest first
       let playsH="";
       const ap=ld.plays?.allPlays||[];
       const recent=ap.filter(p=>p?.result?.description).slice(-6).reverse();
       if(recent.length){
         playsH="<div class='plays'><h3>PLAY BY PLAY</h3>"+recent.map(p=>
-          `<div>â–¸ <span style="color:var(--phos-dim)">${(p.about?.halfInning||"").toUpperCase().slice(0,3)} ${p.about?.inning||""}</span> ${p.result.description}</div>`).join("")+"</div>";
+          `<div>▸ <span style="color:var(--phos-dim)">${(p.about?.halfInning||"").toUpperCase().slice(0,3)} ${p.about?.inning||""}</span> ${p.result.description}</div>`).join("")+"</div>";
       }
       body=wxH+itab+gd+boxH+playsH;
     }catch{body="<div class='plays'><div>LIVE FEED UNAVAILABLE</div></div>"}
@@ -601,7 +601,7 @@ async function drawGame(){
       if(!p)return"TBD";
       try{const j=await(await fetch(`https://statsapi.mlb.com/api/v1/people/${p.id}?hydrate=stats(group=[pitching],type=[season],season=2026)`)).json();
         const st=j.people?.[0]?.stats?.[0]?.splits?.[0]?.stat||{};
-        return`${st.era??"â€“"} ERA Â· ${st.whip??"â€“"} WHIP Â· ${st.strikeOuts??"â€“"} K`}catch{return""}
+        return`${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.strikeOuts??"–"} K`}catch{return""}
     };
     const [la,lh]=await Promise.all([pline(pa),pline(ph)]);
     body=`<div class="pbox" style="padding-top:4px">
@@ -612,7 +612,7 @@ async function drawGame(){
   P.innerHTML=head+ourline+body;
 }
 
-/* â”€â”€ news â”€â”€ */
+/* ── news ── */
 let _articles=[];
 async function loadNews(){
   try{
@@ -628,7 +628,7 @@ async function loadNews(){
   }catch{}
 }
 
-/* â”€â”€ player search â”€â”€ */
+/* ── player search ── */
 let roster=null;
 async function ensureRoster(){
   if(roster)return;
@@ -652,7 +652,7 @@ window.openPlayer=async id=>{
   sr.style.display="none";si.value="";
   document.getElementById("ov").classList.add("on");clearInterval(ovTimer);ovKey=null;
   const P=document.getElementById("panel");
-  P.innerHTML="<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADINGâ€¦</span><span class='x' onclick='closeOv()'>[X]</span></div>";
+  P.innerHTML="<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADING…</span><span class='x' onclick='closeOv()'>[X]</span></div>";
   try{
     const j=await(await fetch(`https://statsapi.mlb.com/api/v1/people/${id}?hydrate=stats(group=[hitting,pitching],type=[season,career,gameLog],season=2026),currentTeam`)).json();
     const p=j.people?.[0]||{};
@@ -661,13 +661,13 @@ window.openPlayer=async id=>{
       const g=s.group?.displayName,ty=s.type?.displayName;
       const st=s.splits?.[0]?.stat||{};
       if(ty==="season"&&g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">2026 HITTING</div>
-        <div class="ln">${st.avg??"â€“"} AVG Â· ${st.homeRuns??0} HR Â· ${st.rbi??0} RBI Â· ${st.ops??"â€“"} OPS Â· ${st.stolenBases??0} SB</div></div></div>`);
+        <div class="ln">${st.avg??"–"} AVG · ${st.homeRuns??0} HR · ${st.rbi??0} RBI · ${st.ops??"–"} OPS · ${st.stolenBases??0} SB</div></div></div>`);
       if(ty==="season"&&g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">2026 PITCHING</div>
-        <div class="ln">${st.era??"â€“"} ERA Â· ${st.whip??"â€“"} WHIP Â· ${st.wins??0}-${st.losses??0} Â· ${st.strikeOuts??0} K Â· ${st.inningsPitched??0} IP</div></div></div>`);
+        <div class="ln">${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.wins??0}-${st.losses??0} · ${st.strikeOuts??0} K · ${st.inningsPitched??0} IP</div></div></div>`);
       if(ty==="career"&&g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">CAREER HITTING</div>
-        <div class="ln">${st.avg??"â€“"} AVG Â· ${st.homeRuns??0} HR Â· ${st.rbi??0} RBI Â· ${st.ops??"â€“"} OPS Â· ${st.gamesPlayed??0} G</div></div></div>`);
+        <div class="ln">${st.avg??"–"} AVG · ${st.homeRuns??0} HR · ${st.rbi??0} RBI · ${st.ops??"–"} OPS · ${st.gamesPlayed??0} G</div></div></div>`);
       if(ty==="career"&&g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">CAREER PITCHING</div>
-        <div class="ln">${st.era??"â€“"} ERA Â· ${st.whip??"â€“"} WHIP Â· ${st.wins??0}-${st.losses??0} Â· ${st.strikeOuts??0} K</div></div></div>`);
+        <div class="ln">${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.wins??0}-${st.losses??0} · ${st.strikeOuts??0} K</div></div></div>`);
       if(ty==="gameLog"){
         for(const sp2 of (s.splits||[]).slice(-5).reverse()){
           const st2=sp2.stat||{},opp=sp2.opponent?.name;
@@ -681,12 +681,12 @@ window.openPlayer=async id=>{
     if(logs.length)rows.push(`<div class="pcard"><div><div class="role">LAST 5 GAMES</div><div class="boxcol" style="min-width:220px">${logs.join("")}</div></div></div>`);
     P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">PLAYER FILE</span><span class="x" onclick="closeOv()">[X]</span></div>
       <div class="matchhead"><div class="mh-team"><img src="${mug(id)}" style="border-radius:50%;background:#111"><div class="n">${p.fullName||""}</div>
-      <div class="vt" style="color:var(--mut);font-size:15px">${p.primaryPosition?.abbreviation||""} Â· ${p.currentTeam?.name||""}</div></div></div>
+      <div class="vt" style="color:var(--mut);font-size:15px">${p.primaryPosition?.abbreviation||""} · ${p.currentTeam?.name||""}</div></div></div>
       <div class="pbox" style="flex-direction:column;align-items:center">${rows.join("")||"<div class='pcard'><div class='ln'>NO 2026 STATS</div></div>"}</div>`;
   }catch{P.innerHTML="<div class='ph'><span class='vt' style='color:var(--hot)'>LOAD FAILED</span><span class='x' onclick='closeOv()'>[X]</span></div>"}
 };
 
-/* â”€â”€ info system: every stat explained + model insight â”€â”€ */
+/* ── info system: every stat explained + model insight ── */
 const INFO={
 record:{t:"RECORD",b:"Wins and losses on OFFICIAL PLAYS only - picks that were texted with a locked price after both lineups confirmed. Morning leans that never locked do not count.",i:"The model only bets when its number disagrees with the sportsbook by 3-8%. Most games get no bet at all - selectivity IS the strategy."},
 pnl:{t:"PROFIT & LOSS",b:"Cumulative result betting $100 flat on every official play at the DraftKings price at lock time. Plus-money dog wins pay more than favorite wins.",i:"Flat stakes are deliberate. Bet sizing (Kelly) only switches on after 100 graded picks prove the model's probabilities are calibrated."},
@@ -708,11 +708,11 @@ splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price b
 "sp-dog+150":{t:"BIG DOGS (+150+)",b:"Long-odds plays - each win pays $150 or more.",i:"Expect losing streaks; the math works anyway. A 40% hit rate at +160 is a money printer."},
 "sp-sharp-conf":{t:"SHARP CONFIRMED",b:"Plays where professional money moved the line TOWARD our side before lock.",i:"When we and the sharps agree, historical win rates run several points higher."},
 "sp-sharp-na":{t:"NO SHARP SIGNAL",b:"Plays where the line had not moved meaningfully either way at lock.",i:"The model is on its own here - this split is the purest test of the model itself."},
-era:{t:"PITCHING GAP (era) Â· WEIGHT .395",b:"The difference in starting-pitcher earned run average, winsorized to the 1.5-8.0 range so tiny samples cannot blow up a prediction. Blended toward career numbers for pitchers with few innings.",i:"The single strongest signal in baseball prediction - permutation testing showed it carries more weight than the next three features combined. Baseball is a starting-pitching game."},
-ops:{t:"LINEUP GAP (ops) Â· WEIGHT .223",b:"The difference in offensive quality (on-base plus slugging), platoon-adjusted against the opposing starter's throwing hand when lineups are confirmed.",i:"This is why plays lock at lineup confirmation - the number sharpens when we know the nine names and which hand they are facing."},
-kpct:{t:"CONTACT GAP (k%) Â· WEIGHT .082",b:"The difference in team strikeout rate - how often each lineup gives away free outs.",i:"A small but real edge: strikeout-prone lineups underperform their raw OPS against strikeout pitchers."},
-whip:{t:"BASERUNNER GAP (whip) Â· WEIGHT .033",b:"The difference in starters' walks-plus-hits per inning - traffic allowed.",i:"Smallest surviving feature. Mostly overlaps ERA but adds a sliver of unique signal about pitchers who live dangerously."},
-hfa:{t:"HOME FIELD Â· INTERCEPT .093",b:"A constant nudge toward the home team, learned from the data - equivalent to the 52.2% league-wide home win rate.",i:"Everything else the pipeline collects - velocity, spin, bullpens, park factors, weather - is displayed for context but deliberately kept OUT of the model. Each was tested; each failed to add out-of-sample value."},
+era:{t:"PITCHING GAP (era) · WEIGHT .395",b:"The difference in starting-pitcher earned run average, winsorized to the 1.5-8.0 range so tiny samples cannot blow up a prediction. Blended toward career numbers for pitchers with few innings.",i:"The single strongest signal in baseball prediction - permutation testing showed it carries more weight than the next three features combined. Baseball is a starting-pitching game."},
+ops:{t:"LINEUP GAP (ops) · WEIGHT .223",b:"The difference in offensive quality (on-base plus slugging), platoon-adjusted against the opposing starter's throwing hand when lineups are confirmed.",i:"This is why plays lock at lineup confirmation - the number sharpens when we know the nine names and which hand they are facing."},
+kpct:{t:"CONTACT GAP (k%) · WEIGHT .082",b:"The difference in team strikeout rate - how often each lineup gives away free outs.",i:"A small but real edge: strikeout-prone lineups underperform their raw OPS against strikeout pitchers."},
+whip:{t:"BASERUNNER GAP (whip) · WEIGHT .033",b:"The difference in starters' walks-plus-hits per inning - traffic allowed.",i:"Smallest surviving feature. Mostly overlaps ERA but adds a sliver of unique signal about pitchers who live dangerously."},
+hfa:{t:"HOME FIELD · INTERCEPT .093",b:"A constant nudge toward the home team, learned from the data - equivalent to the 52.2% league-wide home win rate.",i:"Everything else the pipeline collects - velocity, spin, bullpens, park factors, weather - is displayed for context but deliberately kept OUT of the model. Each was tested; each failed to add out-of-sample value."},
 window:{t:"THE 3-8% WINDOW",b:"A play fires only when the model's edge over the sportsbook price is between +3% and +8%.",i:"Below 3% is vig territory. Above 8%, history says the model is usually wrong, not the market: 10%+ edges hit only 44.6% against a claimed 58.9%. The cap is humility, encoded."},
 veto:{t:"SHARP FADE VETO",b:"If professional money moves the line significantly AGAINST the model's side before lock, the play is killed even if the edge is in the window.",i:"Bets made against sharp movement hit 27% historically and cost $594 across 15 attempts. When the smartest money in the world disagrees, we pass."},
 coors:{t:"COORS FIELD EXCLUSION",b:"No plays on games at Coors Field (Rockies home games), where altitude chaos breaks run-environment assumptions.",i:"Model record at Coors: well below break-even across every era. Rockies ROAD games are fair game - and have been profitable value-dog spots."},
@@ -730,11 +730,11 @@ window.openInfo=(ev,k)=>{
   }
   const d=document.createElement("div");d.className="info-drop";d.dataset.k=k;
   d.innerHTML=`<div class="lead">${inf.t}</div><div class="body">${inf.b}</div>
-    <div class="ins"><b>MODEL INSIGHT â–¸ </b>${inf.i}</div>`;
+    <div class="ins"><b>MODEL INSIGHT ▸ </b>${inf.i}</div>`;
   anchor.insertAdjacentElement("afterend",d);
 };
 
-/* â”€â”€ patched leaks â”€â”€ */
+/* ── patched leaks ── */
 async function loadLeaks(){
   const t=await tryFetch("leaks.json")||await tryFetch(`${REPO}/leaks.json`);
   if(!t)return;
@@ -751,7 +751,7 @@ async function loadLeaks(){
   }catch{}
 }
 
-/* â”€â”€ engine coefficients â”€â”€ */
+/* ── engine coefficients ── */
 (function(){
   const C=[["era","era gap",.395],["ops","lineup gap",.223],["kpct","contact gap",.082],["whip","baserunners",.033],["hfa","home field",.093]];
   document.getElementById("eng-coefs").innerHTML=C.map(([k,n,v])=>
@@ -759,7 +759,7 @@ async function loadLeaks(){
      <div class="cbar ${k==="hfa"?"g":""}" style="width:${v*560}px"></div><span class="cv">${v.toFixed(3)}</span></div>`).join("");
 })();
 
-/* â”€â”€ model updates (changelog) â”€â”€ */
+/* ── model updates (changelog) ── */
 async function loadUpdates(){
   const t=await tryFetch("changelog.json")||await tryFetch(`${REPO}/changelog.json`);
   if(!t)return;
@@ -772,7 +772,7 @@ async function loadUpdates(){
   }catch{}
 }
 
-/* â”€â”€ weekly report archive â”€â”€ */
+/* ── weekly report archive ── */
 function miniMD(md){
   const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
   const lines=md.split(/\r?\n/);let out="",inTable=false,inList=false;
@@ -802,20 +802,20 @@ async function loadArchive(){
       .sort((a,b)=>b.name.localeCompare(a.name));
     if(!reps.length)return;
     document.getElementById("archive").innerHTML=reps.map(f=>
-      `<div class="arch" onclick="openReport('${f.name}')"><span>â–¸ ${f.name.replace("WEEKLY_REPORT_","").replace(".md","").replace("_auto"," (AUTO)")}</span><span style="color:var(--phos-dim)">READ</span></div>`).join("");
+      `<div class="arch" onclick="openReport('${f.name}')"><span>▸ ${f.name.replace("WEEKLY_REPORT_","").replace(".md","").replace("_auto"," (AUTO)")}</span><span style="color:var(--phos-dim)">READ</span></div>`).join("");
   }catch{}
 }
 window.openReport=async name=>{
   document.getElementById("ov").classList.add("on");clearInterval(ovTimer);ovKey=null;
   const P=document.getElementById("panel");
-  P.innerHTML="<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADINGâ€¦</span><span class='x' onclick='closeOv()'>[X]</span></div>";
+  P.innerHTML="<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADING…</span><span class='x' onclick='closeOv()'>[X]</span></div>";
   const md=await tryFetch(name)||await tryFetch(`${REPO}/${name}`);
   if(!md){P.innerHTML="<div class='ph'><span class='vt' style='color:var(--hot)'>LOAD FAILED</span><span class='x' onclick='closeOv()'>[X]</span></div>";return}
-  P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:16px;letter-spacing:.2em">WEEKLY REPORT Â· ${name.replace("WEEKLY_REPORT_","").replace(".md","")}</span><span class="x" onclick="closeOv()">[X]</span></div>
+  P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:16px;letter-spacing:.2em">WEEKLY REPORT · ${name.replace("WEEKLY_REPORT_","").replace(".md","")}</span><span class="x" onclick="closeOv()">[X]</span></div>
     <div class="mdbody">${miniMD(md)}</div>`;
 };
 
-/* â”€â”€ standings â”€â”€ */
+/* ── standings ── */
 let standCache={};  // teamId -> standings row (for team pages)
 const NAME_BY_TID=Object.fromEntries(Object.entries(TID).map(([n,i])=>[i,n]));
 async function loadStandings(){
@@ -832,7 +832,7 @@ async function loadStandings(){
         const stk=t.streak?.streakCode||"";
         html+=`<div class="strow" onclick="openTeam(${id})"><img src="https://www.mlbstatic.com/team-logos/${id}.svg">
           <span class="tn">${AB[n]||n.slice(0,3)}</span><span class="wl">${t.wins}-${t.losses}</span>
-          <span class="gb">${t.gamesBack==="-"?"â€”":t.gamesBack}</span>
+          <span class="gb">${t.gamesBack==="-"?"—":t.gamesBack}</span>
           <span class="l10">${l10?l10.wins+"-"+l10.losses:""}</span>
           <span class="stk ${stk[0]||""}">${stk}</span></div>`;
       }
@@ -842,7 +842,7 @@ async function loadStandings(){
   }catch{}
 }
 
-/* â”€â”€ leaders â”€â”€ */
+/* ── leaders ── */
 async function loadLeaders(){
   try{
     const cats=[["homeRuns","HR"],["battingAverage","AVG"],["earnedRunAverage","ERA"],["strikeouts","K"]];
@@ -860,12 +860,12 @@ async function loadLeaders(){
   }catch{}
 }
 
-/* â”€â”€ team file â”€â”€ */
+/* ── team file ── */
 window.openTeam=async id=>{
   document.getElementById("ov").classList.add("on");clearInterval(ovTimer);ovKey=null;
   const P=document.getElementById("panel");
   const name=NAME_BY_TID[id]||"";
-  P.innerHTML=`<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADINGâ€¦</span><span class='x' onclick='closeOv()'>[X]</span></div>`;
+  P.innerHTML=`<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADING…</span><span class='x' onclick='closeOv()'>[X]</span></div>`;
   try{
     const t=standCache[id];
     const [statsJ,schedJ]=await Promise.all([
@@ -882,23 +882,23 @@ window.openTeam=async id=>{
     const games=[];
     for(const d of schedJ.dates||[])for(const g of d.games||[]){
       const a=g.teams.away.team.name,h=g.teams.home.team.name;
-      games.push(`${AB[a]||a} @ ${AB[h]||h} Â· ${new Date(g.gameDate).toLocaleDateString([],{weekday:"short"})}`);
+      games.push(`${AB[a]||a} @ ${AB[h]||h} · ${new Date(g.gameDate).toLocaleDateString([],{weekday:"short"})}`);
     }
     P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">TEAM FILE</span><span class="x" onclick="closeOv()">[X]</span></div>
       <div class="matchhead"><div class="mh-team" style="width:auto"><img src="https://www.mlbstatic.com/team-logos/${id}.svg" style="width:80px;height:80px"><div class="n">${name}</div>
         ${t?`<div class="vt" style="color:var(--phos);font-size:22px;text-shadow:0 0 8px rgba(43,255,100,.5)">${t.wins}-${t.losses}</div>
-        <div class="vt" style="color:var(--mut);font-size:15px">GB ${t.gamesBack==="-"?"â€”":t.gamesBack} Â· L10 ${l10?l10.wins+"-"+l10.losses:"â€”"} Â· STREAK ${t.streak?.streakCode||"â€”"}</div>`:""}</div></div>
+        <div class="vt" style="color:var(--mut);font-size:15px">GB ${t.gamesBack==="-"?"—":t.gamesBack} · L10 ${l10?l10.wins+"-"+l10.losses:"—"} · STREAK ${t.streak?.streakCode||"—"}</div>`:""}</div></div>
       <div class="pbox" style="flex-direction:column;align-items:center">
-        <div class="pcard"><div><div class="role">2026 HITTING</div><div class="ln">${hit.avg??"â€“"} AVG Â· ${hit.ops??"â€“"} OPS Â· ${hit.homeRuns??"â€“"} HR Â· ${hit.runs??"â€“"} R</div></div></div>
-        <div class="pcard"><div><div class="role">2026 PITCHING</div><div class="ln">${pit.era??"â€“"} ERA Â· ${pit.whip??"â€“"} WHIP Â· ${pit.strikeOuts??"â€“"} K</div></div></div>
+        <div class="pcard"><div><div class="role">2026 HITTING</div><div class="ln">${hit.avg??"–"} AVG · ${hit.ops??"–"} OPS · ${hit.homeRuns??"–"} HR · ${hit.runs??"–"} R</div></div></div>
+        <div class="pcard"><div><div class="role">2026 PITCHING</div><div class="ln">${pit.era??"–"} ERA · ${pit.whip??"–"} WHIP · ${pit.strikeOuts??"–"} K</div></div></div>
         <div class="pcard" style="border-color:#8a6d1a"><div><div class="role" style="color:var(--gold)">VS THE MODEL</div>
-          <div class="ln" style="color:var(--gold)">PICKED: ${mt.pw??0}/${mt.pt??0} CORRECT Â· BET ON: ${mt.bw??0}-${mt.bl??0}</div></div></div>
+          <div class="ln" style="color:var(--gold)">PICKED: ${mt.pw??0}/${mt.pt??0} CORRECT · BET ON: ${mt.bw??0}-${mt.bl??0}</div></div></div>
         ${games.length?`<div class="pcard"><div><div class="role">NEXT UP</div><div class="ln">${games.slice(0,3).join("<br>")}</div></div></div>`:""}
       </div>`;
   }catch{P.innerHTML="<div class='ph'><span class='vt' style='color:var(--hot)'>LOAD FAILED</span><span class='x' onclick='closeOv()'>[X]</span></div>"}
 };
 
-/* â”€â”€ ledger â”€â”€ */
+/* ── ledger ── */
 function lineChart(cv, series, labels, yfmt){
   const light=document.body.classList.contains("light");
   const GRID=light?"#e2ded1":"#121212", LBL=light?"#8a857a":"#3d3d3d", ZERO=light?"#c5c0b2":"#2a2a2a";
@@ -940,39 +940,39 @@ async function loadLedger(){
     v=>Math.round(v)+"%");
   // daily table
   document.getElementById("lg-days").innerHTML=A.days.slice(-10).map(d=>
-    `<tr><td>${d.d}</td><td>${d.pw}/${d.pt}</td><td class="${d.bw>d.bl?"grn":d.bl>d.bw?"red":""}">${d.bt===0?"â€”":d.bw+"-"+d.bl}</td>
+    `<tr><td>${d.d}</td><td>${d.pw}/${d.pt}</td><td class="${d.bw>d.bl?"grn":d.bl>d.bw?"red":""}">${d.bt===0?"—":d.bw+"-"+d.bl}</td>
      <td class="${d.pnl>=0?"grn":"red"}">${d.pnl>=0?"+":""}${d.pnl}</td><td class="amb">${d.cum>=0?"+":""}${d.cum}</td></tr>`).join("");
   // splits
   const sp=(o,tag)=>Object.entries(o).map(([k,v])=>
-    `<div><span>${tag} ${k.toUpperCase()}</span><span class="${v.pnl>=0?"grn":"red"}">${v.w}-${v.l} Â· ${v.pnl>=0?"+$":"-$"}${Math.abs(v.pnl)}</span></div>`).join("");
+    `<div><span>${tag} ${k.toUpperCase()}</span><span class="${v.pnl>=0?"grn":"red"}">${v.w}-${v.l} · ${v.pnl>=0?"+$":"-$"}${Math.abs(v.pnl)}</span></div>`).join("");
   document.getElementById("lg-split").innerHTML=
-    `<div><span>SEASON FLAGGED</span><span class="${A.season_flagged.pnl>=0?"grn":"red"}">${A.season_flagged.w}-${A.season_flagged.l} Â· ${A.season_flagged.pnl>=0?"+$":"-$"}${Math.abs(A.season_flagged.pnl)}</span></div>`
+    `<div><span>SEASON FLAGGED</span><span class="${A.season_flagged.pnl>=0?"grn":"red"}">${A.season_flagged.w}-${A.season_flagged.l} · ${A.season_flagged.pnl>=0?"+$":"-$"}${Math.abs(A.season_flagged.pnl)}</span></div>`
     +sp(A.split_season,"SZN")+sp(A.split_v2,"V2");
   // buckets
   document.getElementById("lg-buckets").innerHTML=A.buckets.map(b=>{
     const pct=b.n?b.w/b.n*100:0;
     return`<div class="bucketbar"><span class="bn">${b.b}%</span>
       <div class="bar ${b.pnl<0?"red":""}" style="width:${Math.max(pct*1.6,4)}px"></div>
-      <span class="bv">${pct.toFixed(0)}% Â· ${b.n} Â· ${b.pnl>=0?"+$":"-$"}${Math.abs(b.pnl)}</span></div>`}).join("");
+      <span class="bv">${pct.toFixed(0)}% · ${b.n} · ${b.pnl>=0?"+$":"-$"}${Math.abs(b.pnl)}</span></div>`}).join("");
   // extra splits (clickable rows)
   if(A.xsplits){
     const XL={home:"HOME PLAYS",away:"AWAY PLAYS","fav-155":"HEAVY FAV -155+",fav:"FAVORITES",
       dog:"DOGS +100/+149","dog+150":"BIG DOGS +150+","sharp-conf":"SHARP CONFIRMED","sharp-na":"NO SHARP SIGNAL"};
     document.getElementById("lg-xsplits").innerHTML=Object.entries(A.xsplits)
       .filter(([k,v])=>v.n>0).map(([k,v])=>
-      `<div style="cursor:pointer" onclick="openInfo(event,'sp-${k}')"><span>${XL[k]||k} â“˜</span>
-       <span class="${v.pnl>=0?"grn":"red"}">${v.w}-${v.n-v.w} Â· ${v.pnl>=0?"+$":"-$"}${Math.abs(v.pnl)}</span></div>`).join("");
+      `<div style="cursor:pointer" onclick="openInfo(event,'sp-${k}')"><span>${XL[k]||k} ⓘ</span>
+       <span class="${v.pnl>=0?"grn":"red"}">${v.w}-${v.n-v.w} · ${v.pnl>=0?"+$":"-$"}${Math.abs(v.pnl)}</span></div>`).join("");
   }
   // teams
   const tr=(lbl,arr,f)=>`<div style="border-bottom:1px solid #1c1c1c;color:var(--mut);font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:11px;padding-top:6px">${lbl}</div>`
     +arr.map(f).join("");
   document.getElementById("lg-teams").innerHTML=
-    tr("BEST WHEN PICKED",A.teams.best,t=>`<div><span>${AB[t.t]||t.t}</span><span class="grn">${t.w}/${t.n} Â· ${Math.round(t.w/t.n*100)}%</span></div>`)
-    +tr("WORST WHEN PICKED",A.teams.worst,t=>`<div><span>${AB[t.t]||t.t}</span><span class="red">${t.w}/${t.n} Â· ${Math.round(t.w/t.n*100)}%</span></div>`)
+    tr("BEST WHEN PICKED",A.teams.best,t=>`<div><span>${AB[t.t]||t.t}</span><span class="grn">${t.w}/${t.n} · ${Math.round(t.w/t.n*100)}%</span></div>`)
+    +tr("WORST WHEN PICKED",A.teams.worst,t=>`<div><span>${AB[t.t]||t.t}</span><span class="red">${t.w}/${t.n} · ${Math.round(t.w/t.n*100)}%</span></div>`)
     +tr("MOST BET",A.teams.most_bet,t=>`<div><span>${AB[t.t]||t.t}</span><span class="${t.w>=t.l?"grn":"red"}">${t.w}-${t.l}</span></div>`);
 }
 
-/* â”€â”€ lean showcase â”€â”€ */
+/* ── lean showcase ── */
 function whyText(r, betTeam, side){
   const away=r["Away"], home=r["Home"], opp=betTeam===away?home:away;
   const bp=parseFloat(side==="away"?r["Model Away%"]:r["Model Home%"]);
@@ -983,7 +983,7 @@ function whyText(r, betTeam, side){
   const edge=String(side==="away"?r["DK Edge Away"]:r["DK Edge Home"]).replace("** BET **","").trim();
   const s=[];
   if(isDog)
-    s.push(`The model actually expects ${AB[pick]} to win this game slightly more often (${(100-bp).toFixed(0)}%) â€” but at ${fmtO(odds)}, the market is paying ${AB[betTeam]} like a ${(implied(odds)).toFixed(0)}% team when the model makes them ${bp.toFixed(0)}%. The price, not the winner, is the bet.`);
+    s.push(`The model actually expects ${AB[pick]} to win this game slightly more often (${(100-bp).toFixed(0)}%) — but at ${fmtO(odds)}, the market is paying ${AB[betTeam]} like a ${(implied(odds)).toFixed(0)}% team when the model makes them ${bp.toFixed(0)}%. The price, not the winner, is the bet.`);
   else
     s.push(`The model makes ${AB[betTeam]} a ${bp.toFixed(0)}% team; the price implies ${(implied(odds)).toFixed(0)}%. That gap (${edge}) sits inside the 3-8% window where the model has historically been right and the market wrong.`);
   const bw=parseFloat(side==="away"?r["Away SP Whiff"]:r["Home SP Whiff"]);
@@ -993,7 +993,7 @@ function whyText(r, betTeam, side){
   if(!isNaN(bw)&&!isNaN(ow)&&bw-ow>=1.5)
     s.push(`On the mound, ${bsp} is missing more bats (${bw}% whiff vs ${ow}% for ${osp}).`);
   if(!isNaN(orel)&&orel<25)
-    s.push(`${osp} has a thin ${orel}% season sample â€” the market may be pricing a reputation the data can't yet verify.`);
+    s.push(`${osp} has a thin ${orel}% season sample — the market may be pricing a reputation the data can't yet verify.`);
   const bo=parseFloat(side==="away"?r["Away Lineup OPS"]:r["Home Lineup OPS"]);
   const oo=parseFloat(side==="away"?r["Home Lineup OPS"]:r["Away Lineup OPS"]);
   if(!isNaN(bo)&&!isNaN(oo)&&bo-oo>=0.02)
@@ -1004,7 +1004,7 @@ function whyText(r, betTeam, side){
     s.push(`Bullpen context (displayed, not modeled): ${AB[betTeam]}'s pen has a ${bbp.toFixed(2)} ERA over the last week vs ${obp.toFixed(2)} for ${AB[opp]}.`);
   const sh=String(r["Sharp Signal"]||"");
   if(sh.includes("CONFIRMED"))s.push(`Sharp money has moved the line in the same direction since open.`);
-  else s.push(`No adverse sharp movement â€” plays that sharps bet against get vetoed automatically.`);
+  else s.push(`No adverse sharp movement — plays that sharps bet against get vetoed automatically.`);
   return s.join(" ");
 }
 function implied(o){o=parseFloat(o);return o<0?(-o)/(-o+100)*100:100/(o+100)*100}
@@ -1026,19 +1026,19 @@ async function renderShowcase(){
     const aid=findId(r["Away SP"]),hid=findId(r["Home SP"]);
     const nick=t=>t.split(" ").pop();
     const news=_articles.filter(a=>{const h=(a.headline||"");return h.includes(nick(away))||h.includes(nick(home))}).slice(0,2);
-    return`<div class="sc-card"><div class="sc-bar">${locked.has(key)?"ðŸ”’ OFFICIAL PLAY":"TONIGHT'S LEAN"}</div>
+    return`<div class="sc-card"><div class="sc-bar">${locked.has(key)?"🔒 OFFICIAL PLAY":"TONIGHT'S LEAN"}</div>
       <div class="sc-head">
         <div class="sc-team ${betTeam===away?"pick":""}" onclick="openTeam(${TID[away]||0})"><img src="${logo(away)}"><div class="n">${away}</div></div>
         <span class="sc-vs">@</span>
         <div class="sc-team ${betTeam===home?"pick":""}" onclick="openTeam(${TID[home]||0})"><img src="${logo(home)}"><div class="n">${home}</div></div>
       </div>
-      <div class="sc-line">BET ${AB[betTeam]} Â· ${parseFloat(bp).toFixed(1)}% (FAIR ${fair_js(bp)}) Â· DK ${fmtO(odds)} / MGM ${fmtO(modds)} / CZR ${fmtO(s==="away"?r["CZR Away Odds"]:r["CZR Home Odds"])}</div>
+      <div class="sc-line">BET ${AB[betTeam]} · ${parseFloat(bp).toFixed(1)}% (FAIR ${fair_js(bp)}) · DK ${fmtO(odds)} / MGM ${fmtO(modds)} / CZR ${fmtO(s==="away"?r["CZR Away Odds"]:r["CZR Home Odds"])}</div>
       <div class="sc-sps">
-        ${aid?`<div class="sc-sp" onclick="openPlayer(${aid})"><img src="${mug(aid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Away SP"]}</div><div class="ln">${r["Away SP Whiff"]&&r["Away SP Whiff"]!=="None"?r["Away SP Whiff"]+"% WHIFF Â· "+r["Away SP Velo"]+" MPH":""}</div></div></div>`:""}
-        ${hid?`<div class="sc-sp" onclick="openPlayer(${hid})"><img src="${mug(hid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Home SP"]}</div><div class="ln">${r["Home SP Whiff"]&&r["Home SP Whiff"]!=="None"?r["Home SP Whiff"]+"% WHIFF Â· "+r["Home SP Velo"]+" MPH":""}</div></div></div>`:""}
+        ${aid?`<div class="sc-sp" onclick="openPlayer(${aid})"><img src="${mug(aid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Away SP"]}</div><div class="ln">${r["Away SP Whiff"]&&r["Away SP Whiff"]!=="None"?r["Away SP Whiff"]+"% WHIFF · "+r["Away SP Velo"]+" MPH":""}</div></div></div>`:""}
+        ${hid?`<div class="sc-sp" onclick="openPlayer(${hid})"><img src="${mug(hid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Home SP"]}</div><div class="ln">${r["Home SP Whiff"]&&r["Home SP Whiff"]!=="None"?r["Home SP Whiff"]+"% WHIFF · "+r["Home SP Velo"]+" MPH":""}</div></div></div>`:""}
       </div>
       <div class="sc-why"><h4>WHY THE MODEL LIKES IT</h4><p>${whyText(r,betTeam,s)}</p></div>
-      ${news.length?`<div class="sc-news">${news.map(a=>`<a href="${a.links?.web?.href||"#"}" target="_blank" rel="noopener">ðŸ“° ${a.headline}</a>`).join("")}</div>`:""}
+      ${news.length?`<div class="sc-news">${news.map(a=>`<a href="${a.links?.web?.href||"#"}" target="_blank" rel="noopener">📰 ${a.headline}</a>`).join("")}</div>`:""}
     </div>`;
   }).join("");
   document.getElementById("sc-grid").innerHTML=cards;
@@ -1051,11 +1051,11 @@ function flagged_side_js(r){
 }
 function fair_js(p){p=parseFloat(p);return p>=50?"-"+Math.round(p/(100-p)*100):"+"+Math.round((100-p)/p*100)}
 
-/* â”€â”€ light/dark toggle â”€â”€ */
+/* ── light/dark toggle ── */
 function applyMode(){
   const light=localStorage.getItem("boardMode")==="light";
   document.body.classList.toggle("light",light);
-  document.getElementById("modebtn").textContent=light?"â˜¾":"â˜€";
+  document.getElementById("modebtn").textContent=light?"☾":"☀";
 }
 document.getElementById("modebtn").addEventListener("click",()=>{
   localStorage.setItem("boardMode",document.body.classList.contains("light")?"dark":"light");

@@ -9,7 +9,7 @@ import warnings
 warnings.filterwarnings("ignore")
 import os
 import sys
-# Task Scheduler consoles use cp1252, which can't encode â†’ / emoji glyphs
+# Task Scheduler consoles use cp1252, which can't encode → / emoji glyphs
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
@@ -19,12 +19,12 @@ from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
 from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX, commence_lv_date
 
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-# master_v2.py â€” V2 inference. Four fixes vs master.py:
+# ─────────────────────────────────────────────────────────────
+# master_v2.py — V2 inference. Four fixes vs master.py:
 #
 # 1. LINEUP SWAP BUG FIXED. Old code assigned the away lineup's
 #    OPS to home_lineup_ops and vice versa whenever lineups were
-#    confirmed â€” the model received each team's offense under the
+#    confirmed — the model received each team's offense under the
 #    other team's label, flipping the sign of ops_diff. Training
 #    (weekly_retrain) used the correct assignment, so inference
 #    contradicted training on every confirmed-lineup game.
@@ -35,7 +35,7 @@ from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX, comm
 #    117 live-graded games: these layers flipped the pick in 28%
 #    of games and the raw model won 57.6% of those flips vs 42.4%
 #    for the adjusted pipeline. Park effects already live inside
-#    season stats (the backlog-#2 double count â€” now gone because
+#    season stats (the backlog-#2 double count — now gone because
 #    the whole layer is gone). Park factor and bullpen numbers are
 #    still DISPLAYED as context; they just don't move the number.
 #
@@ -43,16 +43,16 @@ from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX, comm
 #    (features_v2.py). Walk-forward 60.2% / 0.2325 Brier vs the
 #    old 18-feature XGBoost's 58.7% / 0.2372. Loads once per run.
 #
-# 4. BET WINDOW moved to 3â€“8% (EDGE_MIN/EDGE_MAX below). Graded
-#    data: 3â€“6% edges hit 57.5%, 6â€“10% hit 38.9% â€” huge model
+# 4. BET WINDOW moved to 3–8% (EDGE_MIN/EDGE_MAX below). Graded
+#    data: 3–6% edges hit 57.5%, 6–10% hit 38.9% — huge model
 #    edges were mostly model error. Kept configurable.
 #
 # Kept: Sharp FADE veto (2/15 = 13.3% empirical, keep it),
 # Coors exclusion, pitcher reliability gate, frozen Live/Final
 # rows, CSV schema (downstream dashboard unchanged).
-# â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ─────────────────────────────────────────────────────────────
 
-# ** BET ** window lives in features_v2 (BET_MIN/BET_MAX) â€” single source
+# ** BET ** window lives in features_v2 (BET_MIN/BET_MAX) — single source
 # of truth shared with graders and notifications. Revisit after 100+ graded
 # V2 picks.
 EDGE_MIN = BET_MIN
@@ -116,7 +116,7 @@ VIG_MIN = 102.0
 VIG_MAX = 108.0
 
 def check_vig(away_prob, home_prob, bookmaker):
-    """Returns a warning string if vig is outside the normal 102â€“108% range,
+    """Returns a warning string if vig is outside the normal 102–108% range,
     or None if vig is normal or odds are missing."""
     if away_prob is None or home_prob is None:
         return None
@@ -228,7 +228,7 @@ def run_model(target_date, save_csv=True):
     odds_resp = requests.get(
         "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/",
         params={
-            "apiKey": os.environ["ODDS_API_KEY"],  # V2: env only â€” rotate the old key, it was committed in plain text
+            "apiKey": os.environ["ODDS_API_KEY"],  # V2: env only — rotate the old key, it was committed in plain text
             "regions": "us",
             "markets": "h2h",
             "oddsFormat": "american",
@@ -244,7 +244,7 @@ def run_model(target_date, save_csv=True):
         odds_resp = []
     for game in odds_resp:
         if commence_lv_date(game.get("commence_time")) != target_str:
-            continue  # only THIS slate's games â€” the API returns multiple days
+            continue  # only THIS slate's games — the API returns multiple days
         for bookmaker in game["bookmakers"]:
             bk = bookmaker["key"]
             for market in bookmaker["markets"]:
@@ -301,7 +301,7 @@ def run_model(target_date, save_csv=True):
             return None, None, None, f"{full_name} | Error"
 
     print("=" * 75)
-    print(f"  MLB MODEL REPORT â€” {target_str}")
+    print(f"  MLB MODEL REPORT — {target_str}")
     print("=" * 75)
 
     picks = []
@@ -317,7 +317,7 @@ def run_model(target_date, save_csv=True):
         print(f"Loaded {len(existing_picks)} existing picks to freeze Live/Final games\n")
 
     # LOCK-ON-TEXT: once a pick has been texted to subscribers it is the
-    # official play â€” later pre-game reruns must NOT change its flag or odds.
+    # official play — later pre-game reruns must NOT change its flag or odds.
     # (2026-07-28 bug: a rerun dropped the texted Cardinals flag, so the
     # nightly grade missed a play subscribers had bet.)
     texted_keys = set()
@@ -364,10 +364,10 @@ def run_model(target_date, save_csv=True):
                         "Devig Bet",
                         "CZR Away Odds", "CZR Home Odds"
                     ]])
-                    status_label = ("ðŸ”´ LIVE" if game_status == "Live"
-                                    else "âœ… FINAL" if game_status == "Final"
-                                    else "ðŸ”’ TEXTED/LOCKED")
-                    print(f"  {status_label} â€” {away} @ {home} [FROZEN â€” using pre-game pick]")
+                    status_label = ("🔴 LIVE" if game_status == "Live"
+                                    else "✅ FINAL" if game_status == "Final"
+                                    else "🔒 TEXTED/LOCKED")
+                    print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
                 continue
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
@@ -386,7 +386,7 @@ def run_model(target_date, save_csv=True):
             home_players = lineups.get(home, [])
             away_players = lineups.get(away, [])
 
-            # V2 FIX â€” lineup swap bug. home_lineup_ops is the HOME team's
+            # V2 FIX — lineup swap bug. home_lineup_ops is the HOME team's
             # offense: home batters vs the AWAY pitcher's hand. The old code
             # fed away batters into home_lineup_ops (and vice versa), so the
             # model received each offense under the other team's label on
@@ -427,7 +427,7 @@ def run_model(target_date, save_csv=True):
             try:
                 if home_stats and away_stats:
                     # V2: calibrated output used AS-IS. No home boost, no
-                    # park layer, no bullpen nudge â€” those cost ~4 pts of
+                    # park layer, no bullpen nudge — those cost ~4 pts of
                     # pick accuracy on the 117 live-graded games.
                     home_prob = predict_home_win_prob_v2(
                         home_stats["era"], home_stats["whip"],
@@ -455,13 +455,13 @@ def run_model(target_date, save_csv=True):
             dk_home  = american_to_prob(odds_lookup.get(home, {}).get("draftkings"))
             mgm_home = american_to_prob(odds_lookup.get(home, {}).get("betmgm"))
 
-            # â”€â”€ Vig sanity check (diagnostic only â€” does not change picking) â”€â”€
+            # ── Vig sanity check (diagnostic only — does not change picking) ──
             dk_warning  = check_vig(dk_away,  dk_home,  "DK")
             mgm_warning = check_vig(mgm_away, mgm_home, "MGM")
             warnings_list = [w for w in [dk_warning, mgm_warning] if w]
             odds_warning = " | ".join(warnings_list) if warnings_list else ""
 
-            # â”€â”€ SHADOW: de-vig edges + would-be flag (logged only) â”€â”€
+            # ── SHADOW: de-vig edges + would-be flag (logged only) ──
             dv_dk_away, dv_dk_home = _devig_edges(dk_away, dk_home)
             dv_mgm_away, dv_mgm_home = _devig_edges(mgm_away, mgm_home)
 
@@ -477,7 +477,7 @@ def run_model(target_date, save_csv=True):
             else:
                 devig_bet = ""
 
-            # â”€â”€ Sharp signal â€” computed BEFORE the reliable check so it can veto BETs â”€â”€
+            # ── Sharp signal — computed BEFORE the reliable check so it can veto BETs ──
             sharp_signal = "N/A"
             if away_move and home_move and away_prob and home_prob:
                 model_favors = away if away_prob > home_prob else home
@@ -490,11 +490,11 @@ def run_model(target_date, save_csv=True):
                 else:
                     market_moving_toward = away if away_movement > home_movement else home
                     if model_favors == market_moving_toward:
-                        sharp_signal = "CONFIRMED âœ“"
+                        sharp_signal = "CONFIRMED ✓"
                     else:
-                        sharp_signal = "FADE âœ—"
+                        sharp_signal = "FADE ✗"
 
-            # â”€â”€ Reliable: pitcher reliability + Coors exclusion + Sharp FADE veto â”€â”€
+            # ── Reliable: pitcher reliability + Coors exclusion + Sharp FADE veto ──
             # FADE bets went 2/15 (13.3%) for -$1,062 P&L over 6 weeks of paper trading.
             # When sharps move against the model, we suppress the BET flag.
             min_reliability = min(home_rel, away_rel)
@@ -523,11 +523,11 @@ def run_model(target_date, save_csv=True):
 
             print(f"\n{away} @ {home} [{lineup_source}] [Park: {park_factor}]")
             if odds_warning:
-                print(f"  âš ï¸  ODDS WARNING: {odds_warning}  (logged; pick proceeds normally)")
+                print(f"  ⚠️  ODDS WARNING: {odds_warning}  (logged; pick proceeds normally)")
             if sharp_veto and min_reliability >= RELIABILITY_MIN and home != "Colorado Rockies":
-                print(f"  ðŸš« SHARP FADE VETO â€” BET flag suppressed (sharps moving against model)")
+                print(f"  🚫 SHARP FADE VETO — BET flag suppressed (sharps moving against model)")
             print(f"  {away_p} ({away_hand}) rel:{away_rel}% | {home_p} ({home_hand}) rel:{home_rel}%")
-            print(f"  Platoon OPS â€” {away}: {away_ops:.3f} vs {home_hand}HP | {home}: {home_ops:.3f} vs {away_hand}HP")
+            print(f"  Platoon OPS — {away}: {away_ops:.3f} vs {home_hand}HP | {home}: {home_ops:.3f} vs {away_hand}HP")
             if home_bull and away_bull:
                 print(f"  Away BP: ERA(7d): {away_bull['era_recent']} | "
                       f"Sv/BSv: {away_bull['saves']}/{away_bull['blown_saves']} | "
@@ -536,10 +536,10 @@ def run_model(target_date, save_csv=True):
                       f"Sv/BSv: {home_bull['saves']}/{home_bull['blown_saves']} | "
                       f"Score: {home_bull['bullpen_score']}")
             if away_move and home_move:
-                print(f"  Line Move â€” "
-                      f"{away}: {away_move.get('open_odds')} â†’ {away_move.get('current_odds')} "
+                print(f"  Line Move — "
+                      f"{away}: {away_move.get('open_odds')} → {away_move.get('current_odds')} "
                       f"({away_move.get('movement', 0):+.1f}%) {away_move.get('direction', '')} | "
-                      f"{home}: {home_move.get('open_odds')} â†’ {home_move.get('current_odds')} "
+                      f"{home}: {home_move.get('open_odds')} → {home_move.get('current_odds')} "
                       f"({home_move.get('movement', 0):+.1f}%) {home_move.get('direction', '')} | "
                       f"Sharp: {sharp_signal}")
             print(f"  {'Team':<30} {'Model%':>7} {'DK Imp%':>8} {'MGM Imp%':>9} {'DK Edge':>8} {'MGM Edge':>9}")
@@ -595,9 +595,9 @@ def run_model(target_date, save_csv=True):
     # End-of-run FADE veto summary
     if fade_vetoes:
         print("\n" + "=" * 75)
-        print(f"  ðŸš« SHARP FADE VETO SUMMARY â€” {len(fade_vetoes)} BET(s) suppressed today:")
+        print(f"  🚫 SHARP FADE VETO SUMMARY — {len(fade_vetoes)} BET(s) suppressed today:")
         for g in fade_vetoes:
-            print(f"     â€¢ {g}")
+            print(f"     • {g}")
         print("=" * 75)
 
     if save_csv:
