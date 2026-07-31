@@ -209,7 +209,8 @@ def save_picks_to_csv(picks, date_str):
             "Odds Warning",
             "Devig DK Edge Away", "Devig DK Edge Home",
             "Devig MGM Edge Away", "Devig MGM Edge Home",
-            "Devig Bet"
+            "Devig Bet",
+            "CZR Away Odds", "CZR Home Odds"
         ])
         for pick in picks:
             writer.writerow([str(p) for p in pick])
@@ -360,7 +361,8 @@ def run_model(target_date, save_csv=True):
                         "Odds Warning",
                         "Devig DK Edge Away", "Devig DK Edge Home",
                         "Devig MGM Edge Away", "Devig MGM Edge Home",
-                        "Devig Bet"
+                        "Devig Bet",
+                        "CZR Away Odds", "CZR Home Odds"
                     ]])
                     status_label = ("ðŸ”´ LIVE" if game_status == "Live"
                                     else "âœ… FINAL" if game_status == "Final"
@@ -585,7 +587,9 @@ def run_model(target_date, save_csv=True):
                 odds_warning,
                 dv_dk_away, dv_dk_home,
                 dv_mgm_away, dv_mgm_home,
-                devig_bet
+                devig_bet,
+                odds_lookup.get(away, {}).get("williamhill_us", "N/A"),
+                odds_lookup.get(home, {}).get("williamhill_us", "N/A")
             ])
 
     # End-of-run FADE veto summary
@@ -608,4 +612,5 @@ if __name__ == '__main__':
     else:
         target = datetime.now(las_vegas_offset) + timedelta(days=1)
     run_model(target, save_csv=True)
+
 

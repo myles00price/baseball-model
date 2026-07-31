@@ -106,7 +106,7 @@ body.light .sc-news a{color:#1a56b0}
 .score{font-family:'VT323',monospace;font-size:28px;width:30px;text-align:right;
   color:var(--amber);text-shadow:0 0 12px rgba(255,176,0,.65)}
 .mdl{font-family:'VT323',monospace;font-size:18px;width:46px;color:var(--phos);text-shadow:0 0 6px rgba(43,255,100,.45)}
-.odds{font-family:'VT323',monospace;font-size:16px;color:var(--phos);width:108px;text-shadow:0 0 6px rgba(43,255,100,.35)}
+.odds{font-family:'VT323',monospace;font-size:14.5px;color:var(--phos);width:150px;line-height:1.25;text-shadow:0 0 6px rgba(43,255,100,.35)}
 .chip{font-family:'VT323',monospace;font-size:15px;padding:0 7px;margin-left:auto;border:1px solid var(--line)}
 .chip.pos{border-color:#0d5c2d;color:var(--phos);background:#001408}
 .chip.neg{border-color:#5c1515;color:#ff3838;background:#140303}
@@ -494,10 +494,10 @@ function render(){
       <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
       <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt="" onclick="event.stopPropagation();openTeam(${TID[away]||0})"><span class="ab">${aab}</span>
         <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
-        <span class="odds">DK ${fmtO(r["DK Away Odds"])} MGM ${fmtO(r["MGM Away Odds"])}</span>${chip(r["DK Edge Away"])}</div>
+        <span class="odds">DK ${fmtO(r["DK Away Odds"])} MGM ${fmtO(r["MGM Away Odds"])} CZR ${fmtO(r["CZR Away Odds"])}</span>${chip(r["DK Edge Away"])}</div>
       <div class="row"><span class="rot">${952+gi*2}</span><img class="tlogo" src="${logo(home)}" alt="" onclick="event.stopPropagation();openTeam(${TID[home]||0})"><span class="ab">${hab}</span>
         <span class="score">${sc(lv.hs)}</span><span class="mdl">${num(r["Model Home%"])}</span>
-        <span class="odds">DK ${fmtO(r["DK Home Odds"])} MGM ${fmtO(r["MGM Home Odds"])}</span>${chip(r["DK Edge Home"])}</div>
+        <span class="odds">DK ${fmtO(r["DK Home Odds"])} MGM ${fmtO(r["MGM Home Odds"])} CZR ${fmtO(r["CZR Home Odds"])}</span>${chip(r["DK Edge Home"])}</div>
       <div class="foot"><span>${(r["Away SP"]||"")+" v "+(r["Home SP"]||"")}</span>${shH}</div></div>`);
   });
   grid.innerHTML=cards.join("");
@@ -1032,7 +1032,7 @@ async function renderShowcase(){
         <span class="sc-vs">@</span>
         <div class="sc-team ${betTeam===home?"pick":""}" onclick="openTeam(${TID[home]||0})"><img src="${logo(home)}"><div class="n">${home}</div></div>
       </div>
-      <div class="sc-line">BET ${AB[betTeam]} Â· ${parseFloat(bp).toFixed(1)}% (FAIR ${fair_js(bp)}) Â· DK ${fmtO(odds)} / MGM ${fmtO(modds)}</div>
+      <div class="sc-line">BET ${AB[betTeam]} Â· ${parseFloat(bp).toFixed(1)}% (FAIR ${fair_js(bp)}) Â· DK ${fmtO(odds)} / MGM ${fmtO(modds)} / CZR ${fmtO(s==="away"?r["CZR Away Odds"]:r["CZR Home Odds"])}</div>
       <div class="sc-sps">
         ${aid?`<div class="sc-sp" onclick="openPlayer(${aid})"><img src="${mug(aid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Away SP"]}</div><div class="ln">${r["Away SP Whiff"]&&r["Away SP Whiff"]!=="None"?r["Away SP Whiff"]+"% WHIFF Â· "+r["Away SP Velo"]+" MPH":""}</div></div></div>`:""}
         ${hid?`<div class="sc-sp" onclick="openPlayer(${hid})"><img src="${mug(hid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Home SP"]}</div><div class="ln">${r["Home SP Whiff"]&&r["Home SP Whiff"]!=="None"?r["Home SP Whiff"]+"% WHIFF Â· "+r["Home SP Velo"]+" MPH":""}</div></div></div>`:""}
@@ -1077,4 +1077,5 @@ async function tick(){await loadLive();render();if(ovKey&&document.getElementByI
 </script>
 </body>
 </html>
+
 
