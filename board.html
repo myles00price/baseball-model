@@ -90,6 +90,8 @@ body.light .sc-news a{color:#1a56b0}
 .card.play{border-color:#8a6d1a}
 .playbar{background:linear-gradient(90deg,#8a6d1a,var(--gold),#8a6d1a);color:#000;
   font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.4em;text-align:center;padding:3px 0 1px}
+.playbar.lean{background:none;color:var(--gold);border-bottom:1px dashed #8a6d1a}
+.card.play.lean-card{border-style:dashed}
 .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;
   font-size:13px;letter-spacing:.14em;padding:7px 12px 5px;border-bottom:1px solid #141414;text-transform:uppercase}
 .st{font-family:'VT323',monospace;font-size:18px}
@@ -459,8 +461,9 @@ function render(){
     const sc=v=>(lv.state==="Preview"||v==null)?"":v;
     const sh=String(r["Sharp Signal"]||"");
     const shH=sh.includes("CONFIRMED")?"<span class='sharp-c'>SHARP ✓</span>":sh.includes("FADE")?"<span class='sharp-f'>FADE ✗</span>":"";
-    cards.push(`<div class="card${flagged?" play":""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
-      ${flagged?`<div class="playbar">${locked.has(key)?"🔒 ":""}OFFICIAL PLAY</div>`:""}
+    const isLocked=locked.has(key);
+    cards.push(`<div class="card${flagged?(isLocked?" play":" play lean-card"):""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
+      ${flagged?(isLocked?`<div class="playbar">🔒 OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}
       <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
       <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt="" onclick="event.stopPropagation();openTeam(${TID[away]||0})"><span class="ab">${aab}</span>
         <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
@@ -503,7 +506,7 @@ async function drawGame(){
   if(r["Model Away%"]&&r["Model Away%"]!=="None"){
     const ma=parseFloat(r["Model Away%"]),mh=parseFloat(r["Model Home%"]);
     ourline=`<div class="ourline">MODEL: ${AB[away]} ${ma.toFixed(1)}% / ${AB[home]} ${mh.toFixed(1)}%`+
-      (flagged?` · ${locked.has(key)?"🔒 OFFICIAL PLAY":"BET WINDOW"}`:" · NO PLAY")+`</div>`;
+      (flagged?` · ${locked.has(key)?"🔒 OFFICIAL PLAY":"LEAN — LOCKS AT LINEUPS"}`:" · NO PLAY")+`</div>`;
   }
   let body="";
   if(lv.pk&&lv.state!=="Preview"){
