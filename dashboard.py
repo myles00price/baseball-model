@@ -540,6 +540,122 @@ with col_refresh:
     if st.button("🔄 Refresh", use_container_width=True):
         st.cache_data.clear(); st.rerun()
 
+# ── TERMINAL BOARD — game cards with model vs market, live scores ───────────
+@st.cache_data(ttl=60, show_spinner=False)
+def get_live_board(date_str):
+    """matchup key -> live status: state, scores, inning or start time."""
+    try:
+        r = requests.get("https://statsapi.mlb.com/api/v1/schedule",
+                         params={"sportId": 1, "date": date_str, "hydrate": "linescore"},
+                         timeout=10).json()
+        out = {}
+        for d in r.get("dates", []):
+            for g in d.get("games", []):
+                a = g["teams"]["away"]["team"]["name"]; h = g["teams"]["home"]["team"]["name"]
+                state = g.get("status", {}).get("abstractGameState", "Preview")
+                ls = g.get("linescore", {}) or {}
+                try:
+                    start_local = datetime.fromisoformat(
+                        g["gameDate"].replace("Z", "+00:00")).astimezone()
+                    start = start_local.strftime("%I:%M %p").lstrip("0")
+                except Exception:
+                    start = ""
+                out[f"{a}@{h}"] = {
+                    "state": state,
+                    "as": g["teams"]["away"].get("score", ls.get("teams", {}).get("away", {}).get("runs")),
+                    "hs": g["teams"]["home"].get("score", ls.get("teams", {}).get("home", {}).get("runs")),
+                    "inn": f"{'▲' if ls.get('inningHalf')=='Top' else '▼'} {ls.get('currentInning','')}",
+                    "start": start,
+                }
+        return out
+    except Exception:
+        return {}
+
+
+def _board_edge_chip(edge_str):
+    s = str(edge_str or "").replace("** BET **", "").strip()
+    try:
+        v = float(s.replace("%", ""))
+    except (ValueError, TypeError):
+        return "<span class='tb-chip tb-dim'>—</span>"
+    cls = "tb-pos" if v >= 3 else "tb-neg" if v < 0 else "tb-dim"
+    return f"<span class='tb-chip {cls}'>{v:+.1f}</span>"
+
+
+def render_terminal_board(rows, date_str):
+    import json as _json
+    live = get_live_board(date_str)
+    try:
+        with open(f"notified_{date_str}.json") as f:
+            locked = {k for k in _json.load(f) if not k.startswith("_")}
+    except OSError:
+        locked = set()
+    st.markdown("""<style>
+    .tb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:12px;margin:6px 0 10px}
+    .tb-card{background:#0b1120;border:1px solid #1e2940;border-radius:10px;padding:12px 14px;font-family:'Space Mono',monospace}
+    .tb-card.tb-play{border-color:#8a6d1a;box-shadow:0 0 0 1px #8a6d1a inset}
+    .tb-top{display:flex;justify-content:space-between;font-size:10px;color:#64748b;margin-bottom:8px;letter-spacing:.08em}
+    .tb-live{color:#ef4444;font-weight:700}.tb-final{color:#00d97e}.tb-sched{color:#94a3b8}
+    .tb-row{display:flex;align-items:center;gap:8px;padding:3px 0}
+    .tb-ab{font-weight:700;font-size:15px;width:44px;color:#e2e8f0}
+    .tb-score{font-size:17px;font-weight:700;width:26px;text-align:right;color:#e2e8f0}
+    .tb-mdl{font-size:12px;width:52px;color:#3b82f6}
+    .tb-odds{font-size:11px;color:#94a3b8;width:98px}
+    .tb-chip{font-size:10.5px;border-radius:4px;padding:1px 6px;margin-left:auto}
+    .tb-pos{background:rgba(0,217,126,.14);color:#00d97e}.tb-neg{background:rgba(239,68,68,.10);color:#b91c1c;color:#ef4444}
+    .tb-dim{background:#141b2c;color:#64748b}
+    .tb-foot{display:flex;justify-content:space-between;font-size:9.5px;color:#475569;margin-top:8px;border-top:1px solid #141b2c;padding-top:7px;letter-spacing:.04em}
+    .tb-badge{font-size:9.5px;letter-spacing:.1em;color:#e8b93c;font-weight:700}
+    .tb-sharp-c{color:#00d97e}.tb-sharp-f{color:#ef4444}
+    </style>""", unsafe_allow_html=True)
+    cards = []
+    for r in rows:
+        away, home = r.get("Away", ""), r.get("Home", "")
+        if not away or not home:
+            continue
+        key = f"{away}@{home}"
+        lv_ = live.get(key, {})
+        state = lv_.get("state", "Preview")
+        if state == "Live":
+            status = f"<span class='tb-live'>● LIVE {lv_.get('inn','')}</span>"
+        elif state == "Final":
+            status = "<span class='tb-final'>FINAL</span>"
+        else:
+            status = f"<span class='tb-sched'>{lv_.get('start','')}</span>"
+        a_ab = TEAM_ABBREV.get(away, away[:3].upper())
+        h_ab = TEAM_ABBREV.get(home, home[:3].upper())
+        ma, mh = r.get("Model Away%"), r.get("Model Home%")
+        ma_txt = f"{float(ma):.0f}%" if ma not in (None, "", "None") else "—"
+        mh_txt = f"{float(mh):.0f}%" if mh not in (None, "", "None") else "—"
+        a_sc = lv_.get("as"); h_sc = lv_.get("hs")
+        a_sc = "" if a_sc is None or state == "Preview" else a_sc
+        h_sc = "" if h_sc is None or state == "Preview" else h_sc
+        flagged = "BET" in str(r.get("Flag", ""))
+        badge = ""
+        if flagged:
+            badge = "🔒 OFFICIAL PLAY" if key in locked else "BET WINDOW"
+        sharp = str(r.get("Sharp Signal", ""))
+        sharp_html = ("<span class='tb-sharp-c'>SHARP ✓</span>" if "CONFIRMED" in sharp
+                      else "<span class='tb-sharp-f'>FADE ✗</span>" if "FADE" in sharp else "")
+        sp = f"{r.get('Away SP','')} v {r.get('Home SP','')}"
+        cards.append(
+            f"<div class='tb-card{' tb-play' if flagged else ''}'>"
+            f"<div class='tb-top'><span>{status}</span><span class='tb-badge'>{badge}</span></div>"
+            f"<div class='tb-row'><span class='tb-ab'>{a_ab}</span><span class='tb-score'>{a_sc}</span>"
+            f"<span class='tb-mdl'>{ma_txt}</span><span class='tb-odds'>DK {fmt_odds(r.get('DK Away Odds'))} · MGM {fmt_odds(r.get('MGM Away Odds'))}</span>"
+            f"{_board_edge_chip(r.get('DK Edge Away'))}</div>"
+            f"<div class='tb-row'><span class='tb-ab'>{h_ab}</span><span class='tb-score'>{h_sc}</span>"
+            f"<span class='tb-mdl'>{mh_txt}</span><span class='tb-odds'>DK {fmt_odds(r.get('DK Home Odds'))} · MGM {fmt_odds(r.get('MGM Home Odds'))}</span>"
+            f"{_board_edge_chip(r.get('DK Edge Home'))}</div>"
+            f"<div class='tb-foot'><span>{sp[:52]}</span><span>{sharp_html}</span></div>"
+            f"</div>")
+    if cards:
+        st.markdown(f"<div class='sec'>Terminal Board // {date_str}</div>", unsafe_allow_html=True)
+        st.markdown("<div class='tb-grid'>" + "".join(cards) + "</div>", unsafe_allow_html=True)
+
+
+render_terminal_board(_tkr_rows, _tkr_date)
+
 with st.spinner("Loading..."):
     S = load_season()
     todays, today_str = _tkr_rows, _tkr_date
