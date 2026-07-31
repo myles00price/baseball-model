@@ -52,6 +52,37 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.
   font-size:15px;color:var(--mut);padding:0 4px 8px;letter-spacing:.06em}
 .statusline .lit{color:var(--phos)}
 
+/* ── lean showcase ── */
+.showcase{margin:0 0 14px}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:10px}
+.sc-card{background:#050505;border:1px solid #8a6d1a;position:relative}
+.sc-bar{background:linear-gradient(90deg,#8a6d1a,var(--gold),#8a6d1a);color:#000;
+  font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.4em;text-align:center;padding:3px 0 1px}
+.sc-head{display:flex;align-items:center;justify-content:center;gap:16px;padding:12px 14px 6px}
+.sc-team{text-align:center;width:120px;cursor:pointer}
+.sc-team img{width:52px;height:52px}
+.sc-team .n{font-family:'Bebas Neue',sans-serif;font-size:17px;margin-top:2px}
+.sc-team.pick .n{color:var(--gold)}
+.sc-vs{font-family:'VT323',monospace;font-size:20px;color:var(--mut)}
+.sc-line{font-family:'VT323',monospace;font-size:20px;text-align:center;color:var(--gold);
+  text-shadow:0 0 9px rgba(201,153,43,.45);padding:2px 12px 8px}
+.sc-sps{display:flex;justify-content:center;gap:14px;padding:0 14px 8px;flex-wrap:wrap}
+.sc-sp{display:flex;align-items:center;gap:8px;background:#0a0a0a;border:1px solid var(--line);
+  padding:5px 10px;cursor:pointer;min-width:190px}
+.sc-sp img{width:40px;height:40px;border-radius:50%;background:#111;object-fit:cover}
+.sc-sp .nm{font-size:12.5px;font-weight:600}
+.sc-sp .ln{font-family:'VT323',monospace;font-size:14px;color:var(--phos)}
+.sc-why{border-top:1px solid #141414;padding:9px 16px 11px}
+.sc-why h4{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--gold);margin-bottom:5px}
+.sc-why p{font-size:12.5px;color:#a8a8a8;line-height:1.65}
+.sc-news{padding:0 16px 12px}
+.sc-news a{display:block;font-size:11.5px;color:#8ab4ff;text-decoration:none;padding:2px 0}
+.sc-news a:hover{text-decoration:underline}
+body.light .sc-card{background:#fdfcf8}
+body.light .sc-sp{background:#f4f1e8}
+body.light .sc-why p{color:#57534a}
+body.light .sc-news a{color:#1a56b0}
+
 /* ── grid & cards ── */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:9px}
 .card{background:#020202;border:1px solid var(--line);cursor:pointer;transition:border-color .15s}
@@ -301,6 +332,7 @@ body.light .newsitem img{filter:none}
   </div>
   <div class="stats" id="stats"></div>
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
+  <div class="showcase" id="showcase" style="display:none"><div class="sc-grid" id="sc-grid"></div></div>
   <div class="grid" id="grid"></div>
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
 
@@ -551,10 +583,12 @@ async function drawGame(){
 }
 
 /* ── news ── */
+let _articles=[];
 async function loadNews(){
   try{
     const j=await(await fetch("https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news?limit=12")).json();
     const arts=(j.articles||[]).slice(0,12);
+    _articles=arts;
     if(!arts.length)return;
     document.getElementById("newsrow").innerHTML=arts.map(a=>{
       const img=a.images?.[0]?.url;
@@ -885,6 +919,85 @@ async function loadLedger(){
     +tr("MOST BET",A.teams.most_bet,t=>`<div><span>${AB[t.t]||t.t}</span><span class="${t.w>=t.l?"grn":"red"}">${t.w}-${t.l}</span></div>`);
 }
 
+/* ── lean showcase ── */
+function whyText(r, betTeam, side){
+  const away=r["Away"], home=r["Home"], opp=betTeam===away?home:away;
+  const bp=parseFloat(side==="away"?r["Model Away%"]:r["Model Home%"]);
+  const op=100-bp;
+  const pick=parseFloat(r["Model Away%"])>parseFloat(r["Model Home%"])?away:home;
+  const isDog=betTeam!==pick;
+  const odds=side==="away"?r["DK Away Odds"]:r["DK Home Odds"];
+  const edge=String(side==="away"?r["DK Edge Away"]:r["DK Edge Home"]).replace("** BET **","").trim();
+  const s=[];
+  if(isDog)
+    s.push(`The model actually expects ${AB[pick]} to win this game slightly more often (${(100-bp).toFixed(0)}%) — but at ${fmtO(odds)}, the market is paying ${AB[betTeam]} like a ${(implied(odds)).toFixed(0)}% team when the model makes them ${bp.toFixed(0)}%. The price, not the winner, is the bet.`);
+  else
+    s.push(`The model makes ${AB[betTeam]} a ${bp.toFixed(0)}% team; the price implies ${(implied(odds)).toFixed(0)}%. That gap (${edge}) sits inside the 3-8% window where the model has historically been right and the market wrong.`);
+  const bw=parseFloat(side==="away"?r["Away SP Whiff"]:r["Home SP Whiff"]);
+  const ow=parseFloat(side==="away"?r["Home SP Whiff"]:r["Away SP Whiff"]);
+  const bsp=side==="away"?r["Away SP"]:r["Home SP"], osp=side==="away"?r["Home SP"]:r["Away SP"];
+  const orel=parseFloat(side==="away"?r["Home Reliability%"]:r["Away Reliability%"]);
+  if(!isNaN(bw)&&!isNaN(ow)&&bw-ow>=1.5)
+    s.push(`On the mound, ${bsp} is missing more bats (${bw}% whiff vs ${ow}% for ${osp}).`);
+  if(!isNaN(orel)&&orel<25)
+    s.push(`${osp} has a thin ${orel}% season sample — the market may be pricing a reputation the data can't yet verify.`);
+  const bo=parseFloat(side==="away"?r["Away Lineup OPS"]:r["Home Lineup OPS"]);
+  const oo=parseFloat(side==="away"?r["Home Lineup OPS"]:r["Away Lineup OPS"]);
+  if(!isNaN(bo)&&!isNaN(oo)&&bo-oo>=0.02)
+    s.push(`The platoon-adjusted lineups favor ${AB[betTeam]} (.${Math.round(bo*1000)} vs .${Math.round(oo*1000)} OPS against tonight's arms).`);
+  const bbp=parseFloat(side==="away"?r["Away BP ERA(7d)"]:r["Home BP ERA(7d)"]);
+  const obp=parseFloat(side==="away"?r["Home BP ERA(7d)"]:r["Away BP ERA(7d)"]);
+  if(!isNaN(bbp)&&!isNaN(obp)&&obp-bbp>=1.5)
+    s.push(`Bullpen context (displayed, not modeled): ${AB[betTeam]}'s pen has a ${bbp.toFixed(2)} ERA over the last week vs ${obp.toFixed(2)} for ${AB[opp]}.`);
+  const sh=String(r["Sharp Signal"]||"");
+  if(sh.includes("CONFIRMED"))s.push(`Sharp money has moved the line in the same direction since open.`);
+  else s.push(`No adverse sharp movement — plays that sharps bet against get vetoed automatically.`);
+  return s.join(" ");
+}
+function implied(o){o=parseFloat(o);return o<0?(-o)/(-o+100)*100:100/(o+100)*100}
+async function renderShowcase(){
+  const flags=picks.filter(r=>String(r["Flag"]||"").includes("BET"));
+  const el=document.getElementById("showcase");
+  if(!flags.length){el.style.display="none";return}
+  await ensureRoster();
+  const findId=n=>{if(!n||n==="TBD")return null;const q=n.toLowerCase();
+    const hit=(roster||[]).find(p=>p.n.toLowerCase()===q)||(roster||[]).find(p=>p.n.toLowerCase().includes(q.split(" ").pop()));
+    return hit?hit.id:null};
+  const cards=flags.map(r=>{
+    const away=r["Away"],home=r["Home"],key=`${away}@${home}`;
+    const s=flagged_side_js(r);if(!s)return"";
+    const betTeam=s==="away"?away:home;
+    const bp=s==="away"?r["Model Away%"]:r["Model Home%"];
+    const odds=s==="away"?r["DK Away Odds"]:r["DK Home Odds"];
+    const modds=s==="away"?r["MGM Away Odds"]:r["MGM Home Odds"];
+    const aid=findId(r["Away SP"]),hid=findId(r["Home SP"]);
+    const nick=t=>t.split(" ").pop();
+    const news=_articles.filter(a=>{const h=(a.headline||"");return h.includes(nick(away))||h.includes(nick(home))}).slice(0,2);
+    return`<div class="sc-card"><div class="sc-bar">${locked.has(key)?"🔒 OFFICIAL PLAY":"TONIGHT'S LEAN"}</div>
+      <div class="sc-head">
+        <div class="sc-team ${betTeam===away?"pick":""}" onclick="openTeam(${TID[away]||0})"><img src="${logo(away)}"><div class="n">${away}</div></div>
+        <span class="sc-vs">@</span>
+        <div class="sc-team ${betTeam===home?"pick":""}" onclick="openTeam(${TID[home]||0})"><img src="${logo(home)}"><div class="n">${home}</div></div>
+      </div>
+      <div class="sc-line">BET ${AB[betTeam]} · ${parseFloat(bp).toFixed(1)}% (FAIR ${fair_js(bp)}) · DK ${fmtO(odds)} / MGM ${fmtO(modds)}</div>
+      <div class="sc-sps">
+        ${aid?`<div class="sc-sp" onclick="openPlayer(${aid})"><img src="${mug(aid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Away SP"]}</div><div class="ln">${r["Away SP Whiff"]&&r["Away SP Whiff"]!=="None"?r["Away SP Whiff"]+"% WHIFF · "+r["Away SP Velo"]+" MPH":""}</div></div></div>`:""}
+        ${hid?`<div class="sc-sp" onclick="openPlayer(${hid})"><img src="${mug(hid)}" onerror="this.style.display='none'"><div><div class="nm">${r["Home SP"]}</div><div class="ln">${r["Home SP Whiff"]&&r["Home SP Whiff"]!=="None"?r["Home SP Whiff"]+"% WHIFF · "+r["Home SP Velo"]+" MPH":""}</div></div></div>`:""}
+      </div>
+      <div class="sc-why"><h4>WHY THE MODEL LIKES IT</h4><p>${whyText(r,betTeam,s)}</p></div>
+      ${news.length?`<div class="sc-news">${news.map(a=>`<a href="${a.links?.web?.href||"#"}" target="_blank" rel="noopener">📰 ${a.headline}</a>`).join("")}</div>`:""}
+    </div>`;
+  }).join("");
+  document.getElementById("sc-grid").innerHTML=cards;
+  el.style.display="block";
+}
+function flagged_side_js(r){
+  if(("" + r["DK Edge Away"]+r["MGM Edge Away"]).includes("BET"))return"away";
+  if(("" + r["DK Edge Home"]+r["MGM Edge Home"]).includes("BET"))return"home";
+  return null;
+}
+function fair_js(p){p=parseFloat(p);return p>=50?"-"+Math.round(p/(100-p)*100):"+"+Math.round((100-p)/p*100)}
+
 /* ── light/dark toggle ── */
 function applyMode(){
   const light=localStorage.getItem("boardMode")==="light";
@@ -904,7 +1017,8 @@ window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if
 
 async function tick(){await loadLive();render();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
-  if(await loadPicks()){loadStats();await tick();loadNews();loadLedger();loadStandings();loadLeaders();loadUpdates();loadArchive();setInterval(tick,60000);setInterval(loadPicks,300000)}
+  if(await loadPicks()){loadStats();await tick();await loadNews();renderShowcase();loadLedger();loadStandings();loadLeaders();loadUpdates();loadArchive();
+    setInterval(tick,60000);setInterval(async()=>{await loadPicks();render();renderShowcase()},300000)}
   else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();
 </script>
