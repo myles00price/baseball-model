@@ -591,22 +591,34 @@ def render_terminal_board(rows, date_str):
     except OSError:
         locked = set()
     st.markdown("""<style>
-    .tb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:12px;margin:6px 0 10px}
-    .tb-card{background:#0b1120;border:1px solid #1e2940;border-radius:10px;padding:12px 14px;font-family:'Space Mono',monospace}
-    .tb-card.tb-play{border-color:#8a6d1a;box-shadow:0 0 0 1px #8a6d1a inset}
-    .tb-top{display:flex;justify-content:space-between;font-size:10px;color:#64748b;margin-bottom:8px;letter-spacing:.08em}
-    .tb-live{color:#ef4444;font-weight:700}.tb-final{color:#00d97e}.tb-sched{color:#94a3b8}
-    .tb-row{display:flex;align-items:center;gap:8px;padding:3px 0}
-    .tb-ab{font-weight:700;font-size:15px;width:44px;color:#e2e8f0}
-    .tb-score{font-size:17px;font-weight:700;width:26px;text-align:right;color:#e2e8f0}
-    .tb-mdl{font-size:12px;width:52px;color:#3b82f6}
-    .tb-odds{font-size:11px;color:#94a3b8;width:98px}
-    .tb-chip{font-size:10.5px;border-radius:4px;padding:1px 6px;margin-left:auto}
-    .tb-pos{background:rgba(0,217,126,.14);color:#00d97e}.tb-neg{background:rgba(239,68,68,.10);color:#b91c1c;color:#ef4444}
-    .tb-dim{background:#141b2c;color:#64748b}
-    .tb-foot{display:flex;justify-content:space-between;font-size:9.5px;color:#475569;margin-top:8px;border-top:1px solid #141b2c;padding-top:7px;letter-spacing:.04em}
-    .tb-badge{font-size:9.5px;letter-spacing:.1em;color:#e8b93c;font-weight:700}
-    .tb-sharp-c{color:#00d97e}.tb-sharp-f{color:#ef4444}
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;700&display=swap');
+    .tb-wrap{background:#000;border:1px solid #1a1a1a;padding:14px;margin:6px 0 12px}
+    .tb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:10px}
+    .tb-card{background:#050505;border:1px solid #232323;border-radius:0;padding:0;font-family:'Oswald',sans-serif}
+    .tb-card.tb-play{border:1px solid #b8860b}
+    .tb-playbar{background:#b8860b;color:#000;font-family:'Bebas Neue',sans-serif;font-size:12px;
+      letter-spacing:.35em;text-align:center;padding:2px 0 1px}
+    .tb-top{display:flex;justify-content:space-between;font-family:'Bebas Neue',sans-serif;font-size:13px;
+      letter-spacing:.2em;color:#555;padding:7px 12px 5px;border-bottom:1px solid #161616}
+    .tb-live{color:#ff2e2e;text-shadow:0 0 8px rgba(255,46,46,.7)}
+    .tb-final{color:#9aa}.tb-sched{color:#777}
+    .tb-row{display:flex;align-items:center;gap:10px;padding:5px 12px}
+    .tb-ab{font-family:'Bebas Neue',sans-serif;font-size:23px;width:56px;color:#eee;letter-spacing:.06em}
+    .tb-score{font-family:'Bebas Neue',sans-serif;font-size:25px;width:30px;text-align:right;
+      color:#ffb000;text-shadow:0 0 10px rgba(255,176,0,.55)}
+    .tb-mdl{font-size:12px;width:50px;color:#8ab4ff;font-family:'Space Mono',monospace}
+    .tb-odds{font-size:10.5px;color:#666;width:104px;font-family:'Space Mono',monospace}
+    .tb-chip{font-size:10.5px;border-radius:0;padding:1px 7px;margin-left:auto;font-family:'Space Mono',monospace;border:1px solid #222}
+    .tb-pos{border-color:#0d5c3d;color:#00e07f;background:#00170d}
+    .tb-neg{border-color:#5c1515;color:#ff4d4d;background:#170505}
+    .tb-dim{color:#555;background:#0a0a0a}
+    .tb-foot{display:flex;justify-content:space-between;font-size:10px;color:#555;
+      border-top:1px solid #161616;padding:6px 12px 7px;letter-spacing:.06em;font-family:'Oswald',sans-serif;text-transform:uppercase}
+    .tb-badge{display:none}
+    .tb-sharp-c{color:#00e07f}.tb-sharp-f{color:#ff4d4d}
+    .tb-sechead{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.3em;color:#eee;
+      border-left:4px solid #ffb000;padding-left:12px;margin:4px 0 10px}
+    .tb-sechead small{color:#555;font-size:15px;letter-spacing:.2em}
     </style>""", unsafe_allow_html=True)
     cards = []
     for r in rows:
@@ -638,8 +650,9 @@ def render_terminal_board(rows, date_str):
         sharp_html = ("<span class='tb-sharp-c'>SHARP ✓</span>" if "CONFIRMED" in sharp
                       else "<span class='tb-sharp-f'>FADE ✗</span>" if "FADE" in sharp else "")
         sp = f"{r.get('Away SP','')} v {r.get('Home SP','')}"
+        playbar = f"<div class='tb-playbar'>{'🔒 ' if key in locked else ''}OFFICIAL PLAY</div>" if flagged else ""
         cards.append(
-            f"<div class='tb-card{' tb-play' if flagged else ''}'>"
+            f"<div class='tb-card{' tb-play' if flagged else ''}'>{playbar}"
             f"<div class='tb-top'><span>{status}</span><span class='tb-badge'>{badge}</span></div>"
             f"<div class='tb-row'><span class='tb-ab'>{a_ab}</span><span class='tb-score'>{a_sc}</span>"
             f"<span class='tb-mdl'>{ma_txt}</span><span class='tb-odds'>DK {fmt_odds(r.get('DK Away Odds'))} · MGM {fmt_odds(r.get('MGM Away Odds'))}</span>"
@@ -650,8 +663,11 @@ def render_terminal_board(rows, date_str):
             f"<div class='tb-foot'><span>{sp[:52]}</span><span>{sharp_html}</span></div>"
             f"</div>")
     if cards:
-        st.markdown(f"<div class='sec'>Terminal Board // {date_str}</div>", unsafe_allow_html=True)
-        st.markdown("<div class='tb-grid'>" + "".join(cards) + "</div>", unsafe_allow_html=True)
+        st.markdown(
+            "<div class='tb-wrap'>"
+            f"<div class='tb-sechead'>THE BOARD <small>// {date_str} // {sum(1 for r in rows if 'BET' in str(r.get('Flag','')))} PLAYS</small></div>"
+            "<div class='tb-grid'>" + "".join(cards) + "</div></div>",
+            unsafe_allow_html=True)
 
 
 render_terminal_board(_tkr_rows, _tkr_date)
