@@ -88,6 +88,14 @@ def main():
 
     # de-vig edge buckets (value side at DK, no gates)
     ebuckets = {b[0]: [0, 0, 0.0] for b in BUCKETS}
+    # extra flagged-bet splits: side, price band, sharp signal
+    from features_v2 import flagged_side
+    xsplits = {k: [0, 0, 0.0] for k in
+               ("home", "away", "fav-155", "fav", "dog", "dog+150",
+                "sharp-conf", "sharp-na")}
+
+    def _xadd(k, won, profit):
+        s = xsplits[k]; s[0] += 1; s[1] += won; s[2] += profit
     for f in sorted(glob("picks_2026-*.csv")):
         dt = f.replace("picks_", "").replace(".csv", "")
         try:
@@ -123,6 +131,21 @@ def main():
                     s[2] += payout(odds) if won else -100.0
                     break
 
+            # flagged-bet extra splits
+            if "BET" in str(row.get("Flag", "")):
+                fs = flagged_side(row)
+                if fs:
+                    bt = a if fs == "away" else h
+                    bo = ao if fs == "away" else ho
+                    bwon = bt == res["winner"]
+                    bprofit = payout(bo) if bwon else -100.0
+                    _xadd("away" if fs == "away" else "home", bwon, bprofit)
+                    band = ("fav-155" if bo <= -155 else "fav" if bo < 100
+                            else "dog+150" if bo >= 150 else "dog")
+                    _xadd(band, bwon, bprofit)
+                    sh = str(row.get("Sharp Signal", ""))
+                    _xadd("sharp-conf" if "CONFIRMED" in sh else "sharp-na", bwon, bprofit)
+
     out = {
         "days": days,
         "season_flagged": {"w": sb_w, "l": len(sb) - sb_w,
@@ -132,6 +155,8 @@ def main():
         "model_teams": model_teams,
         "buckets": [{"b": n, "n": v[0], "w": v[1], "pnl": round(v[2])}
                     for n, v in ebuckets.items()],
+        "xsplits": {k: {"n": v[0], "w": v[1], "pnl": round(v[2])}
+                    for k, v in xsplits.items()},
         "wf": {"months": ["25-03","25-04","25-05","25-06","25-07","25-08","25-09","26-04","26-05","26-06"],
                "old": [62.7,61.8,56.7,57.3,54.9,59.4,58.6,58.1,62.7,55.8],
                "v2":  [64.2,63.4,58.1,58.3,56.8,58.0,60.5,63.3,64.4,58.1]},
