@@ -175,6 +175,71 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px 16px 40px}
 .info-x .ins{margin-top:12px;border:1px solid #8a6d1a;padding:10px 13px;font-size:13px;color:var(--gold);line-height:1.6}
 .info-x .ins b{font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:12px}
 
+/* ── light mode ("print edition") ── */
+.modebtn{font-family:'VT323',monospace;font-size:22px;color:var(--mut);cursor:pointer;
+  border:1px solid var(--line);padding:1px 10px;user-select:none}
+.modebtn:hover{color:var(--amber)}
+body.light{--phos:#0a7a34;--phos-dim:#67916f;--amber:#a35600;--hot:#c41414;--gold:#8a6d1a;
+  --ink:#14171c;--mut:#6e6a60;--line:#d9d5ca;background:#efece3;color:var(--ink)}
+body.light *{text-shadow:none!important}
+html:has(body.light){background:#efece3}
+body.light .marquee,body.light .sect,body.light .news,body.light .ledger{background:#f7f4ec;border-color:var(--line)}
+body.light .marquee h1{color:#14171c}
+body.light .statusline{color:var(--mut)}
+body.light .card,body.light .stat,body.light .lg-box,body.light .newsitem{background:#fdfcf8;border-color:var(--line)}
+body.light .card:hover{border-color:#b5b0a2}
+body.light .card.play{border-color:#8a6d1a}
+body.light .top{color:#14171c;border-color:#e7e3d8}
+body.light .foot{border-color:#e7e3d8;color:var(--mut)}
+body.light .st.final{color:#8a857a}
+body.light .ab{color:#14171c}
+body.light .rot{color:#9aa79e}
+body.light .chip{border-color:var(--line)}
+body.light .chip.pos{background:#e7f3e9;border-color:#9dc7a8;color:#0a6e30}
+body.light .chip.neg{background:#fbe9e9;border-color:#d9a3a3;color:#b31414}
+body.light .chip.dim{background:#f1eee5;color:#9a958a}
+body.light .searchbox input{background:#fdfcf8;border-color:var(--line);color:#0a6e30}
+body.light .searchbox input::placeholder{color:#b5b0a2}
+body.light .sr{background:#fdfcf8;border-color:var(--line)}
+body.light .sr div{border-color:#eee9dd}
+body.light .sr div:hover,body.light .strow:hover,body.light .ldr:hover,body.light .upd:hover,body.light .arch:hover{background:#efece0}
+body.light .strow,body.light .ldr,body.light .arch{color:#3a3630;border-color:#eee9dd}
+body.light .strow .tn{color:#14171c}
+body.light .divname{color:#8a857a;border-color:var(--line)}
+body.light .lg-table td{color:#3a3630;border-color:#eee9dd}
+body.light .lg-table th{border-color:var(--line)}
+body.light .lg-rows div{color:#3a3630;border-color:#eee9dd}
+body.light .bucketbar .bn{color:#3a3630}
+body.light .bucketbar .bar{box-shadow:none}
+body.light .coef{border-color:#eee9dd}
+body.light .coef .fn{color:#14171c}
+body.light .coef .cbar{box-shadow:none}
+body.light .guard{background:#fbe9e9;border-color:#d9a3a3;color:#a22}
+body.light .upd .ut{color:#14171c}
+body.light .upd .ux{color:#57534a}
+body.light .upd{border-color:#eee9dd}
+body.light .ov{background:rgba(238,234,224,.95)}
+body.light .panel{background:#fdfcf8;border-color:#c5c0b2}
+body.light .ph{border-color:var(--line)}
+body.light .innings th,body.light .innings td{border-color:#e0dccf;color:#3a3630}
+body.light .pcard{background:#f4f1e8;border-color:var(--line)}
+body.light .pcard img{background:#e7e3d8}
+body.light .base{background:#e7e3d8;border-color:#b5b0a2}
+body.light .base.on{background:var(--amber);border-color:var(--amber);box-shadow:none}
+body.light .homep{border-color:#b5b0a2}
+body.light .boxcol div{color:#57534a}
+body.light .boxcol div:hover{color:#000}
+body.light .boxcol b{color:#14171c}
+body.light .plays div{color:#57534a;border-color:#eee9dd}
+body.light .mdbody{color:#3a3630}
+body.light .mdbody h1{color:#14171c}
+body.light .mdbody td,body.light .mdbody th{border-color:#ddd8cb}
+body.light .mdbody strong{color:#14171c}
+body.light .info-x .body{color:#3a3630}
+body.light .info-x .ins{background:#fbf6e6}
+body.light .newsitem{color:#14171c}
+body.light .newsitem img{filter:none}
+
 /* ── overlay (gameday) ── */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:none;overflow-y:auto;padding:30px 14px}
 .ov.on{display:block}
@@ -222,6 +287,7 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px 16px 40px}
     <div class="searchbox"><input id="psearch" placeholder="► SEARCH PLAYERS…" autocomplete="off">
       <div class="sr" id="sr" style="display:none"></div></div>
     <span class="sub" id="mq-sub">LOADING…</span>
+    <span class="modebtn" id="modebtn" title="light/dark">☀</span>
   </div>
   <div class="stats" id="stats"></div>
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
@@ -737,6 +803,8 @@ window.openTeam=async id=>{
 
 /* ── ledger ── */
 function lineChart(cv, series, labels, yfmt){
+  const light=document.body.classList.contains("light");
+  const GRID=light?"#e2ded1":"#121212", LBL=light?"#8a857a":"#3d3d3d", ZERO=light?"#c5c0b2":"#2a2a2a";
   const dpr=devicePixelRatio||1, W=cv.clientWidth, H=170;
   cv.width=W*dpr; cv.height=H*dpr;
   const x=cv.getContext("2d"); x.scale(dpr,dpr);
@@ -744,14 +812,14 @@ function lineChart(cv, series, labels, yfmt){
   const lo=Math.min(...all), hi=Math.max(...all), pad=(hi-lo)*0.12||1;
   const Y=v=>H-24-((v-(lo-pad))/((hi+pad)-(lo-pad)))*(H-38);
   const n=series[0].data.length, X=i=>34+i/(Math.max(n-1,1))*(W-46);
-  x.strokeStyle="#121212"; x.fillStyle="#3d3d3d"; x.font="11px VT323";
+  x.strokeStyle=GRID; x.fillStyle=LBL; x.font="11px VT323";
   for(let g=0;g<4;g++){const v=lo-pad+((hi+pad)-(lo-pad))*g/3;
     x.beginPath();x.moveTo(34,Y(v));x.lineTo(W-10,Y(v));x.stroke();
     x.fillText(yfmt(v),2,Y(v)+3);}
-  if(lo<0&&hi>0){x.strokeStyle="#2a2a2a";x.beginPath();x.moveTo(34,Y(0));x.lineTo(W-10,Y(0));x.stroke();}
+  if(lo<0&&hi>0){x.strokeStyle=ZERO;x.beginPath();x.moveTo(34,Y(0));x.lineTo(W-10,Y(0));x.stroke();}
   labels.forEach((l,i)=>{if(i%Math.ceil(n/7)===0)x.fillText(l,X(i)-10,H-8)});
   for(const s of series){
-    x.strokeStyle=s.c; x.lineWidth=2; x.shadowColor=s.c; x.shadowBlur=7;
+    x.strokeStyle=s.c; x.lineWidth=2; x.shadowColor=s.c; x.shadowBlur=light?0:7;
     x.beginPath(); s.data.forEach((v,i)=>i?x.lineTo(X(i),Y(v)):x.moveTo(X(i),Y(v))); x.stroke();
     x.shadowBlur=0;
     const li=s.data.length-1;
@@ -764,13 +832,14 @@ async function loadLedger(){
   let A; try{A=JSON.parse(t)}catch{return}
   window._analytics=A;
   document.getElementById("ledger").style.display="block";
+  const lt=document.body.classList.contains("light");
   // equity
   lineChart(document.getElementById("cv-eq"),
-    [{data:A.days.map(d=>d.cum),c:"#ffb000"}], A.days.map(d=>d.d),
+    [{data:A.days.map(d=>d.cum),c:lt?"#a35600":"#ffb000"}], A.days.map(d=>d.d),
     v=>(v<0?"-$":"$")+Math.abs(Math.round(v)));
   // walk-forward
   lineChart(document.getElementById("cv-wf"),
-    [{data:A.wf.old,c:"#ff3838"},{data:A.wf.v2,c:"#2bff64"}], A.wf.months,
+    [{data:A.wf.old,c:lt?"#c41414":"#ff3838"},{data:A.wf.v2,c:lt?"#0a7a34":"#2bff64"}], A.wf.months,
     v=>Math.round(v)+"%");
   // daily table
   document.getElementById("lg-days").innerHTML=A.days.slice(-10).map(d=>
@@ -805,6 +874,19 @@ async function loadLedger(){
     +tr("WORST WHEN PICKED",A.teams.worst,t=>`<div><span>${AB[t.t]||t.t}</span><span class="red">${t.w}/${t.n} · ${Math.round(t.w/t.n*100)}%</span></div>`)
     +tr("MOST BET",A.teams.most_bet,t=>`<div><span>${AB[t.t]||t.t}</span><span class="${t.w>=t.l?"grn":"red"}">${t.w}-${t.l}</span></div>`);
 }
+
+/* ── light/dark toggle ── */
+function applyMode(){
+  const light=localStorage.getItem("boardMode")==="light";
+  document.body.classList.toggle("light",light);
+  document.getElementById("modebtn").textContent=light?"☾":"☀";
+}
+document.getElementById("modebtn").addEventListener("click",()=>{
+  localStorage.setItem("boardMode",document.body.classList.contains("light")?"dark":"light");
+  applyMode();
+  if(window._analytics)loadLedger();   // redraw charts in new palette
+});
+applyMode();
 
 async function tick(){await loadLive();render();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
