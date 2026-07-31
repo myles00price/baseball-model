@@ -119,6 +119,12 @@ def main():
         }, f, indent=1)
     print("board_stats.json written")
 
+    try:  # full ledger for the board's analytics section
+        import gen_analytics
+        gen_analytics.main()
+    except Exception as e:
+        print(f"analytics generation failed: {e}")
+
     if "--stats-only" in sys.argv:
         print("(stats-only: no text sent)")
         return
