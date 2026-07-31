@@ -71,6 +71,13 @@ def main():
         picked[g["pick"]][1] += 1; picked[g["pick"]][0] += g["pick_won"]
         if g["bet_team"]:
             bet_on[g["bet_team"]][1] += 1; bet_on[g["bet_team"]][0] += bool(g["bet_won"])
+    # full per-team model record (for board team pages)
+    model_teams = {}
+    for tm in set(list(picked.keys()) + list(bet_on.keys())):
+        pw, pt = picked.get(tm, [0, 0])
+        bw, bt = bet_on.get(tm, [0, 0])
+        model_teams[tm] = {"pw": pw, "pt": pt, "bw": bw, "bl": bt - bw}
+
     rank = sorted(((c / t, c, t, tm) for tm, (c, t) in picked.items() if t >= 8), reverse=True)
     teams = {
         "best": [{"t": tm, "w": c, "n": t} for _, c, t, tm in rank[:5]],
@@ -122,6 +129,7 @@ def main():
                            "pnl": round(sum(g["bet_profit"] for g in sb))},
         "split_season": split(games), "split_v2": split(v2games),
         "teams": teams,
+        "model_teams": model_teams,
         "buckets": [{"b": n, "n": v[0], "w": v[1], "pnl": round(v[2])}
                     for n, v in ebuckets.items()],
         "wf": {"months": ["25-03","25-04","25-05","25-06","25-07","25-08","25-09","26-04","26-05","26-06"],

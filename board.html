@@ -81,6 +81,42 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px 16px 40px}
 .newsitem img{width:100%;height:110px;object-fit:cover;display:block;filter:saturate(.7)}
 .newsitem .h{font-size:12.5px;padding:8px 10px;line-height:1.4}
 
+/* ── standings + leaders ── */
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:14px}
+.sect{background:#0a0a0a;border:1px solid var(--line);padding:12px 14px}
+.sect h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:8px}
+.divname{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.25em;color:#8f8f8f;
+  border-bottom:1px solid #1c1c1c;padding:7px 2px 3px}
+.strow{display:flex;align-items:center;gap:8px;padding:3px 2px;font-family:'VT323',monospace;
+  font-size:17px;color:#bbb;cursor:pointer;border-bottom:1px solid #0d0d0d}
+.strow:hover{background:#111}
+.strow img{width:18px;height:18px}
+.strow .tn{width:52px;font-family:'Bebas Neue',sans-serif;font-size:16px;color:#ddd}
+.strow .wl{width:64px;color:var(--phos)}
+.strow .gb{width:44px;color:var(--mut)}
+.strow .l10{width:44px;color:#8f8f8f}
+.strow .stk{margin-left:auto}
+.stk.W{color:var(--phos)}.stk.L{color:#ff3838}
+.ldr{display:flex;align-items:center;gap:9px;padding:4px 2px;font-family:'VT323',monospace;font-size:17px;
+  color:#bbb;cursor:pointer;border-bottom:1px solid #0d0d0d}
+.ldr:hover{background:#111}
+.ldr img{width:30px;height:30px;border-radius:50%;background:#111;object-fit:cover}
+.ldr .v{margin-left:auto;color:var(--amber);text-shadow:0 0 8px rgba(255,176,0,.5)}
+.ldr .cat{color:var(--phos-dim);width:38px}
+
+/* ── gameday extras ── */
+.wx{font-family:'VT323',monospace;font-size:15px;color:var(--mut);text-align:center;padding:0 16px 10px;letter-spacing:.05em}
+.boxcols{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 12px}
+.boxcol h4{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.22em;color:var(--mut);
+  border-bottom:1px solid #1c1c1c;padding-bottom:3px;margin-bottom:4px}
+.boxcol div{font-size:12px;color:#aaa;padding:2.5px 0;cursor:pointer}
+.boxcol div:hover{color:#fff}
+.boxcol b{color:#ddd;font-weight:600}
+.boxcol .ln{font-family:'VT323',monospace;color:var(--phos);font-size:14px}
+.pcard.click{cursor:pointer}
+.pcard.click:hover{border-color:#3a3a3a}
+@media(max-width:560px){.boxcols{grid-template-columns:1fr}}
+
 /* ── ledger (analytics) ── */
 .ledger{margin-top:14px;background:#0a0a0a;border:1px solid var(--line);padding:12px 14px}
 .ledger h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:10px}
@@ -155,6 +191,11 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px 16px 40px}
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
   <div class="grid" id="grid"></div>
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
+
+  <div class="duo">
+    <div class="sect" id="standings" style="display:none"><h2>THE STANDINGS</h2><div id="st-body"></div></div>
+    <div class="sect" id="leaders" style="display:none"><h2>LEAGUE LEADERS</h2><div id="ld-body"></div></div>
+  </div>
 
   <div class="ledger" id="ledger" style="display:none">
     <h2>THE LEDGER</h2>
@@ -259,10 +300,10 @@ function render(){
     cards.push(`<div class="card${flagged?" play":""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
       ${flagged?`<div class="playbar">${locked.has(key)?"🔒 ":""}OFFICIAL PLAY</div>`:""}
       <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
-      <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt=""><span class="ab">${aab}</span>
+      <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt="" onclick="event.stopPropagation();openTeam(${TID[away]||0})"><span class="ab">${aab}</span>
         <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
         <span class="odds">DK ${fmtO(r["DK Away Odds"])} MGM ${fmtO(r["MGM Away Odds"])}</span>${chip(r["DK Edge Away"])}</div>
-      <div class="row"><span class="rot">${952+gi*2}</span><img class="tlogo" src="${logo(home)}" alt=""><span class="ab">${hab}</span>
+      <div class="row"><span class="rot">${952+gi*2}</span><img class="tlogo" src="${logo(home)}" alt="" onclick="event.stopPropagation();openTeam(${TID[home]||0})"><span class="ab">${hab}</span>
         <span class="score">${sc(lv.hs)}</span><span class="mdl">${num(r["Model Home%"])}</span>
         <span class="odds">DK ${fmtO(r["DK Home Odds"])} MGM ${fmtO(r["MGM Home Odds"])}</span>${chip(r["DK Edge Home"])}</div>
       <div class="foot"><span>${(r["Away SP"]||"")+" v "+(r["Home SP"]||"")}</span>${shH}</div></div>`);
@@ -314,6 +355,9 @@ async function drawGame(){
         `<td class='rhe'>${ls.teams?.[side]?.runs??""}</td><td class='rhe'>${ls.teams?.[side]?.hits??""}</td><td class='rhe'>${ls.teams?.[side]?.errors??""}</td></tr>`;
       }
       itab+="</table></div>";
+      const gm=f.gameData||{};
+      const wx=gm.weather||{};
+      const wxH=`<div class="wx">${gm.venue?.name||""}${wx.temp?` · ${wx.temp}°F ${wx.condition||""}`:""}${wx.wind?` · WIND ${wx.wind}`:""}</div>`;
       let gd="";
       if(lv.state==="Live"){
         const off=ls.offense||{},b=ls.balls??0,s=ls.strikes??0,o=ls.outs??0;
@@ -326,17 +370,38 @@ async function drawGame(){
             <div class="homep"></div></div>
           <div class="count">BALLS ${b}<br>STRIKES ${s}<br><span class="o">OUTS ${o}</span></div></div>
         <div class="pbox">
-          ${cur.batter?`<div class="pcard"><img src="${mug(cur.batter.id)}"><div><div class="role">AT BAT</div><div class="nm">${cur.batter.fullName}</div></div></div>`:""}
-          ${cur.pitcher?`<div class="pcard"><img src="${mug(cur.pitcher.id)}"><div><div class="role">PITCHING</div><div class="nm">${cur.pitcher.fullName}</div></div></div>`:""}
+          ${cur.batter?`<div class="pcard click" onclick="openPlayer(${cur.batter.id})"><img src="${mug(cur.batter.id)}"><div><div class="role">AT BAT</div><div class="nm">${cur.batter.fullName}</div></div></div>`:""}
+          ${cur.pitcher?`<div class="pcard click" onclick="openPlayer(${cur.pitcher.id})"><img src="${mug(cur.pitcher.id)}"><div><div class="role">PITCHING</div><div class="nm">${cur.pitcher.fullName}</div></div></div>`:""}
         </div>`;
       }
+      // box score — top performers, clickable
+      const bx=ld.boxscore?.teams||{};
+      const perf=side=>{
+        const tt=bx[side]||{},pl=tt.players||{};
+        const bats=[],arms=[];
+        for(const k of tt.batters||[]){
+          const p=pl["ID"+k];if(!p)continue;const st=p.stats?.batting||{};
+          if((st.atBats??0)>0)bats.push({id:k,n:p.person.fullName,h:st.hits||0,ab:st.atBats,hr:st.homeRuns||0,rbi:st.rbi||0});
+        }
+        for(const k of tt.pitchers||[]){
+          const p=pl["ID"+k];if(!p)continue;const st=p.stats?.pitching||{};
+          if(st.inningsPitched)arms.push({id:k,n:p.person.fullName,ip:st.inningsPitched,er:st.earnedRuns||0,k:st.strikeOuts||0});
+        }
+        bats.sort((a,b)=>(b.hr*4+b.h)-(a.hr*4+a.h));
+        return`<div class="boxcol"><h4>${AB[side==="away"?away:home]} BOX</h4>`+
+          bats.slice(0,4).map(b=>`<div onclick="openPlayer(${b.id})"><b>${b.n}</b> <span class="ln">${b.h}-${b.ab}${b.hr?` ${b.hr}HR`:""}${b.rbi?` ${b.rbi}RBI`:""}</span></div>`).join("")+
+          arms.slice(0,2).map(p=>`<div onclick="openPlayer(${p.id})"><b>${p.n}</b> <span class="ln">${p.ip}IP ${p.er}ER ${p.k}K</span></div>`).join("")+`</div>`;
+      };
+      const boxH=(lv.state!=="Preview"&&(bx.away||bx.home))?`<div class="boxcols">${perf("away")}${perf("home")}</div>`:"";
+      // play-by-play — last 6, newest first
       let playsH="";
-      const sp=(ld.plays?.scoringPlays||[]).slice(-4).reverse();
-      if(sp.length){
-        playsH="<div class='plays'><h3>SCORING PLAYS</h3>"+sp.map(i=>{
-          const p=ld.plays.allPlays[i];return`<div>▸ ${p?.result?.description||""}</div>`}).join("")+"</div>";
+      const ap=ld.plays?.allPlays||[];
+      const recent=ap.filter(p=>p?.result?.description).slice(-6).reverse();
+      if(recent.length){
+        playsH="<div class='plays'><h3>PLAY BY PLAY</h3>"+recent.map(p=>
+          `<div>▸ <span style="color:var(--phos-dim)">${(p.about?.halfInning||"").toUpperCase().slice(0,3)} ${p.about?.inning||""}</span> ${p.result.description}</div>`).join("")+"</div>";
       }
-      body=itab+gd+playsH;
+      body=wxH+itab+gd+boxH+playsH;
     }catch{body="<div class='plays'><div>LIVE FEED UNAVAILABLE</div></div>"}
   }else{
     const pa=lv.pa,ph=lv.ph;
@@ -395,20 +460,118 @@ window.openPlayer=async id=>{
   const P=document.getElementById("panel");
   P.innerHTML="<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADING…</span><span class='x' onclick='closeOv()'>[X]</span></div>";
   try{
-    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/people/${id}?hydrate=stats(group=[hitting,pitching],type=[season],season=2026),currentTeam`)).json();
+    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/people/${id}?hydrate=stats(group=[hitting,pitching],type=[season,career,gameLog],season=2026),currentTeam`)).json();
     const p=j.people?.[0]||{};
-    const rows=[];
+    const rows=[];const logs=[];
     for(const s of p.stats||[]){
-      const g=s.group?.displayName,st=s.splits?.[0]?.stat||{};
-      if(g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">2026 HITTING</div>
+      const g=s.group?.displayName,ty=s.type?.displayName;
+      const st=s.splits?.[0]?.stat||{};
+      if(ty==="season"&&g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">2026 HITTING</div>
         <div class="ln">${st.avg??"–"} AVG · ${st.homeRuns??0} HR · ${st.rbi??0} RBI · ${st.ops??"–"} OPS · ${st.stolenBases??0} SB</div></div></div>`);
-      if(g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">2026 PITCHING</div>
+      if(ty==="season"&&g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">2026 PITCHING</div>
         <div class="ln">${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.wins??0}-${st.losses??0} · ${st.strikeOuts??0} K · ${st.inningsPitched??0} IP</div></div></div>`);
+      if(ty==="career"&&g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">CAREER HITTING</div>
+        <div class="ln">${st.avg??"–"} AVG · ${st.homeRuns??0} HR · ${st.rbi??0} RBI · ${st.ops??"–"} OPS · ${st.gamesPlayed??0} G</div></div></div>`);
+      if(ty==="career"&&g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">CAREER PITCHING</div>
+        <div class="ln">${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.wins??0}-${st.losses??0} · ${st.strikeOuts??0} K</div></div></div>`);
+      if(ty==="gameLog"){
+        for(const sp2 of (s.splits||[]).slice(-5).reverse()){
+          const st2=sp2.stat||{},opp=sp2.opponent?.name;
+          const line=g==="hitting"
+            ?`${st2.hits??0}-${st2.atBats??0}${st2.homeRuns?` ${st2.homeRuns}HR`:""}${st2.rbi?` ${st2.rbi}RBI`:""}`
+            :`${st2.inningsPitched??0}IP ${st2.earnedRuns??0}ER ${st2.strikeOuts??0}K`;
+          logs.push(`<div><span style="color:var(--phos-dim)">${sp2.date?.slice(5)||""}</span> vs ${AB[opp]||opp||""} <span class="ln">${line}</span></div>`);
+        }
+      }
     }
+    if(logs.length)rows.push(`<div class="pcard"><div><div class="role">LAST 5 GAMES</div><div class="boxcol" style="min-width:220px">${logs.join("")}</div></div></div>`);
     P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">PLAYER FILE</span><span class="x" onclick="closeOv()">[X]</span></div>
       <div class="matchhead"><div class="mh-team"><img src="${mug(id)}" style="border-radius:50%;background:#111"><div class="n">${p.fullName||""}</div>
       <div class="vt" style="color:var(--mut);font-size:15px">${p.primaryPosition?.abbreviation||""} · ${p.currentTeam?.name||""}</div></div></div>
       <div class="pbox" style="flex-direction:column;align-items:center">${rows.join("")||"<div class='pcard'><div class='ln'>NO 2026 STATS</div></div>"}</div>`;
+  }catch{P.innerHTML="<div class='ph'><span class='vt' style='color:var(--hot)'>LOAD FAILED</span><span class='x' onclick='closeOv()'>[X]</span></div>"}
+};
+
+/* ── standings ── */
+let standCache={};  // teamId -> standings row (for team pages)
+const NAME_BY_TID=Object.fromEntries(Object.entries(TID).map(([n,i])=>[i,n]));
+async function loadStandings(){
+  try{
+    const j=await(await fetch("https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=2026&standingsTypes=regularSeason&hydrate=division")).json();
+    let html="";
+    for(const rec of j.records||[]){
+      const dn=(rec.division?.nameShort||rec.division?.name||"").toUpperCase();
+      html+=`<div class="divname">${dn}</div>`;
+      for(const t of rec.teamRecords||[]){
+        const n=t.team.name, id=t.team.id;
+        standCache[id]=t;
+        const l10=(t.records?.splitRecords||[]).find(r=>r.type==="lastTen");
+        const stk=t.streak?.streakCode||"";
+        html+=`<div class="strow" onclick="openTeam(${id})"><img src="https://www.mlbstatic.com/team-logos/${id}.svg">
+          <span class="tn">${AB[n]||n.slice(0,3)}</span><span class="wl">${t.wins}-${t.losses}</span>
+          <span class="gb">${t.gamesBack==="-"?"—":t.gamesBack}</span>
+          <span class="l10">${l10?l10.wins+"-"+l10.losses:""}</span>
+          <span class="stk ${stk[0]||""}">${stk}</span></div>`;
+      }
+    }
+    document.getElementById("st-body").innerHTML=html;
+    document.getElementById("standings").style.display="block";
+  }catch{}
+}
+
+/* ── leaders ── */
+async function loadLeaders(){
+  try{
+    const cats=[["homeRuns","HR"],["battingAverage","AVG"],["earnedRunAverage","ERA"],["strikeouts","K"]];
+    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/stats/leaders?leaderCategories=${cats.map(c=>c[0]).join(",")}&season=2026&sportId=1&limit=4`)).json();
+    let html="";
+    for(const lc of j.leagueLeaders||[]){
+      const tag=(cats.find(c=>c[0]===lc.leaderCategory)||["","?"])[1];
+      for(const L of (lc.leaders||[]).slice(0,4)){
+        html+=`<div class="ldr" onclick="openPlayer(${L.person.id})"><span class="cat">${tag}</span>
+          <img src="${mug(L.person.id)}"><span>${L.person.fullName}</span><span class="v">${L.value}</span></div>`;
+      }
+    }
+    document.getElementById("ld-body").innerHTML=html;
+    document.getElementById("leaders").style.display="block";
+  }catch{}
+}
+
+/* ── team file ── */
+window.openTeam=async id=>{
+  document.getElementById("ov").classList.add("on");clearInterval(ovTimer);ovKey=null;
+  const P=document.getElementById("panel");
+  const name=NAME_BY_TID[id]||"";
+  P.innerHTML=`<div class='ph'><span class='vt' style='font-size:20px;color:var(--phos)'>LOADING…</span><span class='x' onclick='closeOv()'>[X]</span></div>`;
+  try{
+    const t=standCache[id];
+    const [statsJ,schedJ]=await Promise.all([
+      fetch(`https://statsapi.mlb.com/api/v1/teams/${id}/stats?season=2026&group=hitting,pitching&stats=season`).then(r=>r.json()).catch(()=>({})),
+      fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=${id}&startDate=${boardDate}&endDate=${new Date(Date.now()+5*86400e3).toISOString().slice(0,10)}`).then(r=>r.json()).catch(()=>({})),
+    ]);
+    let hit={},pit={};
+    for(const s of statsJ.stats||[]){
+      const g=s.group?.displayName,st=s.splits?.[0]?.stat||{};
+      if(g==="hitting")hit=st; if(g==="pitching")pit=st;
+    }
+    const l10=t?(t.records?.splitRecords||[]).find(r=>r.type==="lastTen"):null;
+    const mt=(window._analytics?.model_teams||{})[name]||{};
+    const games=[];
+    for(const d of schedJ.dates||[])for(const g of d.games||[]){
+      const a=g.teams.away.team.name,h=g.teams.home.team.name;
+      games.push(`${AB[a]||a} @ ${AB[h]||h} · ${new Date(g.gameDate).toLocaleDateString([],{weekday:"short"})}`);
+    }
+    P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">TEAM FILE</span><span class="x" onclick="closeOv()">[X]</span></div>
+      <div class="matchhead"><div class="mh-team" style="width:auto"><img src="https://www.mlbstatic.com/team-logos/${id}.svg" style="width:80px;height:80px"><div class="n">${name}</div>
+        ${t?`<div class="vt" style="color:var(--phos);font-size:22px;text-shadow:0 0 8px rgba(43,255,100,.5)">${t.wins}-${t.losses}</div>
+        <div class="vt" style="color:var(--mut);font-size:15px">GB ${t.gamesBack==="-"?"—":t.gamesBack} · L10 ${l10?l10.wins+"-"+l10.losses:"—"} · STREAK ${t.streak?.streakCode||"—"}</div>`:""}</div></div>
+      <div class="pbox" style="flex-direction:column;align-items:center">
+        <div class="pcard"><div><div class="role">2026 HITTING</div><div class="ln">${hit.avg??"–"} AVG · ${hit.ops??"–"} OPS · ${hit.homeRuns??"–"} HR · ${hit.runs??"–"} R</div></div></div>
+        <div class="pcard"><div><div class="role">2026 PITCHING</div><div class="ln">${pit.era??"–"} ERA · ${pit.whip??"–"} WHIP · ${pit.strikeOuts??"–"} K</div></div></div>
+        <div class="pcard" style="border-color:#8a6d1a"><div><div class="role" style="color:var(--gold)">VS THE MODEL</div>
+          <div class="ln" style="color:var(--gold)">PICKED: ${mt.pw??0}/${mt.pt??0} CORRECT · BET ON: ${mt.bw??0}-${mt.bl??0}</div></div></div>
+        ${games.length?`<div class="pcard"><div><div class="role">NEXT UP</div><div class="ln">${games.slice(0,3).join("<br>")}</div></div></div>`:""}
+      </div>`;
   }catch{P.innerHTML="<div class='ph'><span class='vt' style='color:var(--hot)'>LOAD FAILED</span><span class='x' onclick='closeOv()'>[X]</span></div>"}
 };
 
@@ -439,6 +602,7 @@ async function loadLedger(){
   const t=await tryFetch("board_analytics.json")||await tryFetch(`${REPO}/board_analytics.json`);
   if(!t)return;
   let A; try{A=JSON.parse(t)}catch{return}
+  window._analytics=A;
   document.getElementById("ledger").style.display="block";
   // equity
   lineChart(document.getElementById("cv-eq"),
@@ -475,7 +639,7 @@ async function loadLedger(){
 
 async function tick(){await loadLive();render();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
-  if(await loadPicks()){loadStats();await tick();loadNews();loadLedger();setInterval(tick,60000);setInterval(loadPicks,300000)}
+  if(await loadPicks()){loadStats();await tick();loadNews();loadLedger();loadStandings();loadLeaders();setInterval(tick,60000);setInterval(loadPicks,300000)}
   else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();
 </script>
