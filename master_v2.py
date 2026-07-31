@@ -58,11 +58,26 @@ from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX, comm
 EDGE_MIN = BET_MIN
 EDGE_MAX = BET_MAX
 
-# Minimum season sample for BOTH starters before a play can fire.
-# Raised 8 -> 25 on 2026-07-30: graded bets where the thinnest starter was
-# under 25% reliability went 33-42 (-$462); above 25% went 20-14 (+$704).
-# Thin samples mean the model leans on career stats the market prices better.
+# Starter-sample gate (side-aware, refined 2026-07-30 same night):
+#  - The starter on OUR side of the bet must have >= 25% season reliability
+#    (bets trusting our own thin data went 11-22, -$759).
+#  - A thin OPPOSING starter is fadeable (16-13, +$269) UNLESS his whiff rate
+#    says the stuff is real (>= 11%): thin+good-stuff starters' teams win 55%
+#    - the "returning ace" profile the market prices and career-blends miss.
 RELIABILITY_MIN = 25
+THIN_ACE_WHIFF = 11.0
+
+
+def bet_side_ok(bet_rel, opp_rel, opp_whiff):
+    if bet_rel < RELIABILITY_MIN:
+        return False
+    if opp_rel < RELIABILITY_MIN:
+        try:
+            if opp_whiff is None or float(opp_whiff) >= THIN_ACE_WHIFF:
+                return False  # never fade a thin starter with real stuff
+        except (TypeError, ValueError):
+            return False
+    return True
 
 PARK_FACTORS = {
     "Colorado Rockies":        118,
@@ -482,9 +497,12 @@ def run_model(target_date, save_csv=True):
             # When sharps move against the model, we suppress the BET flag.
             min_reliability = min(home_rel, away_rel)
             sharp_veto = "FADE" in str(sharp_signal)
-            reliable = (min_reliability >= RELIABILITY_MIN
-                        and home != "Colorado Rockies"
-                        and not sharp_veto)
+            base_ok = home != "Colorado Rockies" and not sharp_veto
+            # side-aware gate: our side's SP must be sampled; thin opposing
+            # SPs are fadeable only if their stuff is unproven (whiff < 11)
+            reliable_away = base_ok and bet_side_ok(away_rel, home_rel, home_whiff)
+            reliable_home = base_ok and bet_side_ok(home_rel, away_rel, away_whiff)
+            reliable = reliable_away or reliable_home  # for veto bookkeeping
 
             # Track veto for end-of-run summary (only flag if BET would have fired otherwise)
             if sharp_veto and min_reliability >= RELIABILITY_MIN and home != "Colorado Rockies":
@@ -527,20 +545,22 @@ def run_model(target_date, save_csv=True):
             print(f"  {away:<30} {str(away_prob)+'%' if away_prob else 'N/A':>7} "
                   f"{str(dk_away)+'%' if dk_away else 'N/A':>8} "
                   f"{str(mgm_away)+'%' if mgm_away else 'N/A':>9} "
-                  f"{edge(away_prob, dk_away, reliable):>8} {edge(away_prob, mgm_away, reliable):>9}")
+                  f"{edge(away_prob, dk_away, reliable_away):>8} {edge(away_prob, mgm_away, reliable_away):>9}")
             print(f"  {home:<30} {str(home_prob)+'%' if home_prob else 'N/A':>7} "
                   f"{str(dk_home)+'%' if dk_home else 'N/A':>8} "
                   f"{str(mgm_home)+'%' if mgm_home else 'N/A':>9} "
-                  f"{edge(home_prob, dk_home, reliable):>8} {edge(home_prob, mgm_home, reliable):>9}")
+                  f"{edge(home_prob, dk_home, reliable_home):>8} {edge(home_prob, mgm_home, reliable_home):>9}")
             print(f"  Away SP: {away_str}")
             print(f"  Home SP: {home_str}")
             print("-" * 75)
 
-            bet_flag = "** BET **" if (reliable and any(
-                "BET" in str(edge(p, m, reliable))
-                for p, m in [(away_prob, dk_away), (away_prob, mgm_away),
-                             (home_prob, dk_home), (home_prob, mgm_home)]
-            )) else ""
+            bet_flag = "** BET **" if any(
+                "BET" in str(edge(p, m, r))
+                for p, m, r in [(away_prob, dk_away, reliable_away),
+                                (away_prob, mgm_away, reliable_away),
+                                (home_prob, dk_home, reliable_home),
+                                (home_prob, mgm_home, reliable_home)]
+            ) else ""
 
             picks.append([
                 target_str, away, home,
@@ -549,8 +569,8 @@ def run_model(target_date, save_csv=True):
                 odds_lookup.get(home, {}).get("draftkings", "N/A"),
                 odds_lookup.get(away, {}).get("betmgm", "N/A"),
                 odds_lookup.get(home, {}).get("betmgm", "N/A"),
-                edge(away_prob, dk_away, reliable), edge(away_prob, mgm_away, reliable),
-                edge(home_prob, dk_home, reliable), edge(home_prob, mgm_home, reliable),
+                edge(away_prob, dk_away, reliable_away), edge(away_prob, mgm_away, reliable_away),
+                edge(home_prob, dk_home, reliable_home), edge(home_prob, mgm_home, reliable_home),
                 away_p, away_hand, away_rel,
                 away_velo, away_spin, away_whiff,
                 home_p, home_hand, home_rel,
@@ -588,3 +608,4 @@ if __name__ == '__main__':
     else:
         target = datetime.now(las_vegas_offset) + timedelta(days=1)
     run_model(target, save_csv=True)
+
