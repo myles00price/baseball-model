@@ -1064,6 +1064,20 @@ document.getElementById("modebtn").addEventListener("click",()=>{
 });
 applyMode();
 
+// self-update: if a newer version of this page has been deployed, reload it
+// (phones cache the shell hard; data refreshes but code never would otherwise)
+let _shellLM=null;
+async function checkShell(){
+  try{
+    const r=await fetch(location.pathname+"?v="+Date.now(),{method:"HEAD"});
+    const lm=r.headers.get("last-modified");
+    if(_shellLM&&lm&&lm!==_shellLM&&!document.querySelector(".ov.on")){location.reload();return}
+    if(lm)_shellLM=lm;
+  }catch{}
+}
+setInterval(checkShell,600000);checkShell();
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkShell()});
+
 // redraw charts when the window/screen size changes (ultrawide, rotation, snapping)
 let _rsz=null;
 window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if(window._analytics)loadLedger()},250)});
