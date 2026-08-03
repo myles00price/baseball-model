@@ -236,6 +236,15 @@ body.light .leak{border-color:#eee9dd}
 body.light .leak:hover{background:#efece0}
 body.light .leak .ln2{color:#14171c}
 body.light .leak .lx p{color:#57534a}
+/* idea box */
+.idea textarea{width:100%;background:#050505;border:1px solid #222;color:var(--phos);
+  font-family:'VT323',monospace;font-size:16px;padding:9px 12px;outline:none;min-height:64px;resize:vertical}
+.idea textarea::placeholder{color:#333}
+.idea button{background:linear-gradient(90deg,#8a6d1a,var(--gold));color:#000;border:none;
+  font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:.3em;padding:7px 22px;margin-top:8px;cursor:pointer}
+.idea button:hover{filter:brightness(1.15)}
+.idea .ok{font-family:'VT323',monospace;font-size:15px;color:var(--phos);margin-left:12px}
+body.light .idea textarea{background:#fdfcf8;border-color:var(--line);color:#0a6e30}
 .info-x{padding:16px 20px}
 .info-x .lead{font-family:'VT323',monospace;font-size:18px;color:var(--phos);margin-bottom:10px;text-shadow:0 0 7px rgba(43,255,100,.4)}
 .info-x .body{font-size:13.5px;color:#bbb;line-height:1.7}
@@ -401,6 +410,11 @@ body.light .newsitem img{filter:none}
     <div class="sect"><h2>PATCHED LEAKS · EVERY HOLE WE FOUND & PLUGGED</h2><div id="leaks"></div></div>
     <div class="sect"><h2>THE ARCHIVE · WEEKLY REPORTS</h2><div id="archive"></div></div>
   </div>
+
+  <div class="sect idea" style="margin-top:14px"><h2>IDEA BOX · TELL THE MODEL GUY</h2>
+    <textarea id="ideatxt" maxlength="600" placeholder="► Feature requests, stats you want tracked, bugs you spotted, matchups the model should look at…"></textarea>
+    <div><button onclick="sendIdea()">SUBMIT</button><span class="ok" id="ideaok"></span></div>
+  </div>
 </div>
 
 <div class="ov" id="ov"><div class="panel" id="panel"></div></div>
@@ -475,6 +489,13 @@ async function loadLive(){
     liveMap=out;return out;
   }catch{return liveMap}
 }
+function spRel(name,rel){
+  if(!name||name==="TBD")return name||"TBD";
+  const r=parseFloat(rel);
+  if(isNaN(r))return name;
+  const c=r<25?"#ff6b6b":r<40?"#c9992b":"#5c8a68";
+  return `${name} <span style="color:${c};font-family:'VT323',monospace;font-size:12px">${Math.round(r)}%</span>`;
+}
 function render(){
   const grid=document.getElementById("grid");let plays=0;const cards=[];
   picks.forEach((r,gi)=>{
@@ -498,7 +519,7 @@ function render(){
       <div class="row"><span class="rot">${952+gi*2}</span><img class="tlogo" src="${logo(home)}" alt="" onclick="event.stopPropagation();openTeam(${TID[home]||0})"><span class="ab">${hab}</span>
         <span class="score">${sc(lv.hs)}</span><span class="mdl">${num(r["Model Home%"])}</span>
         <span class="odds">DK ${fmtO(r["DK Home Odds"])} MGM ${fmtO(r["MGM Home Odds"])} CZR ${fmtO(r["CZR Home Odds"])}</span>${chip(r["DK Edge Home"])}</div>
-      <div class="foot"><span>${(r["Away SP"]||"")+" v "+(r["Home SP"]||"")}</span>${shH}</div></div>`);
+      <div class="foot"><span>${spRel(r["Away SP"],r["Away Reliability%"])} v ${spRel(r["Home SP"],r["Home Reliability%"])}</span>${shH}</div></div>`);
   });
   grid.innerHTML=cards.join("");
   document.getElementById("mq-sub").textContent=`// ${boardDate} // ${plays} PLAYS`;
@@ -604,9 +625,11 @@ async function drawGame(){
         return`${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.strikeOuts??"–"} K`}catch{return""}
     };
     const [la,lh]=await Promise.all([pline(pa),pline(ph)]);
+    const relA=parseFloat(r["Away Reliability%"]), relH=parseFloat(r["Home Reliability%"]);
+    const relTxt=v=>isNaN(v)?"":` · ${Math.round(v)}% SAMPLE`;
     body=`<div class="pbox" style="padding-top:4px">
-      ${pa?`<div class="pcard"><img src="${mug(pa.id)}"><div><div class="role">${AB[away]} STARTER</div><div class="nm">${pa.fullName}</div><div class="ln">${la}</div></div></div>`:`<div class="pcard"><div class="nm">${AB[away]}: TBD</div></div>`}
-      ${ph?`<div class="pcard"><img src="${mug(ph.id)}"><div><div class="role">${AB[home]} STARTER</div><div class="nm">${ph.fullName}</div><div class="ln">${lh}</div></div></div>`:`<div class="pcard"><div class="nm">${AB[home]}: TBD</div></div>`}
+      ${pa?`<div class="pcard click" onclick="openPlayer(${pa.id})"><img src="${mug(pa.id)}"><div><div class="role">${AB[away]} STARTER${relTxt(relA)}</div><div class="nm">${pa.fullName}</div><div class="ln">${la}</div></div></div>`:`<div class="pcard"><div class="nm">${AB[away]}: TBD</div></div>`}
+      ${ph?`<div class="pcard click" onclick="openPlayer(${ph.id})"><img src="${mug(ph.id)}"><div><div class="role">${AB[home]} STARTER${relTxt(relH)}</div><div class="nm">${ph.fullName}</div><div class="ln">${lh}</div></div></div>`:`<div class="pcard"><div class="nm">${AB[home]}: TBD</div></div>`}
     </div>`;
   }
   P.innerHTML=head+ourline+body;
@@ -662,8 +685,11 @@ window.openPlayer=async id=>{
       const st=s.splits?.[0]?.stat||{};
       if(ty==="season"&&g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">2026 HITTING</div>
         <div class="ln">${st.avg??"–"} AVG · ${st.homeRuns??0} HR · ${st.rbi??0} RBI · ${st.ops??"–"} OPS · ${st.stolenBases??0} SB</div></div></div>`);
-      if(ty==="season"&&g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">2026 PITCHING</div>
+      if(ty==="season"&&g==="pitching"&&st.inningsPitched){
+        const samp=Math.min(parseFloat(st.inningsPitched)/200*100,100);
+        rows.push(`<div class="pcard"><div><div class="role">2026 PITCHING · MODEL SAMPLE ${samp.toFixed(0)}%${samp<25?" ⚠ THIN":""}</div>
         <div class="ln">${st.era??"–"} ERA · ${st.whip??"–"} WHIP · ${st.wins??0}-${st.losses??0} · ${st.strikeOuts??0} K · ${st.inningsPitched??0} IP</div></div></div>`);
+      }
       if(ty==="career"&&g==="hitting"&&st.atBats)rows.push(`<div class="pcard"><div><div class="role">CAREER HITTING</div>
         <div class="ln">${st.avg??"–"} AVG · ${st.homeRuns??0} HR · ${st.rbi??0} RBI · ${st.ops??"–"} OPS · ${st.gamesPlayed??0} G</div></div></div>`);
       if(ty==="career"&&g==="pitching"&&st.inningsPitched)rows.push(`<div class="pcard"><div><div class="role">CAREER PITCHING</div>
@@ -679,6 +705,20 @@ window.openPlayer=async id=>{
       }
     }
     if(logs.length)rows.push(`<div class="pcard"><div><div class="role">LAST 5 GAMES</div><div class="boxcol" style="min-width:220px">${logs.join("")}</div></div></div>`);
+    // model context if this player starts on today's slate
+    const tr2=picks.find(x=>x["Away SP"]===p.fullName||x["Home SP"]===p.fullName);
+    if(tr2){
+      const isA=tr2["Away SP"]===p.fullName;
+      const rel=parseFloat(isA?tr2["Away Reliability%"]:tr2["Home Reliability%"]);
+      const ma2=tr2["Model Away%"],mh2=tr2["Model Home%"];
+      const fl=String(tr2["Flag"]||"").includes("BET");
+      const key2=`${tr2["Away"]}@${tr2["Home"]}`;
+      rows.unshift(`<div class="pcard" style="border-color:#8a6d1a"><div>
+        <div class="role" style="color:var(--gold)">TONIGHT'S START · ${AB[tr2["Away"]]} @ ${AB[tr2["Home"]]}</div>
+        <div class="ln" style="color:var(--gold)">MODEL: ${AB[tr2["Away"]]} ${ma2!=="None"?parseFloat(ma2).toFixed(0)+"%":"—"} / ${AB[tr2["Home"]]} ${mh2!=="None"?parseFloat(mh2).toFixed(0)+"%":"—"}
+        · SAMPLE ${isNaN(rel)?"—":Math.round(rel)+"%"}${rel<25?" ⚠":""}
+        · ${fl?(locked.has(key2)?"🔒 OFFICIAL PLAY":"LEAN"):"NO PLAY"}</div></div></div>`);
+    }
     P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:18px;letter-spacing:.25em">PLAYER FILE</span><span class="x" onclick="closeOv()">[X]</span></div>
       <div class="matchhead"><div class="mh-team"><img src="${mug(id)}" style="border-radius:50%;background:#111"><div class="n">${p.fullName||""}</div>
       <div class="vt" style="color:var(--mut);font-size:15px">${p.primaryPosition?.abbreviation||""} · ${p.currentTeam?.name||""}</div></div></div>
@@ -846,12 +886,19 @@ async function loadStandings(){
 async function loadLeaders(){
   try{
     const cats=[["homeRuns","HR"],["battingAverage","AVG"],["earnedRunAverage","ERA"],["strikeouts","K"]];
-    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/stats/leaders?leaderCategories=${cats.map(c=>c[0]).join(",")}&season=2026&sportId=1&limit=4`)).json();
+    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/stats/leaders?leaderCategories=${cats.map(c=>c[0]).join(",")}&season=2026&sportId=1&limit=3`)).json();
+    const TITLES={homeRuns:"HOME RUNS",battingAverage:"BATTING AVERAGE",earnedRunAverage:"ERA",strikeouts:"STRIKEOUTS"};
+    const WANT={homeRuns:"hitting",battingAverage:"hitting",earnedRunAverage:"pitching",strikeouts:"pitching"};
+    const seen=new Set();
     let html="";
     for(const lc of j.leagueLeaders||[]){
-      const tag=(cats.find(c=>c[0]===lc.leaderCategory)||["","?"])[1];
-      for(const L of (lc.leaders||[]).slice(0,4)){
-        html+=`<div class="ldr" onclick="openPlayer(${L.person.id})"><span class="cat">${tag}</span>
+      const cat=lc.leaderCategory;
+      if(seen.has(cat))continue;
+      if(WANT[cat]&&lc.statGroup&&lc.statGroup!==WANT[cat])continue;
+      seen.add(cat);
+      html+=`<div class="divname">${TITLES[cat]||cat.toUpperCase()}</div>`;
+      for(const L of (lc.leaders||[]).slice(0,3)){
+        html+=`<div class="ldr" onclick="openPlayer(${L.person.id})">
           <img src="${mug(L.person.id)}"><span>${L.person.fullName}</span><span class="v">${L.value}</span></div>`;
       }
     }
@@ -1050,6 +1097,18 @@ function flagged_side_js(r){
   return null;
 }
 function fair_js(p){p=parseFloat(p);return p>=50?"-"+Math.round(p/(100-p)*100):"+"+Math.round((100-p)/p*100)}
+
+/* ── idea box ── */
+window.sendIdea=async()=>{
+  const t=document.getElementById("ideatxt"),ok=document.getElementById("ideaok");
+  const msg=t.value.trim();
+  if(msg.length<4){ok.textContent="TYPE SOMETHING FIRST";return}
+  try{
+    await fetch("https://ntfy.sh/poons-mlb-ideas-k7d24q",{method:"POST",body:msg,
+      headers:{Title:"Board idea box",Tags:"bulb"}});
+    t.value="";ok.textContent="SENT ✓ — THANKS";setTimeout(()=>ok.textContent="",4000);
+  }catch{ok.textContent="SEND FAILED — TRY AGAIN"}
+};
 
 /* ── light/dark toggle ── */
 function applyMode(){

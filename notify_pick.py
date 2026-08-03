@@ -285,13 +285,16 @@ def main():
         and g["state"] == "Preview"
         for g in pending
     )
+    did_rerun = False
     if needs_rerun:
         print("Re-running master_v2.py with confirmed lineups...")
         subprocess.run([PYTHON, MASTER, date_str], timeout=1800)
         picks = load_picks(date_str)
+        did_rerun = True
 
     book_odds = fetch_market_odds(date_str) if pending else {}
 
+    sent_any = False
     for g in pending:
         key = f"{g['away']}@{g['home']}"
         if key in notified:  # doubleheader: same key appears twice in one run
@@ -307,9 +310,21 @@ def main():
         title = f"MLB pick locked: {g['away']} @ {g['home']}"
         send_push(title, body, bet)
         notified.add(key)
+        sent_any = True
         print(f"Notified: {key}")
 
     save_state(date_str, notified)
+
+    # Push immediately so the live board reflects locks and dropped leans
+    # within one cycle instead of waiting for the next scheduled push.
+    if did_rerun or sent_any:
+        try:
+            subprocess.run(["git", "add", f"picks_{date_str}.csv", f"notified_{date_str}.json"], timeout=60)
+            subprocess.run(["git", "commit", "-m", f"lineup lock update {date_str}"], timeout=60)
+            subprocess.run(["git", "push"], timeout=120)
+            print("pushed lock update to site")
+        except Exception as e:
+            print(f"site push failed: {e}")
 
 
 if __name__ == "__main__":
