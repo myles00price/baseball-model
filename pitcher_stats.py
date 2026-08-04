@@ -41,6 +41,17 @@ def compute_fip(hr, bb, k, ip):
     return round((13 * hr + 3 * bb - 2 * k) / ip + FIP_CONSTANT, 3)
 
 
+def season_total_split(splits):
+    """Traded players get one split PER TEAM STINT from the season endpoint.
+    Prefer the combined season split (no 'team' key); if the API only gives
+    stints, take the largest sample rather than splits[0] (which after a
+    trade can be a 3-inning new-team stint)."""
+    totals = [x for x in splits if "team" not in x]
+    if totals:
+        return totals[0]
+    return max(splits, key=lambda x: parse_ip(x.get("stat", {}).get("inningsPitched", 0)))
+
+
 def fetch_pitcher_stats(player_id, season):
     try:
         data = requests.get(
@@ -50,7 +61,7 @@ def fetch_pitcher_stats(player_id, season):
         splits = data["stats"][0]["splits"]
         if not splits:
             return None
-        s = splits[0]["stat"]
+        s = season_total_split(splits)["stat"]
         ip = parse_ip(s.get("inningsPitched", 0))
         if ip < 1:
             return None
@@ -78,7 +89,7 @@ def fetch_career_stats(player_id):
         splits = data["stats"][0]["splits"]
         if not splits:
             return None
-        s = splits[0]["stat"]
+        s = season_total_split(splits)["stat"]
         ip = parse_ip(s.get("inningsPitched", 0))
         if ip < 1:
             return None

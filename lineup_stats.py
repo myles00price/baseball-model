@@ -1,6 +1,15 @@
-import requests
+﻿import requests
 
 RELIABLE_PA = 150
+
+
+def _best_split(splits):
+    """Traded players: prefer the combined split (no 'team' key), else the
+    stint with the most plate appearances — never blindly splits[0]."""
+    totals = [x for x in splits if "team" not in x]
+    if totals:
+        return totals[0]
+    return max(splits, key=lambda x: int(x.get("stat", {}).get("plateAppearances", 0) or 0))
 
 def fetch_batter_splits(player_id, season, hand):
     """Fetch batter OPS vs specific pitcher hand (L or R)"""
@@ -22,13 +31,15 @@ def fetch_batter_splits(player_id, season, hand):
                 params=params
             ).json()
             
+            cands = []
             for split in data.get("stats", []):
                 for s in split.get("splits", []):
                     stat = s.get("stat", {})
-                    ops = float(stat.get("ops", 0))
-                    pa  = int(stat.get("plateAppearances", 0))
-                    if ops > 0:
-                        return ops, pa
+                    if float(stat.get("ops", 0)) > 0:
+                        cands.append(s)
+            if cands:
+                stat = _best_split(cands).get("stat", {})
+                return float(stat.get("ops", 0)), int(stat.get("plateAppearances", 0))
             return None, 0
         except:
             return None, 0
@@ -45,7 +56,7 @@ def fetch_batter_splits(player_id, season, hand):
             ).json()
             splits = data["stats"][0]["splits"]
             if splits:
-                s = splits[0]["stat"]
+                s = _best_split(splits)["stat"]
                 return float(s.get("ops", 0.720)), 0
         except:
             return 0.720, 0
@@ -88,12 +99,12 @@ def get_basic_lineup_ops(player_list, season):
             continue
         try:
             data = requests.get(
-                f"https://statsapi.mlb.com/api/v1/people/{player_id}/stats",
+                f"https://statsapi.mlb.com/api/v1/people/{pid}/stats",
                 params={"stats": "season", "season": season, "group": "hitting"}
             ).json()
             splits = data["stats"][0]["splits"]
             if splits:
-                ops = float(splits[0]["stat"].get("ops", 0))
+                ops = float(_best_split(splits)["stat"].get("ops", 0))
                 if ops > 0:
                     ops_scores.append(ops)
         except:
