@@ -1,16 +1,77 @@
 [
- {"d":"2026-08-06","t":"SIERA/xFIP TESTED - NOT ADOPTED","x":"A sharp outside suggestion: ERA describes the past; skill estimators like FIP and K-BB predict the future better. We ran the full walk-forward gauntlet on 3,454 out-of-sample games. Result: replacing our pitching feature with FIP or K-BB made the model 1.3-1.6 points WORSE; adding them alongside added nothing. Why: our pitching input was never raw ERA - it is capped to a plausible talent range and blended toward career numbers by sample size, which already removes most of the luck that skill estimators exist to remove. Every feature idea gets this same trial: beat the baseline out-of-sample or stay out of the model."},
- {"d":"2026-08-03","t":"TRADE-DEADLINE PROOFING","x":"Player stats follow the PLAYER, not the team - a traded pitcher's ERA, sample size, and a traded hitter's platoon numbers all travel with him automatically. But the league's data feed reports traded players in per-team chunks, and the model could previously read only the newest chunk - meaning a deadline acquisition might have been judged on 3 innings with his new club instead of his full season. Fixed everywhere: the model now always uses full-season combined numbers regardless of how many uniforms a player has worn. Shipped before any post-deadline slate was played."},
- {"d":"2026-08-03","t":"COLD STREAK AUDIT - PROCESS HEALTHY","x":"After a 1-7 stretch (-$600 over four days) we audited every play in the slump against the TRUE closing line, pulled from pre-pitch snapshots. All 8 plays beat the close, averaging +5.1% - the market moved toward our number after every single bet. The model's own probabilities expected ~4.4 wins from those 8 plays; getting 1 is a ~2% unlucky tail that any bettor eats a few times a season. Composition showed no pattern: losses spread across dogs and favorites, no team, no price band. Verdict: variance, not decay - no changes made. The tripwire that WOULD trigger changes: a slump arriving with negative closing-line value. This was the opposite. Running: 21-19, +$271, +6.8% ROI - inside the sustainable range we forecast when the record was running hot at +27%."},
- {"d":"2026-07-30","t":"STARTER SAMPLE GATE (SIDE-AWARE)","x":"Two-part rule, built from a subscriber question about a thin-sample ace. (1) The starter on OUR side of a bet must have a real season sample (~50+ innings) - bets trusting our own thin data went 11-22, -$759. (2) Betting AGAINST a thin starter is allowed (16-13, +$269 historically) UNLESS his whiff rate says the stuff is elite - thin starters with real swing-and-miss win 55% of their games. Translation: we will fade an unproven call-up, but never a returning ace the market knows better than our career-stat blend does."},
- {"d":"2026-07-16","t":"V2 GOES LIVE","x":"Complete rebuild. The old 18-feature XGBoost pipeline is retired after a teardown found six defects, including a lineup-swap bug that fed each team's offense into the model under the other team's name. V2 is a 4-feature calibrated logistic regression: simpler, better, fully auditable. Walk-forward accuracy 60.2% vs 58.7% for the old model across 3,187 out-of-sample games."},
- {"d":"2026-07-16","t":"POST-MODEL ADJUSTMENTS DELETED","x":"Park factor, home boost, bullpen nudge, and the 30-70 clamp are gone. Re-scoring 117 live games showed these layers flipped 28% of picks and lost most of the flips. The calibrated number is now used as-is."},
- {"d":"2026-07-20","t":"GRADING BUG FOUND & FIXED","x":"The score-keeper was grading value-dog bets on the wrong team - when the flag was on the underdog, wins were recorded as losses. 13 bets corrected; season P&L swung over $1,200 in our favor. All graders now share one source of truth for which side carries the bet."},
- {"d":"2026-07-22","t":"SIX-BOOK LINE SHOP","x":"Locked-pick alerts now shop DraftKings, BetMGM, FanDuel, Caesars, Hard Rock, and Circa, ranking every price by payout and calling out the best number."},
- {"d":"2026-07-23","t":"KELLY SIZING + FAIR ODDS","x":"Alerts now translate model probability into fair American odds, and show an informational quarter-Kelly stake (capped 2% bankroll). Kelly stays informational until the model proves itself over 100 graded picks. If the Kelly line is missing, the price has moved and the value is gone - pass."},
- {"d":"2026-07-24","t":"DE-VIG RESEARCH","x":"Backtest of a vig-free edge measure: 53% win / +8.6% ROI on 109 bets vs 48% / +0.5% for the current method. The true profit zone is a 3-6% de-vigged edge (62% win rate). Running in shadow mode - every slate logs both measures - before any switch."},
- {"d":"2026-07-28","t":"LOCK-ON-TEXT","x":"Once a play is texted, it is frozen at the texted price. No later re-run can change its flag, side, or odds. The texted price is always the official play."},
- {"d":"2026-07-28","t":"SINGLE-SLATE ODDS FIX","x":"The odds feed returns multiple days of games; prices were keyed by team name and could mix tomorrow's lines into today's board. All price consumers now filter to the exact slate date."},
- {"d":"2026-07-29","t":"CLV REBUILT FROM TRUE CLOSES","x":"Every graded game re-scored against the real line 10 minutes before its first pitch (545 games of historical snapshots). Honest result: raw picks beat the close only 53% of the time - but flagged plays beat it 96% of the time at +6.5% average. The market's final verdict almost never says our plays were wrong."},
- {"d":"2026-07-30","t":"THE BOARD LAUNCHES","x":"This site. Live game cards with the model's number on every line, Gameday view, standings, leaders, player files, the full ledger, and everything you are reading right now. Updates itself from the nightly pipeline."}
+ {
+  "d": "2026-08-06",
+  "t": "RECENCY WEIGHTING TESTED - NOT ADOPTED",
+  "x": "Second feature idea of the day: weight pitcher stats toward recent starts (last-5 or decaying average) instead of full season. Tested on 649 games with true point-in-time data - only starts BEFORE each game counted. Result: pure recent-form was 2-3 points WORSE than season-to-date; blends were ties. Five starts of ERA is mostly luck - weighting toward it weights toward noise. The idea survives in better form: recent VELOCITY and swing-and-miss stabilize in a single game and can flag a declining arm long before ERA does. That version is on the candidate list with data collection underway. Every idea gets the same trial; most lose; the record is why."
+ },
+ {
+  "d": "2026-08-06",
+  "t": "SIERA/xFIP TESTED - NOT ADOPTED",
+  "x": "A sharp outside suggestion: ERA describes the past; skill estimators like FIP and K-BB predict the future better. We ran the full walk-forward gauntlet on 3,454 out-of-sample games. Result: replacing our pitching feature with FIP or K-BB made the model 1.3-1.6 points WORSE; adding them alongside added nothing. Why: our pitching input was never raw ERA - it is capped to a plausible talent range and blended toward career numbers by sample size, which already removes most of the luck that skill estimators exist to remove. Every feature idea gets this same trial: beat the baseline out-of-sample or stay out of the model."
+ },
+ {
+  "d": "2026-08-03",
+  "t": "TRADE-DEADLINE PROOFING",
+  "x": "Player stats follow the PLAYER, not the team - a traded pitcher's ERA, sample size, and a traded hitter's platoon numbers all travel with him automatically. But the league's data feed reports traded players in per-team chunks, and the model could previously read only the newest chunk - meaning a deadline acquisition might have been judged on 3 innings with his new club instead of his full season. Fixed everywhere: the model now always uses full-season combined numbers regardless of how many uniforms a player has worn. Shipped before any post-deadline slate was played."
+ },
+ {
+  "d": "2026-08-03",
+  "t": "COLD STREAK AUDIT - PROCESS HEALTHY",
+  "x": "After a 1-7 stretch (-$600 over four days) we audited every play in the slump against the TRUE closing line, pulled from pre-pitch snapshots. All 8 plays beat the close, averaging +5.1% - the market moved toward our number after every single bet. The model's own probabilities expected ~4.4 wins from those 8 plays; getting 1 is a ~2% unlucky tail that any bettor eats a few times a season. Composition showed no pattern: losses spread across dogs and favorites, no team, no price band. Verdict: variance, not decay - no changes made. The tripwire that WOULD trigger changes: a slump arriving with negative closing-line value. This was the opposite. Running: 21-19, +$271, +6.8% ROI - inside the sustainable range we forecast when the record was running hot at +27%."
+ },
+ {
+  "d": "2026-07-30",
+  "t": "STARTER SAMPLE GATE (SIDE-AWARE)",
+  "x": "Two-part rule, built from a subscriber question about a thin-sample ace. (1) The starter on OUR side of a bet must have a real season sample (~50+ innings) - bets trusting our own thin data went 11-22, -$759. (2) Betting AGAINST a thin starter is allowed (16-13, +$269 historically) UNLESS his whiff rate says the stuff is elite - thin starters with real swing-and-miss win 55% of their games. Translation: we will fade an unproven call-up, but never a returning ace the market knows better than our career-stat blend does."
+ },
+ {
+  "d": "2026-07-16",
+  "t": "V2 GOES LIVE",
+  "x": "Complete rebuild. The old 18-feature XGBoost pipeline is retired after a teardown found six defects, including a lineup-swap bug that fed each team's offense into the model under the other team's name. V2 is a 4-feature calibrated logistic regression: simpler, better, fully auditable. Walk-forward accuracy 60.2% vs 58.7% for the old model across 3,187 out-of-sample games."
+ },
+ {
+  "d": "2026-07-16",
+  "t": "POST-MODEL ADJUSTMENTS DELETED",
+  "x": "Park factor, home boost, bullpen nudge, and the 30-70 clamp are gone. Re-scoring 117 live games showed these layers flipped 28% of picks and lost most of the flips. The calibrated number is now used as-is."
+ },
+ {
+  "d": "2026-07-20",
+  "t": "GRADING BUG FOUND & FIXED",
+  "x": "The score-keeper was grading value-dog bets on the wrong team - when the flag was on the underdog, wins were recorded as losses. 13 bets corrected; season P&L swung over $1,200 in our favor. All graders now share one source of truth for which side carries the bet."
+ },
+ {
+  "d": "2026-07-22",
+  "t": "SIX-BOOK LINE SHOP",
+  "x": "Locked-pick alerts now shop DraftKings, BetMGM, FanDuel, Caesars, Hard Rock, and Circa, ranking every price by payout and calling out the best number."
+ },
+ {
+  "d": "2026-07-23",
+  "t": "KELLY SIZING + FAIR ODDS",
+  "x": "Alerts now translate model probability into fair American odds, and show an informational quarter-Kelly stake (capped 2% bankroll). Kelly stays informational until the model proves itself over 100 graded picks. If the Kelly line is missing, the price has moved and the value is gone - pass."
+ },
+ {
+  "d": "2026-07-24",
+  "t": "DE-VIG RESEARCH",
+  "x": "Backtest of a vig-free edge measure: 53% win / +8.6% ROI on 109 bets vs 48% / +0.5% for the current method. The true profit zone is a 3-6% de-vigged edge (62% win rate). Running in shadow mode - every slate logs both measures - before any switch."
+ },
+ {
+  "d": "2026-07-28",
+  "t": "LOCK-ON-TEXT",
+  "x": "Once a play is texted, it is frozen at the texted price. No later re-run can change its flag, side, or odds. The texted price is always the official play."
+ },
+ {
+  "d": "2026-07-28",
+  "t": "SINGLE-SLATE ODDS FIX",
+  "x": "The odds feed returns multiple days of games; prices were keyed by team name and could mix tomorrow's lines into today's board. All price consumers now filter to the exact slate date."
+ },
+ {
+  "d": "2026-07-29",
+  "t": "CLV REBUILT FROM TRUE CLOSES",
+  "x": "Every graded game re-scored against the real line 10 minutes before its first pitch (545 games of historical snapshots). Honest result: raw picks beat the close only 53% of the time - but flagged plays beat it 96% of the time at +6.5% average. The market's final verdict almost never says our plays were wrong."
+ },
+ {
+  "d": "2026-07-30",
+  "t": "THE BOARD LAUNCHES",
+  "x": "This site. Live game cards with the model's number on every line, Gameday view, standings, leaders, player files, the full ledger, and everything you are reading right now. Updates itself from the nightly pipeline."
+ }
 ]
