@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BOARD — NFL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--phos:#2bff64;--phos-dim:#1f7a3d;--amber:#ffb000;--hot:#ff2020;--ink:#f2f2f2;--mut:#5c5c5c;--line:#1c1c1c}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;min-height:100%}
+body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.5vw,40px) 40px}
+.frame{max-width:1500px;margin:0 auto}
+.vt{font-family:'VT323',monospace}
+.marquee{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#0a0a0a;border:1px solid var(--line);padding:8px 18px;margin-bottom:10px;flex-wrap:wrap}
+.marquee h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.38em;font-weight:400}
+.marquee .sub{font-family:'VT323',monospace;font-size:18px;color:var(--phos);text-shadow:0 0 8px rgba(43,255,100,.5)}
+.marquee a{color:var(--amber);font-family:'VT323',monospace;font-size:17px;text-decoration:none}
+.paper{background:#140b00;border:1px solid #3a2600;color:var(--amber);font-family:'VT323',monospace;font-size:18px;padding:10px 16px;margin-bottom:12px;letter-spacing:.05em}
+.recbox{display:flex;gap:24px;flex-wrap:wrap;background:#0a0a0a;border:1px solid var(--line);padding:12px 18px;margin-bottom:14px}
+.recbox .cell b{display:block;font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.06em;color:var(--phos)}
+.recbox .cell span{font-family:'VT323',monospace;font-size:14px;color:var(--mut)}
+.recbox .cell.dead b{color:var(--hot)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:12px}
+.card{background:#0a0a0a;border:1px solid var(--line)}
+.ch{display:flex;justify-content:space-between;align-items:baseline;padding:8px 12px;border-bottom:1px solid var(--line)}
+.matchup{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em}
+.meta{font-family:'VT323',monospace;font-size:14px;color:var(--mut)}
+table{width:100%;border-collapse:collapse}
+th{font-family:'VT323',monospace;font-size:13px;color:var(--mut);text-align:right;padding:4px 10px;border-bottom:1px solid var(--line);font-weight:400}
+th:nth-child(2){text-align:left}
+td{font-family:'VT323',monospace;font-size:16px;text-align:right;padding:3px 10px;border-bottom:1px solid #111;color:var(--phos)}
+td.tm{color:var(--mut);font-size:13px;text-align:left;width:34px}
+td.nm{font-family:'Oswald',sans-serif;font-size:13.5px;text-align:left;color:var(--ink)}
+td.nm .pos{color:var(--mut);font-size:11px;margin-left:6px}
+td.mut{color:#222}
+.sect{background:#0a0a0a;border:1px solid var(--line);padding:14px 18px;margin-top:14px}
+.sect h2{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.2em;color:var(--amber);margin-bottom:8px}
+.sect p,.sect li{font-size:13.5px;line-height:1.55;color:#c9c9c9}
+.sect ul{margin:6px 0 0 18px}
+.logrow{border-bottom:1px dashed #1a1a1a;padding:8px 0}
+.logrow .ld{font-family:'VT323',monospace;color:var(--mut);margin-right:10px;font-size:14px}
+.logrow .lt{font-family:'Bebas Neue',sans-serif;letter-spacing:.1em;color:var(--phos)}
+.logrow p{font-size:12.5px;color:#a8a8a8;margin-top:3px;line-height:1.5}
+.foot{margin-top:16px;font-family:'VT323',monospace;font-size:14px;color:var(--mut)}
+.foot a{color:var(--amber)}
+</style>
+</head>
+<body><div class="frame">
+  <div class="marquee">
+    <h1>THE BOARD <span style="color:var(--amber)">NFL</span></h1>
+    <span class="sub">WEEK 1 · 2026 · USAGE-FIRST PROPS ENGINE</span>
+    <a href="board.html">◄ MLB BOARD</a>
+  </div>
+
+  <div class="paper">■ PAPER MODE — these are PROJECTIONS, not picks. No bet window exists yet.
+  The shadow season starts Week 1: paper picks on receptions / receiving yards / rushing yards,
+  every one logged and graded in public. Not a dollar is at stake until half a season proves it.</div>
+
+  <div class="recbox">
+    <div class="cell"><b>53.8%</b><span>RECEPTIONS vs CLOSE (2025 pilot, n=353)</span></div>
+    <div class="cell"><b>21/27</b><span>LINES MOVED TOWARD ENGINE (receptions)</span></div>
+    <div class="cell"><b>57.9%</b><span>RUSH YDS vs OPEN (n=107)</span></div>
+    <div class="cell"><b>52.35%</b><span>ALL MARKETS vs CLOSE — BREAKEVEN, HONEST</span></div>
+    <div class="cell dead"><b>DROPPED</b><span>PASS YDS — MARKET MOVES AWAY FROM US</span></div>
+  </div>
+
+  <div class="grid">
+<div class="card">
+  <div class="ch"><span class="matchup">NE @ SEA</span>
+    <span class="meta">2026-09-09 · market: SEA -3.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>NE</td><td class='nm'>A.J. Brown<span class='pos'>WR</span></td><td>3.8</td><td>48.2</td><td class='mut'>—</td></tr><tr><td class='tm'>NE</td><td class='nm'>TreVeyon Henderson<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>44.6</td></tr><tr><td class='tm'>NE</td><td class='nm'>Rhamondre Stevenson<span class='pos'>RB</span></td><td>1.8</td><td>14.3</td><td>37.4</td></tr><tr><td class='tm'>NE</td><td class='nm'>Hunter Henry<span class='pos'>TE</span></td><td>2.8</td><td>30.8</td><td class='mut'>—</td></tr><tr><td class='tm'>SEA</td><td class='nm'>Jaxon Smith-Njigba<span class='pos'>WR</span></td><td>5.1</td><td>73.4</td><td class='mut'>—</td></tr><tr><td class='tm'>SEA</td><td class='nm'>Zach Charbonnet<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>43.3</td></tr><tr><td class='tm'>SEA</td><td class='nm'>Rashid Shaheed<span class='pos'>WR</span></td><td>2.7</td><td>32.2</td><td class='mut'>—</td></tr><tr><td class='tm'>SEA</td><td class='nm'>AJ Barner<span class='pos'>TE</span></td><td>2.5</td><td>24.7</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">SF @ LA</span>
+    <span class="meta">2026-09-10 · market: LA -3.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>SF</td><td class='nm'>Christian McCaffrey<span class='pos'>RB</span></td><td>4.0</td><td>34.4</td><td>78.7</td></tr><tr><td class='tm'>SF</td><td class='nm'>George Kittle<span class='pos'>TE</span></td><td>3.3</td><td>34.8</td><td class='mut'>—</td></tr><tr><td class='tm'>SF</td><td class='nm'>Mike Evans<span class='pos'>WR</span></td><td>3.1</td><td>38.7</td><td class='mut'>—</td></tr><tr><td class='tm'>SF</td><td class='nm'>Ricky Pearsall<span class='pos'>WR</span></td><td>2.7</td><td>34.9</td><td class='mut'>—</td></tr><tr><td class='tm'>LA</td><td class='nm'>Puka Nacua<span class='pos'>WR</span></td><td>6.0</td><td>81.5</td><td class='mut'>—</td></tr><tr><td class='tm'>LA</td><td class='nm'>Kyren Williams<span class='pos'>RB</span></td><td>2.1</td><td>15.8</td><td>68.0</td></tr><tr><td class='tm'>LA</td><td class='nm'>Davante Adams<span class='pos'>WR</span></td><td>3.9</td><td>51.7</td><td class='mut'>—</td></tr><tr><td class='tm'>LA</td><td class='nm'>Colby Parkinson<span class='pos'>TE</span></td><td>2.6</td><td>26.0</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">CHI @ CAR</span>
+    <span class="meta">2026-09-13 · market: CAR +2.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>CHI</td><td class='nm'>D&#x27;Andre Swift<span class='pos'>RB</span></td><td>2.2</td><td>17.8</td><td>58.1</td></tr><tr><td class='tm'>CHI</td><td class='nm'>Rome Odunze<span class='pos'>WR</span></td><td>3.8</td><td>53.4</td><td class='mut'>—</td></tr><tr><td class='tm'>CHI</td><td class='nm'>Colston Loveland<span class='pos'>TE</span></td><td>3.3</td><td>38.1</td><td class='mut'>—</td></tr><tr><td class='tm'>CHI</td><td class='nm'>Kyle Monangai<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>40.7</td></tr><tr><td class='tm'>CAR</td><td class='nm'>Chuba Hubbard<span class='pos'>RB</span></td><td>2.0</td><td>14.0</td><td>59.9</td></tr><tr><td class='tm'>CAR</td><td class='nm'>Tetairoa McMillan<span class='pos'>WR</span></td><td>3.8</td><td>49.1</td><td class='mut'>—</td></tr><tr><td class='tm'>CAR</td><td class='nm'>Jalen Coker<span class='pos'>WR</span></td><td>2.4</td><td>28.0</td><td class='mut'>—</td></tr><tr><td class='tm'>CAR</td><td class='nm'>Xavier Legette<span class='pos'>WR</span></td><td>2.4</td><td>26.5</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">TB @ CIN</span>
+    <span class="meta">2026-09-13 · market: CIN -3.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>TB</td><td class='nm'>Bucky Irving<span class='pos'>RB</span></td><td>2.2</td><td>18.9</td><td>54.1</td></tr><tr><td class='tm'>TB</td><td class='nm'>Kenny Gainwell<span class='pos'>RB</span></td><td>3.1</td><td>24.2</td><td>25.9</td></tr><tr><td class='tm'>TB</td><td class='nm'>Emeka Egbuka<span class='pos'>WR</span></td><td>3.2</td><td>46.1</td><td class='mut'>—</td></tr><tr><td class='tm'>TB</td><td class='nm'>Cade Otton<span class='pos'>TE</span></td><td>3.0</td><td>32.1</td><td class='mut'>—</td></tr><tr><td class='tm'>CIN</td><td class='nm'>Ja&#x27;Marr Chase<span class='pos'>WR</span></td><td>5.9</td><td>71.1</td><td class='mut'>—</td></tr><tr><td class='tm'>CIN</td><td class='nm'>Chase Brown<span class='pos'>RB</span></td><td>3.4</td><td>23.7</td><td>46.0</td></tr><tr><td class='tm'>CIN</td><td class='nm'>Tee Higgins<span class='pos'>WR</span></td><td>3.3</td><td>43.4</td><td class='mut'>—</td></tr><tr><td class='tm'>CIN</td><td class='nm'>Mike Gesicki<span class='pos'>TE</span></td><td>2.2</td><td>21.7</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">NO @ DET</span>
+    <span class="meta">2026-09-13 · market: DET -7.0</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>NO</td><td class='nm'>Chris Olave<span class='pos'>WR</span></td><td>3.9</td><td>53.3</td><td class='mut'>—</td></tr><tr><td class='tm'>NO</td><td class='nm'>Travis Etienne<span class='pos'>RB</span></td><td>1.7</td><td>13.9</td><td>33.6</td></tr><tr><td class='tm'>NO</td><td class='nm'>Juwan Johnson<span class='pos'>TE</span></td><td>2.9</td><td>34.8</td><td class='mut'>—</td></tr><tr><td class='tm'>NO</td><td class='nm'>Kevin Austin Jr.<span class='pos'>WR</span></td><td>2.0</td><td>25.9</td><td class='mut'>—</td></tr><tr><td class='tm'>DET</td><td class='nm'>Jahmyr Gibbs<span class='pos'>RB</span></td><td>3.3</td><td>27.3</td><td>61.4</td></tr><tr><td class='tm'>DET</td><td class='nm'>Amon-Ra St. Brown<span class='pos'>WR</span></td><td>4.8</td><td>62.9</td><td class='mut'>—</td></tr><tr><td class='tm'>DET</td><td class='nm'>Sam LaPorta<span class='pos'>TE</span></td><td>3.1</td><td>34.9</td><td class='mut'>—</td></tr><tr><td class='tm'>DET</td><td class='nm'>Jameson Williams<span class='pos'>WR</span></td><td>2.9</td><td>43.7</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">BUF @ HOU</span>
+    <span class="meta">2026-09-13 · market: HOU +1.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>BUF</td><td class='nm'>James Cook<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>79.5</td></tr><tr><td class='tm'>BUF</td><td class='nm'>Khalil Shakir<span class='pos'>WR</span></td><td>2.7</td><td>32.0</td><td class='mut'>—</td></tr><tr><td class='tm'>BUF</td><td class='nm'>Shane Zylstra<span class='pos'>TE</span></td><td>2.5</td><td>25.4</td><td class='mut'>—</td></tr><tr><td class='tm'>BUF</td><td class='nm'>DJ Moore<span class='pos'>WR</span></td><td>2.2</td><td>27.9</td><td class='mut'>—</td></tr><tr><td class='tm'>HOU</td><td class='nm'>Nico Collins<span class='pos'>WR</span></td><td>3.8</td><td>54.1</td><td class='mut'>—</td></tr><tr><td class='tm'>HOU</td><td class='nm'>Dalton Schultz<span class='pos'>TE</span></td><td>3.7</td><td>36.6</td><td class='mut'>—</td></tr><tr><td class='tm'>HOU</td><td class='nm'>Woody Marks<span class='pos'>RB</span></td><td>1.6</td><td>11.7</td><td>34.9</td></tr><tr><td class='tm'>HOU</td><td class='nm'>Jawhar Jordan<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>34.3</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">BAL @ IND</span>
+    <span class="meta">2026-09-13 · market: IND +3.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>BAL</td><td class='nm'>Zay Flowers<span class='pos'>WR</span></td><td>4.7</td><td>74.3</td><td class='mut'>—</td></tr><tr><td class='tm'>BAL</td><td class='nm'>Derrick Henry<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>77.4</td></tr><tr><td class='tm'>BAL</td><td class='nm'>Mark Andrews<span class='pos'>TE</span></td><td>3.0</td><td>34.3</td><td class='mut'>—</td></tr><tr><td class='tm'>BAL</td><td class='nm'>Justice Hill<span class='pos'>RB</span></td><td>2.3</td><td>20.1</td><td class='mut'>—</td></tr><tr><td class='tm'>IND</td><td class='nm'>Jonathan Taylor<span class='pos'>RB</span></td><td>2.8</td><td>23.1</td><td>71.2</td></tr><tr><td class='tm'>IND</td><td class='nm'>Tyler Warren<span class='pos'>TE</span></td><td>4.7</td><td>53.5</td><td class='mut'>—</td></tr><tr><td class='tm'>IND</td><td class='nm'>Josh Downs<span class='pos'>WR</span></td><td>3.7</td><td>44.7</td><td class='mut'>—</td></tr><tr><td class='tm'>IND</td><td class='nm'>Alec Pierce<span class='pos'>WR</span></td><td>3.5</td><td>59.2</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">CLE @ JAX</span>
+    <span class="meta">2026-09-13 · market: JAX -7.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>CLE</td><td class='nm'>Harold Fannin Jr.<span class='pos'>TE</span></td><td>4.1</td><td>44.1</td><td class='mut'>—</td></tr><tr><td class='tm'>CLE</td><td class='nm'>Quinshon Judkins<span class='pos'>RB</span></td><td>2.0</td><td>14.5</td><td>45.0</td></tr><tr><td class='tm'>CLE</td><td class='nm'>Jerry Jeudy<span class='pos'>WR</span></td><td>3.1</td><td>39.9</td><td class='mut'>—</td></tr><tr><td class='tm'>CLE</td><td class='nm'>Cedric Tillman<span class='pos'>WR</span></td><td>1.9</td><td>23.9</td><td class='mut'>—</td></tr><tr><td class='tm'>JAX</td><td class='nm'>Jakobi Meyers<span class='pos'>WR</span></td><td>3.7</td><td>44.5</td><td class='mut'>—</td></tr><tr><td class='tm'>JAX</td><td class='nm'>Brian Thomas Jr.<span class='pos'>WR</span></td><td>3.2</td><td>42.7</td><td class='mut'>—</td></tr><tr><td class='tm'>JAX</td><td class='nm'>Parker Washington<span class='pos'>WR</span></td><td>3.1</td><td>41.5</td><td class='mut'>—</td></tr><tr><td class='tm'>JAX</td><td class='nm'>Brenton Strange<span class='pos'>TE</span></td><td>3.1</td><td>33.4</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">ATL @ PIT</span>
+    <span class="meta">2026-09-13 · market: PIT -3.0</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>ATL</td><td class='nm'>Bijan Robinson<span class='pos'>RB</span></td><td>3.5</td><td>30.3</td><td>70.5</td></tr><tr><td class='tm'>ATL</td><td class='nm'>Drake London<span class='pos'>WR</span></td><td>4.1</td><td>53.6</td><td class='mut'>—</td></tr><tr><td class='tm'>ATL</td><td class='nm'>Kyle Pitts<span class='pos'>TE</span></td><td>3.7</td><td>38.2</td><td class='mut'>—</td></tr><tr><td class='tm'>ATL</td><td class='nm'>Olamide Zaccheaus<span class='pos'>WR</span></td><td>2.2</td><td>23.6</td><td class='mut'>—</td></tr><tr><td class='tm'>PIT</td><td class='nm'>Rico Dowdle<span class='pos'>RB</span></td><td>2.3</td><td>17.2</td><td>46.5</td></tr><tr><td class='tm'>PIT</td><td class='nm'>Michael Pittman<span class='pos'>WR</span></td><td>4.0</td><td>45.5</td><td class='mut'>—</td></tr><tr><td class='tm'>PIT</td><td class='nm'>Jaylen Warren<span class='pos'>RB</span></td><td>2.3</td><td>17.5</td><td>44.1</td></tr><tr><td class='tm'>PIT</td><td class='nm'>DK Metcalf<span class='pos'>WR</span></td><td>3.7</td><td>50.2</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">NYJ @ TEN</span>
+    <span class="meta">2026-09-13 · market: TEN -3.0</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>NYJ</td><td class='nm'>Breece Hall<span class='pos'>RB</span></td><td>2.1</td><td>17.5</td><td>59.0</td></tr><tr><td class='tm'>NYJ</td><td class='nm'>Garrett Wilson<span class='pos'>WR</span></td><td>4.3</td><td>54.7</td><td class='mut'>—</td></tr><tr><td class='tm'>NYJ</td><td class='nm'>Mason Taylor<span class='pos'>TE</span></td><td>3.0</td><td>30.1</td><td class='mut'>—</td></tr><tr><td class='tm'>NYJ</td><td class='nm'>Adonai Mitchell<span class='pos'>WR</span></td><td>2.3</td><td>29.8</td><td class='mut'>—</td></tr><tr><td class='tm'>TEN</td><td class='nm'>Wan&#x27;Dale Robinson<span class='pos'>WR</span></td><td>3.7</td><td>43.9</td><td class='mut'>—</td></tr><tr><td class='tm'>TEN</td><td class='nm'>Tony Pollard<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>42.8</td></tr><tr><td class='tm'>TEN</td><td class='nm'>Tyjae Spears<span class='pos'>RB</span></td><td>2.2</td><td>15.7</td><td>17.3</td></tr><tr><td class='tm'>TEN</td><td class='nm'>Elic Ayomanor<span class='pos'>WR</span></td><td>2.2</td><td>26.6</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">ARI @ LAC</span>
+    <span class="meta">2026-09-13 · market: LAC -11.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>ARI</td><td class='nm'>Trey McBride<span class='pos'>TE</span></td><td>5.0</td><td>53.3</td><td class='mut'>—</td></tr><tr><td class='tm'>ARI</td><td class='nm'>Michael Wilson<span class='pos'>WR</span></td><td>3.3</td><td>43.3</td><td class='mut'>—</td></tr><tr><td class='tm'>ARI</td><td class='nm'>Trey Benson<span class='pos'>RB</span></td><td>2.4</td><td>17.6</td><td>20.2</td></tr><tr><td class='tm'>ARI</td><td class='nm'>James Conner<span class='pos'>RB</span></td><td>1.9</td><td>13.9</td><td>26.1</td></tr><tr><td class='tm'>LAC</td><td class='nm'>Omarion Hampton<span class='pos'>RB</span></td><td>2.8</td><td>21.4</td><td>35.8</td></tr><tr><td class='tm'>LAC</td><td class='nm'>Ladd McConkey<span class='pos'>WR</span></td><td>3.6</td><td>46.6</td><td class='mut'>—</td></tr><tr><td class='tm'>LAC</td><td class='nm'>Quentin Johnston<span class='pos'>WR</span></td><td>3.5</td><td>48.7</td><td class='mut'>—</td></tr><tr><td class='tm'>LAC</td><td class='nm'>Oronde Gadsden II<span class='pos'>TE</span></td><td>3.0</td><td>34.9</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">MIA @ LV</span>
+    <span class="meta">2026-09-13 · market: LV -3.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>MIA</td><td class='nm'>De&#x27;Von Achane<span class='pos'>RB</span></td><td>3.9</td><td>30.4</td><td>51.6</td></tr><tr><td class='tm'>MIA</td><td class='nm'>Greg Dulcich<span class='pos'>TE</span></td><td>2.6</td><td>28.9</td><td class='mut'>—</td></tr><tr><td class='tm'>MIA</td><td class='nm'>Malik Washington<span class='pos'>WR</span></td><td>2.5</td><td>26.1</td><td class='mut'>—</td></tr><tr><td class='tm'>MIA</td><td class='nm'>Theo Wease Jr.<span class='pos'>WR</span></td><td>2.1</td><td>27.7</td><td class='mut'>—</td></tr><tr><td class='tm'>LV</td><td class='nm'>Ashton Jeanty<span class='pos'>RB</span></td><td>2.7</td><td>19.1</td><td>65.7</td></tr><tr><td class='tm'>LV</td><td class='nm'>Brock Bowers<span class='pos'>TE</span></td><td>4.0</td><td>42.3</td><td class='mut'>—</td></tr><tr><td class='tm'>LV</td><td class='nm'>Albert Okwuegbunam<span class='pos'>TE</span></td><td>3.4</td><td>34.3</td><td class='mut'>—</td></tr><tr><td class='tm'>LV</td><td class='nm'>Tre Tucker<span class='pos'>WR</span></td><td>2.7</td><td>33.1</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">GB @ MIN</span>
+    <span class="meta">2026-09-13 · market: MIN +1.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>GB</td><td class='nm'>Josh Jacobs<span class='pos'>RB</span></td><td>2.1</td><td>15.9</td><td>63.4</td></tr><tr><td class='tm'>GB</td><td class='nm'>Tucker Kraft<span class='pos'>TE</span></td><td>3.3</td><td>38.7</td><td class='mut'>—</td></tr><tr><td class='tm'>GB</td><td class='nm'>Christian Watson<span class='pos'>WR</span></td><td>2.9</td><td>41.2</td><td class='mut'>—</td></tr><tr><td class='tm'>GB</td><td class='nm'>Jayden Reed<span class='pos'>WR</span></td><td>2.5</td><td>30.5</td><td class='mut'>—</td></tr><tr><td class='tm'>MIN</td><td class='nm'>Justin Jefferson<span class='pos'>WR</span></td><td>3.8</td><td>48.4</td><td class='mut'>—</td></tr><tr><td class='tm'>MIN</td><td class='nm'>Aaron Jones<span class='pos'>RB</span></td><td>2.1</td><td>15.8</td><td>33.5</td></tr><tr><td class='tm'>MIN</td><td class='nm'>Jauan Jennings<span class='pos'>WR</span></td><td>2.9</td><td>35.2</td><td class='mut'>—</td></tr><tr><td class='tm'>MIN</td><td class='nm'>Jordan Addison<span class='pos'>WR</span></td><td>2.6</td><td>34.2</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">WAS @ PHI</span>
+    <span class="meta">2026-09-13 · market: PHI -4.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>WAS</td><td class='nm'>Rachaad White<span class='pos'>RB</span></td><td>1.6</td><td>12.1</td><td>27.0</td></tr><tr><td class='tm'>WAS</td><td class='nm'>Terry McLaurin<span class='pos'>WR</span></td><td>2.5</td><td>37.7</td><td class='mut'>—</td></tr><tr><td class='tm'>WAS</td><td class='nm'>Chig Okonkwo<span class='pos'>TE</span></td><td>2.3</td><td>25.5</td><td class='mut'>—</td></tr><tr><td class='tm'>WAS</td><td class='nm'>Jacory Croskey-Merritt<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>36.1</td></tr><tr><td class='tm'>PHI</td><td class='nm'>Saquon Barkley<span class='pos'>RB</span></td><td>2.1</td><td>16.3</td><td>60.6</td></tr><tr><td class='tm'>PHI</td><td class='nm'>DeVonta Smith<span class='pos'>WR</span></td><td>3.4</td><td>47.0</td><td class='mut'>—</td></tr><tr><td class='tm'>PHI</td><td class='nm'>Dallas Goedert<span class='pos'>TE</span></td><td>3.2</td><td>34.1</td><td class='mut'>—</td></tr><tr><td class='tm'>PHI</td><td class='nm'>Marquise Brown<span class='pos'>WR</span></td><td>2.4</td><td>31.5</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">DAL @ NYG</span>
+    <span class="meta">2026-09-13 · market: NYG +2.5</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>DAL</td><td class='nm'>CeeDee Lamb<span class='pos'>WR</span></td><td>4.5</td><td>61.6</td><td class='mut'>—</td></tr><tr><td class='tm'>DAL</td><td class='nm'>Javonte Williams<span class='pos'>RB</span></td><td>2.1</td><td>13.9</td><td>54.7</td></tr><tr><td class='tm'>DAL</td><td class='nm'>George Pickens<span class='pos'>WR</span></td><td>4.2</td><td>59.7</td><td class='mut'>—</td></tr><tr><td class='tm'>DAL</td><td class='nm'>Jake Ferguson<span class='pos'>TE</span></td><td>3.7</td><td>32.9</td><td class='mut'>—</td></tr><tr><td class='tm'>NYG</td><td class='nm'>Cam Skattebo<span class='pos'>RB</span></td><td>2.2</td><td>17.1</td><td>41.8</td></tr><tr><td class='tm'>NYG</td><td class='nm'>Malik Nabers<span class='pos'>WR</span></td><td>3.4</td><td>45.9</td><td class='mut'>—</td></tr><tr><td class='tm'>NYG</td><td class='nm'>Tyrone Tracy Jr.<span class='pos'>RB</span></td><td>1.8</td><td>13.8</td><td>39.3</td></tr><tr><td class='tm'>NYG</td><td class='nm'>Theo Johnson<span class='pos'>TE</span></td><td>2.3</td><td>24.8</td><td class='mut'>—</td></tr></tbody></table>
+</div>
+<div class="card">
+  <div class="ch"><span class="matchup">DEN @ KC</span>
+    <span class="meta">2026-09-14 · market: KC -3.0</span></div>
+  <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
+  <tbody><tr><td class='tm'>DEN</td><td class='nm'>Courtland Sutton<span class='pos'>WR</span></td><td>3.3</td><td>40.7</td><td class='mut'>—</td></tr><tr><td class='tm'>DEN</td><td class='nm'>RJ Harvey<span class='pos'>RB</span></td><td>2.2</td><td>15.2</td><td>25.7</td></tr><tr><td class='tm'>DEN</td><td class='nm'>J.K. Dobbins<span class='pos'>RB</span></td><td class='mut'>—</td><td class='mut'>—</td><td>50.8</td></tr><tr><td class='tm'>DEN</td><td class='nm'>Jaylen Waddle<span class='pos'>WR</span></td><td>3.0</td><td>36.8</td><td class='mut'>—</td></tr><tr><td class='tm'>KC</td><td class='nm'>Rashee Rice<span class='pos'>WR</span></td><td>4.8</td><td>59.9</td><td class='mut'>—</td></tr><tr><td class='tm'>KC</td><td class='nm'>Travis Kelce<span class='pos'>TE</span></td><td>3.6</td><td>39.3</td><td class='mut'>—</td></tr><tr><td class='tm'>KC</td><td class='nm'>Kenneth Walker III<span class='pos'>RB</span></td><td>1.6</td><td>12.1</td><td>42.4</td></tr><tr><td class='tm'>KC</td><td class='nm'>Xavier Worthy<span class='pos'>WR</span></td><td>2.6</td><td>32.9</td><td class='mut'>—</td></tr></tbody></table>
+</div></div>
+
+  <div class="sect">
+    <h2>THE ENGINE</h2>
+    <p>Usage first: how many plays a team runs and who gets the targets and carries, blended
+    from 2025 per-game rates and re-mapped to 2026 rosters. Efficiency is shrunk toward
+    position averages, adjusted for the opposing defense at half weight, and every player's
+    numbers are forced to add up to their team's totals. Projections are then recalibrated
+    against a full season of walk-forward testing.</p>
+    <ul>
+      <li>Rookies have no NFL data and are not projected yet (82 unsigned/retired players dropped in re-mapping).</li>
+      <li>Week 1 runs on 2025 data — expect the widest error bars of the year.</li>
+      <li>Passing-yard props are permanently out: four separate tests said the market knows better.</li>
+    </ul>
+  </div>
+
+  <div class="sect"><h2>MODEL UPDATES</h2><div class='logrow'><span class='ld'>2026-08-06</span><span class='lt'>THE NFL BOARD IS LIVE - WEEK 1 PROJECTIONS UP</span><p>The board has a football page. Week 1 projections for all 16 games are posted - receptions, receiving yards and rushing yards for every meaningful skill player, built from last season&#x27;s usage mapped onto this season&#x27;s rosters, so trades and signings land where they should. Read the banner before anything else: this is PAPER MODE. These are projections, not picks; there is no bet window yet, and the whole first season is a public tryout - every eventual paper pick logged, graded and published, the same apprenticeship the baseball model served before its first real dollar. Two honest warnings on the page itself: rookies have no NFL history and are not projected yet, and week one runs entirely on last season&#x27;s data, so the error bars are the widest they will be all year.</p></div><div class='logrow'><span class='ld'>2026-08-06</span><span class='lt'>THE OPENING-LINE TEST: THE MARKET DRIFTS TOWARD OUR NUMBER</span><p>A subscriber-grade question from Myles: if the picks break even against the final line, they should be ahead of the early line - so test it. The same four weeks of prop lines were pulled again, this time as they stood three days before kickoff, and the same picks were graded against both. He was right about the direction: identical picks score about a point better against the early line than the late one. The finding that matters more, though, is which way the lines MOVED. When a receptions line changed between Tuesday and kickoff, it moved toward our projection 21 times out of 27 - and rushing lines followed us 58% of the time. In this business that is the tell: the market spending all week correcting toward your number means your number was ahead of it. Passing yards showed the mirror image - the market moved away from us, its final verdict on that market, which is now dropped for good. The plan is unchanged in discipline and sharpened in focus: a full paper season on receptions, receiving yards and rushing yards, with picks made early in the week when the value exists, every one logged and graded, no money until half a season proves it.</p></div><div class='logrow'><span class='ld'>2026-08-06</span><span class='lt'>WORKHORSE-BACK FIX + FIRST TEST AGAINST REAL PROP LINES</span><p>Two updates in one day. First, the running back lowball was diagnosed and fixed: the engine was splitting carries across four backs even in weeks when two of them were in street clothes. Inactive lists are public before kickoff, so the projector now removes ruled-out players and hands their work to whoever remains - the average error on workhorse backs dropped from 15 yards to essentially zero. Second, the real test: projections for four Sunday slates of last season were compared against the actual prop lines posted two minutes before kickoff, nearly a thousand player lines across receptions, receiving yards, rushing yards and passing yards. The verdict is a perfect coin flip: 490 wins, 446 losses, 52.35% where 52.38% is breakeven after the book&#x27;s cut. Inside that flat number there is one live lead - receptions picks hit 53.8%, and the engine&#x27;s bigger disagreements with the line won 58% of the time, which is the shape a real edge takes - and one confirmed casualty: passing-yard picks lost outright and are dropped from consideration. Next step is the same discipline the baseball model earned its record with: a full paper season on receiving props only, every pick logged and graded in public, not a dollar at stake until the numbers prove out.</p></div><div class='logrow'><span class='ld'>2026-08-06</span><span class='lt'>PIVOT: PLAYER PROPS ARE NOW THE PRODUCT</span><p>The football project has a new primary target: player props - receptions, receiving yards, rushing yards - instead of game spreads. The reasoning is the record itself: four seasons of honest testing showed the point-spread market gives up nothing, while props are a famously softer market with hundreds of lines a week and books that limit winners, which tells you who usually wins there. The engine is a usage-first projector built by hand: how many plays a team runs, who gets the targets and carries, everyone&#x27;s efficiency pulled toward position averages, adjusted for the defense across the field, with every player&#x27;s numbers forced to add up to the team&#x27;s totals. It was immediately put through the same discipline as everything else - project every week of last season using only what was knowable at the time, then compare against what actually happened. First honest results: the engine beats a simple per-game average on receptions and receiving yards, loses slightly on rushing and passing yards, and has a known flaw to fix - it lowballs workhorse running backs by about 15 yards a game. Nothing is bet, nothing is texted; next milestone is testing projections against real posted prop lines.</p></div><div class='logrow'><span class='ld'>2026-08-01</span><span class='lt'>THE SPREAD IS NOW OFFICIALLY THE PRODUCT</span><p>Clarified the football model&#x27;s job description: it is a point-spread model. It builds its own number for every game, compares that to the posted spread, and speaks in the spread market&#x27;s language - how likely each side is to cover, how likely the game lands exactly on the number, and the edge after the book&#x27;s cut. Building this the honest way immediately taught two lessons. One: games really do land on the famous numbers - at spreads of 3 or 7 about one game in ten pushes, and the first version of the math expected a third of that; it now carries a per-number push table learned from a decade of history. Two, and more important: when the model&#x27;s cover confidence was tested against reality, its boldest opinions were worthless - so a calibration layer now converts raw disagreement into how often disagreements of that size have actually won. The calibrated answer is humbling and correct: roughly 48 to 50 percent on essentially every game, which is the model telling us it has no spread edge yet. A model that admits that is worth more than one that lies, because the same machinery will report honestly the day something real shows up. Win-odds numbers still exist as a byproduct, but the spread is the deliverable.</p></div><div class='logrow'><span class='ld'>2026-08-01</span><span class='lt'>FEATURE REBUILD + MODEL TOURNAMENT: LINEAR WINS, MARKET STILL UNDEFEATED</span><p>The football model was rebuilt with a wider set of ingredients - drive efficiency, success rate, turnover tendencies, scoring form, and for the first time quarterback continuity, which proved the old football adage: teams starting a new quarterback lose by 1.5 on average while stable ones win by 2.2. Every ingredient then had to earn its spot on unseen games, and most did not: turnovers and scoring form add nothing once efficiency is known, and the final model keeps just three team signals. Four different types of prediction engine were also raced head to head on four unseen seasons; the simplest one won, and the fancier tree-based engines lost outright - same lesson the baseball model taught. Bottom line: our standalone rating improved from 9.94 to 9.85 points of average error, the closing line sits at 9.49, and nothing we have built adds information the market lacks. No edge is claimed. One tree model did post a flashy 53.7% against the spread; it is flagged in the report as almost certainly luck, and will be re-tested rather than believed.</p></div></div>
+
+  <div class="foot">Generated 2026-08-06 · football-model · paper season ·
+  <a href="board.html">MLB board</a></div>
+</div></body></html>
