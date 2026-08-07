@@ -358,14 +358,9 @@ body.light .newsitem img{filter:none}
 </head>
 <body>
 <div class="frame">
-  <div id="sportnav"></div><script src="nav.js"></script>
-  <div class="marquee">
-    <h1>THE BOARD</h1>
-    <div class="searchbox"><input id="psearch" placeholder="► SEARCH PLAYERS…" autocomplete="off">
-      <div class="sr" id="sr" style="display:none"></div></div>
-    <span class="sub" id="mq-sub">LOADING…</span>
-    <span class="modebtn" id="modebtn" title="light/dark">☀</span>
-  </div>
+  <div id="shell"></div>
+  <script>window.SHELL={sport:'mlb',sub:'LOADING…',ownUI:false}</script>
+  <script src="shell.js"></script>
   <div class="stats" id="stats"></div>
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
   <div class="showcase" id="showcase" style="display:none"><div class="sc-grid" id="sc-grid"></div></div>
