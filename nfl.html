@@ -73,13 +73,21 @@ td.nm .pos{color:var(--mut);font-size:11px;margin-left:6px}
 .pname .pos{color:var(--mut);font-size:11px;margin-left:6px}
 .pseason{font-family:'VT323',monospace;font-size:13px;color:var(--mut);margin-top:1px}
 .mkts{display:flex;gap:14px;margin-top:6px;flex-wrap:wrap}
-.mkt{min-width:118px}
+.mkt{min-width:150px}
 .mkt .ml{font-family:'VT323',monospace;font-size:11px;color:var(--mut);letter-spacing:.08em}
 .mkt .mv{font-family:'VT323',monospace;font-size:20px;color:var(--phos)}
 .mkt .ou{font-family:'VT323',monospace;font-size:12.5px;margin-top:1px}
-.ou .o{color:var(--phos)} .ou .u{color:var(--hot)} .ou .pct{color:var(--mut);margin-left:4px}
-.oubar{height:4px;background:#3a0d0d;border-radius:2px;margin-top:3px;overflow:hidden}
-.oubar i{display:block;height:100%;background:var(--phos-dim)}
+.ou .o{color:var(--chart-o)} .ou .u{color:var(--chart-u)} .ou .pct{color:var(--mut);margin-left:4px}
+/* game-log bar chart: one bar per 2025 game; solid = OVER the projection,
+   hollow = UNDER (shape carries the split, color reinforces); dashed amber
+   reference line = today's projection. Colors validated for CVD both modes. */
+:root{--chart-o:#2bff64;--chart-u:#ff2020}
+body.light{--chart-o:#0a7a34;--chart-u:#c2410c}
+.oulog{display:block;margin-top:4px}
+.oulog rect.ob{fill:var(--chart-o)}
+.oulog rect.ub{fill:none;stroke:var(--chart-u);stroke-width:1.4}
+.oulog line.pl{stroke:var(--amber);stroke-width:1.2;stroke-dasharray:3 2;opacity:.9}
+.oulog line.bl{stroke:var(--mut);stroke-width:1;opacity:.45}
 .ovnote{padding:10px 20px;border-top:1px solid var(--line);font-family:'VT323',monospace;font-size:13px;color:var(--mut)}
 /* light mode ("print edition") -- shell.js toggles body.light, same as the MLB board */
 body.light{--phos:#0a7a34;--phos-dim:#67916f;--amber:#a35600;--hot:#c41414;--ink:#14171c;
@@ -330,12 +338,31 @@ function ou(arr, line){
   var pct=Math.round(100*o/(o+u));
   return {o:o,u:u,pct:pct};
 }
+function logChart(arr, proj){
+  if(!arr.length) return "";
+  var bw=7, gap=2, h=46, pad=3;
+  var w=arr.length*(bw+gap)-gap;
+  var ymax=Math.max(proj*1.15, Math.max.apply(null,arr), 1);
+  function y(v){ return h - pad - (v/ymax)*(h-2*pad); }
+  var bars="";
+  for(var i=0;i<arr.length;i++){
+    var v=arr[i], over=v>proj;
+    var top=y(v), bh=Math.max(h-pad-top, 1.5);
+    bars+="<rect class='"+(over?"ob":"ub")+"' x='"+(i*(bw+gap))+"' y='"+(h-pad-bh).toFixed(1)+
+      "' width='"+bw+"' height='"+bh.toFixed(1)+"' rx='1.5'>"+
+      "<title>G"+(i+1)+" · "+v+" ("+(over?"OVER":"UNDER")+" "+proj.toFixed(1)+")</title></rect>";
+  }
+  var py=y(proj).toFixed(1);
+  return "<svg class='oulog' width='"+w+"' height='"+h+"' viewBox='0 0 "+w+" "+h+"'>"+
+    "<line class='bl' x1='0' y1='"+(h-pad)+"' x2='"+w+"' y2='"+(h-pad)+"'/>"+bars+
+    "<line class='pl' x1='0' y1='"+py+"' x2='"+w+"' y2='"+py+"'><title>projection "+proj.toFixed(1)+"</title></line></svg>";
+}
 function mkt(label, proj, arr, games, show){
   if(!show) return "";
   var avg=games? (arr.reduce(function(a,b){return a+b},0)/games) : 0;
   var r=ou(arr, proj);
   var ouHtml=r? "<div class='ou'><span class='o'>O "+r.o+"</span> / <span class='u'>U "+r.u+"</span>"+
-    "<span class='pct'>"+r.pct+"%</span></div><div class='oubar'><i style='width:"+r.pct+"%'></i></div>"
+    "<span class='pct'>"+r.pct+"%</span></div>"+logChart(arr, proj)
     : "<div class='ou'><span class='pct'>no 2025 log</span></div>";
   return "<div class='mkt'><div class='ml'>"+label+"</div><div class='mv'>"+proj.toFixed(1)+"</div>"+
          "<div class='ou pseason'>avg "+avg.toFixed(1)+"</div>"+ouHtml+"</div>";
