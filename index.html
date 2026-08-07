@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BOARD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--phos:#2bff64;--phos-dim:#1f7a3d;--amber:#ffb000;--hot:#ff2020;--ink:#f2f2f2;--mut:#5c5c5c;--line:#1c1c1c}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;min-height:100%}
+body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.5vw,40px) 40px}
+.frame{max-width:1100px;margin:0 auto}
+.marquee{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#0a0a0a;border:1px solid var(--line);padding:8px 18px;margin-bottom:14px;flex-wrap:wrap}
+.marquee h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.38em;font-weight:400}
+.marquee .sub{font-family:'VT323',monospace;font-size:18px;color:var(--phos);text-shadow:0 0 8px rgba(43,255,100,.5)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.sport{display:block;background:#0a0a0a;border:1px solid var(--line);padding:20px;text-decoration:none;color:var(--ink)}
+.sport:hover{border-color:var(--phos-dim)}
+.sport h2{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.2em;color:var(--phos)}
+.sport.paper h2{color:var(--amber)}
+.sport .st{font-family:'VT323',monospace;font-size:15px;color:var(--mut);margin-top:4px;display:block}
+.sport p{font-size:13px;color:#b5b5b5;margin-top:10px;line-height:1.5}
+.sport.soon{opacity:.4;pointer-events:none}
+.sport.soon h2{color:#3a3a3a}
+.foot{margin-top:18px;font-family:'VT323',monospace;font-size:14px;color:var(--mut)}
+</style>
+</head>
+<body><div class="frame">
+  <div id="sportnav"></div><script src="nav.js"></script>
+  <div class="marquee">
+    <h1>THE BOARD</h1>
+    <span class="sub">HONEST RECORDS · EVERY PICK GRADED · MISTAKES PUBLISHED</span>
+  </div>
+  <div class="cards">
+    <a class="sport" href="board.html">
+      <h2>MLB</h2><span class="st">● LIVE — real plays, real record</span>
+      <p>V2 calibrated model. Every pick texted at lock, graded at the price sent,
+      audited weekly. The record is the record.</p>
+    </a>
+    <a class="sport paper" href="nfl.html">
+      <h2>NFL</h2><span class="st">● PAPER — shadow season 2026</span>
+      <p>Usage-first player props: receptions, receiving yards, rushing yards.
+      Projections up for Week 1. No money until half a season proves it.</p>
+    </a>
+    <a class="sport soon" href="#"><h2>NBA</h2><span class="st">COMING</span></a>
+    <a class="sport soon" href="#"><h2>NCAAM</h2><span class="st">COMING</span></a>
+    <a class="sport soon" href="#"><h2>NHL</h2><span class="st">COMING</span></a>
+    <a class="sport soon" href="#"><h2>SOCCER</h2><span class="st">MAYBE</span></a>
+  </div>
+  <div class="foot">one site, every sport, same rules: walk-forward or it didn't happen.</div>
+</div></body></html>
