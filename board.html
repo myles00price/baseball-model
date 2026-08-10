@@ -1013,12 +1013,27 @@ async function loadLedger(){
     const F=A.f5_shadow, n=F.w+F.l+F.push;
     document.getElementById("lg-f5-box").style.display="block";
     const head=`<div><span>PAPER RECORD</span><span class="${F.pnl>=0?"grn":"red"}">${F.w}-${F.l}${F.push?"-"+F.push+"p":""} · ${F.pnl>=0?"+$":"-$"}${Math.abs(F.pnl)} · ${F.roi>=0?"+":""}${F.roi}%</span></div>`
-      +`<div><span>SAMPLE</span><span class="amb">${n}/${F.target} — DECISION AT ${F.target}</span></div>`
-      +(n===0?`<div><span style="color:var(--mut)">COLLECTING — FLAGS LOG AS GAMES LOCK</span><span></span></div>`:"");
+      +`<div><span>SAMPLE</span><span class="amb">${n}/${F.target} — DECISION AT ${F.target}</span></div>`;
     const rows=(F.recent||[]).slice().reverse().map(b=>
       `<div><span>${b.d.slice(5)} ${AB[b.t]||b.t} ${b.o>0?"+":""}${b.o} F5</span>
        <span class="${b.r==="W"?"grn":b.r==="L"?"red":"amb"}">${b.r} ${b.p>=0?"+$":"-$"}${Math.abs(b.p)}</span></div>`).join("");
-    document.getElementById("lg-f5").innerHTML=head+rows;
+    // today's paper flags from the live shadow file (clearly marked, never official)
+    let today="";
+    const sd=boardDate||lvDate(0);
+    const sj=await tryFetch(`f5_shadow_${sd}.json`)||await tryFetch(`${REPO}/f5_shadow_${sd}.json`);
+    if(sj){try{
+      const S=JSON.parse(sj);
+      const flags=Object.values(S).filter(r=>r.flag);
+      const lbl=`<div style="border-bottom:1px solid #1c1c1c;color:var(--mut);font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:11px;padding-top:6px">TODAY'S PAPER FLAGS · ${sd.slice(5)} · NOT PLAYS</div>`;
+      today=lbl+(flags.length?flags.map(r=>{
+        const tm=r.flag==="away"?r.away:r.home;
+        const best=r.flag==="away"?r.best_away:r.best_home;
+        const e=r.flag==="away"?r.dv_edge_away:r.dv_edge_home;
+        return`<div><span>${AB[tm]||tm} FIRST-5 ${best&&best[1]>0?"+":""}${best?best[1]:"—"}</span>
+         <span class="amb">PAPER · ${e>0?"+":""}${e}%${r.locked?" 🔒":""}</span></div>`;}).join("")
+        :`<div><span style="color:var(--mut)">NO PAPER FLAGS ON THIS SLATE</span><span></span></div>`);
+    }catch{}}
+    document.getElementById("lg-f5").innerHTML=head+today+rows;
   }
   // teams
   const tr=(lbl,arr,f)=>`<div style="border-bottom:1px solid #1c1c1c;color:var(--mut);font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:11px;padding-top:6px">${lbl}</div>`
