@@ -1,6 +1,11 @@
 [
  {
   "d": "2026-08-10",
+  "t": "F5 SHADOW LAUNCHED - FIRST-5-INNINGS MODEL ON PAPER",
+  "x": "The loss autopsy showed our losses die early: games decided in the starter innings, exactly where the model's features live. Follow-up test: scored against 683 live games, the model predicts the FIRST FIVE INNINGS winner at 57.7% vs 53.2% for full games. Starters own innings 1-5; every inning after that adds bullpen noise the model does not handicap. So we built a second head: same four features, retrained to predict the first-5 winner, and pointed it at real first-5 moneyline prices from four books. The catch that keeps this on paper: F5 markets are priced off the same starter stats we use and charge about a point more vig, so higher accuracy does not automatically mean profit. It now logs shadow bets every slate - no money, no texts - and the ledger is public in THE LEDGER below. Decision after 50+ paper flags. The de-vig experiment taught us why: its backtest said +8.6%, its live ledger said no. Everything earns its way in live or stays out."
+ },
+ {
+  "d": "2026-08-10",
   "t": "LOSS AUTOPSY - NO HIDDEN FLAW FOUND",
   "x": "We put every graded loss under the microscope looking for what they share: price range, edge size, home/away, claimed confidence, starter quality, bullpen freshness, lineup strength, park, line movement. The honest headline: losses look almost exactly like wins. The model was NOT more confident on its losses (53.7% claimed vs 54.7% on wins), edges were the same size, and starter metrics were nearly identical - there is no cluster of games where the model was fooled in a diagnosable way. One suspect did emerge: losses skewed toward games where the OPPONENT'S bullpen had been fresher over the prior week. So we ran the full walk-forward trial - does 7-day bullpen ERA improve predictions on top of the model? Answer: no. Slightly worse, in fact. Week-old bullpen ERA is too noisy to carry signal; the cluster was small-sample coincidence. What survives: a smarter fatigue measure (actual pitches thrown, days of rest) is still on the candidate list, and home-side plays running cooler than road plays stays on the watch list. Every suspicion gets the same trial; this one came back clean."
  },

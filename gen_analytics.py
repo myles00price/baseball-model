@@ -146,8 +146,17 @@ def main():
                     sh = str(row.get("Sharp Signal", ""))
                     _xadd("sharp-conf" if "CONFIRMED" in sh else "sharp-na", bwon, bprofit)
 
+    # F5 shadow ledger (paper only — see f5_shadow.py)
+    try:
+        import f5_shadow
+        f5 = f5_shadow.grade_all()
+    except Exception as e:
+        print(f"F5 shadow grading skipped: {e}")
+        f5 = None
+
     out = {
         "days": days,
+        "f5_shadow": f5,
         "season_flagged": {"w": sb_w, "l": len(sb) - sb_w,
                            "pnl": round(sum(g["bet_profit"] for g in sb))},
         "split_season": split(games), "split_v2": split(v2games),

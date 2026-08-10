@@ -18,6 +18,7 @@ from lineup_stats import get_platoon_lineup_ops
 from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
 from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX, commence_lv_date
+import f5_shadow  # SHADOW ONLY — logs would-be F5 plays, never texts/flags real bets
 
 # ─────────────────────────────────────────────────────────────
 # master_v2.py — V2 inference. Four fixes vs master.py:
@@ -255,6 +256,12 @@ def run_model(target_date, save_csv=True):
                             odds_lookup[team] = {}
                         odds_lookup[team][bk] = outcome["price"]
 
+    # F5 SHADOW: event ids for per-game F5 odds calls (map itself is free)
+    f5_events = f5_shadow.event_id_map(odds_resp, target_str)
+    f5_on = f5_shadow.f5_available()
+    if not f5_on:
+        print("F5 shadow: model_f5.pkl not found - shadow capture skipped")
+
     schedule = requests.get(
         "https://statsapi.mlb.com/api/v1/schedule",
         params={"sportId": 1, "date": target_str, "hydrate": "probablePitcher"}
@@ -368,6 +375,10 @@ def run_model(target_date, save_csv=True):
                                     else "✅ FINAL" if game_status == "Final"
                                     else "🔒 TEXTED/LOCKED")
                     print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
+                if f5_on:
+                    # game locked -> freeze its F5 shadow row at last snapshot
+                    f5_shadow.capture(target_str, game_key, None, away, home,
+                                      None, False, False, frozen=True)
                 continue
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
@@ -556,6 +567,25 @@ def run_model(target_date, save_csv=True):
             print(f"  Home SP: {home_str}")
             print("-" * 75)
 
+            # ── F5 SHADOW capture (paper only, same gates, de-vig window) ──
+            if f5_on and home_prob is not None and home_stats and away_stats:
+                try:
+                    f5_prob = f5_shadow.predict_f5_home_prob(
+                        home_stats["era"], home_stats["whip"],
+                        away_stats["era"], away_stats["whip"],
+                        home_ops, home_kpct, away_ops, away_kpct)
+                    f5_row = f5_shadow.capture(
+                        target_str, game_key, f5_events.get(game_key),
+                        away, home, f5_prob, reliable_away, reliable_home,
+                        frozen=False)
+                    if f5_row and f5_row.get("flag"):
+                        side = f5_row["flag"]
+                        tm = away if side == "away" else home
+                        e = f5_row["dv_edge_away"] if side == "away" else f5_row["dv_edge_home"]
+                        print(f"  🕐 F5 SHADOW (paper): {tm} first-5 ML, de-vig edge {e:+.1f}%")
+                except Exception as e:
+                    print(f"  F5 shadow error (ignored): {e}")
+
             bet_flag = "** BET **" if any(
                 "BET" in str(edge(p, m, r))
                 for p, m, r in [(away_prob, dk_away, reliable_away),
@@ -602,6 +632,8 @@ def run_model(target_date, save_csv=True):
 
     if save_csv:
         save_picks_to_csv(picks, target_str)
+    if f5_on:
+        f5_shadow.save(target_str)
 
 if __name__ == '__main__':
     # Optional YYYY-MM-DD argument (used by notify_pick.py / auto_lineup_push.py

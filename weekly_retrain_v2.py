@@ -102,6 +102,16 @@ def run_weekly_retrain_v2():
     print("NOTE: this number is lower than the old log's 62-64% because the old")
     print("number contained look-ahead. This one is what forward betting sees.")
 
+    # F5 shadow head: top up first-5 outcomes (incremental, free statsapi)
+    # and retrain alongside V2 so the paper ledger stays honest. Must never
+    # block the real retrain.
+    try:
+        import f5_backfill, train_f5
+        f5_backfill.main()
+        train_f5.main()
+    except Exception as e:
+        print(f"F5 head retrain skipped: {e}")
+
 
 if __name__ == "__main__":
     run_weekly_retrain_v2()
