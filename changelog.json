@@ -1,5 +1,10 @@
 [
  {
+  "d": "2026-08-10",
+  "t": "LOSS AUTOPSY - NO HIDDEN FLAW FOUND",
+  "x": "We put every graded loss under the microscope looking for what they share: price range, edge size, home/away, claimed confidence, starter quality, bullpen freshness, lineup strength, park, line movement. The honest headline: losses look almost exactly like wins. The model was NOT more confident on its losses (53.7% claimed vs 54.7% on wins), edges were the same size, and starter metrics were nearly identical - there is no cluster of games where the model was fooled in a diagnosable way. One suspect did emerge: losses skewed toward games where the OPPONENT'S bullpen had been fresher over the prior week. So we ran the full walk-forward trial - does 7-day bullpen ERA improve predictions on top of the model? Answer: no. Slightly worse, in fact. Week-old bullpen ERA is too noisy to carry signal; the cluster was small-sample coincidence. What survives: a smarter fatigue measure (actual pitches thrown, days of rest) is still on the candidate list, and home-side plays running cooler than road plays stays on the watch list. Every suspicion gets the same trial; this one came back clean."
+ },
+ {
   "d": "2026-08-06",
   "t": "RECENCY WEIGHTING TESTED - NOT ADOPTED",
   "x": "Second feature idea of the day: weight pitcher stats toward recent starts (last-5 or decaying average) instead of full season. Tested on 649 games with true point-in-time data - only starts BEFORE each game counted. Result: pure recent-form was 2-3 points WORSE than season-to-date; blends were ties. Five starts of ERA is mostly luck - weighting toward it weights toward noise. The idea survives in better form: recent VELOCITY and swing-and-miss stabilize in a single game and can flag a declining arm long before ERA does. That version is on the candidate list with data collection underway. Every idea gets the same trial; most lose; the record is why."
