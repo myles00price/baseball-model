@@ -91,6 +91,7 @@ body.light .sc-news a{color:#1a56b0}
 .playbar{background:linear-gradient(90deg,#8a6d1a,var(--gold),#8a6d1a);color:#000;
   font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.4em;text-align:center;padding:3px 0 1px}
 .playbar.lean{background:none;color:var(--gold);border-bottom:1px dashed #8a6d1a}
+.playbar.f5p{background:none;color:#c9992b;border-bottom:1px dashed #6b5514;font-size:11px;letter-spacing:.28em;cursor:pointer}
 .card.play.lean-card{border-style:dashed}
 .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;
   font-size:13px;letter-spacing:.14em;padding:7px 12px 5px;border-bottom:1px solid #141414;text-transform:uppercase}
@@ -448,7 +449,23 @@ const chip=e=>{const v=parseFloat(String(e||"").replace("** BET **","").replace(
   if(isNaN(v))return"<span class='chip dim'>—</span>";
   return`<span class="chip ${v>=3?"pos":v<0?"neg":"dim"}">${v>0?"+":""}${v.toFixed(1)}</span>`};
 
-let boardDate=null,picks=[],locked=new Set(),liveMap={};
+let boardDate=null,picks=[],locked=new Set(),liveMap={},f5flags={};
+
+async function loadF5Flags(){
+  f5flags={};
+  if(!boardDate)return;
+  const t=await tryFetch(`f5_shadow_${boardDate}.json`)||await tryFetch(`${REPO}/f5_shadow_${boardDate}.json`);
+  if(!t)return;
+  try{
+    const S=JSON.parse(t);
+    for(const [k,r] of Object.entries(S)){
+      if(!r.flag)continue;
+      const tm=r.flag==="away"?r.away:r.home;
+      const best=r.flag==="away"?r.best_away:r.best_home;
+      f5flags[k]={tm,price:best?best[1]:null,edge:r.flag==="away"?r.dv_edge_away:r.dv_edge_home,locked:!!r.locked};
+    }
+  }catch{}
+}
 
 async function loadPicks(){
   for(const o of [1,0]){const d=lvDate(o);
@@ -507,8 +524,10 @@ function render(){
     const sh=String(r["Sharp Signal"]||"");
     const shH=sh.includes("CONFIRMED")?"<span class='sharp-c'>SHARP ✓</span>":sh.includes("FADE")?"<span class='sharp-f'>FADE ✗</span>":"";
     const isLocked=locked.has(key);
+    const f5=f5flags[key];
+    const f5bar=f5?`<div class="playbar f5p" onclick="event.stopPropagation();openInfo(event,'f5')">🕐 F5 PAPER · ${AB[f5.tm]||f5.tm} FIRST-5 ${f5.price>0?"+":""}${f5.price??"—"} · ${f5.edge>0?"+":""}${f5.edge}% · NOT A PLAY ⓘ</div>`:"";
     cards.push(`<div class="card${flagged?(isLocked?" play":" play lean-card"):""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
-      ${flagged?(isLocked?`<div class="playbar">🔒 OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}
+      ${flagged?(isLocked?`<div class="playbar">🔒 OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}${f5bar}
       <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
       <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt="" onclick="event.stopPropagation();openTeam(${TID[away]||0})"><span class="ab">${aab}</span>
         <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
@@ -1168,8 +1187,8 @@ window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if
 
 async function tick(){await loadLive();render();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
-  if(await loadPicks()){loadStats();await tick();await loadNews();renderShowcase();loadLedger();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
-    setInterval(tick,60000);setInterval(async()=>{await loadPicks();render();renderShowcase()},300000)}
+  if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
+    setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase()},300000)}
   else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();
 </script>
