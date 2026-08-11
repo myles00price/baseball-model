@@ -1,5 +1,10 @@
 [
  {
+  "d": "2026-08-11",
+  "t": "BULLPEN EXPOSURE TESTED - NOT ADOPTED",
+  "x": "A subscriber-grade idea: do not just measure bullpen quality - measure how MUCH bullpen each team will need. We estimated every starter's expected innings from his last five starts (the hook), multiplied the leftover innings by recent bullpen ERA, and asked whether that burden gap predicts winners on top of the model. Walk-forward answer: it makes the model WORSE - 3 to 4 points of accuracy worse - and the hook estimate alone was worse still. That is now three bullpen-family ideas tested and three rejections, which matches everything else we know: our losses are decided in the starter innings, not the late ones. The deeper version (which specific reliever enters, how rested each arm is, platoon-driven hooks) stays on the candidate list but needs months of usage data we are now positioned to collect. Meanwhile the F5 shadow IS the answer to this insight from the other direction: instead of modeling the innings we cannot see, bet only the innings we can."
+ },
+ {
   "d": "2026-08-10",
   "t": "F5 SHADOW LAUNCHED - FIRST-5-INNINGS MODEL ON PAPER",
   "x": "The loss autopsy showed our losses die early: games decided in the starter innings, exactly where the model's features live. Follow-up test: scored against 683 live games, the model predicts the FIRST FIVE INNINGS winner at 57.7% vs 53.2% for full games. Starters own innings 1-5; every inning after that adds bullpen noise the model does not handicap. So we built a second head: same four features, retrained to predict the first-5 winner, and pointed it at real first-5 moneyline prices from four books. The catch that keeps this on paper: F5 markets are priced off the same starter stats we use and charge about a point more vig, so higher accuracy does not automatically mean profit. It now logs shadow bets every slate - no money, no texts - and the ledger is public in THE LEDGER below. Decision after 50+ paper flags. The de-vig experiment taught us why: its backtest said +8.6%, its live ledger said no. Everything earns its way in live or stays out."
