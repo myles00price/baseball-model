@@ -1,6 +1,11 @@
 [
  {
   "d": "2026-08-11",
+  "t": "F5 SHADOW RULES TIGHTENED - LOCKS WITH LINEUPS, FINDS ITS OWN WINDOW",
+  "x": "Three upgrades to the first-5 paper experiment. One: paper flags now lock at the exact moment the real play locks - the lineup-confirmed evaluation. A pre-lineup F5 flag that does not survive that evaluation drops off the site and never enters the ledger, same rule as real leans. Two: only lineup-confirmed paper bets count in the record. Three: instead of assuming the full-game 3-8% betting window transfers to a different market, the ledger now grades EVERY locked game by edge size - so the first-5 market can reveal its own best window from live data. When the sample is big enough, the window we use will be the one the data chose, not the one we inherited."
+ },
+ {
+  "d": "2026-08-11",
   "t": "BULLPEN EXPOSURE TESTED - NOT ADOPTED",
   "x": "A subscriber-grade idea: do not just measure bullpen quality - measure how MUCH bullpen each team will need. We estimated every starter's expected innings from his last five starts (the hook), multiplied the leftover innings by recent bullpen ERA, and asked whether that burden gap predicts winners on top of the model. Walk-forward answer: it makes the model WORSE - 3 to 4 points of accuracy worse - and the hook estimate alone was worse still. That is now three bullpen-family ideas tested and three rejections, which matches everything else we know: our losses are decided in the starter innings, not the late ones. The deeper version (which specific reliever enters, how rested each arm is, platoon-driven hooks) stays on the candidate list but needs months of usage data we are now positioned to collect. Meanwhile the F5 shadow IS the answer to this insight from the other direction: instead of modeling the innings we cannot see, bet only the innings we can."
  },

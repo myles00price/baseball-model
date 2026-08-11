@@ -525,7 +525,7 @@ function render(){
     const shH=sh.includes("CONFIRMED")?"<span class='sharp-c'>SHARP ✓</span>":sh.includes("FADE")?"<span class='sharp-f'>FADE ✗</span>":"";
     const isLocked=locked.has(key);
     const f5=f5flags[key];
-    const f5bar=f5?`<div class="playbar f5p" onclick="event.stopPropagation();openInfo(event,'f5')">🕐 F5 PAPER · ${AB[f5.tm]||f5.tm} FIRST-5 ${f5.price>0?"+":""}${f5.price??"—"} · ${f5.edge>0?"+":""}${f5.edge}% · NOT A PLAY ⓘ</div>`:"";
+    const f5bar=f5?`<div class="playbar f5p" onclick="event.stopPropagation();openInfo(event,'f5')">🕐 F5 PAPER${f5.locked?" 🔒":""} · ${AB[f5.tm]||f5.tm} FIRST-5 ${f5.price>0?"+":""}${f5.price??"—"} · ${f5.edge>0?"+":""}${f5.edge}% · ${f5.locked?"NOT A PLAY":"LOCKS AT LINEUPS"} ⓘ</div>`:"";
     cards.push(`<div class="card${flagged?(isLocked?" play":" play lean-card"):""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
       ${flagged?(isLocked?`<div class="playbar">🔒 OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}${f5bar}
       <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
@@ -1049,10 +1049,16 @@ async function loadLedger(){
         const best=r.flag==="away"?r.best_away:r.best_home;
         const e=r.flag==="away"?r.dv_edge_away:r.dv_edge_home;
         return`<div><span>${AB[tm]||tm} FIRST-5 ${best&&best[1]>0?"+":""}${best?best[1]:"—"}</span>
-         <span class="amb">PAPER · ${e>0?"+":""}${e}%${r.locked?" 🔒":""}</span></div>`;}).join("")
+         <span class="amb">${r.locked?"🔒 PAPER":"PRE-LINEUP · CAN DROP"} · ${e>0?"+":""}${e}%</span></div>`;}).join("")
         :`<div><span style="color:var(--mut)">NO PAPER FLAGS ON THIS SLATE</span><span></span></div>`);
     }catch{}}
-    document.getElementById("lg-f5").innerHTML=head+today+rows;
+    let bkt="";
+    if(F.buckets&&F.buckets.some(b=>b.w+b.l+b.push>0)){
+      bkt=`<div style="border-bottom:1px solid #1c1c1c;color:var(--mut);font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:11px;padding-top:6px">F5 EDGE BUCKETS · FINDING ITS OWN WINDOW</div>`
+        +F.buckets.filter(b=>b.w+b.l+b.push>0).map(b=>
+        `<div><span>${b.b}% EDGE</span><span class="${b.pnl>=0?"grn":"red"}">${b.w}-${b.l}${b.push?"-"+b.push+"p":""} · ${b.pnl>=0?"+$":"-$"}${Math.abs(b.pnl)}</span></div>`).join("");
+    }
+    document.getElementById("lg-f5").innerHTML=head+today+rows+bkt;
   }
   // teams
   const tr=(lbl,arr,f)=>`<div style="border-bottom:1px solid #1c1c1c;color:var(--mut);font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:11px;padding-top:6px">${lbl}</div>`

@@ -312,6 +312,14 @@ def main():
         notified.add(key)
         sent_any = True
         print(f"Notified: {key}")
+        # F5 shadow locks on the same lineup-confirmed evaluation as the
+        # real play. Flags that fell out of the window on that evaluation
+        # are already gone from the row - off the site, out of the ledger.
+        try:
+            import f5_shadow
+            f5_shadow.lock_key(date_str, key)
+        except Exception as e:
+            print(f"F5 lock skipped for {key}: {e}")
 
     save_state(date_str, notified)
 
@@ -320,6 +328,8 @@ def main():
     if did_rerun or sent_any:
         try:
             subprocess.run(["git", "add", f"picks_{date_str}.csv", f"notified_{date_str}.json"], timeout=60)
+            if os.path.exists(f"f5_shadow_{date_str}.json"):
+                subprocess.run(["git", "add", f"f5_shadow_{date_str}.json"], timeout=60)
             subprocess.run(["git", "commit", "-m", f"lineup lock update {date_str}"], timeout=60)
             subprocess.run(["git", "push"], timeout=120)
             print("pushed lock update to site")

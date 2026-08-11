@@ -173,6 +173,24 @@ def save(date_str):
           f"-> {shadow_path(date_str)}")
 
 
+def lock_key(date_str, game_key):
+    """Hard-lock one game's F5 row at the moment its real play texts.
+    Called by notify_pick so the paper bet freezes on the SAME lineup-lock
+    evaluation as the official play (notify_pick reruns master with
+    confirmed lineups just before texting). Pre-lineup flags that did not
+    survive that evaluation are already gone from the row - they drop off
+    the site and never enter the ledger."""
+    rows = load_shadow(date_str)
+    if game_key in rows and not rows[game_key].get("locked"):
+        rows[game_key]["locked"] = True
+        with open(shadow_path(date_str), "w") as f:
+            json.dump(rows, f, indent=1)
+        # keep any in-process cache coherent
+        c = _cache.get(("rows", date_str))
+        if c is not None and game_key in c:
+            c[game_key]["locked"] = True
+
+
 # ── grading ──────────────────────────────────────────────────────────
 
 def f5_results(date_str):
@@ -200,13 +218,21 @@ def _payout(o):
     return o if o > 0 else 10000.0 / abs(o)
 
 
+F5_BUCKETS = (("0-3", 0, 3), ("3-5", 3, 5), ("5-8", 5, 8),
+              ("8-12", 8, 12), ("12+", 12, 999))
+
+
 def grade_all():
-    """Grade every shadow flag at its best captured price. Returns summary
-    for board_analytics.json: record, pushes, pnl, roi, recent bets."""
+    """Grade the paper ledger. Two views, LOCKED (lineup-confirmed) rows only:
+      - headline: flags inside the inherited 3-8 window (the paper 'plays')
+      - buckets:  EVERY locked game's best-edge side graded by edge size,
+                  so F5 can reveal its OWN best window instead of assuming
+                  the full-game one transfers."""
     from glob import glob
     w = l = push = 0
     pnl = 0.0
     bets = []
+    buckets = {b[0]: [0, 0, 0, 0.0] for b in F5_BUCKETS}  # w, l, push, pnl
     for fn in sorted(glob("f5_shadow_2026-*.json")):
         d = fn.replace("f5_shadow_", "").replace(".json", "")
         try:
@@ -215,7 +241,10 @@ def grade_all():
             continue
         res = None
         for k, r in rows.items():
-            if not r.get("flag"):
+            if not r.get("locked"):
+                continue
+            ea, eh = r.get("dv_edge_away"), r.get("dv_edge_home")
+            if ea is None or eh is None:
                 continue
             if res is None:
                 try:
@@ -226,31 +255,55 @@ def grade_all():
             out = res.get(k)
             if out is None:
                 continue
-            side = r["flag"]
-            team = r["away"] if side == "away" else r["home"]
-            best = r.get("best_away") if side == "away" else r.get("best_home")
-            if not best:
+
+            def settle(side):
+                best = r.get("best_away") if side == "away" else r.get("best_home")
+                if not best:
+                    return None
+                if out == "tie":
+                    return "P", 0.0, best
+                if out == side:
+                    return "W", _payout(best[1]), best
+                return "L", -100.0, best
+
+            # bucket view: best-edge side of every locked game
+            side_b, edge_b = ("away", ea) if ea >= eh else ("home", eh)
+            if edge_b > 0:
+                s = settle(side_b)
+                if s:
+                    gr, pr, _ = s
+                    for name, lo, hi in F5_BUCKETS:
+                        if lo <= edge_b < hi:
+                            bk = buckets[name]
+                            bk[0] += gr == "W"; bk[1] += gr == "L"
+                            bk[2] += gr == "P"; bk[3] += pr
+                            break
+
+            # headline ledger: in-window flags only
+            if not r.get("flag"):
                 continue
-            price = best[1]
-            if out == "tie":
-                push += 1
-                gr, pr = "P", 0.0
-            elif out == side:
+            side = r["flag"]
+            s = settle(side)
+            if not s:
+                continue
+            gr, pr, best = s
+            if gr == "W":
                 w += 1
-                pr = _payout(price)
-                gr = "W"
-            else:
+            elif gr == "L":
                 l += 1
-                pr = -100.0
-                gr = "L"
+            else:
+                push += 1
             pnl += pr
-            bets.append({"d": d, "t": team, "o": price, "bk": best[0],
-                         "e": r["dv_edge_away"] if side == "away" else r["dv_edge_home"],
+            bets.append({"d": d, "t": r["away"] if side == "away" else r["home"],
+                         "o": best[1], "bk": best[0],
+                         "e": ea if side == "away" else eh,
                          "r": gr, "p": round(pr)})
     n = w + l
     return {"w": w, "l": l, "push": push, "pnl": round(pnl),
             "roi": round(pnl / ((n + push) * 100) * 100, 1) if (n + push) else 0.0,
-            "target": SAMPLE_TARGET, "recent": bets[-12:]}
+            "target": SAMPLE_TARGET, "recent": bets[-12:],
+            "buckets": [{"b": name, "w": v[0], "l": v[1], "push": v[2],
+                         "pnl": round(v[3])} for name, v in buckets.items()]}
 
 
 if __name__ == "__main__":

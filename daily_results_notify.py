@@ -125,6 +125,12 @@ def main():
     except Exception as e:
         print(f"analytics generation failed: {e}")
 
+    try:  # nightly pitcher-usage collection (data for future bullpen trials)
+        import pen_usage_log
+        pen_usage_log.collect_recent()
+    except Exception as e:
+        print(f"pen usage collection failed: {e}")
+
     if "--stats-only" in sys.argv:
         print("(stats-only: no text sent)")
         return
