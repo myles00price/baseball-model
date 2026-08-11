@@ -123,7 +123,7 @@
    },
    "betmgm": {
     "Boston Red Sox": 140,
-    "Toronto Blue Jays": -175
+    "Toronto Blue Jays": -180
    }
   },
   "best_away": [
@@ -247,37 +247,37 @@
  "Philadelphia Phillies@St. Louis Cardinals": {
   "away": "Philadelphia Phillies",
   "home": "St. Louis Cardinals",
-  "prob_home": 45.3,
+  "prob_home": 40.8,
   "odds": {
    "fanduel": {
-    "Philadelphia Phillies": -168,
-    "St. Louis Cardinals": 136
+    "Philadelphia Phillies": -164,
+    "St. Louis Cardinals": 130
    },
    "draftkings": {
     "Philadelphia Phillies": -175,
     "St. Louis Cardinals": 135
    },
    "williamhill_us": {
-    "Philadelphia Phillies": -170,
-    "St. Louis Cardinals": 140
+    "Philadelphia Phillies": -160,
+    "St. Louis Cardinals": 130
    },
    "betmgm": {
-    "Philadelphia Phillies": -170,
-    "St. Louis Cardinals": 135
+    "Philadelphia Phillies": -160,
+    "St. Louis Cardinals": 130
    }
   },
   "best_away": [
-   "fanduel",
-   -168
+   "williamhill_us",
+   -160
   ],
   "best_home": [
-   "williamhill_us",
-   140
+   "draftkings",
+   135
   ],
-  "dv_edge_away": -5.0,
-  "dv_edge_home": 5.5,
-  "flag": "home",
-  "locked": false
+  "dv_edge_away": 0.6,
+  "dv_edge_home": 0.7,
+  "flag": "",
+  "locked": true
  },
  "Texas Rangers@Los Angeles Angels": {
   "away": "Texas Rangers",
@@ -317,15 +317,15 @@
  "Colorado Rockies@Arizona Diamondbacks": {
   "away": "Colorado Rockies",
   "home": "Arizona Diamondbacks",
-  "prob_home": 53.5,
+  "prob_home": 54.8,
   "odds": {
    "fanduel": {
-    "Arizona Diamondbacks": -168,
-    "Colorado Rockies": 134
+    "Arizona Diamondbacks": -166,
+    "Colorado Rockies": 132
    },
    "draftkings": {
-    "Arizona Diamondbacks": -175,
-    "Colorado Rockies": 135
+    "Arizona Diamondbacks": -166,
+    "Colorado Rockies": 130
    },
    "williamhill_us": {
     "Arizona Diamondbacks": -170,
@@ -344,8 +344,8 @@
    "betmgm",
    -160
   ],
-  "dv_edge_away": 6.7,
-  "dv_edge_home": -5.1,
+  "dv_edge_away": 5.4,
+  "dv_edge_home": -3.8,
   "flag": "away",
   "locked": false
  },
@@ -425,8 +425,8 @@
   "prob_home": 30.1,
   "odds": {
    "fanduel": {
-    "Houston Astros": -190,
-    "San Francisco Giants": 150
+    "Houston Astros": -192,
+    "San Francisco Giants": 152
    },
    "draftkings": {
     "Houston Astros": -195,
@@ -447,10 +447,10 @@
   ],
   "best_home": [
    "fanduel",
-   150
+   152
   ],
   "dv_edge_away": 9.7,
-  "dv_edge_home": -7.6,
+  "dv_edge_home": -7.5,
   "flag": "",
   "locked": false
  },
