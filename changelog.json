@@ -1,6 +1,11 @@
 [
  {
   "d": "2026-08-12",
+  "t": "LONG BALL WATCH GOES LIVE - HOMERS LIGHT UP GREEN AS THEY HAPPEN",
+  "x": "The home-run list now watches the games with you. Once first pitch goes, the board checks the live boxscores each minute - when a listed hitter goes deep, his row lights up green with a blinking marker (steady once his game is final; a second homer updates the count). Nothing about the predictions changes; this is the scoreboard half of a list that now keeps score. Watching which greens light up - and how often the top of the list cashes versus the bottom - is exactly the calibration story the training archive is quietly recording every night."
+ },
+ {
+  "d": "2026-08-12",
   "t": "LONG BALL WATCH STARTS KEEPING SCORE - TRAINING DATA COLLECTION IS ON",
   "x": "The home-run list now grades itself. Every morning the system logs its full slate of predictions - all ~330 eligible hitters, every factor behind each number, and the sportsbook prices - not just the fifteen that make the board. Every night it checks the boxscores and records who actually went deep, who didn't, and who never played. That growing archive is the raw material for a REAL trained home-run model: today's version is honest arithmetic, but arithmetic can't learn which of its inputs matter most or how they interact - a trained model can, and it needs graded examples to learn from. This is the same playbook as the pitch-by-pitch bullpen archive: collect first, hypothesize later, and let every claim face graded results. The display doesn't change today. What changes is that from now on, every number the list publishes is on the record - and when there are enough graded days in the bank, the hand-built math has to beat what the data teaches, or it gets replaced by it."
  },

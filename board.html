@@ -155,6 +155,13 @@ body.light .sc-news a{color:#1a56b0}
 .hr-odds{font-family:'VT323',monospace;font-size:13px;color:var(--phos);letter-spacing:.03em}
 .hr-odds .fair{color:var(--gold)}
 .hr-odds .wnd{color:var(--amber)}
+.ldr.hr-hit{background:linear-gradient(90deg,rgba(43,255,100,.10),transparent 70%);border-left:2px solid var(--phos)}
+.ldr.hr-hit .v{color:var(--phos);text-shadow:0 0 10px rgba(43,255,100,.65)}
+.hr-flag{font-family:'VT323',monospace;font-size:14px;color:var(--phos);border:1px solid #0d5c2d;
+  background:#001408;padding:0 6px;margin-left:8px;text-shadow:0 0 7px rgba(43,255,100,.5);animation:blink 1.6s infinite}
+.hr-flag.done{animation:none}
+body.light .ldr.hr-hit{background:#e7f3e9;border-left-color:#0a7a34}
+body.light .hr-flag{background:#e7f3e9;border-color:#9dc7a8;color:#0a6e30}
 
 /* ── gameday extras ── */
 .wx{font-family:'VT323',monospace;font-size:15px;color:var(--mut);text-align:center;padding:0 16px 10px;letter-spacing:.05em}
@@ -767,7 +774,7 @@ eq:{t:"EQUITY CURVE",b:"Cumulative profit day by day since V2 launched, at $100 
 wf:{t:"WALK-FORWARD VALIDATION",b:"Each month predicted by a model trained ONLY on prior months - no peeking at the future. Green is V2, red is the old model, on identical data.",i:"V2 wins or ties 8 of 10 months. This is the honest test that decided the rebuild - in-sample accuracy is easy to fake; walk-forward is not."},
 classes:{t:"BET CLASSES",b:"ALIGNED: the bet is on the team the model picks to win. VALUE-DOG: the model picks one team to win, but the OTHER side's price is so generous it is the profitable bet.",i:"Value dogs lose more often than they win - by design - but the plus-money payouts have made them the most profitable class in the system."},
 buckets:{t:"EDGE BUCKETS",b:"All games bucketed by how much the model disagrees with the de-vigged market price, with the win rate of the model's value side in each bucket.",i:"The signature finding: 3-6% disagreement wins 57.9% and everything above it loses money. The bet window is built directly on this curve - and was tightened to 3-6% on Aug 12, 2026 because of it."},
-hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today. It combines the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), how he hits the opposing starter's throwing hand, that starter's own home-run tendency, the ballpark, the wind when it's blowing out or in at an open-air park, and how many trips to the plate he usually gets. FAIR is the model's probability expressed as American odds; next to it are real 'to hit a home run' prices from the books as they post them. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. When FAIR is shorter than the book's price the model thinks the book is generous - but home-run props carry heavy vig and this display has no live record yet, so treat gaps as entertainment, not edges. Built before lineups post; wind reads update as game time approaches. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
+hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today. It combines the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), how he hits the opposing starter's throwing hand, that starter's own home-run tendency, the ballpark, the wind when it's blowing out or in at an open-air park, and how many trips to the plate he usually gets. FAIR is the model's probability expressed as American odds; next to it are real 'to hit a home run' prices from the books as they post them. Once games go live, a hitter who goes deep lights up green with a 💣 - blinking while his game is in progress, steady once it's final. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. When FAIR is shorter than the book's price the model thinks the book is generous - but home-run props carry heavy vig and this display has no live record yet, so treat gaps as entertainment, not edges. Built before lineups post; wind reads update as game time approaches. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
 f5:{t:"F5 SHADOW · PAPER ONLY",b:"An experimental second model that predicts the FIRST FIVE INNINGS winner instead of the full game, logged on paper against real first-5 moneyline prices. No money, no texts - a shadow ledger only.",i:"Why first 5? The model's features are all about starting pitchers, and starters own innings 1-5. Scored against 683 live games it called F5 winners at 57.7% vs 53.2% for full games. The catch: F5 markets are priced off those same starter stats and charge about a point more vig. So it earns its way in the only honest fashion - paper bets at real prices, judged after 50+ flags. The de-vig experiment looked great in backtest and failed live; this gets the same trial."},
 teams:{t:"TEAM SHEET",b:"The model's accuracy when it picks each team, and its betting record when the flag lands on them (minimum sample applies).",i:"Team-level streaks are mostly noise at this sample size - we track them to catch systematic blind spots, not to pick favorites."},
 splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price band, and the sharp-money signal at bet time.",i:"The FADE split should stay empty - plays where sharp money moved against us are vetoed automatically. Historically those bets hit 27%."},
@@ -887,25 +894,55 @@ window.openReport=async name=>{
 };
 
 /* ── long ball watch ── */
+let hrData=null,hrLive={};
 async function loadHRWatch(){
   if(!boardDate)return;
   const t=await tryFetch(`hr_watch_${boardDate}.json`)||await tryFetch(`${REPO}/hr_watch_${boardDate}.json`);
   if(!t)return;
   try{
     const H=JSON.parse(t);
-    const P=H.players||[];
-    if(!P.length)return;
-    document.getElementById("hr-body").innerHTML=P.map((p,i)=>{
-      const o=p.odds||{};
-      const books=["dk","mgm","czr"].filter(b=>o[b]!=null).map(b=>`${b.toUpperCase()} ${fmtO(o[b])}`).join(" · ");
-      const oddsLine=(p.fair?`<span class="fair">FAIR ${p.fair}</span>`:"")+(books?` · ${books}`:p.fair?" · NO LINE YET":"")+
-        (p.wind&&p.wind!=="ROOF"?` · <span class="wnd">${p.wind}</span>`:"");
-      return`<div class="ldr" onclick="openPlayer(${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
-        <div><div>${p.name}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · ${p.hr} HR SEASON</div>
-        ${oddsLine?`<div class="hr-odds">${oddsLine}</div>`:""}</div>
-        <span class="v">${Number(p.p).toFixed(1)}%</span></div>`}).join("");
+    if(!(H.players||[]).length)return;
+    hrData=H;
+    renderHRWatch();
     document.getElementById("hrwatch").style.display="block";
+    refreshHRLive();
   }catch{}
+}
+function renderHRWatch(){
+  if(!hrData)return;
+  document.getElementById("hr-body").innerHTML=(hrData.players||[]).map((p,i)=>{
+    const o=p.odds||{};
+    const books=["dk","mgm","czr"].filter(b=>o[b]!=null).map(b=>`${b.toUpperCase()} ${fmtO(o[b])}`).join(" · ");
+    const oddsLine=(p.fair?`<span class="fair">FAIR ${p.fair}</span>`:"")+(books?` · ${books}`:p.fair?" · NO LINE YET":"")+
+      (p.wind&&p.wind!=="ROOF"?` · <span class="wnd">${p.wind}</span>`:"");
+    const n=hrLive[p.id]||0;
+    const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
+    const flag=n?`<span class="hr-flag${st==="Final"?" done":""}">💣 ${n>1?n+" HR":"GONE"} ✓</span>`:"";
+    return`<div class="ldr${n?" hr-hit":""}" onclick="openPlayer(${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
+      <div><div>${p.name}${flag}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · ${p.hr} HR SEASON</div>
+      ${oddsLine?`<div class="hr-odds">${oddsLine}</div>`:""}</div>
+      <span class="v">${Number(p.p).toFixed(1)}%</span></div>`}).join("");
+}
+async function refreshHRLive(){
+  if(!hrData)return;
+  const pks=[...new Set((hrData.players||[]).map(p=>p.pk).filter(Boolean))];
+  const active=new Set(Object.values(liveMap).filter(g=>g.state==="Live"||g.state==="Final").map(g=>g.pk));
+  const todo=pks.filter(pk=>active.has(pk));
+  if(!todo.length)return;
+  let changed=false;
+  await Promise.all(todo.map(async pk=>{
+    try{
+      const j=await(await fetch(`https://statsapi.mlb.com/api/v1/game/${pk}/boxscore?fields=teams,away,home,players,person,id,stats,batting,homeRuns`)).json();
+      for(const side of ["away","home"]){
+        const pl=j.teams?.[side]?.players||{};
+        for(const k in pl){
+          const id=pl[k]?.person?.id,hr=pl[k]?.stats?.batting?.homeRuns||0;
+          if(id&&hr&&hrLive[id]!==hr){hrLive[id]=hr;changed=true}
+        }
+      }
+    }catch{}
+  }));
+  if(changed)renderHRWatch();
 }
 
 /* ── standings ── */
@@ -1227,7 +1264,7 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkShell
 let _rsz=null;
 window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if(window._analytics)loadLedger()},250)});
 
-async function tick(){await loadLive();render();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
+async function tick(){await loadLive();render();refreshHRLive();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
   if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
     setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase()},300000)}
