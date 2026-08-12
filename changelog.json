@@ -1,5 +1,10 @@
 [
  {
+  "d": "2026-08-12",
+  "t": "BULLPEN AVAILABILITY TESTED - NOT ADOPTED. THE BULLPEN CHAPTER CLOSES",
+  "x": "The last and best version of the bullpen idea: not how good the relievers are, but which arms are actually AVAILABLE tonight. Using our new pitch-by-pitch usage archive (every reliever's workload, every day, all season) we measured each team's bullpen burden over the previous two days, counted tired arms (20+ pitches yesterday or back-to-back outings), and counted rested top arms. Walk-forward across 556 games: nothing. Burden was an exact tie with the model alone; every other version was slightly worse. That completes the bullpen family - quality (tested), exposure (tested), availability (tested) - four trials, zero survivors. The market prices bullpens fine; our edge lives in the starter innings, which is exactly what the F5 paper experiment exists to isolate. The usage archive keeps growing nightly regardless: good data outlives the hypothesis that ordered it."
+ },
+ {
   "d": "2026-08-11",
   "t": "F5 SHADOW RULES TIGHTENED - LOCKS WITH LINEUPS, FINDS ITS OWN WINDOW",
   "x": "Three upgrades to the first-5 paper experiment. One: paper flags now lock at the exact moment the real play locks - the lineup-confirmed evaluation. A pre-lineup F5 flag that does not survive that evaluation drops off the site and never enters the ledger, same rule as real leans. Two: only lineup-confirmed paper bets count in the record. Three: instead of assuming the full-game 3-8% betting window transfers to a different market, the ledger now grades EVERY locked game by edge size - so the first-5 market can reveal its own best window from live data. When the sample is big enough, the window we use will be the one the data chose, not the one we inherited."
