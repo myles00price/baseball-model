@@ -131,6 +131,12 @@ def main():
     except Exception as e:
         print(f"pen usage collection failed: {e}")
 
+    try:  # grade HR watch predictions into the training archive
+        import hr_grade
+        hr_grade.run()
+    except Exception as e:
+        print(f"hr grading failed: {e}")
+
     if "--stats-only" in sys.argv:
         print("(stats-only: no text sent)")
         return

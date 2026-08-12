@@ -16,8 +16,9 @@ the math is inspectable):
   (season statSplits, same source lineup_stats.py uses for OPS), shrunk
   toward his own overall rate with a stiff 300-PA prior, capped 0.8–1.2
   (HR splits are noisy — a loose prior inflated the whole top of the list
-  above book-implied probabilities in testing).
-  Only computed for the leaders after a base pass — one API call each.
+  above book-implied probabilities in testing). Computed for every
+  eligible hitter — one API call each — so the training log stays
+  feature-consistent top to bottom.
 - Opposing starter factor is his shrunk HR-allowed/BF vs league (300-BF
   prior, capped 0.75–1.35), blended 55/45 toward neutral because the
   starter only faces a bit over half of a lineup's plate appearances.
@@ -34,11 +35,18 @@ Odds API — DK / MGM / CZR when posted (1 credit per game). Shown next to
 the model's fair American odds. STILL DISPLAY ONLY: no bet flags, no
 texts, no ledger.
 
+Training archive: every run also writes the FULL slate (every eligible
+hitter, all factors, model probability, book prices) to hr_log_{date}.csv.
+hr_grade.py joins those rows to boxscore outcomes nightly and appends to
+hr_training_data.csv — the dataset a real trained HR model will learn
+from once the sample is big enough. Good data outlives the hypothesis.
+
 Usage:
     python hr_model.py               # today's slate (UTC-7 board day)
     python hr_model.py 2026-08-12    # a specific date
 """
 
+import csv
 import json
 import os
 import sys
@@ -64,8 +72,14 @@ PARK_DAMP = 0.5            # apply park factors at half strength
 WIND_PER_MPH = 0.02        # HR rate change per mph of out/in wind
 WIND_CAP = 0.25            # max wind adjustment either way
 TOP_N = 15
-REFINE_N = 60              # platoon-refine this many base-pass leaders
 MIN_PA = 100               # eligibility floor for the public list
+
+# Columns of hr_log_{date}.csv, in order. hr_grade.py appends outcome
+# columns to these when building hr_training_data.csv — change both together.
+LOG_COLS = ["date", "pk", "player_id", "name", "team", "opp", "home",
+            "opp_sp", "opp_sp_id", "sp_hand", "season_hr", "season_pa",
+            "exp_pa", "f_bat", "f_platoon", "f_pit", "f_park", "f_wind",
+            "wind", "p", "odds_dk", "odds_mgm", "odds_czr", "fair"]
 
 # Approximate 3-year HR park factors (100 = neutral), keyed by home team.
 # Deliberately damped by PARK_DAMP above because these are estimates.
@@ -265,6 +279,17 @@ def fetch_hr_odds(date, games):
 
     ev_by_key = {}
     for e in events:
+        # pin events to the requested board day (UTC-7) — the events feed
+        # only carries upcoming games, so without this a rerun for a past
+        # date would silently match the NEXT meeting of the same teams
+        try:
+            cm = datetime.strptime(e["commence_time"], "%Y-%m-%dT%H:%M:%SZ")
+            ev_date = (cm.replace(tzinfo=timezone.utc)
+                       .astimezone(timezone(timedelta(hours=-7))).strftime("%Y-%m-%d"))
+        except (KeyError, ValueError):
+            ev_date = date
+        if ev_date != date:
+            continue
         ev_by_key.setdefault((team_key(e.get("away_team")), team_key(e.get("home_team"))), e["id"])
     remaining = None
     for g in games:
@@ -360,27 +385,51 @@ def main():
             best[p["id"]] = (score, p)
     players = [p for _, p in best.values()]
 
-    # Base-pass rank, then platoon-refine the leaders (1 API call each).
-    def prob(p, f_platoon=1.0):
-        p_pa = p["bat_rate"] * f_platoon * p["_mult"]
-        return 1 - (1 - p_pa) ** p["exp_pa"]
-
-    players.sort(key=lambda p: -prob(p))
-    for p in players[:REFINE_N]:
+    # Platoon factor for EVERY hitter (1 API call each) — the training log
+    # needs consistent features, not just a refined top of the list.
+    print(f"Platoon splits for {len(players)} hitters…")
+    for p in players:
         p["f_platoon"] = round(
             platoon_mult(session, p["id"], p["bat_rate"], p.get("sp_hand")), 2)
         time.sleep(0.1)
     for p in players:
-        p.setdefault("f_platoon", 1.0)
-        p["p"] = round(prob(p, p["f_platoon"]) * 100, 1)
+        p_pa = p["bat_rate"] * p["f_platoon"] * p["_mult"]
+        p["p"] = round((1 - (1 - p_pa) ** p["exp_pa"]) * 100, 1)
     players.sort(key=lambda x: -x["p"])
-    top = players[:TOP_N]
 
-    # Book prices for the published list.
+    # Book prices for everyone we have them for (the odds calls already
+    # return the full slate; matching is free).
     odds = fetch_hr_odds(date, games)
-    for p in top:
+    for p in players:
         p["odds"] = odds.get(p["pk"], {}).get(norm_name(p["name"]), {})
         p["fair"] = american_from_prob(p["p"] / 100)
+
+    # Full-slate training log — one row per eligible hitter, graded nightly
+    # by hr_grade.py into hr_training_data.csv.
+    log_fn = f"hr_log_{date}.csv"
+    with open(log_fn, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=LOG_COLS)
+        w.writeheader()
+        for p in players:
+            w.writerow({
+                "date": date, "pk": p["pk"], "player_id": p["id"],
+                "name": p["name"], "team": p["team"], "opp": p["opp"],
+                "home": int(p["home"]), "opp_sp": p["opp_sp"],
+                "opp_sp_id": p["opp_sp_id"] or "", "sp_hand": p["sp_hand"] or "",
+                "season_hr": p["hr"], "season_pa": p["pa"],
+                "exp_pa": p["exp_pa"], "f_bat": p["f_bat"],
+                "f_platoon": p["f_platoon"], "f_pit": p["f_pit"],
+                "f_park": p["f_park"], "f_wind": p["f_wind"],
+                "wind": p["wind"], "p": p["p"],
+                "odds_dk": p["odds"].get("dk", ""),
+                "odds_mgm": p["odds"].get("mgm", ""),
+                "odds_czr": p["odds"].get("czr", ""),
+                "fair": p["fair"],
+            })
+    print(f"Logged {len(players)} hitter rows to {log_fn}")
+
+    top = [dict(p) for p in players[:TOP_N]]
+    for p in top:
         del p["bat_rate"], p["_mult"], p["sp_hand"]
 
     out = {
