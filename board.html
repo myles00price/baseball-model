@@ -912,7 +912,7 @@ function renderHRWatch(){
   if(!hrData)return;
   document.getElementById("hr-body").innerHTML=(hrData.players||[]).map((p,i)=>{
     const o=p.odds||{};
-    const books=["dk","mgm","czr"].filter(b=>o[b]!=null).map(b=>`${b.toUpperCase()} ${fmtO(o[b])}`).join(" · ");
+    const books=["dk","czr","mgm"].filter(b=>o[b]!=null).map(b=>`${b.toUpperCase()} ${fmtO(o[b])}`).join(" · ");
     const oddsLine=(p.fair?`<span class="fair">FAIR ${p.fair}</span>`:"")+(books?` · ${books}`:p.fair?" · NO LINE YET":"")+
       (p.wind&&p.wind!=="ROOF"?` · <span class="wnd">${p.wind}</span>`:"");
     const n=hrLive[p.id]||0;
