@@ -152,6 +152,9 @@ body.light .sc-news a{color:#1a56b0}
 #hr-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 26px}
 .hr-sub{font-family:'Oswald',sans-serif;font-size:11px;color:var(--mut);letter-spacing:.04em}
 .hr-rank{font-family:'VT323',monospace;font-size:16px;color:var(--phos-dim);width:24px}
+.hr-odds{font-family:'VT323',monospace;font-size:13px;color:var(--phos);letter-spacing:.03em}
+.hr-odds .fair{color:var(--gold)}
+.hr-odds .wnd{color:var(--amber)}
 
 /* ── gameday extras ── */
 .wx{font-family:'VT323',monospace;font-size:15px;color:var(--mut);text-align:center;padding:0 16px 10px;letter-spacing:.05em}
@@ -404,7 +407,7 @@ body.light .newsitem img{filter:none}
       <div class="eng-formula">P(win) = σ( era·.395 + ops·.223 + k%·.082 + whip·.033 + .093 )</div>
       <div id="eng-coefs"></div>
       <div style="margin-top:10px">
-        <span class="guard" onclick="openInfo(event,'window')">3-8% WINDOW</span>
+        <span class="guard" onclick="openInfo(event,'window')">3-6% WINDOW</span>
         <span class="guard" onclick="openInfo(event,'veto')">SHARP FADE VETO</span>
         <span class="guard" onclick="openInfo(event,'coors')">COORS EXCLUSION</span>
         <span class="guard" onclick="openInfo(event,'clamp')">22-78 CLAMP</span>
@@ -754,7 +757,7 @@ window.openPlayer=async id=>{
 
 /* ── info system: every stat explained + model insight ── */
 const INFO={
-record:{t:"RECORD",b:"Wins and losses on OFFICIAL PLAYS only - picks that were texted with a locked price after both lineups confirmed. Morning leans that never locked do not count.",i:"The model only bets when its number disagrees with the sportsbook by 3-8%. Most games get no bet at all - selectivity IS the strategy."},
+record:{t:"RECORD",b:"Wins and losses on OFFICIAL PLAYS only - picks that were texted with a locked price after both lineups confirmed. Morning leans that never locked do not count.",i:"The model only bets when its number disagrees with the sportsbook by 3-6%. Most games get no bet at all - selectivity IS the strategy."},
 pnl:{t:"PROFIT & LOSS",b:"Cumulative result betting $100 flat on every official play at the DraftKings price at lock time. Plus-money dog wins pay more than favorite wins.",i:"Flat stakes are deliberate. Bet sizing (Kelly) only switches on after 100 graded picks prove the model's probabilities are calibrated."},
 roi:{t:"RETURN ON INVESTMENT",b:"P&L divided by total amount staked. +5% ROI is strong in sports betting; the best professionals live between +2% and +8% long-term.",i:"Current ROI is inflated by a hot start and a small sample. The honest long-run expectation if the model is as good as its backtest: +5-8%."},
 winrate:{t:"WIN RATE",b:"Percentage of official plays that won. Break-even at typical -110 pricing is 52.4% - but this model often bets plus-money dogs, where even 45% can profit.",i:"Watch ROI over win rate. A 45% win rate on +150 dogs makes money; a 55% win rate on -160 favorites loses it."},
@@ -763,8 +766,8 @@ gate:{t:"THE KELLY GATE",b:"Progress toward 100 graded official plays. At 100, i
 eq:{t:"EQUITY CURVE",b:"Cumulative profit day by day since V2 launched, at $100 flat per play.",i:"Expect drawdowns - even a true 60% model loses 3 in a row regularly. The slope over months matters; single days are noise."},
 wf:{t:"WALK-FORWARD VALIDATION",b:"Each month predicted by a model trained ONLY on prior months - no peeking at the future. Green is V2, red is the old model, on identical data.",i:"V2 wins or ties 8 of 10 months. This is the honest test that decided the rebuild - in-sample accuracy is easy to fake; walk-forward is not."},
 classes:{t:"BET CLASSES",b:"ALIGNED: the bet is on the team the model picks to win. VALUE-DOG: the model picks one team to win, but the OTHER side's price is so generous it is the profitable bet.",i:"Value dogs lose more often than they win - by design - but the plus-money payouts have made them the most profitable class in the system."},
-buckets:{t:"EDGE BUCKETS",b:"All games bucketed by how much the model disagrees with the de-vigged market price, with the win rate of the model's value side in each bucket.",i:"The signature finding: 3-6% disagreement wins 62%. Above 6%, the model is usually the one that is wrong. The bet window is built directly on this curve."},
-hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today. It combines the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), the opposing starting pitcher's home-run tendency, the ballpark, and how many trips to the plate the hitter usually gets. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. The list is built before lineups post, so a surprise off-day for a star can't be known yet. No platoon or weather adjustment in this first version; if the display earns its keep, those are the next upgrades."},
+buckets:{t:"EDGE BUCKETS",b:"All games bucketed by how much the model disagrees with the de-vigged market price, with the win rate of the model's value side in each bucket.",i:"The signature finding: 3-6% disagreement wins 57.9% and everything above it loses money. The bet window is built directly on this curve - and was tightened to 3-6% on Aug 12, 2026 because of it."},
+hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today. It combines the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), how he hits the opposing starter's throwing hand, that starter's own home-run tendency, the ballpark, the wind when it's blowing out or in at an open-air park, and how many trips to the plate he usually gets. FAIR is the model's probability expressed as American odds; next to it are real 'to hit a home run' prices from the books as they post them. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. When FAIR is shorter than the book's price the model thinks the book is generous - but home-run props carry heavy vig and this display has no live record yet, so treat gaps as entertainment, not edges. Built before lineups post; wind reads update as game time approaches. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
 f5:{t:"F5 SHADOW · PAPER ONLY",b:"An experimental second model that predicts the FIRST FIVE INNINGS winner instead of the full game, logged on paper against real first-5 moneyline prices. No money, no texts - a shadow ledger only.",i:"Why first 5? The model's features are all about starting pitchers, and starters own innings 1-5. Scored against 683 live games it called F5 winners at 57.7% vs 53.2% for full games. The catch: F5 markets are priced off those same starter stats and charge about a point more vig. So it earns its way in the only honest fashion - paper bets at real prices, judged after 50+ flags. The de-vig experiment looked great in backtest and failed live; this gets the same trial."},
 teams:{t:"TEAM SHEET",b:"The model's accuracy when it picks each team, and its betting record when the flag lands on them (minimum sample applies).",i:"Team-level streaks are mostly noise at this sample size - we track them to catch systematic blind spots, not to pick favorites."},
 splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price band, and the sharp-money signal at bet time.",i:"The FADE split should stay empty - plays where sharp money moved against us are vetoed automatically. Historically those bets hit 27%."},
@@ -781,7 +784,7 @@ ops:{t:"LINEUP GAP (ops) · WEIGHT .223",b:"The difference in offensive quality 
 kpct:{t:"CONTACT GAP (k%) · WEIGHT .082",b:"The difference in team strikeout rate - how often each lineup gives away free outs.",i:"A small but real edge: strikeout-prone lineups underperform their raw OPS against strikeout pitchers."},
 whip:{t:"BASERUNNER GAP (whip) · WEIGHT .033",b:"The difference in starters' walks-plus-hits per inning - traffic allowed.",i:"Smallest surviving feature. Mostly overlaps ERA but adds a sliver of unique signal about pitchers who live dangerously."},
 hfa:{t:"HOME FIELD · INTERCEPT .093",b:"A constant nudge toward the home team, learned from the data - equivalent to the 52.2% league-wide home win rate.",i:"Everything else the pipeline collects - velocity, spin, bullpens, park factors, weather - is displayed for context but deliberately kept OUT of the model. Each was tested; each failed to add out-of-sample value."},
-window:{t:"THE 3-8% WINDOW",b:"A play fires only when the model's edge over the sportsbook price is between +3% and +8%.",i:"Below 3% is vig territory. Above 8%, history says the model is usually wrong, not the market: 10%+ edges hit only 44.6% against a claimed 58.9%. The cap is humility, encoded."},
+window:{t:"THE 3-6% WINDOW",b:"A play fires only when the model's edge over the sportsbook price is between +3% and +6%. Tightened from 3-8% on Aug 12, 2026 after grading every tracked game by edge size.",i:"Below 3% is vig territory. Above 6%, history says the model is usually wrong, not the market: 3-6% edges won 57.9% of 171 graded games; 6-8% edges won just 47% of 100 and lost money, with the 7-8% slice the worst of all (42%). The cap is humility, encoded - and it moves when the data says so."},
 veto:{t:"SHARP FADE VETO",b:"If professional money moves the line significantly AGAINST the model's side before lock, the play is killed even if the edge is in the window.",i:"Bets made against sharp movement hit 27% historically and cost $594 across 15 attempts. When the smartest money in the world disagrees, we pass."},
 coors:{t:"COORS FIELD EXCLUSION",b:"No plays on games at Coors Field (Rockies home games), where altitude chaos breaks run-environment assumptions.",i:"Model record at Coors: well below break-even across every era. Rockies ROAD games are fair game - and have been profitable value-dog spots."},
 clamp:{t:"THE 22-78 CLAMP",b:"Model probabilities are capped at 22% and 78% - a guard against pathological inputs, not a tuning knob.",i:"If the model wants to say 85%, something is usually wrong with the inputs. The clamp turns a potential blowup into a bounded error."},
@@ -892,10 +895,15 @@ async function loadHRWatch(){
     const H=JSON.parse(t);
     const P=H.players||[];
     if(!P.length)return;
-    document.getElementById("hr-body").innerHTML=P.map((p,i)=>
-      `<div class="ldr" onclick="openPlayer(${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
-        <div><div>${p.name}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · ${p.hr} HR SEASON</div></div>
-        <span class="v">${Number(p.p).toFixed(1)}%</span></div>`).join("");
+    document.getElementById("hr-body").innerHTML=P.map((p,i)=>{
+      const o=p.odds||{};
+      const books=["dk","mgm","czr"].filter(b=>o[b]!=null).map(b=>`${b.toUpperCase()} ${fmtO(o[b])}`).join(" · ");
+      const oddsLine=(p.fair?`<span class="fair">FAIR ${p.fair}</span>`:"")+(books?` · ${books}`:p.fair?" · NO LINE YET":"")+
+        (p.wind&&p.wind!=="ROOF"?` · <span class="wnd">${p.wind}</span>`:"");
+      return`<div class="ldr" onclick="openPlayer(${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
+        <div><div>${p.name}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · ${p.hr} HR SEASON</div>
+        ${oddsLine?`<div class="hr-odds">${oddsLine}</div>`:""}</div>
+        <span class="v">${Number(p.p).toFixed(1)}%</span></div>`}).join("");
     document.getElementById("hrwatch").style.display="block";
   }catch{}
 }
@@ -1110,7 +1118,7 @@ function whyText(r, betTeam, side){
   if(isDog)
     s.push(`The model actually expects ${AB[pick]} to win this game slightly more often (${(100-bp).toFixed(0)}%) — but at ${fmtO(odds)}, the market is paying ${AB[betTeam]} like a ${(implied(odds)).toFixed(0)}% team when the model makes them ${bp.toFixed(0)}%. The price, not the winner, is the bet.`);
   else
-    s.push(`The model makes ${AB[betTeam]} a ${bp.toFixed(0)}% team; the price implies ${(implied(odds)).toFixed(0)}%. That gap (${edge}) sits inside the 3-8% window where the model has historically been right and the market wrong.`);
+    s.push(`The model makes ${AB[betTeam]} a ${bp.toFixed(0)}% team; the price implies ${(implied(odds)).toFixed(0)}%. That gap (${edge}) sits inside the 3-6% window where the model has historically been right and the market wrong.`);
   const bw=parseFloat(side==="away"?r["Away SP Whiff"]:r["Home SP Whiff"]);
   const ow=parseFloat(side==="away"?r["Home SP Whiff"]:r["Away SP Whiff"]);
   const bsp=side==="away"?r["Away SP"]:r["Home SP"], osp=side==="away"?r["Home SP"]:r["Away SP"];

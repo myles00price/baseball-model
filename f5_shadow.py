@@ -13,7 +13,7 @@ What it does, per master_v2 run:
   - predicts P(home leads after 5 | not tied) with model_f5.pkl
     (same 4 features, trained on F5 outcomes by train_f5.py)
   - pulls F5 moneylines (DK/FD/MGM/CZR) — 1 API credit per unlocked game
-  - logs de-vig edges + a would-be flag (same 3-8 window, same reliability
+  - logs de-vig edges + a would-be flag (same inherited bet window, same reliability
     gates + Coors + sharp veto as the real model) to f5_shadow_<date>.json
   - rows lock when the game locks (texted/live/final) — last pre-lock
     snapshot is the shadow bet, mirroring lock-on-text
@@ -224,7 +224,7 @@ F5_BUCKETS = (("0-3", 0, 3), ("3-5", 3, 5), ("5-8", 5, 8),
 
 def grade_all():
     """Grade the paper ledger. Two views, LOCKED (lineup-confirmed) rows only:
-      - headline: flags inside the inherited 3-8 window (the paper 'plays')
+      - headline: flags inside the inherited bet window (the paper 'plays')
       - buckets:  EVERY locked game's best-edge side graded by edge size,
                   so F5 can reveal its OWN best window instead of assuming
                   the full-game one transfers."""

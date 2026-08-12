@@ -186,7 +186,7 @@ def format_pick(row, book_odds=None, started=False):
         bet_line = (f"** BET: {bet_team} ({bt_fair}) **" if bet_team == side
                     else f"** BET: {bet_team} ({bt_fair}) ** (value dog — model still picks {side} to win)")
     else:
-        bet_line = "No bet (outside 3-8% window)"
+        bet_line = "No bet (outside 3-6% window)"
     lines = [
         f"{away} @ {home}",
         f"Pick: {side} ({prob:.1f}% = fair {fair_odds(prob)})",

@@ -67,7 +67,11 @@ PROB_LO, PROB_HI = 0.22, 0.78
 # belong to the value side, which is NOT always the side the model picks to
 # win (value-dog bets). Graders and notifications must use flagged_side(),
 # never assume the flag means "bet the model's pick".
-BET_MIN, BET_MAX = 3.0, 8.0
+# 2026-08-12: cap tightened 8.0 -> 6.0. Fine-bucket grade of all tracked
+# games: 3-6 hit 57.9% (+$2831, n=171); 7-8 hit 42.1% (-$913, n=57); the
+# whole 6-8 zone graded 47% (-$280, n=100). 6-7 alone was mildly positive
+# (53.5%, n=43) but the slice is too small to carry the cap on its own.
+BET_MIN, BET_MAX = 3.0, 6.0
 
 
 def is_bet(edge):
