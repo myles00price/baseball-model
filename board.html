@@ -148,6 +148,11 @@ body.light .sc-news a{color:#1a56b0}
 .ldr .v{margin-left:auto;color:var(--amber);text-shadow:0 0 8px rgba(255,176,0,.5)}
 .ldr .cat{color:var(--phos-dim);width:38px}
 
+/* ── long ball watch ── */
+#hr-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0 26px}
+.hr-sub{font-family:'Oswald',sans-serif;font-size:11px;color:var(--mut);letter-spacing:.04em}
+.hr-rank{font-family:'VT323',monospace;font-size:16px;color:var(--phos-dim);width:24px}
+
 /* ── gameday extras ── */
 .wx{font-family:'VT323',monospace;font-size:15px;color:var(--mut);text-align:center;padding:0 16px 10px;letter-spacing:.05em}
 .boxcols{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 12px}
@@ -367,6 +372,11 @@ body.light .newsitem img{filter:none}
   <div class="showcase" id="showcase" style="display:none"><div class="sc-grid" id="sc-grid"></div></div>
   <div class="grid" id="grid"></div>
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
+
+  <div class="sect" id="hrwatch" style="display:none;margin-top:14px">
+    <h2 onclick="openInfo(event,'hrwatch')">LONG BALL WATCH · TODAY'S TOP HR PROBABILITIES ⓘ</h2>
+    <div id="hr-body"></div>
+  </div>
 
   <div class="duo">
     <div class="sect" id="standings" style="display:none"><h2>THE STANDINGS</h2><div id="st-body"></div></div>
@@ -754,6 +764,7 @@ eq:{t:"EQUITY CURVE",b:"Cumulative profit day by day since V2 launched, at $100 
 wf:{t:"WALK-FORWARD VALIDATION",b:"Each month predicted by a model trained ONLY on prior months - no peeking at the future. Green is V2, red is the old model, on identical data.",i:"V2 wins or ties 8 of 10 months. This is the honest test that decided the rebuild - in-sample accuracy is easy to fake; walk-forward is not."},
 classes:{t:"BET CLASSES",b:"ALIGNED: the bet is on the team the model picks to win. VALUE-DOG: the model picks one team to win, but the OTHER side's price is so generous it is the profitable bet.",i:"Value dogs lose more often than they win - by design - but the plus-money payouts have made them the most profitable class in the system."},
 buckets:{t:"EDGE BUCKETS",b:"All games bucketed by how much the model disagrees with the de-vigged market price, with the win rate of the model's value side in each bucket.",i:"The signature finding: 3-6% disagreement wins 62%. Above 6%, the model is usually the one that is wrong. The bet window is built directly on this curve."},
+hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today. It combines the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), the opposing starting pitcher's home-run tendency, the ballpark, and how many trips to the plate the hitter usually gets. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. The list is built before lineups post, so a surprise off-day for a star can't be known yet. No platoon or weather adjustment in this first version; if the display earns its keep, those are the next upgrades."},
 f5:{t:"F5 SHADOW · PAPER ONLY",b:"An experimental second model that predicts the FIRST FIVE INNINGS winner instead of the full game, logged on paper against real first-5 moneyline prices. No money, no texts - a shadow ledger only.",i:"Why first 5? The model's features are all about starting pitchers, and starters own innings 1-5. Scored against 683 live games it called F5 winners at 57.7% vs 53.2% for full games. The catch: F5 markets are priced off those same starter stats and charge about a point more vig. So it earns its way in the only honest fashion - paper bets at real prices, judged after 50+ flags. The de-vig experiment looked great in backtest and failed live; this gets the same trial."},
 teams:{t:"TEAM SHEET",b:"The model's accuracy when it picks each team, and its betting record when the flag lands on them (minimum sample applies).",i:"Team-level streaks are mostly noise at this sample size - we track them to catch systematic blind spots, not to pick favorites."},
 splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price band, and the sharp-money signal at bet time.",i:"The FADE split should stay empty - plays where sharp money moved against us are vetoed automatically. Historically those bets hit 27%."},
@@ -871,6 +882,23 @@ window.openReport=async name=>{
   P.innerHTML=`<div class="ph"><span class="bebas" style="font-size:16px;letter-spacing:.2em">WEEKLY REPORT · ${name.replace("WEEKLY_REPORT_","").replace(".md","")}</span><span class="x" onclick="closeOv()">[X]</span></div>
     <div class="mdbody">${miniMD(md)}</div>`;
 };
+
+/* ── long ball watch ── */
+async function loadHRWatch(){
+  if(!boardDate)return;
+  const t=await tryFetch(`hr_watch_${boardDate}.json`)||await tryFetch(`${REPO}/hr_watch_${boardDate}.json`);
+  if(!t)return;
+  try{
+    const H=JSON.parse(t);
+    const P=H.players||[];
+    if(!P.length)return;
+    document.getElementById("hr-body").innerHTML=P.map((p,i)=>
+      `<div class="ldr" onclick="openPlayer(${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
+        <div><div>${p.name}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · ${p.hr} HR SEASON</div></div>
+        <span class="v">${Number(p.p).toFixed(1)}%</span></div>`).join("");
+    document.getElementById("hrwatch").style.display="block";
+  }catch{}
+}
 
 /* ── standings ── */
 let standCache={};  // teamId -> standings row (for team pages)
@@ -1193,7 +1221,7 @@ window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if
 
 async function tick(){await loadLive();render();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
-  if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
+  if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
     setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase()},300000)}
   else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();

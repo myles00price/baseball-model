@@ -75,6 +75,15 @@ def main():
     send_push("MLB model: morning board", "\n".join(lines), bet=bool(leans))
     print("\n".join(lines))
 
+    # Refresh the board's LONG BALL WATCH list (display only, never texted).
+    try:
+        subprocess.run(
+            [PYTHON, r"C:\Users\Poons\baseball-model\hr_model.py", today],
+            timeout=600,
+        )
+    except Exception as e:
+        print(f"hr watch failed: {e}")
+
     # Push the refreshed board to the site.
     try:
         subprocess.run(["git", "add", "."], timeout=60)
