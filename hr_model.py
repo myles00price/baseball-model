@@ -30,10 +30,12 @@ the math is inspectable):
   neutral and the display says so.
 - Expected PA is the batter's season PA per game, clamped to 3.2–4.7.
 
-Book prices: batter_home_runs (to hit a HR, Over 0.5) per game from the
-Odds API — DK / MGM / CZR when posted (1 credit per game). Shown next to
-the model's fair American odds. STILL DISPLAY ONLY: no bet flags, no
-texts, no ledger.
+Book prices: "to hit a HR" (Over 0.5) per game from the Odds API — DK /
+MGM / CZR when posted (2 credits per game). Caesars lists it under
+batter_home_runs; DK and MGM file the same 0.5 line under
+batter_home_runs_alternate, so both markets are requested and the main
+key wins if a book ever posts both. Shown next to the model's fair
+American odds. STILL DISPLAY ONLY: no bet flags, no texts, no ledger.
 
 Training archive: every run also writes the FULL slate (every eligible
 hitter, all factors, model probability, book prices) to hr_log_{date}.csv.
@@ -299,7 +301,8 @@ def fetch_hr_odds(date, games):
         try:
             r = requests.get(
                 f"{ODDS_BASE}/events/{eid}/odds",
-                params={"apiKey": key, "markets": "batter_home_runs",
+                params={"apiKey": key,
+                        "markets": "batter_home_runs,batter_home_runs_alternate",
                         "oddsFormat": "american", "bookmakers": ODDS_BOOKS},
                 timeout=20)
             remaining = r.headers.get("x-requests-remaining", remaining)
@@ -311,13 +314,16 @@ def fetch_hr_odds(date, games):
             col = book_col.get(bk["key"])
             if not col:
                 continue
-            for mk in bk.get("markets", []):
-                if mk["key"] != "batter_home_runs":
+            # main market first so it wins over alternate if both exist
+            mks = sorted(bk.get("markets", []),
+                         key=lambda m: m["key"] != "batter_home_runs")
+            for mk in mks:
+                if mk["key"] not in ("batter_home_runs", "batter_home_runs_alternate"):
                     continue
                 for o in mk["outcomes"]:
                     if o.get("name") != "Over" or o.get("point") != 0.5:
                         continue
-                    prices.setdefault(norm_name(o.get("description")), {})[col] = o["price"]
+                    prices.setdefault(norm_name(o.get("description")), {}).setdefault(col, o["price"])
         out[g["pk"]] = prices
         time.sleep(0.1)
     print(f"Odds: prices for {sum(len(v) for v in out.values())} hitter-games "
