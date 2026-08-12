@@ -177,19 +177,19 @@
  "Cleveland Guardians@Detroit Tigers": {
   "away": "Cleveland Guardians",
   "home": "Detroit Tigers",
-  "prob_home": 48.2,
+  "prob_home": 52.3,
   "odds": {
    "draftkings": {
-    "Cleveland Guardians": -105,
-    "Detroit Tigers": -125
+    "Cleveland Guardians": 100,
+    "Detroit Tigers": -130
    },
    "williamhill_us": {
     "Cleveland Guardians": 100,
     "Detroit Tigers": -130
    },
    "fanduel": {
-    "Cleveland Guardians": 102,
-    "Detroit Tigers": -128
+    "Cleveland Guardians": 104,
+    "Detroit Tigers": -130
    },
    "betmgm": {
     "Cleveland Guardians": 105,
@@ -202,12 +202,12 @@
   ],
   "best_home": [
    "draftkings",
-   -125
+   -130
   ],
-  "dv_edge_away": 5.9,
-  "dv_edge_home": -3.8,
+  "dv_edge_away": 1.8,
+  "dv_edge_home": -0.8,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Pittsburgh Pirates@Miami Marlins": {
   "away": "Pittsburgh Pirates",
@@ -390,8 +390,8 @@
   "prob_home": 25.1,
   "odds": {
    "fanduel": {
-    "Los Angeles Angels": 102,
-    "Texas Rangers": -128
+    "Los Angeles Angels": 100,
+    "Texas Rangers": -124
    },
    "williamhill_us": {
     "Los Angeles Angels": 100,
@@ -407,14 +407,14 @@
    }
   },
   "best_away": [
-   "betmgm",
-   -125
+   "fanduel",
+   -124
   ],
   "best_home": [
    "fanduel",
-   102
+   100
   ],
-  "dv_edge_away": 22.3,
+  "dv_edge_away": 22.4,
   "dv_edge_home": -21.8,
   "flag": "",
   "locked": false
