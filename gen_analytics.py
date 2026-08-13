@@ -89,10 +89,16 @@ def main():
     # de-vig edge buckets (value side at DK, no gates)
     ebuckets = {b[0]: [0, 0, 0.0] for b in BUCKETS}
     # extra flagged-bet splits: side, price band, sharp signal
-    from features_v2 import flagged_side
+    from features_v2 import flagged_side, is_bet
+    from master_v2 import bet_side_ok
     xsplits = {k: [0, 0, 0.0] for k in
                ("home", "away", "fav-155", "fav", "dog", "dog+150",
-                "sharp-conf", "sharp-na")}
+                "sharp-conf", "sharp-na", "veto-would")}
+
+    def _f(x):
+        import re as _re
+        m = _re.search(r"-?\d+\.?\d*", str(x or ""))
+        return float(m.group()) if m else None
 
     def _xadd(k, won, profit):
         s = xsplits[k]; s[0] += 1; s[1] += won; s[2] += profit
@@ -145,6 +151,26 @@ def main():
                     _xadd(band, bwon, bprofit)
                     sh = str(row.get("Sharp Signal", ""))
                     _xadd("sharp-conf" if "CONFIRMED" in sh else "sharp-na", bwon, bprofit)
+
+            # phantom ledger: bets the sharp FADE veto suppressed (live era) —
+            # tracks whether the veto keeps paying for itself
+            if (dt >= V2_LAUNCH and "FADE" in str(row.get("Sharp Signal", ""))
+                    and "BET" not in str(row.get("Flag", "")) and h != "Colorado Rockies"):
+                arel, hrel = _f(row.get("Away Reliability%")), _f(row.get("Home Reliability%"))
+                awhf, hwhf = _f(row.get("Away SP Whiff")), _f(row.get("Home SP Whiff"))
+                for side in ("away", "home"):
+                    e1 = _f(row.get("DK Edge Away") if side == "away" else row.get("DK Edge Home"))
+                    e2 = _f(row.get("MGM Edge Away") if side == "away" else row.get("MGM Edge Home"))
+                    if not ((e1 is not None and is_bet(e1)) or (e2 is not None and is_bet(e2))):
+                        continue
+                    brel, orel, owhf = (arel, hrel, hwhf) if side == "away" else (hrel, arel, awhf)
+                    if brel is None or orel is None or not bet_side_ok(brel, orel, owhf):
+                        continue
+                    podds = ao if side == "away" else ho
+                    pteam = a if side == "away" else h
+                    pwon = pteam == res["winner"]
+                    _xadd("veto-would", pwon, payout(podds) if pwon else -100.0)
+                    break
 
     # F5 shadow ledger (paper only — see f5_shadow.py)
     try:

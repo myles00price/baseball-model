@@ -784,8 +784,9 @@ splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price b
 "sp-fav":{t:"MODERATE FAVORITES",b:"Plays between -154 and -101.",i:"The bread and butter - modest chalk where the model sees a mispriced pitching matchup."},
 "sp-dog":{t:"SMALL DOGS (+100 to +149)",b:"Plus-money plays at modest prices.",i:"Break-even here is under 50% - the model needs to be only slightly right to profit."},
 "sp-dog+150":{t:"BIG DOGS (+150+)",b:"Long-odds plays - each win pays $150 or more.",i:"Expect losing streaks; the math works anyway. A 40% hit rate at +160 is a money printer."},
-"sp-sharp-conf":{t:"SHARP CONFIRMED",b:"Plays where professional money moved the line TOWARD our side before lock.",i:"When we and the sharps agree, historical win rates run several points higher."},
+"sp-sharp-conf":{t:"SHARP CONFIRMED",b:"Plays where professional money moved the line TOWARD our side before lock.",i:"The season data says sharp agreement has NOT helped our plays - the no-signal split has outperformed it. Confirmation is tracked, not acted on; this split is why."},
 "sp-sharp-na":{t:"NO SHARP SIGNAL",b:"Plays where the line had not moved meaningfully either way at lock.",i:"The model is on its own here - this split is the purest test of the model itself."},
+"sp-veto-would":{t:"VETOED WOULD-BE BETS",b:"The phantom ledger: every bet the sharp FADE veto blocked, graded as if we had played it. Negative means the veto is saving money; positive means it is costing us.",i:"The veto was born from brutal early evidence (2-15 in paper trading). The live era is much closer to breakeven, so this ledger is the veto's ongoing job interview - if it turns clearly positive over a real sample, the veto gets removed and the change gets logged."},
 era:{t:"PITCHING GAP (era) · WEIGHT .395",b:"The difference in starting-pitcher earned run average, winsorized to the 1.5-8.0 range so tiny samples cannot blow up a prediction. Blended toward career numbers for pitchers with few innings.",i:"The single strongest signal in baseball prediction - permutation testing showed it carries more weight than the next three features combined. Baseball is a starting-pitching game."},
 ops:{t:"LINEUP GAP (ops) · WEIGHT .223",b:"The difference in offensive quality (on-base plus slugging), platoon-adjusted against the opposing starter's throwing hand when lineups are confirmed.",i:"This is why plays lock at lineup confirmation - the number sharpens when we know the nine names and which hand they are facing."},
 kpct:{t:"CONTACT GAP (k%) · WEIGHT .082",b:"The difference in team strikeout rate - how often each lineup gives away free outs.",i:"A small but real edge: strikeout-prone lineups underperform their raw OPS against strikeout pitchers."},
@@ -1094,7 +1095,8 @@ async function loadLedger(){
   // extra splits (clickable rows)
   if(A.xsplits){
     const XL={home:"HOME PLAYS",away:"AWAY PLAYS","fav-155":"HEAVY FAV -155+",fav:"FAVORITES",
-      dog:"DOGS +100/+149","dog+150":"BIG DOGS +150+","sharp-conf":"SHARP CONFIRMED","sharp-na":"NO SHARP SIGNAL"};
+      dog:"DOGS +100/+149","dog+150":"BIG DOGS +150+","sharp-conf":"SHARP CONFIRMED","sharp-na":"NO SHARP SIGNAL",
+      "veto-would":"VETOED WOULD-BE BETS"};
     document.getElementById("lg-xsplits").innerHTML=Object.entries(A.xsplits)
       .filter(([k,v])=>v.n>0).map(([k,v])=>
       `<div style="cursor:pointer" onclick="openInfo(event,'sp-${k}')"><span>${XL[k]||k} ⓘ</span>
