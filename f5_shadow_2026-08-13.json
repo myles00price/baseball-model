@@ -177,37 +177,37 @@
  "Chicago Cubs@Washington Nationals": {
   "away": "Chicago Cubs",
   "home": "Washington Nationals",
-  "prob_home": 56.3,
+  "prob_home": 58.7,
   "odds": {
    "fanduel": {
-    "Chicago Cubs": -130,
-    "Washington Nationals": 104
+    "Chicago Cubs": -128,
+    "Washington Nationals": 102
    },
    "draftkings": {
-    "Chicago Cubs": -135,
-    "Washington Nationals": 105
-   },
-   "williamhill_us": {
     "Chicago Cubs": -140,
     "Washington Nationals": 110
    },
-   "betmgm": {
+   "williamhill_us": {
     "Chicago Cubs": -135,
     "Washington Nationals": 105
+   },
+   "betmgm": {
+    "Chicago Cubs": -145,
+    "Washington Nationals": 115
    }
   },
   "best_away": [
    "fanduel",
-   -130
+   -128
   ],
   "best_home": [
-   "williamhill_us",
-   110
+   "betmgm",
+   115
   ],
-  "dv_edge_away": -9.9,
-  "dv_edge_home": 11.4,
+  "dv_edge_away": -11.8,
+  "dv_edge_home": 14.7,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Philadelphia Phillies@Minnesota Twins": {
   "away": "Philadelphia Phillies",
@@ -215,16 +215,16 @@
   "prob_home": 61.3,
   "odds": {
    "draftkings": {
-    "Minnesota Twins": -125,
-    "Philadelphia Phillies": -105
+    "Minnesota Twins": -120,
+    "Philadelphia Phillies": -110
    },
    "williamhill_us": {
     "Minnesota Twins": -130,
     "Philadelphia Phillies": 100
    },
    "fanduel": {
-    "Minnesota Twins": -122,
-    "Philadelphia Phillies": -102
+    "Minnesota Twins": -128,
+    "Philadelphia Phillies": 102
    },
    "betmgm": {
     "Minnesota Twins": -118,
@@ -232,15 +232,15 @@
    }
   },
   "best_away": [
-   "williamhill_us",
-   100
+   "fanduel",
+   102
   ],
   "best_home": [
    "betmgm",
    -118
   ],
   "dv_edge_away": -8.2,
-  "dv_edge_home": 9.9,
+  "dv_edge_home": 10.3,
   "flag": "",
   "locked": false
  },
@@ -258,12 +258,12 @@
     "Texas Rangers": -150
    },
    "draftkings": {
-    "Los Angeles Angels": 120,
-    "Texas Rangers": -154
+    "Los Angeles Angels": 130,
+    "Texas Rangers": -166
    },
    "betmgm": {
-    "Los Angeles Angels": 130,
-    "Texas Rangers": -160
+    "Los Angeles Angels": 120,
+    "Texas Rangers": -155
    }
   },
   "best_away": [
@@ -271,11 +271,11 @@
    -150
   ],
   "best_home": [
-   "betmgm",
+   "draftkings",
    130
   ],
   "dv_edge_away": -9.9,
-  "dv_edge_home": 11.6,
+  "dv_edge_home": 11.9,
   "flag": "",
   "locked": false
  },
@@ -297,19 +297,19 @@
     "Milwaukee Brewers": 115
    },
    "fanduel": {
-    "Los Angeles Dodgers": -148,
-    "Milwaukee Brewers": 118
+    "Los Angeles Dodgers": -150,
+    "Milwaukee Brewers": 120
    }
   },
   "best_away": [
    "fanduel",
-   118
+   120
   ],
   "best_home": [
    "draftkings",
    -145
   ],
-  "dv_edge_away": 5.3,
+  "dv_edge_away": 5.7,
   "dv_edge_home": -4.7,
   "flag": "",
   "locked": false
