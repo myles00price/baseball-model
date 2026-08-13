@@ -7,19 +7,24 @@ hr_watch_{date}.json for the public board's LONG BALL WATCH section.
 Method (deliberately simple, no trained model — every input is public and
 the math is inspectable):
 
-  p_PA   = shrunk batter HR/PA × platoon × arsenal × starter factor
+  p_PA   = shrunk batter HR/PA × arsenal × starter factor
            × park × wind × temp
   p_game = 1 - (1 - p_PA) ^ expected_PA
 
+2026-08-13 backtest (hr_backtest.py, 21,490 walk-forward batter-games):
+the platoon vs-hand factor HURT out-of-sample Brier in both the fit and
+holdout windows and caused most of the top-of-list overconfidence — it
+is now logged for the training archive but EXCLUDED from the published
+probability. With it gone the fitted damp exponent is ~1.0 (no damp
+needed). Tail still runs ~2.5pts hot at p>=16%; under watch nightly.
+
 - Batter HR/PA is shrunk toward the 2026 league rate with a 200-PA prior
   (empirical Bayes) so hot small samples can't top the list.
-- Platoon: the batter's HR rate vs the opposing starter's throwing hand
-  (season statSplits, same source lineup_stats.py uses for OPS), shrunk
-  toward his own overall rate with a stiff 300-PA prior, capped 0.8–1.2
-  (HR splits are noisy — a loose prior inflated the whole top of the list
-  above book-implied probabilities in testing). Computed for every
-  eligible hitter — one API call each — so the training log stays
-  feature-consistent top to bottom.
+- Platoon (LOGGED ONLY, not in the number): the batter's HR rate vs the
+  opposing starter's hand, shrunk 300-PA, capped 0.8–1.2. Still computed
+  for every eligible hitter and written to the training log — the trained
+  model gets to re-litigate it with more data — but the backtest showed
+  it degrades out-of-sample accuracy, so it no longer touches p.
 - Opposing starter factor is his shrunk HR-allowed/BF vs league (300-BF
   prior, capped 0.75–1.35), blended 55/45 toward neutral because the
   starter only faces a bit over half of a lineup's plate appearances.
@@ -514,7 +519,8 @@ def main():
             platoon_mult(session, p["id"], p["bat_rate"], p.get("sp_hand")), 2)
         time.sleep(0.1)
     for p in players:
-        p_pa = p["bat_rate"] * p["f_platoon"] * p["_mult"]
+        # f_platoon logged but NOT multiplied in — backtested harmful
+        p_pa = p["bat_rate"] * p["_mult"]
         p["hr_pa"] = round(p_pa, 5)
         p["p"] = round((1 - (1 - p_pa) ** p["exp_pa"]) * 100, 1)
     players.sort(key=lambda x: -x["p"])
