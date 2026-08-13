@@ -7,7 +7,8 @@ hr_watch_{date}.json for the public board's LONG BALL WATCH section.
 Method (deliberately simple, no trained model — every input is public and
 the math is inspectable):
 
-  p_PA   = shrunk batter HR/PA × platoon × starter factor × park × wind
+  p_PA   = shrunk batter HR/PA × platoon × arsenal × starter factor
+           × park × wind × temp
   p_game = 1 - (1 - p_PA) ^ expected_PA
 
 - Batter HR/PA is shrunk toward the 2026 league rate with a 200-PA prior
@@ -24,11 +25,29 @@ the math is inspectable):
   starter only faces a bit over half of a lineup's plate appearances.
 - Park factor is a static HR park-factor table applied at half strength —
   the table is an approximation, so it is deliberately damped.
+- Arsenal: batter's per-pitch-type power (Statcast ISO by pitch type)
+  weighted by the opposing starter's actual usage mix, relative to the
+  batter's overall ISO. Shrunk per type (50-PA prior), capped 0.85–1.15.
+  Profiles come from hr_profiles.json, built by hr_profiles_build.py
+  under the Model repo's venv (pybaseball lives there, NEVER in the
+  shared interpreter); auto-rebuilt when older than 3 days. Missing
+  profile -> 1.0.
 - Wind: if the Stats API game feed reports wind blowing Out/In at an
   open-air park, ±2% per mph (capped ±25%). Domes and closed roofs are
   neutral. Morning runs often predate the weather feed — then it's
   neutral and the display says so.
-- Expected PA is the batter's season PA per game, clamped to 3.2–4.7.
+- Temp: warm air carries — +0.5% per °F above 72 (capped ±12%), open-air
+  only, neutral when the feed has no reading yet.
+- Expected PA is the batter's season PA per game, clamped to 3.2–4.7 —
+  until lineups post; see refresh mode below.
+
+Refresh mode (--refresh, called by auto_lineup_push on every lineup
+check): reuses the morning log's factors, re-reads lineups + weather,
+drops hitters not in a posted lineup (the DNP fix: 17% of logged hitters
+never played on night one), sets expected PA from the confirmed batting
+slot, and rewrites hr_watch_{date}.json only — the morning training log
+is never touched, it is the frozen pre-lineup dataset. Book prices are
+refetched at most every 3 hours (quota etiquette).
 
 Book prices: "to hit a HR" (Over 0.5) per game from the Odds API — DK /
 MGM / CZR when posted (2 credits per game). Caesars lists it under
@@ -73,15 +92,33 @@ STARTER_PA_SHARE = 0.55    # share of lineup PAs the starter faces
 PARK_DAMP = 0.5            # apply park factors at half strength
 WIND_PER_MPH = 0.02        # HR rate change per mph of out/in wind
 WIND_CAP = 0.25            # max wind adjustment either way
+TEMP_PER_F = 0.005         # HR rate change per degF from baseline
+TEMP_BASE_F = 72
+TEMP_CAP = 0.12            # max temperature adjustment either way
+ARSENAL_PRIOR_PA = 50      # per-pitch-type shrinkage prior (ISO)
+ARSENAL_LO, ARSENAL_HI = 0.85, 1.15
 TOP_N = 15
 MIN_PA = 100               # eligibility floor for the public list
 
+VENV_PY = r"C:\Users\Poons\Model\.venv\Scripts\python.exe"  # pybaseball lives here
+PROFILES_FN = "hr_profiles.json"
+PROFILES_MAX_AGE_DAYS = 3
+ODDS_STAMP_FN = "hr_odds_stamp.txt"
+ODDS_REFRESH_HOURS = 3     # refresh mode refetches prices at most this often
+
+# Expected PA by confirmed batting-order slot (1-9), 9-inning average.
+SLOT_PA = [4.65, 4.53, 4.42, 4.31, 4.20, 4.09, 3.98, 3.87, 3.77]
+
 # Columns of hr_log_{date}.csv, in order. hr_grade.py appends outcome
-# columns to these when building hr_training_data.csv — change both together.
+# columns to these when building hr_training_data.csv — change both
+# together (hr_grade migrates the training file's header on change).
+# hr_pa is the final per-PA probability, stored so refresh mode can
+# re-derive p under new weather/lineup without refetching factors.
 LOG_COLS = ["date", "pk", "player_id", "name", "team", "opp", "home",
             "opp_sp", "opp_sp_id", "sp_hand", "season_hr", "season_pa",
-            "exp_pa", "f_bat", "f_platoon", "f_pit", "f_park", "f_wind",
-            "wind", "p", "odds_dk", "odds_mgm", "odds_czr", "fair"]
+            "exp_pa", "f_bat", "f_platoon", "f_arsenal", "f_pit", "f_park",
+            "f_wind", "f_temp", "wind", "hr_pa", "p",
+            "odds_dk", "odds_mgm", "odds_czr", "fair"]
 
 # Approximate 3-year HR park factors (100 = neutral), keyed by home team.
 # Deliberately damped by PARK_DAMP above because these are estimates.
@@ -230,33 +267,106 @@ def platoon_mult(session, batter_id, base_rate, sp_hand):
         return 1.0
 
 
-def fetch_wind(session, game_pk):
-    """(multiplier, label) from the game feed's weather. Neutral if unknown."""
+def fetch_weather(session, game_pk):
+    """(wind_mult, temp_mult, label) from the game feed. Neutral if unknown."""
     try:
         r = session.get(f"https://statsapi.mlb.com/api/v1.1/game/{game_pk}/feed/live",
                         params={"fields": "gameData,weather,condition,temp,wind"},
                         timeout=30)
         w = r.json().get("gameData", {}).get("weather", {}) or {}
     except Exception:
-        return 1.0, ""
+        return 1.0, 1.0, ""
     cond = (w.get("condition") or "").lower()
     wind = w.get("wind") or ""
     if "dome" in cond or "roof closed" in cond:
-        return 1.0, "ROOF"
+        return 1.0, 1.0, "ROOF"
+    temp_mult = 1.0
+    labels = []
+    try:
+        t = float(w.get("temp"))
+        adj = max(-TEMP_CAP, min(TEMP_CAP, (t - TEMP_BASE_F) * TEMP_PER_F))
+        temp_mult = 1.0 + adj
+        if adj >= 0.05:
+            labels.append(f"HOT {round(t)}F")
+        elif adj <= -0.05:
+            labels.append(f"COLD {round(t)}F")
+    except (TypeError, ValueError):
+        pass
+    wind_mult = 1.0
     try:
         mph = float(wind.split("mph")[0].strip())
+        wl = wind.lower()
+        sign = 1 if "out to" in wl else -1 if "in from" in wl else 0
+        if sign:
+            adj = max(-WIND_CAP, min(WIND_CAP, sign * mph * WIND_PER_MPH))
+            wind_mult = 1.0 + adj
+            labels.append(f"WIND {round(mph)} {'OUT' if sign > 0 else 'IN'}")
     except (ValueError, IndexError):
-        return 1.0, ""
-    wl = wind.lower()
-    if "out to" in wl:
-        sign = 1
-    elif "in from" in wl:
-        sign = -1
-    else:
-        return 1.0, ""
-    adj = max(-WIND_CAP, min(WIND_CAP, sign * mph * WIND_PER_MPH))
-    label = f"WIND {round(mph)} {'OUT' if sign > 0 else 'IN'}"
-    return 1.0 + adj, label
+        pass
+    return wind_mult, temp_mult, " · ".join(labels)
+
+
+def load_profiles():
+    """Arsenal profiles, auto-rebuilt via the Model venv when stale."""
+    import subprocess
+    stale = True
+    if os.path.exists(PROFILES_FN):
+        age = time.time() - os.path.getmtime(PROFILES_FN)
+        stale = age > PROFILES_MAX_AGE_DAYS * 86400
+    if stale:
+        try:
+            print("Rebuilding arsenal profiles (pybaseball, Model venv)…")
+            subprocess.run([VENV_PY, "hr_profiles_build.py"], timeout=900)
+        except Exception as e:
+            print(f"WARNING: profile rebuild failed ({e}) - using cache if any")
+    try:
+        with open(PROFILES_FN) as f:
+            return json.load(f)
+    except Exception:
+        print("WARNING: no arsenal profiles - arsenal factor neutral")
+        return None
+
+
+def arsenal_mult(profiles, batter_id, sp_id):
+    """Batter's expected ISO vs this starter's mix, over his own ISO."""
+    if not profiles or not sp_id:
+        return 1.0
+    bat = profiles["batters"].get(str(batter_id))
+    pit = profiles["pitchers"].get(str(sp_id))
+    if not bat or not pit or bat["iso"] < 0.05:
+        return 1.0
+    base = bat["iso"]
+    expected = 0.0
+    share = 0.0
+    for t, u in pit["usage"].items():
+        bt = bat["types"].get(t)
+        iso_t = base if not bt else \
+            (bt["pa"] * bt["iso"] + ARSENAL_PRIOR_PA * base) / (bt["pa"] + ARSENAL_PRIOR_PA)
+        expected += u * iso_t
+        share += u
+    if share < 0.5:
+        return 1.0
+    return max(ARSENAL_LO, min(ARSENAL_HI, (expected / share) / base))
+
+
+def fetch_lineups(session, date):
+    """{game_pk: {player_id: batting_slot 1-9}} for posted lineups."""
+    out = {}
+    try:
+        j = get(session, "/schedule", sportId=1, date=date, hydrate="lineups")
+    except Exception:
+        return out
+    for day in j.get("dates", []):
+        for g in day.get("games", []):
+            lu = g.get("lineups") or {}
+            slots = {}
+            for side in ("awayPlayers", "homePlayers"):
+                for i, p in enumerate(lu.get(side) or []):
+                    if p.get("id"):
+                        slots[p["id"]] = min(i + 1, 9)
+            if slots:
+                out[g["gamePk"]] = slots
+    return out
 
 
 def fetch_hr_odds(date, games):
@@ -332,7 +442,8 @@ def fetch_hr_odds(date, games):
 
 
 def main():
-    date = sys.argv[1] if len(sys.argv) > 1 else board_date()
+    date = (sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--")
+            else board_date())
     session = requests.Session()
 
     games = fetch_schedule(session, date)
@@ -346,8 +457,9 @@ def main():
     sp_ids = [(g["away_sp"] or {}).get("id") for g in games] + \
              [(g["home_sp"] or {}).get("id") for g in games]
     sp_info = fetch_pitchers(session, sp_ids, lg_rate)
+    profiles = load_profiles()
 
-    wind = {g["pk"]: fetch_wind(session, g["pk"]) for g in games}
+    weather = {g["pk"]: fetch_weather(session, g["pk"]) for g in games}
     roster_cache = {}
 
     def hitters(team_id):
@@ -359,7 +471,7 @@ def main():
     for g in games:
         park = PARK_HR.get(g["home"], 100)
         park_mult = 1 + (park - 100) / 100 * PARK_DAMP
-        wind_mult, wind_label = wind[g["pk"]]
+        wind_mult, temp_mult, wx_label = weather[g["pk"]]
         for side, opp_side in (("away", "home"), ("home", "away")):
             opp_sp = g[f"{opp_side}_sp"] or {}
             sp = sp_info.get(opp_sp.get("id"), {})
@@ -368,6 +480,7 @@ def main():
             for b in hitters(g[f"{side}_id"]):
                 bat_rate = (b["hr"] + BATTER_PRIOR_PA * lg_rate) / (b["pa"] + BATTER_PRIOR_PA)
                 exp_pa = max(3.2, min(4.7, b["pa"] / b["g"]))
+                ars = arsenal_mult(profiles, b["id"], opp_sp.get("id"))
                 players.append({
                     "id": b["id"], "name": b["name"], "team": g[side],
                     "opp": g[opp_side], "home": side == "home", "pk": g["pk"],
@@ -376,11 +489,13 @@ def main():
                     "hr": b["hr"], "pa": b["pa"],
                     "bat_rate": bat_rate, "exp_pa": round(exp_pa, 1),
                     "f_bat": round(bat_rate / lg_rate, 2),
+                    "f_arsenal": round(ars, 2),
                     "f_pit": round(pitch_mult, 2),
                     "f_park": round(park_mult, 2),
                     "f_wind": round(wind_mult, 2),
-                    "wind": wind_label,
-                    "_mult": pitch_mult * park_mult * wind_mult,
+                    "f_temp": round(temp_mult, 2),
+                    "wind": wx_label,
+                    "_mult": ars * pitch_mult * park_mult * wind_mult * temp_mult,
                 })
 
     # Doubleheaders list a team twice — keep each hitter's best game only.
@@ -400,12 +515,16 @@ def main():
         time.sleep(0.1)
     for p in players:
         p_pa = p["bat_rate"] * p["f_platoon"] * p["_mult"]
+        p["hr_pa"] = round(p_pa, 5)
         p["p"] = round((1 - (1 - p_pa) ** p["exp_pa"]) * 100, 1)
     players.sort(key=lambda x: -x["p"])
 
     # Book prices for everyone we have them for (the odds calls already
     # return the full slate; matching is free).
     odds = fetch_hr_odds(date, games)
+    if odds:
+        with open(ODDS_STAMP_FN, "w") as f:
+            f.write(str(time.time()))
     for p in players:
         p["odds"] = odds.get(p["pk"], {}).get(norm_name(p["name"]), {})
         p["fair"] = american_from_prob(p["p"] / 100)
@@ -424,9 +543,10 @@ def main():
                 "opp_sp_id": p["opp_sp_id"] or "", "sp_hand": p["sp_hand"] or "",
                 "season_hr": p["hr"], "season_pa": p["pa"],
                 "exp_pa": p["exp_pa"], "f_bat": p["f_bat"],
-                "f_platoon": p["f_platoon"], "f_pit": p["f_pit"],
-                "f_park": p["f_park"], "f_wind": p["f_wind"],
-                "wind": p["wind"], "p": p["p"],
+                "f_platoon": p["f_platoon"], "f_arsenal": p["f_arsenal"],
+                "f_pit": p["f_pit"], "f_park": p["f_park"],
+                "f_wind": p["f_wind"], "f_temp": p["f_temp"],
+                "wind": p["wind"], "hr_pa": p["hr_pa"], "p": p["p"],
                 "odds_dk": p["odds"].get("dk", ""),
                 "odds_mgm": p["odds"].get("mgm", ""),
                 "odds_czr": p["odds"].get("czr", ""),
@@ -457,5 +577,94 @@ def main():
     print(f"\nSaved {fn}")
 
 
+def refresh():
+    """Lineup-aware display refresh — rewrites hr_watch_{date}.json ONLY.
+
+    Reuses the morning log's factors (no roster/platoon/arsenal refetch),
+    re-reads lineups + weather, drops hitters missing from a posted
+    lineup, sets expected PA from the confirmed batting slot, and
+    refetches book prices at most every ODDS_REFRESH_HOURS. The morning
+    training log is never modified."""
+    date = board_date()
+    log_fn = f"hr_log_{date}.csv"
+    if not os.path.exists(log_fn):
+        print("refresh: no morning log - running full build instead")
+        return main()
+    with open(log_fn, encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+    if not rows:
+        return
+    session = requests.Session()
+    games = fetch_schedule(session, date)
+    lineups = fetch_lineups(session, date)
+    weather = {g["pk"]: fetch_weather(session, g["pk"]) for g in games}
+
+    odds = None
+    try:
+        stamp = float(open(ODDS_STAMP_FN).read().strip())
+    except Exception:
+        stamp = 0.0
+    if time.time() - stamp > ODDS_REFRESH_HOURS * 3600:
+        odds = fetch_hr_odds(date, games)
+        if odds:
+            with open(ODDS_STAMP_FN, "w") as f:
+                f.write(str(time.time()))
+
+    out_players = []
+    dropped = 0
+    for r in rows:
+        pk = int(r["pk"])
+        pid = int(r["player_id"])
+        exp_pa = float(r["exp_pa"])
+        slots = lineups.get(pk)
+        if slots is not None:
+            if pid not in slots:
+                dropped += 1
+                continue
+            exp_pa = SLOT_PA[slots[pid] - 1]
+        try:
+            hr_pa0 = float(r["hr_pa"])
+        except (KeyError, TypeError, ValueError):
+            # pre-schema morning log: invert p to recover the per-PA rate
+            hr_pa0 = 1 - (1 - float(r["p"]) / 100) ** (1 / float(r["exp_pa"]))
+        old_wx = (float(r.get("f_wind") or 1) * float(r.get("f_temp") or 1)) or 1
+        wind_mult, temp_mult, wx_label = weather.get(pk, (1.0, 1.0, r.get("wind", "")))
+        hr_pa = hr_pa0 / old_wx * wind_mult * temp_mult
+        p = round((1 - (1 - hr_pa) ** exp_pa) * 100, 1)
+        if odds is not None:
+            o = odds.get(pk, {}).get(norm_name(r["name"]), {})
+        else:
+            o = {bk: int(float(v)) for bk in ("dk", "mgm", "czr")
+                 if (v := r.get(f"odds_{bk}"))}
+        out_players.append({
+            "id": pid, "name": r["name"], "team": r["team"], "opp": r["opp"],
+            "home": r["home"] == "1", "pk": pk, "opp_sp": r["opp_sp"],
+            "opp_sp_id": int(r["opp_sp_id"]) if r.get("opp_sp_id") else None,
+            "p": p, "hr": int(r["season_hr"]), "pa": int(r["season_pa"]),
+            "exp_pa": round(exp_pa, 1),
+            "f_bat": float(r["f_bat"]), "f_platoon": float(r["f_platoon"]),
+            "f_arsenal": float(r.get("f_arsenal") or 1),
+            "f_pit": float(r["f_pit"]), "f_park": float(r["f_park"]),
+            "f_wind": round(wind_mult, 2), "f_temp": round(temp_mult, 2),
+            "wind": wx_label, "odds": o, "fair": american_from_prob(p / 100),
+        })
+    out_players.sort(key=lambda x: -x["p"])
+    out = {
+        "date": date,
+        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "lineups_confirmed": len(lineups),
+        "players": out_players[:TOP_N],
+    }
+    with open(f"hr_watch_{date}.json", "w") as f:
+        json.dump(out, f, indent=1)
+    print(f"refresh: {len(lineups)} lineups posted, {dropped} hitters dropped, "
+          f"top {TOP_N} rewritten")
+    for p in out["players"][:5]:
+        print(f"  {p['p']:5.1f}%  {p['name']:<24} expPA {p['exp_pa']}")
+
+
 if __name__ == "__main__":
-    main()
+    if "--refresh" in sys.argv:
+        refresh()
+    else:
+        main()

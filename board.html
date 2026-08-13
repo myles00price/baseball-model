@@ -1269,7 +1269,7 @@ window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if
 async function tick(){await loadLive();render();refreshHRLive();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
   if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
-    setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase()},300000)}
+    setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase();loadHRWatch()},300000)}
   else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();
 </script>

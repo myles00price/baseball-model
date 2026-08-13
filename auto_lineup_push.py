@@ -142,6 +142,12 @@ if __name__ == "__main__":
         print(f"\nNew lineups confirmed: {current} (was {last}) — running master_v2.py and pushing")
         subprocess.run([r"C:\Users\Poons\AppData\Local\Python\pythoncore-3.11-64\python.exe",
                         r"C:\Users\Poons\baseball-model\master_v2.py", today])
+        try:  # lineup-aware HR watch refresh (display only; morning log untouched)
+            subprocess.run([r"C:\Users\Poons\AppData\Local\Python\pythoncore-3.11-64\python.exe",
+                            r"C:\Users\Poons\baseball-model\hr_model.py", "--refresh"],
+                           timeout=300)
+        except Exception as e:
+            print(f"hr refresh failed: {e}")
         git_push("lineup update")
         write_last_confirmed(current)
     else:

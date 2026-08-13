@@ -124,12 +124,32 @@ def grade_date(session, date, done, writer):
     return n, hits, len(box)
 
 
+def migrate_schema():
+    """If hr_model.LOG_COLS grew, rewrite the training file with the new
+    header, blank-filling old rows. Keeps one consistent schema."""
+    if not os.path.exists(TRAIN_FN):
+        return
+    with open(TRAIN_FN, encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames == OUT_COLS:
+            return
+        rows = list(reader)
+    with open(TRAIN_FN, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=OUT_COLS)
+        w.writeheader()
+        for r in rows:
+            w.writerow({c: r.get(c, "") for c in OUT_COLS})
+    print(f"hr_grade: migrated {TRAIN_FN} to {len(OUT_COLS)}-column schema "
+          f"({len(rows)} rows)")
+
+
 def run(dates=None):
     session = requests.Session()
     if dates is None:
         today = board_date()
         dates = [(datetime.strptime(today, "%Y-%m-%d") - timedelta(days=i)).strftime("%Y-%m-%d")
                  for i in range(LOOKBACK_DAYS)]
+    migrate_schema()
     done = graded_keys()
     new_file = not os.path.exists(TRAIN_FN)
     total = total_hits = 0
