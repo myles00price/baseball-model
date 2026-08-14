@@ -7,16 +7,20 @@ hr_watch_{date}.json for the public board's LONG BALL WATCH section.
 Method (deliberately simple, no trained model — every input is public and
 the math is inspectable):
 
-  p_PA   = shrunk batter HR/PA × arsenal × starter factor
-           × park × wind × temp
+  p_PA   = shrunk batter HR/PA × starter factor × park
   p_game = 1 - (1 - p_PA) ^ expected_PA
 
-2026-08-13 backtest (hr_backtest.py, 21,490 walk-forward batter-games):
-the platoon vs-hand factor HURT out-of-sample Brier in both the fit and
-holdout windows and caused most of the top-of-list overconfidence — it
-is now logged for the training archive but EXCLUDED from the published
-probability. With it gone the fitted damp exponent is ~1.0 (no damp
-needed). Tail still runs ~2.5pts hot at p>=16%; under watch nightly.
+2026-08-13 backtests (hr_backtest.py / hr_backtest2.py, 21,490
+walk-forward batter-games, May-Jun fit / Jul+ holdout): the batter's own
+rate does most of the work; starter and park each add a small real
+sliver. EVERYTHING else failed the holdout at every tested strength and
+is EXCLUDED from the published probability but still computed, shown as
+context, and logged nightly for the training archive to re-litigate:
+  - platoon vs-hand splits (hurt both windows, drove tail overconfidence)
+  - arsenal matchup (wash at quarter strength, hurts at full)
+  - wind and temperature (helped in fit, hurt in holdout — likely
+    correlated with seasonal environment shifts the base rate absorbs)
+Tail runs ~2.5pts hot at p>=16%; under watch nightly.
 
 - Batter HR/PA is shrunk toward the 2026 league rate with a 200-PA prior
   (empirical Bayes) so hot small samples can't top the list.
@@ -500,7 +504,9 @@ def main():
                     "f_wind": round(wind_mult, 2),
                     "f_temp": round(temp_mult, 2),
                     "wind": wx_label,
-                    "_mult": ars * pitch_mult * park_mult * wind_mult * temp_mult,
+                    # arsenal/wind/temp logged + displayed, NOT multiplied:
+                    # all failed the Jul+ holdout (hr_backtest2.py)
+                    "_mult": pitch_mult * park_mult,
                 })
 
     # Doubleheaders list a team twice — keep each hitter's best game only.
@@ -629,13 +635,13 @@ def refresh():
                 continue
             exp_pa = SLOT_PA[slots[pid] - 1]
         try:
-            hr_pa0 = float(r["hr_pa"])
+            hr_pa = float(r["hr_pa"])
         except (KeyError, TypeError, ValueError):
             # pre-schema morning log: invert p to recover the per-PA rate
-            hr_pa0 = 1 - (1 - float(r["p"]) / 100) ** (1 / float(r["exp_pa"]))
-        old_wx = (float(r.get("f_wind") or 1) * float(r.get("f_temp") or 1)) or 1
+            hr_pa = 1 - (1 - float(r["p"]) / 100) ** (1 / float(r["exp_pa"]))
+        # weather is context/display only (failed the holdout) — refresh
+        # the label but never the probability
         wind_mult, temp_mult, wx_label = weather.get(pk, (1.0, 1.0, r.get("wind", "")))
-        hr_pa = hr_pa0 / old_wx * wind_mult * temp_mult
         p = round((1 - (1 - hr_pa) ** exp_pa) * 100, 1)
         if odds is not None:
             o = odds.get(pk, {}).get(norm_name(r["name"]), {})
