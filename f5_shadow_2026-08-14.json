@@ -212,19 +212,19 @@
  "Kansas City Royals@Los Angeles Angels": {
   "away": "Kansas City Royals",
   "home": "Los Angeles Angels",
-  "prob_home": 42.1,
+  "prob_home": 41.5,
   "odds": {
    "fanduel": {
-    "Kansas City Royals": -114,
-    "Los Angeles Angels": -110
+    "Kansas City Royals": -112,
+    "Los Angeles Angels": -112
    },
    "draftkings": {
-    "Kansas City Royals": -115,
-    "Los Angeles Angels": -115
+    "Kansas City Royals": -110,
+    "Los Angeles Angels": -120
    },
    "betmgm": {
-    "Kansas City Royals": -115,
-    "Los Angeles Angels": -110
+    "Kansas City Royals": -105,
+    "Los Angeles Angels": -118
    },
    "williamhill_us": {
     "Kansas City Royals": -115,
@@ -232,17 +232,17 @@
    }
   },
   "best_away": [
-   "fanduel",
-   -114
+   "betmgm",
+   -105
   ],
   "best_home": [
    "fanduel",
-   -110
+   -112
   ],
-  "dv_edge_away": 7.9,
-  "dv_edge_home": -7.4,
+  "dv_edge_away": 9.9,
+  "dv_edge_home": -8.5,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Milwaukee Brewers@Los Angeles Dodgers": {
   "away": "Milwaukee Brewers",
@@ -259,7 +259,7 @@
    },
    "betmgm": {
     "Los Angeles Dodgers": -210,
-    "Milwaukee Brewers": 160
+    "Milwaukee Brewers": 165
    },
    "williamhill_us": {
     "Los Angeles Dodgers": -200,
@@ -275,7 +275,7 @@
    -200
   ],
   "dv_edge_away": -3.0,
-  "dv_edge_home": 4.2,
+  "dv_edge_home": 4.1,
   "flag": "home",
   "locked": false
  },
@@ -285,32 +285,32 @@
   "prob_home": 63.1,
   "odds": {
    "fanduel": {
-    "Colorado Rockies": 110,
-    "San Francisco Giants": -138
+    "Colorado Rockies": 108,
+    "San Francisco Giants": -135
    },
    "draftkings": {
-    "Colorado Rockies": 105,
-    "San Francisco Giants": -135
+    "Colorado Rockies": 110,
+    "San Francisco Giants": -140
    },
    "betmgm": {
-    "Colorado Rockies": 105,
-    "San Francisco Giants": -135
+    "Colorado Rockies": 115,
+    "San Francisco Giants": -145
    },
    "williamhill_us": {
-    "Colorado Rockies": 105,
-    "San Francisco Giants": -135
+    "Colorado Rockies": 110,
+    "San Francisco Giants": -140
    }
   },
   "best_away": [
-   "fanduel",
-   110
+   "betmgm",
+   115
   ],
   "best_home": [
-   "draftkings",
+   "fanduel",
    -135
   ],
-  "dv_edge_away": -8.2,
-  "dv_edge_home": 9.0,
+  "dv_edge_away": -7.1,
+  "dv_edge_home": 8.7,
   "flag": "",
   "locked": false
  },
