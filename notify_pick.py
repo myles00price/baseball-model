@@ -292,6 +292,17 @@ def main():
         picks = load_picks(date_str)
         did_rerun = True
 
+    # LONG BALL WATCH: newly confirmed lineups -> lineup-aware refresh of
+    # the display JSON (drops non-starters, slot-based PAs). Display only;
+    # the morning training log is never touched.
+    did_hr = False
+    try:
+        subprocess.run([PYTHON, r"C:\Users\Poons\baseball-model\hr_model.py", "--refresh"],
+                       timeout=300)
+        did_hr = os.path.exists(f"hr_watch_{date_str}.json")
+    except Exception as e:
+        print(f"hr refresh failed: {e}")
+
     book_odds = fetch_market_odds(date_str) if pending else {}
 
     sent_any = False
@@ -325,11 +336,13 @@ def main():
 
     # Push immediately so the live board reflects locks and dropped leans
     # within one cycle instead of waiting for the next scheduled push.
-    if did_rerun or sent_any:
+    if did_rerun or sent_any or did_hr:
         try:
             subprocess.run(["git", "add", f"picks_{date_str}.csv", f"notified_{date_str}.json"], timeout=60)
             if os.path.exists(f"f5_shadow_{date_str}.json"):
                 subprocess.run(["git", "add", f"f5_shadow_{date_str}.json"], timeout=60)
+            if did_hr:
+                subprocess.run(["git", "add", f"hr_watch_{date_str}.json", "hr_odds_stamp.txt"], timeout=60)
             subprocess.run(["git", "commit", "-m", f"lineup lock update {date_str}"], timeout=60)
             subprocess.run(["git", "push"], timeout=120)
             print("pushed lock update to site")
