@@ -1,36 +1,8 @@
 {
  "date": "2026-08-15",
- "generated": "2026-08-15T17:46:03Z",
- "lineups_confirmed": 5,
+ "generated": "2026-08-15T18:00:05Z",
+ "lineups_confirmed": 7,
  "players": [
-  {
-   "id": 656941,
-   "name": "Kyle Schwarber",
-   "team": "Philadelphia Phillies",
-   "opp": "Minnesota Twins",
-   "home": false,
-   "pk": 823671,
-   "opp_sp": "Connor Prielipp",
-   "opp_sp_id": 687570,
-   "p": 24.2,
-   "hr": 37,
-   "pa": 521,
-   "exp_pa": 4.5,
-   "f_bat": 1.96,
-   "f_platoon": 1.02,
-   "f_arsenal": 0.95,
-   "f_pit": 1.0,
-   "f_park": 0.99,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 255,
-    "mgm": 300,
-    "czr": 255
-   },
-   "fair": "+313"
-  },
   {
    "id": 670541,
    "name": "Yordan Alvarez",
@@ -163,13 +135,41 @@
    "f_park": 0.98,
    "f_wind": 1.0,
    "f_temp": 1.0,
-   "wind": "",
+   "wind": "ROOF",
    "odds": {
     "dk": 366,
     "mgm": 300,
     "czr": 320
    },
    "fair": "+383"
+  },
+  {
+   "id": 621439,
+   "name": "Byron Buxton",
+   "team": "Minnesota Twins",
+   "opp": "Philadelphia Phillies",
+   "home": true,
+   "pk": 823671,
+   "opp_sp": "Jes\u00fas Luzardo",
+   "opp_sp_id": 666200,
+   "p": 20.0,
+   "hr": 25,
+   "pa": 366,
+   "exp_pa": 4.5,
+   "f_bat": 1.8,
+   "f_platoon": 0.93,
+   "f_arsenal": 0.88,
+   "f_pit": 0.88,
+   "f_park": 0.99,
+   "f_wind": 1.12,
+   "f_temp": 1.03,
+   "wind": "WIND 6 OUT",
+   "odds": {
+    "dk": 331,
+    "mgm": 350,
+    "czr": 320
+   },
+   "fair": "+400"
   },
   {
    "id": 701398,
@@ -254,34 +254,6 @@
     "czr": 290
    },
    "fair": "+413"
-  },
-  {
-   "id": 621439,
-   "name": "Byron Buxton",
-   "team": "Minnesota Twins",
-   "opp": "Philadelphia Phillies",
-   "home": true,
-   "pk": 823671,
-   "opp_sp": "Jes\u00fas Luzardo",
-   "opp_sp_id": 666200,
-   "p": 19.4,
-   "hr": 25,
-   "pa": 366,
-   "exp_pa": 4.4,
-   "f_bat": 1.8,
-   "f_platoon": 0.93,
-   "f_arsenal": 0.88,
-   "f_pit": 0.88,
-   "f_park": 0.99,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 331,
-    "mgm": 350,
-    "czr": 320
-   },
-   "fair": "+415"
   },
   {
    "id": 665052,
@@ -420,6 +392,34 @@
     "dk": 342,
     "mgm": 340,
     "czr": 330
+   },
+   "fair": "+432"
+  },
+  {
+   "id": 671277,
+   "name": "Luis Garc\u00eda Jr.",
+   "team": "New York Yankees",
+   "opp": "Toronto Blue Jays",
+   "home": false,
+   "pk": 822775,
+   "opp_sp": "Braydon Fisher",
+   "opp_sp_id": 680755,
+   "p": 18.8,
+   "hr": 24,
+   "pa": 411,
+   "exp_pa": 4.3,
+   "f_bat": 1.62,
+   "f_platoon": 1.12,
+   "f_arsenal": 0.93,
+   "f_pit": 0.95,
+   "f_park": 1.01,
+   "f_wind": 1.0,
+   "f_temp": 1.0,
+   "wind": "",
+   "odds": {
+    "dk": 433,
+    "mgm": 360,
+    "czr": 400
    },
    "fair": "+432"
   }
