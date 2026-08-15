@@ -180,8 +180,8 @@
   "prob_home": 54.2,
   "odds": {
    "fanduel": {
-    "Cincinnati Reds": -116,
-    "Miami Marlins": -108
+    "Cincinnati Reds": -114,
+    "Miami Marlins": -110
    },
    "draftkings": {
     "Cincinnati Reds": -115,
@@ -212,11 +212,11 @@
  "Seattle Mariners@Houston Astros": {
   "away": "Seattle Mariners",
   "home": "Houston Astros",
-  "prob_home": 55.0,
+  "prob_home": 52.7,
   "odds": {
    "fanduel": {
-    "Houston Astros": -122,
-    "Seattle Mariners": -102
+    "Houston Astros": -128,
+    "Seattle Mariners": 102
    },
    "draftkings": {
     "Houston Astros": -130,
@@ -237,12 +237,12 @@
   ],
   "best_home": [
    "fanduel",
-   -122
+   -128
   ],
-  "dv_edge_away": -0.9,
-  "dv_edge_home": 2.9,
+  "dv_edge_away": 1.4,
+  "dv_edge_home": -0.4,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Philadelphia Phillies@Minnesota Twins": {
   "away": "Philadelphia Phillies",
@@ -250,8 +250,8 @@
   "prob_home": 45.2,
   "odds": {
    "fanduel": {
-    "Minnesota Twins": 124,
-    "Philadelphia Phillies": -156
+    "Minnesota Twins": 122,
+    "Philadelphia Phillies": -152
    },
    "draftkings": {
     "Minnesota Twins": 110,
@@ -272,10 +272,10 @@
   ],
   "best_home": [
    "fanduel",
-   124
+   122
   ],
   "dv_edge_away": -0.3,
-  "dv_edge_home": 2.9,
+  "dv_edge_home": 2.4,
   "flag": "",
   "locked": false
  },
@@ -381,6 +381,41 @@
   ],
   "dv_edge_away": 9.8,
   "dv_edge_home": -7.9,
+  "flag": "",
+  "locked": false
+ },
+ "San Diego Padres@Cleveland Guardians": {
+  "away": "San Diego Padres",
+  "home": "Cleveland Guardians",
+  "prob_home": 46.5,
+  "odds": {
+   "fanduel": {
+    "Cleveland Guardians": -142,
+    "San Diego Padres": 114
+   },
+   "draftkings": {
+    "Cleveland Guardians": -130,
+    "San Diego Padres": 100
+   },
+   "williamhill_us": {
+    "Cleveland Guardians": -130,
+    "San Diego Padres": 100
+   },
+   "betmgm": {
+    "Cleveland Guardians": -135,
+    "San Diego Padres": 105
+   }
+  },
+  "best_away": [
+   "fanduel",
+   114
+  ],
+  "best_home": [
+   "draftkings",
+   -130
+  ],
+  "dv_edge_away": 9.2,
+  "dv_edge_home": -6.6,
   "flag": "",
   "locked": false
  }
