@@ -158,6 +158,26 @@ body.light .sc-news a{color:#1a56b0}
 .hr-odds .best{color:var(--gold);font-weight:bold}
 .hit-sub-h{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.12em;color:var(--mut);margin:14px 0 6px;cursor:pointer}
 .hr-sub .soft{color:var(--mut);opacity:.8}
+.hd-caret{color:var(--phos-dim);font-size:13px;margin-left:6px}
+.hit-drop{margin:0 0 8px 41px;padding:8px 10px 10px;border:1px solid var(--line);border-left:2px solid var(--phos-dim);background:#0a0a0a;font-family:'VT323',monospace;font-size:15px;color:var(--ink)}
+.hit-drop .hd-role{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.3em;color:var(--gold);margin:4px 0 2px}
+.hit-drop .hd-k{color:var(--mut)}
+.hit-drop .hd-line{letter-spacing:.02em}
+.hd-tiles{display:flex;gap:18px;margin:6px 0 4px;flex-wrap:wrap}
+.hd-tile .n{color:var(--amber);font-size:22px;line-height:1;text-shadow:0 0 8px rgba(255,176,0,.45)}
+.hd-tile .n b{color:var(--phos);font-weight:normal}
+.hd-tile .k{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.22em;color:var(--mut);margin-top:2px}
+.hd-chart svg{width:100%;max-width:520px;height:84px;display:block;margin-top:2px}
+.hd-chart .bar{fill:var(--phos);opacity:.85}
+.hd-chart .bar.z{fill:var(--mut);opacity:.6}
+.hd-chart .bar.hot{fill:var(--amber)}
+.hd-chart .div{stroke:var(--phos-dim);stroke-dasharray:3 3;stroke-width:1}
+.hd-chart .lbl{fill:var(--mut);font-family:'VT323',monospace;font-size:11px}
+.hd-chart .lbl.w{fill:var(--phos-dim);font-size:12px}
+.hd-more{color:var(--phos);cursor:pointer;font-size:14px;letter-spacing:.06em;margin-top:6px;display:inline-block}
+.hd-more:hover{text-decoration:underline}
+body.light .hit-drop{background:#f7f5ee;border-color:#ddd;color:#222}
+body.light .hd-chart .bar.z{fill:#bbb}
 .ldr.hr-hit{background:linear-gradient(90deg,rgba(43,255,100,.10),transparent 70%);border-left:2px solid var(--phos)}
 .ldr.hr-hit .v{color:var(--phos);text-shadow:0 0 10px rgba(43,255,100,.65)}
 .hr-flag{font-family:'VT323',monospace;font-size:14px;color:var(--phos);border:1px solid #0d5c2d;
@@ -785,7 +805,7 @@ wf:{t:"WALK-FORWARD VALIDATION",b:"Each month predicted by a model trained ONLY 
 classes:{t:"BET CLASSES",b:"ALIGNED: the bet is on the team the model picks to win. VALUE-DOG: the model picks one team to win, but the OTHER side's price is so generous it is the profitable bet.",i:"Value dogs lose more often than they win - by design - but the plus-money payouts have made them the most profitable class in the system."},
 buckets:{t:"EDGE BUCKETS",b:"All games bucketed by how much the model disagrees with the de-vigged market price, with the win rate of the model's value side in each bucket.",i:"The signature finding: 3-6% disagreement wins 57.9% and everything above it loses money. The bet window is built directly on this curve - and was tightened to 3-6% on Aug 12, 2026 because of it."},
 hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today, backtested walk-forward on 21,000+ batter-games of the 2026 season. The number uses only what survived that test: the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), the opposing starter's home-run tendency, the ballpark, and how many trips to the plate he gets - his confirmed batting slot once lineups post. Wind and heat badges are shown for context but are NOT in the number: they looked smart in-sample and failed the holdout, so they ride along as information while the nightly grading decides if they ever earn their way in. FAIR is the model's probability expressed as American odds; next to it are real 'to hit a home run' prices from the books as they post them. Once games go live, a hitter who goes deep lights up green with a 💣 - blinking while his game is in progress, steady once it's final. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. When FAIR is shorter than the book's price the model thinks the book is generous - but home-run props carry heavy vig and this display has no live record yet, so treat gaps as entertainment, not edges. Built before lineups post; wind reads update as game time approaches. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
-hitwatch:{t:"HIT WATCH",b:"The model's estimate of each hitter's chance of recording at least one hit today, with his chance of a two-hit game alongside. Backtested walk-forward on 22,000+ starter-games of the 2026 season, and it uses only what survived that test: the hitter's season hit rate (shrunk toward league average so a hot fortnight can't fake its way up the list), the opposing starter's hits-allowed tendency, the ballpark, and how many trips to the plate he really gets - his own plate appearances per game, tightened to his batting slot once lineups post. The lesson from the backtest was that raw expected plate appearances overstate hit chances - starters get pulled, ejected, or pinch-hit for in about one game in nine - so the number is built on EFFECTIVE trips, calibrated against what actually happened. Recent form and the starter's strikeout rate were tested and failed the holdout, so they are not in the number. FAIR is the model's probability as American odds; next to it are real 'to record a hit' prices from the books as they post them, and the 2+ HITS list underneath ranks the same slate by the chance of a two-hit game, with the best book price over 1.5 hits across DK, MGM and Caesars next to the model's fair - gold when a book is paying more than the model thinks it should. That list only lights up once a hitter has his second. Once games go live, a hitter who gets one lights up green with a 🎯 - blinking while his game is in progress, steady once it's final. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"Even the best hitters only get a hit in about two of every three games, so a 72% top of the list is what elite looks like. Books juice these props hard toward the favorite side - the model's FAIR will usually be longer than the book's price, and that is the vig showing, not an edge. No live record yet; treat gaps as entertainment. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
+hitwatch:{t:"HIT WATCH",b:"The model's estimate of each hitter's chance of recording at least one hit today, with his chance of a two-hit game alongside. Backtested walk-forward on 22,000+ starter-games of the 2026 season, and it uses only what survived that test: the hitter's season hit rate (shrunk toward league average so a hot fortnight can't fake its way up the list), the opposing starter's hits-allowed tendency, the ballpark, and how many trips to the plate he really gets - his own plate appearances per game, tightened to his batting slot once lineups post. The lesson from the backtest was that raw expected plate appearances overstate hit chances - starters get pulled, ejected, or pinch-hit for in about one game in nine - so the number is built on EFFECTIVE trips, calibrated against what actually happened. Recent form and the starter's strikeout rate were tested and failed the holdout, so they are not in the number. FAIR is the model's probability as American odds; next to it are real 'to record a hit' prices from the books as they post them, and the 2+ HITS list underneath ranks the same slate by the chance of a two-hit game, with the best book price over 1.5 hits across DK, MGM and Caesars next to the model's fair - gold when a book is paying more than the model thinks it should. That list only lights up once a hitter has his second. Tap any row to drop down his season line, the model's inputs, and his hits over the last 5, 10 and 20 games. Once games go live, a hitter who gets one lights up green with a 🎯 - blinking while his game is in progress, steady once it's final. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"Even the best hitters only get a hit in about two of every three games, so a 72% top of the list is what elite looks like. Books juice these props hard toward the favorite side - the model's FAIR will usually be longer than the book's price, and that is the vig showing, not an edge. No live record yet; treat gaps as entertainment. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
 f5:{t:"F5 SHADOW · PAPER ONLY",b:"An experimental second model that predicts the FIRST FIVE INNINGS winner instead of the full game, logged on paper against real first-5 moneyline prices. No money, no texts - a shadow ledger only.",i:"Why first 5? The model's features are all about starting pitchers, and starters own innings 1-5. Scored against 683 live games it called F5 winners at 57.7% vs 53.2% for full games. The catch: F5 markets are priced off those same starter stats and charge about a point more vig. So it earns its way in the only honest fashion - paper bets at real prices, judged after 50+ flags. The de-vig experiment looked great in backtest and failed live; this gets the same trial."},
 teams:{t:"TEAM SHEET",b:"The model's accuracy when it picks each team, and its betting record when the flag lands on them (minimum sample applies).",i:"Team-level streaks are mostly noise at this sample size - we track them to catch systematic blind spots, not to pick favorites."},
 splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price band, and the sharp-money signal at bet time.",i:"The FADE split should stay empty - plays where sharp money moved against us are vetoed automatically. Historically those bets hit 27%."},
@@ -983,11 +1003,67 @@ function renderHitWatch(){
     const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
     const flag=n?`<span class="hr-flag${st==="Final"?" done":""}">🎯 ${n>1?n+" HITS":"HIT"} ✓</span>`:"";
     const slotTxt=p.slot?` · BATTING ${p.slot}${p.slot===1?"ST":p.slot===2?"ND":p.slot===3?"RD":"TH"}`:"";
-    return`<div class="ldr${n?" hr-hit":""}" onclick="openPlayer(${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
+    const open=hitOpen.has("a"+p.id);
+    return`<div class="ldr${n?" hr-hit":""}" onclick="toggleHitDrop(event,'a',${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
       <div><div>${p.name}${flag}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · ${p.h} H / ${p.pa} PA${slotTxt}</div>
       ${oddsLine?`<div class="hr-odds">${oddsLine}</div>`:""}</div>
-      <span class="v">${Number(p.p).toFixed(1)}%</span></div>`}).join("");
+      <span class="v">${Number(p.p).toFixed(1)}%<span class="hd-caret">${open?"▴":"▾"}</span></span></div>${open?hitDropHTML(p):""}`}).join("");
   renderHit2();
+}
+/* per-player dropdown: season line + model factors + L5/L10/L20 hits + 20-game bar chart */
+const hitOpen=new Set(),hitDrop={};
+function toggleHitDrop(ev,list,id){
+  ev.stopPropagation();
+  const k=list+id;
+  if(hitOpen.has(k))hitOpen.delete(k);else{hitOpen.add(k);if(!hitDrop[id])loadHitDrop(id)}
+  renderHitWatch();
+}
+async function loadHitDrop(id){
+  hitDrop[id]={loading:true};
+  try{
+    const j=await(await fetch(`https://statsapi.mlb.com/api/v1/people/${id}/stats?stats=season,gameLog&group=hitting&season=2026`)).json();
+    let season={},log=[];
+    for(const s of j.stats||[]){
+      const ty=s.type?.displayName;
+      if(ty==="season")season=s.splits?.[0]?.stat||{};
+      if(ty==="gameLog")log=(s.splits||[]).filter(x=>(x.stat?.plateAppearances||x.stat?.atBats||0)>0)
+        .map(x=>({d:x.date||"",opp:AB[x.opponent?.name]||x.opponent?.name||"",home:!!x.isHome,h:+x.stat.hits||0,ab:+x.stat.atBats||0,hr:+x.stat.homeRuns||0}));
+    }
+    hitDrop[id]={season,log:log.slice(-20)};
+  }catch{hitDrop[id]={err:true}}
+  renderHitWatch();
+}
+function hitWin(log,n){
+  const w=log.slice(-n);const h=w.reduce((a,g)=>a+g.h,0),ab=w.reduce((a,g)=>a+g.ab,0),gh=w.filter(g=>g.h>0).length;
+  return{h,ab,gh,g:w.length,avg:ab?(h/ab).toFixed(3).replace(/^0/,""):"—"};
+}
+function hitDropHTML(p){
+  const d=hitDrop[p.id];
+  const model=`<div class="hd-role">MODEL INPUTS</div><div class="hd-line"><span class="hd-k">BAT</span> ${p.f_bat}× <span class="hd-k">· STARTER</span> ${p.f_pit}× <span class="hd-k">· PARK</span> ${p.f_park}× <span class="hd-k">· HIT/PA</span> ${p.h_pa!=null?Number(p.h_pa).toFixed(3).replace(/^0/,""):"—"} <span class="hd-k">· EFF PA</span> ${p.n_eff??"—"}${p.pa_g?` <span class="hd-k">(${Number(p.pa_g).toFixed(1)} PA/G)</span>`:""} <span class="hd-k">· 1+</span> ${Number(p.p).toFixed(1)}% <span class="hd-k">· 2+</span> ${p.p2!=null?Number(p.p2).toFixed(1)+"%":"—"}</div>`;
+  if(!d||d.loading)return`<div class="hit-drop" onclick="event.stopPropagation()">${model}<div class="hd-k" style="margin-top:6px">LOADING GAME LOG…</div></div>`;
+  if(d.err)return`<div class="hit-drop" onclick="event.stopPropagation()">${model}<div class="hd-k" style="margin-top:6px">GAME LOG UNAVAILABLE</div></div>`;
+  const st=d.season||{},log=d.log||[];
+  const kp=st.plateAppearances?` · K% ${(100*(+st.strikeOuts||0)/st.plateAppearances).toFixed(0)} · BB% ${(100*(+st.baseOnBalls||0)/st.plateAppearances).toFixed(0)}`:"";
+  const seasonLine=`<div class="hd-role">2026 HITTING</div><div class="hd-line">${st.avg??"—"}/${st.obp??"—"}/${st.slg??"—"} <span class="hd-k">·</span> ${st.ops??"—"} OPS <span class="hd-k">·</span> ${st.hits??0} H <span class="hd-k">·</span> ${st.doubles??0} 2B <span class="hd-k">·</span> ${st.homeRuns??0} HR <span class="hd-k">·</span> ${st.rbi??0} RBI <span class="hd-k">·</span> ${st.stolenBases??0} SB${kp} <span class="hd-k">· ${st.gamesPlayed??0} G</span></div>`;
+  const W=[5,10,20].map(n=>[n,hitWin(log,n)]);
+  const tiles=`<div class="hd-role">HITS · LAST 5 / 10 / 20</div><div class="hd-tiles">${W.map(([n,w])=>`<div class="hd-tile"><div class="n">${w.h}<span class="hd-k" style="font-size:14px"> H</span> <b>${w.avg}</b></div><div class="k">L${n} · ${w.gh}/${w.g} W/ HIT · ${w.h}-${w.ab}</div></div>`).join("")}</div>`;
+  // bar chart: oldest -> newest, 20 slots, dashed dividers at the L10 and L5 boundaries
+  const N=20,bw=16,gap=4,H=84,base=62,maxH=46;
+  const pad=N-log.length;
+  let bars="";
+  log.forEach((g,i)=>{
+    const x=(i+pad)*(bw+gap)+2,hh=g.h?Math.max(6,Math.min(4,g.h)/4*maxH):2;
+    const cls=g.h>=3?"bar hot":g.h?"bar":"bar z";
+    bars+=`<rect class="${cls}" x="${x}" y="${base-hh}" width="${bw}" height="${hh}" rx="1"><title>${g.d.slice(5)} ${g.home?"vs":"@"} ${g.opp}: ${g.h}-${g.ab}${g.hr?" "+g.hr+"HR":""}</title></rect>`;
+    if(g.h)bars+=`<text class="lbl" x="${x+bw/2}" y="${base-hh-3}" text-anchor="middle" style="fill:var(--ink)">${g.h}</text>`;
+    if(i===0||i===log.length-1||(i+pad)%5===4)bars+=`<text class="lbl" x="${x+bw/2}" y="${H-10}" text-anchor="middle">${g.d.slice(5).replace("-","/")}</text>`;
+  });
+  const dx=n=>(N-n)*(bw+gap);
+  const divs=`<line class="div" x1="${dx(10)}" y1="6" x2="${dx(10)}" y2="${base+2}"/><line class="div" x1="${dx(5)}" y1="6" x2="${dx(5)}" y2="${base+2}"/>
+    <text class="lbl w" x="${dx(20)+2}" y="9">L20</text><text class="lbl w" x="${dx(10)+3}" y="9">L10</text><text class="lbl w" x="${dx(5)+3}" y="9">L5</text>
+    <line x1="0" y1="${base+1}" x2="${N*(bw+gap)}" y2="${base+1}" style="stroke:var(--line);stroke-width:1"/>`;
+  const chart=`<div class="hd-chart"><svg viewBox="0 0 ${N*(bw+gap)} ${H}" preserveAspectRatio="none">${divs}${bars}</svg></div>`;
+  return`<div class="hit-drop" onclick="event.stopPropagation()">${seasonLine}${model}${tiles}${chart}<span class="hd-more" onclick="openPlayer(${p.id})">FULL PLAYER CARD ›</span></div>`;
 }
 function renderHit2(){
   const L=(hitData&&hitData.players2)||[];
@@ -1008,10 +1084,11 @@ function renderHit2(){
     const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
     const flag=n>=2?`<span class="hr-flag${st==="Final"?" done":""}">🎯 ${n} HITS ✓</span>`:"";
     const sofar=n===1?` · <span class="soft">1 HIT SO FAR</span>`:"";
-    return`<div class="ldr${n>=2?" hr-hit":""}" onclick="openPlayer(${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
+    const open=hitOpen.has("b"+p.id);
+    return`<div class="ldr${n>=2?" hr-hit":""}" onclick="toggleHitDrop(event,'b',${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
       <div><div>${p.name}${flag}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · 1+ ${Number(p.p).toFixed(0)}%${sofar}</div>
       ${oddsLine?`<div class="hr-odds">${oddsLine}</div>`:""}</div>
-      <span class="v">${Number(p.p2).toFixed(1)}%</span></div>`}).join("");
+      <span class="v">${Number(p.p2).toFixed(1)}%<span class="hd-caret">${open?"▴":"▾"}</span></span></div>${open?hitDropHTML(p):""}`}).join("");
 }
 async function refreshHitLive(){
   if(!hitData)return;
