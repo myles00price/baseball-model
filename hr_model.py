@@ -22,7 +22,7 @@ context, and logged nightly for the training archive to re-litigate:
     correlated with seasonal environment shifts the base rate absorbs)
 Tail runs ~2.5pts hot at p>=16%; under watch nightly.
 
-- Batter HR/PA is shrunk toward the 2026 league rate with a 200-PA prior
+- Batter HR/PA is shrunk toward the 2026 league rate with a 300-PA prior
   (empirical Bayes) so hot small samples can't top the list.
 - Platoon (LOGGED ONLY, not in the number): the batter's HR rate vs the
   opposing starter's hand, shrunk 300-PA, capped 0.8–1.2. Still computed
@@ -93,7 +93,12 @@ API = "https://statsapi.mlb.com/api/v1"
 ODDS_BASE = "https://api.the-odds-api.com/v4/sports/baseball_mlb"
 ODDS_BOOKS = "draftkings,betmgm,williamhill_us"
 SEASON = 2026
-BATTER_PRIOR_PA = 200      # shrinkage prior for batter HR/PA
+BATTER_PRIOR_PA = 300      # shrinkage prior for batter HR/PA
+                           # 2026-08-15: 200 -> 300 (owner call). Miss audit
+                           # showed elite tier ~5pts hot; prior sweep: 300
+                           # wins Jul+ holdout (99.557 vs 99.623) and halves
+                           # the elite gap, but loses the May-Jun fit window.
+                           # Nightly archive adjudicates.
 PLATOON_PRIOR_PA = 300     # shrinkage prior for vs-hand split rate (HR
                            # splits are noisy; stiff prior keeps this honest)
 PITCHER_PRIOR_BF = 300     # shrinkage prior for pitcher HR/BF
@@ -378,6 +383,23 @@ def fetch_lineups(session, date):
     return out
 
 
+def load_log_odds(log_fn):
+    """{player_id: {dk/mgm/czr: price}} from an existing day log, if any."""
+    out = {}
+    if not os.path.exists(log_fn):
+        return out
+    try:
+        with open(log_fn, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                o = {bk: int(float(v)) for bk in ("dk", "mgm", "czr")
+                     if (v := r.get(f"odds_{bk}"))}
+                if o:
+                    out[int(r["player_id"])] = o
+    except Exception:
+        pass
+    return out
+
+
 def fetch_hr_odds(date, games):
     """{game_pk: {norm_player_name: {dk/mgm/czr: price}}} from the Odds API.
 
@@ -532,13 +554,17 @@ def main():
     players.sort(key=lambda x: -x["p"])
 
     # Book prices for everyone we have them for (the odds calls already
-    # return the full slate; matching is free).
+    # return the full slate; matching is free). Reruns after first pitch
+    # find the events feed mostly empty, so carry over any prices an
+    # earlier log of the same date already captured.
     odds = fetch_hr_odds(date, games)
     if odds:
         with open(ODDS_STAMP_FN, "w") as f:
             f.write(str(time.time()))
+    prev = load_log_odds(f"hr_log_{date}.csv")
     for p in players:
-        p["odds"] = odds.get(p["pk"], {}).get(norm_name(p["name"]), {})
+        fresh = odds.get(p["pk"], {}).get(norm_name(p["name"]), {})
+        p["odds"] = fresh or prev.get(p["id"], {})
         p["fair"] = american_from_prob(p["p"] / 100)
 
     # Full-slate training log — one row per eligible hitter, graded nightly
@@ -643,9 +669,8 @@ def refresh():
         # the label but never the probability
         wind_mult, temp_mult, wx_label = weather.get(pk, (1.0, 1.0, r.get("wind", "")))
         p = round((1 - (1 - hr_pa) ** exp_pa) * 100, 1)
-        if odds is not None:
-            o = odds.get(pk, {}).get(norm_name(r["name"]), {})
-        else:
+        o = odds.get(pk, {}).get(norm_name(r["name"]), {}) if odds else {}
+        if not o:  # fall back to the log's prices (post-first-pitch fetches go empty)
             o = {bk: int(float(v)) for bk in ("dk", "mgm", "czr")
                  if (v := r.get(f"odds_{bk}"))}
         out_players.append({
