@@ -84,6 +84,15 @@ def main():
     except Exception as e:
         print(f"hr watch failed: {e}")
 
+    # Refresh the board's HIT WATCH list (display only, never texted).
+    try:
+        subprocess.run(
+            [PYTHON, r"C:\Users\Poons\baseball-model\hit_model.py", today],
+            timeout=600,
+        )
+    except Exception as e:
+        print(f"hit watch failed: {e}")
+
     # Push the refreshed board to the site.
     try:
         subprocess.run(["git", "add", "."], timeout=60)

@@ -303,6 +303,16 @@ def main():
     except Exception as e:
         print(f"hr refresh failed: {e}")
 
+    # HIT WATCH: same lineup-aware refresh (drops non-starters, slot-blended
+    # effective PA). Display only; morning training log never touched.
+    did_hit = False
+    try:
+        subprocess.run([PYTHON, r"C:\Users\Poons\baseball-model\hit_model.py", "--refresh"],
+                       timeout=300)
+        did_hit = os.path.exists(f"hit_watch_{date_str}.json")
+    except Exception as e:
+        print(f"hit refresh failed: {e}")
+
     book_odds = fetch_market_odds(date_str) if pending else {}
 
     sent_any = False
@@ -336,13 +346,17 @@ def main():
 
     # Push immediately so the live board reflects locks and dropped leans
     # within one cycle instead of waiting for the next scheduled push.
-    if did_rerun or sent_any or did_hr:
+    if did_rerun or sent_any or did_hr or did_hit:
         try:
             subprocess.run(["git", "add", f"picks_{date_str}.csv", f"notified_{date_str}.json"], timeout=60)
             if os.path.exists(f"f5_shadow_{date_str}.json"):
                 subprocess.run(["git", "add", f"f5_shadow_{date_str}.json"], timeout=60)
             if did_hr:
                 subprocess.run(["git", "add", f"hr_watch_{date_str}.json", "hr_odds_stamp.txt"], timeout=60)
+            if did_hit:
+                subprocess.run(["git", "add", f"hit_watch_{date_str}.json"], timeout=60)
+                if os.path.exists("hit_odds_stamp.txt"):
+                    subprocess.run(["git", "add", "hit_odds_stamp.txt"], timeout=60)
             subprocess.run(["git", "commit", "-m", f"lineup lock update {date_str}"], timeout=60)
             subprocess.run(["git", "push"], timeout=120)
             print("pushed lock update to site")

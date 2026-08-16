@@ -421,17 +421,27 @@ def fetch_hr_odds(date, games):
         return norm_name(n).split()[-1] if n else ""
 
     ev_by_key = {}
+    now = datetime.now(timezone.utc)
+    skipped_live = 0
     for e in events:
         # pin events to the requested board day (UTC-7) — the events feed
         # only carries upcoming games, so without this a rerun for a past
         # date would silently match the NEXT meeting of the same teams
         try:
-            cm = datetime.strptime(e["commence_time"], "%Y-%m-%dT%H:%M:%SZ")
-            ev_date = (cm.replace(tzinfo=timezone.utc)
-                       .astimezone(timezone(timedelta(hours=-7))).strftime("%Y-%m-%d"))
+            cm = (datetime.strptime(e["commence_time"], "%Y-%m-%dT%H:%M:%SZ")
+                          .replace(tzinfo=timezone.utc))
+            ev_date = cm.astimezone(timezone(timedelta(hours=-7))).strftime("%Y-%m-%d")
         except (KeyError, ValueError):
-            ev_date = date
+            cm, ev_date = None, date
         if ev_date != date:
+            continue
+        # The events feed keeps in-progress games for a couple of hours after
+        # first pitch and their prop prices are LIVE (an 0-for-3 hitter shows
+        # +165 mid-game). Pre-game only: skip anything already underway so the
+        # --refresh path can't overwrite the morning log's pre-game DK/MGM/CZR
+        # prices with in-play ones; those games keep their carried-over prices.
+        if cm is not None and cm <= now:
+            skipped_live += 1
             continue
         ev_by_key.setdefault((team_key(e.get("away_team")), team_key(e.get("home_team"))), e["id"])
     remaining = None
@@ -468,7 +478,8 @@ def fetch_hr_odds(date, games):
         out[g["pk"]] = prices
         time.sleep(0.1)
     print(f"Odds: prices for {sum(len(v) for v in out.values())} hitter-games "
-          f"across {len(out)} games (quota remaining {remaining})")
+          f"across {len(out)} games, {skipped_live} in-progress games skipped "
+          f"(quota remaining {remaining})")
     return out
 
 
