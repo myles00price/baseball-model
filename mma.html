@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BOARD — MMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--phos:#2bff64;--phos-dim:#1f7a3d;--amber:#ffb000;--hot:#ff2020;--ink:#f2f2f2;--mut:#5c5c5c;--line:#1c1c1c}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;min-height:100%}
+body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.5vw,40px) 40px}
+.frame{max-width:min(96vw,3200px);margin:0 auto}
+.banner{background:#0a0a0a;border:1px solid var(--line);border-left:3px solid var(--amber);
+  padding:12px 18px;margin-bottom:14px}
+.banner b{font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;color:var(--amber);font-size:19px}
+.banner p{font-size:13px;color:#b5b5b5;line-height:1.55;margin-top:5px}
+.evt{font-family:'VT323',monospace;font-size:19px;color:var(--phos);margin-bottom:12px;
+  border-bottom:1px solid var(--line);padding-bottom:8px}
+.evt span{color:var(--mut)}
+.bouts{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:14px}
+.bout{background:#0a0a0a;border:1px solid var(--line);padding:14px 16px}
+.bout.unrated{opacity:.55}
+.slot{font-family:'VT323',monospace;font-size:14px;color:var(--mut);letter-spacing:.08em}
+.names{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;margin:3px 0 10px}
+.vs{color:var(--mut);font-size:17px;padding:0 3px}
+table.proj{width:100%;border-collapse:collapse;font-size:13px}
+table.proj th{font-family:'VT323',monospace;font-size:13px;color:var(--mut);
+  text-align:right;font-weight:400;padding:2px 5px;letter-spacing:.05em}
+table.proj th:first-child{text-align:left}
+table.proj td{padding:3px 5px;text-align:right;border-top:1px solid #141414}
+table.proj td.who{text-align:left;color:#cfcfcf}
+table.proj td.med{color:var(--phos);font-weight:700;font-size:15px}
+table.proj td.wide{color:var(--mut)}
+table.proj td.n{font-family:'VT323',monospace;color:var(--mut)}
+tr.tot td{border-top:1px solid #262626}
+tr.tot td.who{color:var(--amber);font-family:'VT323',monospace;letter-spacing:.06em}
+.dur{font-family:'VT323',monospace;font-size:14px;color:var(--mut);margin-top:8px}
+.flags{list-style:none;margin-top:8px;border-top:1px dashed #2a2a2a;padding-top:6px}
+.flags li{font-family:'VT323',monospace;font-size:13px;color:var(--amber)}
+.flags li:before{content:"⚠ "}
+.norate{font-family:'VT323',monospace;font-size:14px;color:var(--mut);margin-top:6px}
+.foot{margin-top:18px;font-family:'VT323',monospace;font-size:14px;color:var(--mut);line-height:1.6}
+body.light{--phos:#0a7a34;--amber:#a35600;--ink:#14171c;--mut:#8a8272;--line:#d8d2c2;
+  background:#efece0;color:#14171c}
+body.light .banner,body.light .bout{background:#f7f4ec;border-color:var(--line)}
+body.light .banner{border-left-color:var(--amber)}
+body.light .banner p{color:#4a463c}
+body.light table.proj td{border-color:#e6e0d0}
+body.light table.proj td.who{color:#3b3830}
+body.light tr.tot td{border-color:#d8d2c2}
+</style>
+</head>
+<body><div class="frame">
+  <div id="shell"></div>
+  <script>window.SHELL={sport:'mma',accent:'MMA',sub:'UFC 331 · REFERENCE ONLY',ownUI:true}</script>
+  <script src="shell.js"></script>
+
+  <div class="banner">
+    <b>REFERENCE NUMBERS — NOT PLAYS</b>
+    <p>This is a decision-support tool, not a pick service. It publishes a predictive
+    <em>distribution</em> of significant strikes landed, to sit beside a posted line. There is
+    no edge calculation, no stake, and nothing here is texted to subscribers. Walk-forward
+    validation is still outstanding — until it lands, treat these as indicative.</p>
+  </div>
+
+  <div class="evt">UFC 331 — VAN vs PANTOJA 2
+    <span>· Sep 19, 2026 · Crypto.com Arena, Los Angeles</span></div>
+
+  <div class="bouts">
+<div class='bout'>
+  <div class='slot'>MAIN EVENT · flyweight · 5R</div>
+  <div class='names' data-player='Joshua Van Alexandre Pantoja'>
+    Joshua Van <span class='vs'>vs</span> Alexandre Pantoja</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Joshua Van</td><td class='med'>120</td>
+        <td>55–195</td><td class='wide'>20–269</td>
+        <td class='n'>32</td></tr>
+    <tr><td class='who'>Alexandre Pantoja</td><td class='med'>82</td>
+        <td>38–133</td><td class='wide'>14–184</td>
+        <td class='n'>48</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>226</td>
+        <td>104–327</td><td class='wide'>38–416</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 17.9 min · P(decision) 0.53</div>
+  
+</div><div class='bout'>
+  <div class='slot'>CO-MAIN · lightweight · 5R</div>
+  <div class='names' data-player='Arman Tsarukyan Mauricio Ruffy'>
+    Arman Tsarukyan <span class='vs'>vs</span> Mauricio Ruffy</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Arman Tsarukyan</td><td class='med'>40</td>
+        <td>16–77</td><td class='wide'>6–113</td>
+        <td class='n'>32</td></tr>
+    <tr><td class='who'>Mauricio Ruffy</td><td class='med'>30</td>
+        <td>12–58</td><td class='wide'>4–86</td>
+        <td class='n'>10</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>78</td>
+        <td>31–138</td><td class='wide'>12–187</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 14.8 min · P(decision) 0.35</div>
+  
+</div><div class='bout'>
+  <div class='slot'>MAIN CARD · lightweight · 3R</div>
+  <div class='names' data-player='Renato Moicano Brian Ortega'>
+    Renato Moicano <span class='vs'>vs</span> Brian Ortega</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Renato Moicano</td><td class='med'>49</td>
+        <td>21–82</td><td class='wide'>8–115</td>
+        <td class='n'>43</td></tr>
+    <tr><td class='who'>Brian Ortega</td><td class='med'>30</td>
+        <td>13–50</td><td class='wide'>5–71</td>
+        <td class='n'>42</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>88</td>
+        <td>37–133</td><td class='wide'>14–171</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 10.4 min · P(decision) 0.49</div>
+  <ul class='flags'><li>brian ortega: weight-class change, featherweight -&gt; lightweight</li></ul>
+</div><div class='bout'>
+  <div class='slot'>MAIN CARD · featherweight · 3R</div>
+  <div class='names' data-player='Patricio Freire Dooho Choi'>
+    Patricio Freire <span class='vs'>vs</span> Dooho Choi</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Patricio Freire</td><td class='med'>28</td>
+        <td>11–49</td><td class='wide'>4–69</td>
+        <td class='n'>6</td></tr>
+    <tr><td class='who'>Dooho Choi</td><td class='med'>38</td>
+        <td>16–66</td><td class='wide'>6–94</td>
+        <td class='n'>20</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>74</td>
+        <td>30–116</td><td class='wide'>12–151</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 9.9 min · P(decision) 0.45</div>
+  <ul class='flags'><li>patricio freire: only 6 prior UFC rounds (&lt; 8)</li><li>patricio freire: 427 day layoff (&gt; 400)</li></ul>
+</div><div class='bout'>
+  <div class='slot'>MAIN CARD · bantamweight · 3R</div>
+  <div class='names' data-player='Charles Jourdain Marlon Vera'>
+    Charles Jourdain <span class='vs'>vs</span> Marlon Vera</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Charles Jourdain</td><td class='med'>69</td>
+        <td>38–103</td><td class='wide'>15–137</td>
+        <td class='n'>42</td></tr>
+    <tr><td class='who'>Marlon Vera</td><td class='med'>47</td>
+        <td>26–70</td><td class='wide'>10–94</td>
+        <td class='n'>75</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>126</td>
+        <td>79–169</td><td class='wide'>29–209</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 12.3 min · P(decision) 0.69</div>
+  <ul class='flags'><li>charles jourdain: weight-class change, featherweight -&gt; bantamweight</li></ul>
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · middleweight · 3R</div>
+  <div class='names' data-player='Edmen Shahbazyan Brunno Ferreira'>
+    Edmen Shahbazyan <span class='vs'>vs</span> Brunno Ferreira</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Edmen Shahbazyan</td><td class='med'>34</td>
+        <td>14–58</td><td class='wide'>5–82</td>
+        <td class='n'>30</td></tr>
+    <tr><td class='who'>Brunno Ferreira</td><td class='med'>28</td>
+        <td>11–48</td><td class='wide'>4–68</td>
+        <td class='n'>17</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>69</td>
+        <td>28–106</td><td class='wide'>11–138</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 10.1 min · P(decision) 0.47</div>
+  
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · heavyweight · 3R</div>
+  <div class='names' data-player='Tai Tuivasa Robelis Despaigne'>
+    Tai Tuivasa <span class='vs'>vs</span> Robelis Despaigne</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Tai Tuivasa</td><td class='med'>27</td>
+        <td>12–45</td><td class='wide'>4–63</td>
+        <td class='n'>35</td></tr>
+    <tr><td class='who'>Robelis Despaigne</td><td class='med'>35</td>
+        <td>15–58</td><td class='wide'>6–81</td>
+        <td class='n'>7</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>69</td>
+        <td>30–103</td><td class='wide'>11–132</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 10.6 min · P(decision) 0.51</div>
+  <ul class='flags'><li>robelis despaigne: only 7 prior UFC rounds (&lt; 8)</li><li>robelis despaigne: 700 day layoff (&gt; 400)</li></ul>
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · featherweight · 3R</div>
+  <div class='names' data-player='Giga Chikadze Joanderson Brito'>
+    Giga Chikadze <span class='vs'>vs</span> Joanderson Brito</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Giga Chikadze</td><td class='med'>29</td>
+        <td>13–48</td><td class='wide'>5–66</td>
+        <td class='n'>33</td></tr>
+    <tr><td class='who'>Joanderson Brito</td><td class='med'>28</td>
+        <td>12–45</td><td class='wide'>4–63</td>
+        <td class='n'>20</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>64</td>
+        <td>29–93</td><td class='wide'>11–118</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 10.8 min · P(decision) 0.53</div>
+  
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · light_heavyweight · 3R</div>
+  <div class='names' data-player='Iwo Baraniewski Alonzo Menifield'>
+    Iwo Baraniewski <span class='vs'>vs</span> Alonzo Menifield</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Iwo Baraniewski</td><td class='med'>29</td>
+        <td>12–59</td><td class='wide'>5–90</td>
+        <td class='n'>3</td></tr>
+    <tr><td class='who'>Alonzo Menifield</td><td class='med'>24</td>
+        <td>10–50</td><td class='wide'>4–77</td>
+        <td class='n'>35</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>58</td>
+        <td>23–113</td><td class='wide'>10–159</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 8.1 min · P(decision) 0.28</div>
+  <ul class='flags'><li>iwo baraniewski: only 3 prior UFC rounds (&lt; 8)</li></ul>
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · w_flyweight · 3R</div>
+  <div class='names' data-player='Casey O&#x27;Neill Eduarda Moura'>
+    Casey O&#x27;Neill <span class='vs'>vs</span> Eduarda Moura</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Casey O&#x27;Neill</td><td class='med'>60</td>
+        <td>32–91</td><td class='wide'>12–122</td>
+        <td class='n'>19</td></tr>
+    <tr><td class='who'>Eduarda Moura</td><td class='med'>40</td>
+        <td>21–61</td><td class='wide'>8–82</td>
+        <td class='n'>14</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>109</td>
+        <td>64–149</td><td class='wide'>23–185</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 12.0 min · P(decision) 0.66</div>
+  
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · middleweight · 3R</div>
+  <div class='names' data-player='Ryan Gandra Ozzy Diaz'>
+    Ryan Gandra <span class='vs'>vs</span> Ozzy Diaz</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Ryan Gandra</td><td class='med'>33</td>
+        <td>13–67</td><td class='wide'>5–102</td>
+        <td class='n'>2</td></tr>
+    <tr><td class='who'>Ozzy Diaz</td><td class='med'>28</td>
+        <td>11–58</td><td class='wide'>4–89</td>
+        <td class='n'>6</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>66</td>
+        <td>27–130</td><td class='wide'>12–181</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 8.1 min · P(decision) 0.28</div>
+  <ul class='flags'><li>ryan gandra: only 2 prior UFC rounds (&lt; 8)</li><li>ozzy diaz: only 6 prior UFC rounds (&lt; 8)</li></ul>
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · heavyweight · 3R</div>
+  <div class='names' data-player='Gable Steveson Sean Sharaf'>
+    Gable Steveson <span class='vs'>vs</span> Sean Sharaf</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Gable Steveson</td><td class='med'>57</td>
+        <td>23–120</td><td class='wide'>10–189</td>
+        <td class='n'>1</td></tr>
+    <tr><td class='who'>Sean Sharaf</td><td class='med'>27</td>
+        <td>11–57</td><td class='wide'>4–91</td>
+        <td class='n'>4</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>89</td>
+        <td>38–184</td><td class='wide'>17–268</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 7.6 min · P(decision) 0.24</div>
+  <ul class='flags'><li>gable steveson: only 1 prior UFC rounds (&lt; 8)</li><li>sean sharaf: only 4 prior UFC rounds (&lt; 8)</li></ul>
+</div><div class='bout'>
+  <div class='slot'>PRELIMS · featherweight · 3R</div>
+  <div class='names' data-player='Michael Aswell Jr. Joosang Yoo'>
+    Michael Aswell Jr. <span class='vs'>vs</span> Joosang Yoo</div>
+  <table class='proj'>
+    <tr><th></th><th>MEDIAN</th><th>50% RANGE</th><th>80% RANGE</th><th>N</th></tr>
+    <tr><td class='who'>Michael Aswell Jr.</td><td class='med'>49</td>
+        <td>20–87</td><td class='wide'>8–124</td>
+        <td class='n'>10</td></tr>
+    <tr><td class='who'>Joosang Yoo</td><td class='med'>51</td>
+        <td>21–91</td><td class='wide'>8–130</td>
+        <td class='n'>3</td></tr>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>112</td>
+        <td>44–180</td><td class='wide'>18–235</td>
+        <td class='n'></td></tr>
+  </table>
+  <div class='dur'>E[length] 9.6 min · P(decision) 0.42</div>
+  <ul class='flags'><li>joosang yoo: only 3 prior UFC rounds (&lt; 8)</li></ul>
+</div>
+  </div>
+
+  <div class="foot">
+    median = 50th percentile of the predictive distribution · N = prior UFC rounds in the
+    dataset<br>
+    ranges are genuine predictive intervals, not confidence bands: a fight that ends in
+    round one produces very few strikes, so the low end is real<br>
+    strike rate and fight duration are modelled separately and combined by convolution ·
+    generated 2026-08-15 23:06
+  </div>
+</div></body></html>
