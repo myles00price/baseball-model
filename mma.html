@@ -63,11 +63,14 @@ body.light tr.tot td{border-color:#d8d2c2}
     <em>distribution</em> of significant strikes landed, to sit beside a posted line. There is
     no edge calculation, no stake, and nothing here is texted to subscribers.</p>
     <p>Walk-forward validated over 31 quarterly refits, 2019&ndash;2026: on main events the
-    50% interval covered <b>52.6%</b> and the 80% interval <b>84.1%</b> (nominal 50 / 80),
-    with the PIT indistinguishable from uniform. Per-fighter lines are the trustworthy
-    output. <b>The BOUT TOTAL row is not calibrated</b> &mdash; its coverage is close but its
-    shape fails a KS test, because the model does not capture the way one fighter grounding
-    the other suppresses both counts. Read totals as directional only.</p>
+    per-fighter 50% interval covered <b>52.6%</b> and the 80% interval <b>84.1%</b>
+    (nominal 50 / 80), with the PIT indistinguishable from uniform. The bout-total row
+    also passes on main events, and is modelled directly rather than added from the two
+    fighters &mdash; given fight length their counts still move together, so simply summing
+    the two distributions comes out too narrow.</p>
+    <p><b>Totals carry more slack than the per-fighter lines.</b> Across all bouts their
+    intervals run about three points wide of nominal, which the model cannot tune away
+    without distorting the distribution elsewhere. Lean on the per-fighter numbers.</p>
     <p>Calibration is not an edge. Nothing here says these numbers beat a posted price.</p>
   </div>
 
@@ -87,8 +90,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Alexandre Pantoja</td><td class='med'>82</td>
         <td>38–133</td><td class='wide'>14–184</td>
         <td class='n'>48</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>226</td>
-        <td>104–327</td><td class='wide'>38–416</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>225</td>
+        <td>104–327</td><td class='wide'>38–418</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 17.9 min · P(decision) 0.53</div>
@@ -105,7 +108,7 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Mauricio Ruffy</td><td class='med'>30</td>
         <td>12–58</td><td class='wide'>4–86</td>
         <td class='n'>10</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>78</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>77</td>
         <td>31–138</td><td class='wide'>12–187</td>
         <td class='n'></td></tr>
   </table>
@@ -123,8 +126,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Brian Ortega</td><td class='med'>30</td>
         <td>13–50</td><td class='wide'>5–71</td>
         <td class='n'>42</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>88</td>
-        <td>37–133</td><td class='wide'>14–171</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>82</td>
+        <td>35–132</td><td class='wide'>13–180</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 10.4 min · P(decision) 0.49</div>
@@ -141,8 +144,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Dooho Choi</td><td class='med'>38</td>
         <td>16–66</td><td class='wide'>6–94</td>
         <td class='n'>20</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>74</td>
-        <td>30–116</td><td class='wide'>12–151</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>69</td>
+        <td>28–115</td><td class='wide'>11–159</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 9.9 min · P(decision) 0.45</div>
@@ -159,8 +162,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Marlon Vera</td><td class='med'>47</td>
         <td>26–70</td><td class='wide'>10–94</td>
         <td class='n'>75</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>126</td>
-        <td>79–169</td><td class='wide'>29–209</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>120</td>
+        <td>70–171</td><td class='wide'>27–223</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 12.3 min · P(decision) 0.69</div>
@@ -177,8 +180,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Brunno Ferreira</td><td class='med'>28</td>
         <td>11–48</td><td class='wide'>4–68</td>
         <td class='n'>17</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>69</td>
-        <td>28–106</td><td class='wide'>11–138</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>64</td>
+        <td>27–106</td><td class='wide'>10–145</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 10.1 min · P(decision) 0.47</div>
@@ -195,8 +198,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Robelis Despaigne</td><td class='med'>35</td>
         <td>15–58</td><td class='wide'>6–81</td>
         <td class='n'>7</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>69</td>
-        <td>30–103</td><td class='wide'>11–132</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>65</td>
+        <td>28–103</td><td class='wide'>11–139</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 10.6 min · P(decision) 0.51</div>
@@ -213,8 +216,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Joanderson Brito</td><td class='med'>28</td>
         <td>12–45</td><td class='wide'>4–63</td>
         <td class='n'>20</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>64</td>
-        <td>29–93</td><td class='wide'>11–118</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>59</td>
+        <td>27–93</td><td class='wide'>10–125</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 10.8 min · P(decision) 0.53</div>
@@ -231,8 +234,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Alonzo Menifield</td><td class='med'>24</td>
         <td>10–50</td><td class='wide'>4–77</td>
         <td class='n'>35</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>58</td>
-        <td>23–113</td><td class='wide'>10–159</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>55</td>
+        <td>22–110</td><td class='wide'>9–164</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 8.1 min · P(decision) 0.28</div>
@@ -249,8 +252,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Eduarda Moura</td><td class='med'>40</td>
         <td>21–61</td><td class='wide'>8–82</td>
         <td class='n'>14</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>109</td>
-        <td>64–149</td><td class='wide'>23–185</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>103</td>
+        <td>57–151</td><td class='wide'>22–197</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 12.0 min · P(decision) 0.66</div>
@@ -267,8 +270,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Ozzy Diaz</td><td class='med'>28</td>
         <td>11–58</td><td class='wide'>4–89</td>
         <td class='n'>6</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>66</td>
-        <td>27–130</td><td class='wide'>12–181</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>63</td>
+        <td>26–126</td><td class='wide'>11–187</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 8.1 min · P(decision) 0.28</div>
@@ -285,8 +288,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Sean Sharaf</td><td class='med'>27</td>
         <td>11–57</td><td class='wide'>4–91</td>
         <td class='n'>4</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>89</td>
-        <td>38–184</td><td class='wide'>17–268</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>86</td>
+        <td>36–180</td><td class='wide'>16–275</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 7.6 min · P(decision) 0.24</div>
@@ -303,8 +306,8 @@ body.light tr.tot td{border-color:#d8d2c2}
     <tr><td class='who'>Joosang Yoo</td><td class='med'>51</td>
         <td>21–91</td><td class='wide'>8–130</td>
         <td class='n'>3</td></tr>
-    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>112</td>
-        <td>44–180</td><td class='wide'>18–235</td>
+    <tr class='tot'><td class='who'>BOUT TOTAL</td><td class='med'>104</td>
+        <td>42–178</td><td class='wide'>17–247</td>
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 9.6 min · P(decision) 0.42</div>
@@ -318,6 +321,6 @@ body.light tr.tot td{border-color:#d8d2c2}
     ranges are genuine predictive intervals, not confidence bands: a fight that ends in
     round one produces very few strikes, so the low end is real<br>
     strike rate and fight duration are modelled separately and combined by convolution ·
-    generated 2026-08-16 10:22
+    generated 2026-08-16 11:11
   </div>
 </div></body></html>
