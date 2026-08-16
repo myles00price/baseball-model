@@ -491,15 +491,21 @@ def main():
             })
     print(f"Logged {len(players)} hitter rows to {log_fn}")
 
-    top = [dict(p) for p in players[:TOP_N]]
-    for p in top:
-        del p["sp_hand"]
+    def strip(p):
+        p = dict(p)
+        p.pop("sp_hand", None)
+        return p
+
+    top = [strip(p) for p in players[:TOP_N]]
+    # second list: two-hit games, ranked by P(2+) — the plus-money 1.5 line
+    top2 = [strip(p) for p in sorted(players, key=lambda x: -x["p2"])[:TOP_N]]
 
     out = {
         "date": date,
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "league_h_pa": round(lg_rate, 4),
         "players": top,
+        "players2": top2,
     }
     fn = f"hit_watch_{date}.json"
     with open(fn, "w") as f:
@@ -579,6 +585,7 @@ def refresh():
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "lineups_confirmed": len(lineups),
         "players": out_players[:TOP_N],
+        "players2": sorted(out_players, key=lambda x: -x["p2"])[:TOP_N],
     }
     with open(f"hit_watch_{date}.json", "w") as f:
         json.dump(out, f, indent=1)
