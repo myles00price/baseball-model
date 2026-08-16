@@ -492,15 +492,15 @@
  "Seattle Mariners@Houston Astros": {
   "away": "Seattle Mariners",
   "home": "Houston Astros",
-  "prob_home": 58.1,
+  "prob_home": 54.9,
   "odds": {
    "draftkings": {
-    "Houston Astros": -125,
-    "Seattle Mariners": -105
+    "Houston Astros": -135,
+    "Seattle Mariners": 105
    },
    "williamhill_us": {
-    "Houston Astros": -125,
-    "Seattle Mariners": -105
+    "Houston Astros": -130,
+    "Seattle Mariners": 100
    },
    "fanduel": {
     "Houston Astros": -128,
@@ -512,16 +512,16 @@
    }
   },
   "best_away": [
-   "betmgm",
+   "draftkings",
    105
   ],
   "best_home": [
-   "draftkings",
-   -125
+   "fanduel",
+   -128
   ],
-  "dv_edge_away": -4.0,
-  "dv_edge_home": 6.1,
+  "dv_edge_away": -0.8,
+  "dv_edge_home": 1.8,
   "flag": "",
-  "locked": false
+  "locked": true
  }
 }
