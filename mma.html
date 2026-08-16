@@ -61,8 +61,14 @@ body.light tr.tot td{border-color:#d8d2c2}
     <b>REFERENCE NUMBERS — NOT PLAYS</b>
     <p>This is a decision-support tool, not a pick service. It publishes a predictive
     <em>distribution</em> of significant strikes landed, to sit beside a posted line. There is
-    no edge calculation, no stake, and nothing here is texted to subscribers. Walk-forward
-    validation is still outstanding — until it lands, treat these as indicative.</p>
+    no edge calculation, no stake, and nothing here is texted to subscribers.</p>
+    <p>Walk-forward validated over 31 quarterly refits, 2019&ndash;2026: on main events the
+    50% interval covered <b>52.6%</b> and the 80% interval <b>84.1%</b> (nominal 50 / 80),
+    with the PIT indistinguishable from uniform. Per-fighter lines are the trustworthy
+    output. <b>The BOUT TOTAL row is not calibrated</b> &mdash; its coverage is close but its
+    shape fails a KS test, because the model does not capture the way one fighter grounding
+    the other suppresses both counts. Read totals as directional only.</p>
+    <p>Calibration is not an edge. Nothing here says these numbers beat a posted price.</p>
   </div>
 
   <div class="evt">UFC 331 — VAN vs PANTOJA 2
@@ -248,7 +254,7 @@ body.light tr.tot td{border-color:#d8d2c2}
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 12.0 min · P(decision) 0.66</div>
-  
+  <ul class='flags'><li>eduarda moura: weight-class change, w_strawweight -&gt; w_flyweight</li></ul>
 </div><div class='bout'>
   <div class='slot'>PRELIMS · middleweight · 3R</div>
   <div class='names' data-player='Ryan Gandra Ozzy Diaz'>
@@ -312,6 +318,6 @@ body.light tr.tot td{border-color:#d8d2c2}
     ranges are genuine predictive intervals, not confidence bands: a fight that ends in
     round one produces very few strikes, so the low end is real<br>
     strike rate and fight duration are modelled separately and combined by convolution ·
-    generated 2026-08-15 23:06
+    generated 2026-08-16 10:22
   </div>
 </div></body></html>
