@@ -149,6 +149,12 @@ def main():
     except Exception as e:
         print(f"k grading failed: {e}")
 
+    try:  # PROPS LEDGER: analytics over the freshly graded HR/Hit/K archives
+        import props_analytics
+        props_analytics.main()
+    except Exception as e:
+        print(f"props analytics failed: {e}")
+
     if "--stats-only" in sys.argv:
         print("(stats-only: no text sent)")
         return

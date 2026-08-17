@@ -439,6 +439,11 @@ body.light .newsitem img{filter:none}
     <div class="k-foot" id="k-foot"></div>
   </div>
 
+  <div class="ledger" id="props" style="display:none;margin-top:14px">
+    <h2 onclick="openInfo(event,'props')">THE PROPS LEDGER · HOW THE WATCH LISTS ARE GRADING ⓘ</h2>
+    <div class="lg-grid" id="props-grid"></div>
+  </div>
+
   <div class="duo">
     <div class="sect" id="standings" style="display:none"><h2>THE STANDINGS</h2><div id="st-body"></div></div>
     <div class="sect" id="leaders" style="display:none"><h2>LEAGUE LEADERS</h2><div id="ld-body"></div></div>
@@ -828,6 +833,7 @@ buckets:{t:"EDGE BUCKETS",b:"All games bucketed by how much the model disagrees 
 hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today, backtested walk-forward on 21,000+ batter-games of the 2026 season. The number uses only what survived that test: the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), the opposing starter's home-run tendency, the ballpark, and how many trips to the plate he gets - his confirmed batting slot once lineups post. Wind and heat badges are shown for context but are NOT in the number: they looked smart in-sample and failed the holdout, so they ride along as information while the nightly grading decides if they ever earn their way in. FAIR is the model's probability expressed as American odds; next to it are real 'to hit a home run' prices from the books as they post them. Once games go live, a hitter who goes deep lights up green with a 💣 - blinking while his game is in progress, steady once it's final. Tap any row to drop down his season line, the model's inputs, and his home runs and hits over the last 5, 10 and 20 games. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. When FAIR is shorter than the book's price the model thinks the book is generous - but home-run props carry heavy vig and this display has no live record yet, so treat gaps as entertainment, not edges. Built before lineups post; wind reads update as game time approaches. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
 hitwatch:{t:"HIT WATCH",b:"The model's estimate of each hitter's chance of recording at least one hit today, with his chance of a two-hit game alongside. Backtested walk-forward on 22,000+ starter-games of the 2026 season, and it uses only what survived that test: the hitter's season hit rate (shrunk toward league average so a hot fortnight can't fake its way up the list), the opposing starter's hits-allowed tendency, the ballpark, and how many trips to the plate he really gets - his own plate appearances per game, tightened to his batting slot once lineups post. The lesson from the backtest was that raw expected plate appearances overstate hit chances - starters get pulled, ejected, or pinch-hit for in about one game in nine - so the number is built on EFFECTIVE trips, calibrated against what actually happened. Recent form and the starter's strikeout rate were tested and failed the holdout, so they are not in the number. FAIR is the model's probability as American odds; next to it are real 'to record a hit' prices from the books as they post them, and the 2+ HITS list underneath ranks the same slate by the chance of a two-hit game, with the best book price over 1.5 hits across DK, MGM and Caesars next to the model's fair - gold when a book is paying more than the model thinks it should. That list only lights up once a hitter has his second. Tap any row to drop down his season line, the model's inputs, and his hits over the last 5, 10 and 20 games. Once games go live, a hitter who gets one lights up green with a 🎯 - blinking while his game is in progress, steady once it's final. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"Even the best hitters only get a hit in about two of every three games, so a 72% top of the list is what elite looks like. Books juice these props hard toward the favorite side - the model's FAIR will usually be longer than the book's price, and that is the vig showing, not an edge. No live record yet; treat gaps as entertainment. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
 kwatch:{t:"K WATCH · DISPLAY ONLY",b:"For every probable starter tonight, the model's full strikeout distribution - not one number but the chance of clearing every half-line from 2.5 up - laid beside the real strikeout lines and prices from DraftKings, FanDuel, BetMGM and Caesars. Built the same way as the other watches and backtested walk-forward on 2,575 starts of the 2026 season (May-June to fit, July onward held out); it uses only what survived: the pitcher's strikeout rate per batter (this season, anchored to his 2025 rate so a short 2026 sample can't run away), the strikeout tendency of the nine hitters he faces (his opponent's most recent lineup in the morning, the confirmed lineup once it posts), and how many batters he is likely to face (mostly his last five starts). Then it rolls those into a distribution that also allows for how many batters he actually gets to face and for the game-to-game noise in a pitcher's stuff. On the holdout it missed the strikeout total by 1.8 per start against 1.9 for simply using his season average and 2.1 for the league average, and its probabilities at the book's line landed within about three points of reality across the buckets. Recent form, batter splits by pitcher hand, the opposing lineup's on-base rate and a longer career anchor were all tested and did NOT beat the plain version out of sample, so none of them are in the number. On each row: EXP K is the model's mean; LINE is the books' consensus line with the model's FAIR price for the over and under; then each book's line and prices. MODEL LEANS is the single over or under, at the single book and line, where the model's probability most exceeds what the price implies - shown in points, brighter at three or more. Tap a row for the pitcher's season line, the model's inputs, and THE LADDER: every half-line with the model's chance of clearing it, its fair over/under price, and the best book price on each side, gold where a book is paying more than the model thinks it should. Once games go live the row shows his strikeouts so far and, at final, whether he cleared the consensus line. Every starter is graded overnight against the boxscore, and the footer keeps the honest running record of the model's lean at the logged price on paper - morning prices and lineup-lock prices separately - $100 flat, published good or bad. Nothing here is a play, nothing is texted, and it stays that way unless the paper record earns otherwise.",i:"Strikeout props are shaded toward the over because that is what the public bets, so a plain model will lean UNDER more often than over - the paper record, not the lean count, is what tells you whether that is real. Big edges on pitchers with a tiny 2026 sample (returning from injury, rookies) are the model trusting last year over the market's read of his stuff; treat those as the model's disagreement to be graded, not a tip. Alternate lines usually post one side only, so their edges carry the full vig and are understated - a lean at an alt line has to clear a higher bar than one at the main line."},
+props:{t:"THE PROPS LEDGER",b:"The three watch lists (Long Ball, Hit, K) are display-only - but they grade themselves every night, and this is their report card, built the same way as the full-game LEDGER: calibration (did 15% hitters homer 15% of the time?), the published top-15 vs what the model expected, home/away splits, who beats or trails their model number most, current streaks, and a flat-$100 paper line against the best book price.",i:"Read the calibration first - it is the only number that says whether the model knows what it is talking about. The paper-vs-market line will usually be NEGATIVE: books price these props off the same public stats, plus vig. That is expected and honest. Best/worst-with-model lists need a minimum sample and are mostly noise early - they are tracked to catch blind spots, not to chase names."},
 f5:{t:"F5 SHADOW · PAPER ONLY",b:"An experimental second model that predicts the FIRST FIVE INNINGS winner instead of the full game, logged on paper against real first-5 moneyline prices. No money, no texts - a shadow ledger only.",i:"Why first 5? The model's features are all about starting pitchers, and starters own innings 1-5. Scored against 683 live games it called F5 winners at 57.7% vs 53.2% for full games. The catch: F5 markets are priced off those same starter stats and charge about a point more vig. So it earns its way in the only honest fashion - paper bets at real prices, judged after 50+ flags. The de-vig experiment looked great in backtest and failed live; this gets the same trial."},
 teams:{t:"TEAM SHEET",b:"The model's accuracy when it picks each team, and its betting record when the flag lands on them (minimum sample applies).",i:"Team-level streaks are mostly noise at this sample size - we track them to catch systematic blind spots, not to pick favorites."},
 splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price band, and the sharp-money signal at bet time.",i:"The FADE split should stay empty - plays where sharp money moved against us are vetoed automatically. Historically those bets hit 27%."},
@@ -1433,6 +1439,64 @@ async function loadLedger(){
     +tr("MOST BET",A.teams.most_bet,t=>`<div><span>${AB[t.t]||t.t}</span><span class="${t.w>=t.l?"grn":"red"}">${t.w}-${t.l}</span></div>`);
 }
 
+/* ── props ledger (HR / Hit / K watch analytics) ── */
+async function loadProps(){
+  const t=await tryFetch("props_analytics.json")||await tryFetch(`${REPO}/props_analytics.json`);
+  if(!t)return;
+  let P; try{P=JSON.parse(t)}catch{return}
+  if(!P.hr&&!P.hit&&!P.k)return;
+  const sub=lbl=>`<div style="border-bottom:1px solid #1c1c1c;color:var(--mut);font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:11px;padding-top:6px">${lbl}</div>`;
+  const cls=(a,p)=>a>=p?"grn":"red";
+  const pct=v=>v.toFixed(0)+"%";
+  const money=v=>(v>=0?"+$":"-$")+Math.abs(v);
+  const short=n=>n.length>18?n.split(" ").slice(-1)[0]:n;
+  const boxes=[];
+  const batterBox=(D,title,yesWord)=>{
+    if(!D)return;
+    let h=`<h3>${title}</h3><div class="lg-rows">`;
+    h+=`<div><span>GRADED</span><span class="amb">${D.n} BATTER-GAMES · ${D.days} DAYS</span></div>`;
+    if(D.topn){const T=D.topn;
+      h+=`<div><span>TOP-15 LIST · ${yesWord}</span><span class="${cls(T.hits,T.exp)}">${T.hits} vs ${T.exp} EXPECTED</span></div>`
+        +`<div><span>LIST STREAK (DAYS W/ 1+)</span><span class="amb">${T.list_streak}</span></div>`;}
+    if(D.sides&&D.sides.home&&D.sides.away)
+      h+=`<div><span>HOME · PRED / ACT</span><span class="${cls(D.sides.home.act,D.sides.home.pred)}">${pct(D.sides.home.pred)} / ${pct(D.sides.home.act)}</span></div>`
+        +`<div><span>AWAY · PRED / ACT</span><span class="${cls(D.sides.away.act,D.sides.away.pred)}">${pct(D.sides.away.pred)} / ${pct(D.sides.away.act)}</span></div>`;
+    if(D.paper)h+=`<div><span>PAPER VS BEST BOOK · $100 FLAT</span><span class="${D.paper.pnl>=0?"grn":"red"}">${D.paper.w}-${D.paper.l} · ${money(D.paper.pnl)} · ${D.paper.roi>=0?"+":""}${D.paper.roi}%</span></div>`;
+    if(D.calib&&D.calib.length){h+=sub("CALIBRATION · MODEL SAID / IT HAPPENED");
+      h+=D.calib.map(c=>`<div><span>${c.b} (${c.n})</span><span class="${Math.abs(c.act-c.pred)<=3?"grn":"amb"}">${pct(c.pred)} / ${pct(c.act)}</span></div>`).join("");}
+    if(D.players){
+      if(D.players.best.length){h+=sub("BEST WITH THE MODEL · BEATING THEIR NUMBER");
+        h+=D.players.best.map(p=>`<div><span>${short(p.t)} <span style="color:var(--mut)">${AB[p.tm]||""}</span></span><span class="grn">${p.y}/${p.n} · ${pct(p.act)} vs ${pct(p.pred)}</span></div>`).join("");}
+      if(D.players.worst.length){h+=sub("WORST WITH THE MODEL · TRAILING THEIR NUMBER");
+        h+=D.players.worst.map(p=>`<div><span>${short(p.t)} <span style="color:var(--mut)">${AB[p.tm]||""}</span></span><span class="red">${p.y}/${p.n} · ${pct(p.act)} vs ${pct(p.pred)}</span></div>`).join("");}}
+    if(D.streaks&&D.streaks.length){h+=sub("ACTIVE STREAKS");
+      h+=D.streaks.map(s=>`<div><span>${short(s.t)}</span><span class="grn">${s.s} STRAIGHT · THRU ${s.last}</span></div>`).join("");}
+    boxes.push(`<div class="lg-box">${h}</div></div>`);
+  };
+  batterBox(P.hr,"LONG BALL WATCH · REPORT CARD","HOMERS");
+  batterBox(P.hit,"HIT WATCH · REPORT CARD","HITS");
+  if(P.k){const D=P.k;
+    let h=`<h3>K WATCH · REPORT CARD</h3><div class="lg-rows">`;
+    h+=`<div><span>GRADED</span><span class="amb">${D.n} STARTS · ${D.days} DAYS</span></div>`
+      +`<div><span>AVG MISS ON K TOTAL</span><span class="amb">${D.mae} K</span></div>`;
+    if(D.sides&&D.sides.home&&D.sides.away)
+      h+=`<div><span>HOME SP · P(OVER) PRED / ACT</span><span class="${cls(D.sides.home.act,D.sides.home.pred)}">${pct(D.sides.home.pred)} / ${pct(D.sides.home.act)}</span></div>`
+        +`<div><span>AWAY SP · P(OVER) PRED / ACT</span><span class="${cls(D.sides.away.act,D.sides.away.pred)}">${pct(D.sides.away.pred)} / ${pct(D.sides.away.act)}</span></div>`;
+    if(D.paper)h+=`<div><span>PAPER VS BEST LINE (3+ PT EDGE)</span><span class="${D.paper.pnl>=0?"grn":"red"}">${D.paper.w}-${D.paper.l} · ${money(D.paper.pnl)} · ${D.paper.roi>=0?"+":""}${D.paper.roi}%</span></div>`;
+    if(D.calib&&D.calib.length){h+=sub("CALIBRATION · P(OVER LINE) SAID / HAPPENED");
+      h+=D.calib.map(c=>`<div><span>${c.b} (${c.n})</span><span class="${Math.abs(c.act-c.pred)<=4?"grn":"amb"}">${pct(c.pred)} / ${pct(c.act)}</span></div>`).join("");}
+    if(D.pitchers){
+      if(D.pitchers.best.length){h+=sub("BEST WITH THE MODEL · MORE Ks THAN EXPECTED");
+        h+=D.pitchers.best.map(p=>`<div><span>${short(p.t)} <span style="color:var(--mut)">${AB[p.tm]||""}</span></span><span class="grn">${p.act} vs ${p.pred} · ${p.n} GS</span></div>`).join("");}
+      if(D.pitchers.worst.length){h+=sub("WORST WITH THE MODEL · FEWER Ks THAN EXPECTED");
+        h+=D.pitchers.worst.map(p=>`<div><span>${short(p.t)} <span style="color:var(--mut)">${AB[p.tm]||""}</span></span><span class="red">${p.act} vs ${p.pred} · ${p.n} GS</span></div>`).join("");}}
+    boxes.push(`<div class="lg-box">${h}</div></div>`);
+  }
+  if(!boxes.length)return;
+  document.getElementById("props-grid").innerHTML=boxes.join("");
+  document.getElementById("props").style.display="block";
+}
+
 /* ── lean showcase ── */
 function whyText(r, betTeam, side){
   const away=r["Away"], home=r["Home"], opp=betTeam===away?home:away;
@@ -1557,7 +1621,7 @@ window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if
 
 async function tick(){await loadLive();render();refreshHRLive();refreshHitLive();refreshKLive();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
-  if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadHitWatch();loadKWatch();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
+  if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadHitWatch();loadKWatch();loadProps();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
     setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase();loadHRWatch();loadHitWatch();loadKWatch()},300000)}
   else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();
