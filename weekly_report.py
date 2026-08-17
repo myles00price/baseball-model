@@ -24,7 +24,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 from features_v2 import flagged_side
-from check_results import get_game_results
+from check_results import get_game_results, result_for_row
 from notify_pick import send_push
 
 V2_LAUNCH = "2026-07-16"
@@ -53,7 +53,7 @@ def gather():
             if ap in ("None", "") or hp in ("None", ""):
                 continue
             a, h = row["Away"], row["Home"]
-            res = results.get(f"{a}@{h}") or results.get(a) or results.get(h)
+            res = result_for_row(results, row) or results.get(a) or results.get(h)
             if not res:
                 continue
             pick = a if float(ap) > float(hp) else h

@@ -79,6 +79,43 @@ def is_bet(edge):
     return edge is not None and BET_MIN <= edge <= BET_MAX
 
 
+# ── Game keys (doubleheader-safe) ───────────────────────────────────────
+# The whole pipeline identifies a game as "Away@Home". A doubleheader puts
+# two games on that key and the second silently overwrites the first
+# (2026-08-17: Cardinals@Reds game 2's starters/odds/flag were duplicated
+# onto game 1's slot). Fix: game 2+ of a doubleheader gets a "#N" suffix,
+# built from statsapi's gameNumber, in every place a key is created.
+# Single games keep the plain key, so nothing historical changes.
+def game_key(away, home, game_number=1):
+    n = int(game_number or 1)
+    return f"{away}@{home}" + (f"#{n}" if n > 1 else "")
+
+
+def key_from_sched(g):
+    """Key for a statsapi schedule game object."""
+    return game_key(g["teams"]["away"]["team"]["name"],
+                    g["teams"]["home"]["team"]["name"],
+                    g.get("gameNumber", 1))
+
+
+def key_from_row(row):
+    """Key for a picks-CSV row (uses the 'Game#' column when present)."""
+    return game_key(row.get("Away"), row.get("Home"), row.get("Game#") or 1)
+
+
+def split_key(key):
+    """'Away@Home#2' -> ('Away', 'Home', 2)."""
+    n = 1
+    if "#" in key:
+        key, ns = key.rsplit("#", 1)
+        try:
+            n = int(ns)
+        except ValueError:
+            n = 1
+    away, home = key.split("@", 1)
+    return away, home, n
+
+
 def flagged_side(row):
     """Which side of a picks-CSV row carries the BET flag: 'away', 'home',
     or None. Reads the per-book edge strings, which embed ' ** BET **' at

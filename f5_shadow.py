@@ -86,12 +86,19 @@ def fetch_f5_odds(event_id):
 
 
 def event_id_map(odds_resp, target_str):
-    """Map 'Away@Home' -> event id from the main odds response (free)."""
-    out = {}
+    """Map 'Away@Home' -> event id from the main odds response (free).
+    Doubleheaders: the matchup has two events; keep them ordered by start so
+    'Away@Home' -> game 1 and 'Away@Home#2' -> game 2 (matches game_key)."""
+    grouped = {}
     for game in odds_resp:
         if commence_lv_date(game.get("commence_time")) != target_str:
             continue
-        out[f"{game['away_team']}@{game['home_team']}"] = game["id"]
+        grouped.setdefault(f"{game['away_team']}@{game['home_team']}", []).append(game)
+    out = {}
+    for k, evs in grouped.items():
+        evs.sort(key=lambda g: str(g.get("commence_time")))
+        for i, g in enumerate(evs):
+            out[k + (f"#{i+1}" if i > 0 else "")] = g["id"]
     return out
 
 

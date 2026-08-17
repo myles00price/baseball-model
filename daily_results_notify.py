@@ -20,7 +20,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 from features_v2 import flagged_side
-from check_results import get_game_results
+from check_results import get_game_results, result_for_row
 from notify_pick import send_push
 
 V2_LAUNCH = "2026-07-16"
@@ -53,7 +53,7 @@ def grade_day(date_str, results=None):
         if not bt:
             continue
         odds = row["DK Away Odds"] if bt == a else row["DK Home Odds"]
-        res = results.get(f"{a}@{h}")
+        res = result_for_row(results, row)
         if not res:
             out.append((bt, odds, None, ""))
             continue

@@ -22,6 +22,8 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
+from features_v2 import key_from_sched, key_from_row
+
 # Task Scheduler consoles use cp1252, which can't encode emoji glyphs
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
@@ -129,19 +131,23 @@ def get_confirmed_games(date_str):
                     "away": g["teams"]["away"]["team"]["name"],
                     "home": g["teams"]["home"]["team"]["name"],
                     "state": g.get("status", {}).get("abstractGameState", ""),
+                    # doubleheader-safe key: 'Away@Home' or 'Away@Home#2'
+                    "key": key_from_sched(g),
+                    "game_no": int(g.get("gameNumber", 1) or 1),
                 })
     return games
 
 
 def load_picks(date_str):
+    """Picks keyed by doubleheader-safe game key (features_v2.key_from_row).
+    Rows written before the Game# column existed fall back to the team key."""
     filename = f"picks_{date_str}.csv"
     if not os.path.exists(filename):
         return {}
     picks = {}
     with open(filename, encoding="utf-8-sig") as f:
         for row in csv.DictReader(f):
-            key = f"{row['Away']}@{row['Home']}"
-            # doubleheaders: two rows share a key — keep the one with a pick
+            key = key_from_row(row)
             existing = picks.get(key)
             if existing and existing.get("Model Away%") not in (None, "", "None") \
                     and row.get("Model Away%") in (None, "", "None"):
@@ -271,7 +277,7 @@ def main():
     if not confirmed:
         print(f"{date_str}: no games with both lineups confirmed yet")
         return
-    pending = [g for g in confirmed if f"{g['away']}@{g['home']}" not in notified]
+    pending = [g for g in confirmed if g["key"] not in notified]
     if not pending:
         print(f"{date_str}: all confirmed games already notified")
         return
@@ -281,7 +287,7 @@ def main():
     # If any pending game's pick wasn't built from confirmed lineups,
     # re-run master_v2 once so the pick is final before we send it.
     needs_rerun = any(
-        picks.get(f"{g['away']}@{g['home']}", {}).get("Lineup Source") != "CONFIRMED+PLATOON"
+        picks.get(g["key"], {}).get("Lineup Source") != "CONFIRMED+PLATOON"
         and g["state"] == "Preview"
         for g in pending
     )
@@ -327,8 +333,8 @@ def main():
 
     sent_any = False
     for g in pending:
-        key = f"{g['away']}@{g['home']}"
-        if key in notified:  # doubleheader: same key appears twice in one run
+        key = g["key"]  # doubleheader-safe ('Away@Home#2' for game 2)
+        if key in notified:
             continue
         row = picks.get(key)
         if not row:
@@ -338,7 +344,8 @@ def main():
             print(f"{key}: no model pick yet (starter unresolved) — will retry next run")
             continue
         body, bet = format_pick(row, book_odds, started=g["state"] in ("Live", "Final"))
-        title = f"MLB pick locked: {g['away']} @ {g['home']}"
+        gtag = f" (Game {g['game_no']})" if g.get("game_no", 1) > 1 else ""
+        title = f"MLB pick locked: {g['away']} @ {g['home']}{gtag}"
         send_push(title, body, bet)
         notified.add(key)
         sent_any = True

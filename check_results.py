@@ -29,12 +29,33 @@ def get_game_results(date_str):
             if home_score == 0 and away_score == 0:
                 continue  # suspended/glitched "final" - a real MLB game can't end 0-0
             winner = home if home_score > away_score else away
-            results[f"{away}@{home}"] = {
+            rec = {
                 "home": home, "away": away,
                 "home_score": home_score, "away_score": away_score,
-                "winner": winner
+                "winner": winner, "gamePk": game.get("gamePk"),
+                "gameNumber": game.get("gameNumber", 1),
             }
+            # doubleheader-safe: game 2 gets 'Away@Home#2' (features_v2.game_key);
+            # also indexed by gamePk for consumers that carry it
+            from features_v2 import key_from_sched
+            results[key_from_sched(game)] = rec
+            results[f"pk:{game.get('gamePk')}"] = rec
     return results
+
+
+def result_for_row(results, row):
+    """Result for a picks-CSV row: by gamePk when the row has one, else by
+    the (doubleheader-aware) game key, else legacy team key."""
+    from features_v2 import key_from_row
+    pk = row.get("GamePk")
+    if pk:
+        # a row that knows its gamePk grades ONLY against that game — never
+        # fall back to the team key (a DH twin's final would leak in)
+        return results.get(f"pk:{pk}")
+    key = key_from_row(row)
+    if "#" in key:
+        return results.get(key)      # DH game 2+ without pk: exact key only
+    return results.get(key)
 
 def get_closing_lines(date_str=None):
     from features_v2 import commence_lv_date
@@ -157,7 +178,7 @@ def check_picks(date_str):
         model_winner = away if float(away_prob) > float(home_prob) else home
         model_prob = float(away_prob) if float(away_prob) > float(home_prob) else float(home_prob)
 
-        result = results.get(key) or results.get(f"{home}@{away}")
+        result = result_for_row(results, pick) or results.get(f"{home}@{away}")
         if not result:
             print(f"  {away} @ {home} — No result found yet")
             continue

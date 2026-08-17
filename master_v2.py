@@ -17,7 +17,8 @@ from pitcher_stats import get_blended_pitcher_stats
 from lineup_stats import get_platoon_lineup_ops
 from bullpen_stats import get_bullpen_stats
 from line_tracker import save_current_lines, get_line_movement
-from features_v2 import predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX, commence_lv_date
+from features_v2 import (predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX,
+                         commence_lv_date, key_from_sched, key_from_row)
 import f5_shadow  # SHADOW ONLY — logs would-be F5 plays, never texts/flags real bets
 
 # ─────────────────────────────────────────────────────────────
@@ -161,6 +162,11 @@ def get_todays_lineups(date_str, season):
             lineup_data = g.get("lineups", {})
             home_players = lineup_data.get("homePlayers", [])
             away_players = lineup_data.get("awayPlayers", [])
+            # keyed by team (legacy) AND by game key, so a doubleheader's
+            # two games keep their own lineups
+            gk = key_from_sched(g)
+            lineups[(gk, "home")] = home_players if home_players else []
+            lineups[(gk, "away")] = away_players if away_players else []
             lineups[home] = home_players if home_players else []
             lineups[away] = away_players if away_players else []
     return lineups
@@ -187,32 +193,39 @@ def edge(model_p, market_p, reliable=True):
         return f"{e:+.1f}%{flag}"
     return "N/A"
 
+PICK_COLUMNS = [
+    "Date", "Away", "Home",
+    "Model Away%", "Model Home%",
+    "DK Away Odds", "DK Home Odds",
+    "MGM Away Odds", "MGM Home Odds",
+    "DK Edge Away", "MGM Edge Away",
+    "DK Edge Home", "MGM Edge Home",
+    "Away SP", "Away Hand", "Away Reliability%",
+    "Away SP Velo", "Away SP Spin", "Away SP Whiff",
+    "Home SP", "Home Hand", "Home Reliability%",
+    "Home SP Velo", "Home SP Spin", "Home SP Whiff",
+    "Away Lineup OPS", "Home Lineup OPS",
+    "Away BP ERA(7d)", "Home BP ERA(7d)",
+    "Away Line Move", "Home Line Move",
+    "Sharp Signal",
+    "Lineup Source", "Park Factor", "Flag",
+    "Odds Warning",
+    "Devig DK Edge Away", "Devig DK Edge Home",
+    "Devig MGM Edge Away", "Devig MGM Edge Home",
+    "Devig Bet",
+    "CZR Away Odds", "CZR Home Odds",
+    # doubleheader support (2026-08-17): game number within the day (1 for
+    # single games) + MLB gamePk. Appended LAST so positional consumers of
+    # the older columns are unaffected.
+    "Game#", "GamePk",
+]
+
+
 def save_picks_to_csv(picks, date_str):
     filename = f"picks_{date_str}.csv"
     with open(filename, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        writer.writerow([
-            "Date", "Away", "Home",
-            "Model Away%", "Model Home%",
-            "DK Away Odds", "DK Home Odds",
-            "MGM Away Odds", "MGM Home Odds",
-            "DK Edge Away", "MGM Edge Away",
-            "DK Edge Home", "MGM Edge Home",
-            "Away SP", "Away Hand", "Away Reliability%",
-            "Away SP Velo", "Away SP Spin", "Away SP Whiff",
-            "Home SP", "Home Hand", "Home Reliability%",
-            "Home SP Velo", "Home SP Spin", "Home SP Whiff",
-            "Away Lineup OPS", "Home Lineup OPS",
-            "Away BP ERA(7d)", "Home BP ERA(7d)",
-            "Away Line Move", "Home Line Move",
-            "Sharp Signal",
-            "Lineup Source", "Park Factor", "Flag",
-            "Odds Warning",
-            "Devig DK Edge Away", "Devig DK Edge Home",
-            "Devig MGM Edge Away", "Devig MGM Edge Home",
-            "Devig Bet",
-            "CZR Away Odds", "CZR Home Odds"
-        ])
+        writer.writerow(PICK_COLUMNS)
         for pick in picks:
             writer.writerow([str(p) for p in pick])
     print(f"\nPicks saved to {filename}")
@@ -238,6 +251,9 @@ def run_model(target_date, save_csv=True):
     ).json()
 
     odds_lookup = {}
+    # doubleheader-safe: per-event odds keyed by (away, home, commence_time),
+    # so game 1 and game 2 of a DH keep their own prices
+    odds_events = []
     if not isinstance(odds_resp, list):
         # API error object (quota exhausted, bad key, outage). Run degraded:
         # model probabilities still compute; edges/flags need odds and will be N/A.
@@ -246,6 +262,8 @@ def run_model(target_date, save_csv=True):
     for game in odds_resp:
         if commence_lv_date(game.get("commence_time")) != target_str:
             continue  # only THIS slate's games — the API returns multiple days
+        ev = {"away": game.get("away_team"), "home": game.get("home_team"),
+              "t": game.get("commence_time"), "odds": {}}
         for bookmaker in game["bookmakers"]:
             bk = bookmaker["key"]
             for market in bookmaker["markets"]:
@@ -255,6 +273,23 @@ def run_model(target_date, save_csv=True):
                         if team not in odds_lookup:
                             odds_lookup[team] = {}
                         odds_lookup[team][bk] = outcome["price"]
+                        ev["odds"].setdefault(team, {})[bk] = outcome["price"]
+        odds_events.append(ev)
+
+    def odds_for_game(away, home, game_date_iso):
+        """Odds for THIS game: if the matchup has multiple events today (DH),
+        pick the event whose start is closest to the game's start time.
+        Falls back to the team-level lookup (single games)."""
+        evs = [e for e in odds_events if e["away"] == away and e["home"] == home]
+        if len(evs) <= 1:
+            return odds_lookup
+        try:
+            gt = datetime.fromisoformat(str(game_date_iso).replace("Z", "+00:00"))
+            best = min(evs, key=lambda e: abs(
+                (datetime.fromisoformat(str(e["t"]).replace("Z", "+00:00")) - gt).total_seconds()))
+            return best["odds"]
+        except Exception:
+            return odds_lookup
 
     # F5 SHADOW: event ids for per-game F5 odds calls (map itself is free)
     f5_events = f5_shadow.event_id_map(odds_resp, target_str)
@@ -319,7 +354,7 @@ def run_model(target_date, save_csv=True):
         import csv as csv_module
         with open(existing_csv, encoding="utf-8-sig") as f:
             for row in csv_module.DictReader(f):
-                key = f"{row['Away']}@{row['Home']}"
+                key = key_from_row(row)
                 existing_picks[key] = row
         print(f"Loaded {len(existing_picks)} existing picks to freeze Live/Final games\n")
 
@@ -345,32 +380,18 @@ def run_model(target_date, save_csv=True):
             game_status = game.get("status", {}).get("abstractGameState", "")
             home = game["teams"]["home"]["team"]["name"]
             away = game["teams"]["away"]["team"]["name"]
-            game_key = f"{away}@{home}"
+            game_key = key_from_sched(game)          # 'Away@Home' or 'Away@Home#2' (DH)
+            game_no = int(game.get("gameNumber", 1) or 1)
+            game_pk = game.get("gamePk", "")
 
             if game_status in ["Live", "Final"] or game_key in texted_keys:
                 if game_key in existing_picks:
                     row = existing_picks[game_key]
-                    picks.append([row.get(col, "") for col in [
-                        "Date", "Away", "Home",
-                        "Model Away%", "Model Home%",
-                        "DK Away Odds", "DK Home Odds",
-                        "MGM Away Odds", "MGM Home Odds",
-                        "DK Edge Away", "MGM Edge Away",
-                        "DK Edge Home", "MGM Edge Home",
-                        "Away SP", "Away Hand", "Away Reliability%",
-                        "Away SP Velo", "Away SP Spin", "Away SP Whiff",
-                        "Home SP", "Home Hand", "Home Reliability%",
-                        "Home SP Velo", "Home SP Spin", "Home SP Whiff",
-                        "Away Lineup OPS", "Home Lineup OPS",
-                        "Away BP ERA(7d)", "Home BP ERA(7d)",
-                        "Away Line Move", "Home Line Move",
-                        "Sharp Signal", "Lineup Source", "Park Factor", "Flag",
-                        "Odds Warning",
-                        "Devig DK Edge Away", "Devig DK Edge Home",
-                        "Devig MGM Edge Away", "Devig MGM Edge Home",
-                        "Devig Bet",
-                        "CZR Away Odds", "CZR Home Odds"
-                    ]])
+                    frozen = [row.get(col, "") for col in PICK_COLUMNS]
+                    # backfill DH columns on rows written before they existed
+                    frozen[PICK_COLUMNS.index("Game#")] = row.get("Game#") or game_no
+                    frozen[PICK_COLUMNS.index("GamePk")] = row.get("GamePk") or game_pk
+                    picks.append(frozen)
                     status_label = ("🔴 LIVE" if game_status == "Live"
                                     else "✅ FINAL" if game_status == "Final"
                                     else "🔒 TEXTED/LOCKED")
@@ -394,8 +415,11 @@ def run_model(target_date, save_csv=True):
             away_velo, away_spin, away_whiff, away_str = get_pitcher_whiff(away_p)
             home_velo, home_spin, home_whiff, home_str = get_pitcher_whiff(home_p)
 
-            home_players = lineups.get(home, [])
-            away_players = lineups.get(away, [])
+            # per-game lineups (doubleheader-safe), team-level fallback
+            home_players = lineups.get((game_key, "home"), lineups.get(home, []))
+            away_players = lineups.get((game_key, "away"), lineups.get(away, []))
+            # per-game odds (DH: nearest-start event), team-level fallback
+            g_odds = odds_for_game(away, home, game.get("gameDate"))
 
             # V2 FIX — lineup swap bug. home_lineup_ops is the HOME team's
             # offense: home batters vs the AWAY pitcher's hand. The old code
@@ -428,8 +452,8 @@ def run_model(target_date, save_csv=True):
             home_bull = bullpen.get(home)
             away_bull = bullpen.get(away)
 
-            game_key = f"{away}@{home}"
-            move_data = movement.get(game_key, {})
+            # line movement is tracked per matchup (team key); a DH shares it
+            move_data = movement.get(f"{away}@{home}", {})
             away_move = move_data.get("teams", {}).get(away, {})
             home_move = move_data.get("teams", {}).get(home, {})
 
@@ -461,10 +485,10 @@ def run_model(target_date, save_csv=True):
                 dva, dvh = imp_a / tot * 100, imp_h / tot * 100
                 return f"{away_prob - dva:+.1f}%", f"{home_prob - dvh:+.1f}%"
 
-            dk_away  = american_to_prob(odds_lookup.get(away, {}).get("draftkings"))
-            mgm_away = american_to_prob(odds_lookup.get(away, {}).get("betmgm"))
-            dk_home  = american_to_prob(odds_lookup.get(home, {}).get("draftkings"))
-            mgm_home = american_to_prob(odds_lookup.get(home, {}).get("betmgm"))
+            dk_away  = american_to_prob(g_odds.get(away, {}).get("draftkings"))
+            mgm_away = american_to_prob(g_odds.get(away, {}).get("betmgm"))
+            dk_home  = american_to_prob(g_odds.get(home, {}).get("draftkings"))
+            mgm_home = american_to_prob(g_odds.get(home, {}).get("betmgm"))
 
             # ── Vig sanity check (diagnostic only — does not change picking) ──
             dk_warning  = check_vig(dk_away,  dk_home,  "DK")
@@ -597,10 +621,10 @@ def run_model(target_date, save_csv=True):
             picks.append([
                 target_str, away, home,
                 away_prob, home_prob,
-                odds_lookup.get(away, {}).get("draftkings", "N/A"),
-                odds_lookup.get(home, {}).get("draftkings", "N/A"),
-                odds_lookup.get(away, {}).get("betmgm", "N/A"),
-                odds_lookup.get(home, {}).get("betmgm", "N/A"),
+                g_odds.get(away, {}).get("draftkings", "N/A"),
+                g_odds.get(home, {}).get("draftkings", "N/A"),
+                g_odds.get(away, {}).get("betmgm", "N/A"),
+                g_odds.get(home, {}).get("betmgm", "N/A"),
                 edge(away_prob, dk_away, reliable_away), edge(away_prob, mgm_away, reliable_away),
                 edge(home_prob, dk_home, reliable_home), edge(home_prob, mgm_home, reliable_home),
                 away_p, away_hand, away_rel,
@@ -618,8 +642,9 @@ def run_model(target_date, save_csv=True):
                 dv_dk_away, dv_dk_home,
                 dv_mgm_away, dv_mgm_home,
                 devig_bet,
-                odds_lookup.get(away, {}).get("williamhill_us", "N/A"),
-                odds_lookup.get(home, {}).get("williamhill_us", "N/A")
+                g_odds.get(away, {}).get("williamhill_us", "N/A"),
+                g_odds.get(home, {}).get("williamhill_us", "N/A"),
+                game_no, game_pk,
             ])
 
     # End-of-run FADE veto summary

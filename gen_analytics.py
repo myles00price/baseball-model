@@ -18,7 +18,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 from weekly_report import gather, V2_LAUNCH, payout
-from check_results import get_game_results
+from check_results import get_game_results, result_for_row
 from features_v2 import BET_MIN, BET_MAX
 
 
@@ -116,7 +116,7 @@ def main():
             if ap in (None, "None", "") or hp in (None, "None", ""):
                 continue
             a, h = row["Away"], row["Home"]
-            res = results.get(f"{a}@{h}")
+            res = result_for_row(results, row)
             if not res:
                 continue
             try:

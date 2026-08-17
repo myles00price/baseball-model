@@ -571,7 +571,9 @@ async function loadLive(){
     for(const d of j.dates||[])for(const g of d.games||[]){
       const a=g.teams.away.team.name,h=g.teams.home.team.name,ls=g.linescore||{};
       let start="";try{start=new Date(g.gameDate).toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})}catch{}
-      out[`${a}@${h}`]={pk:g.gamePk,state:g.status.abstractGameState,
+      // doubleheader-safe key: game 2+ gets '#N' (matches features_v2.game_key)
+      const gn=g.gameNumber||1, key=`${a}@${h}`+(gn>1?`#${gn}`:"");
+      out[key]={pk:g.gamePk,gn,state:g.status.abstractGameState,
         as:g.teams.away.score,hs:g.teams.home.score,
         inn:(ls.inningHalf==="Top"?"▲":"▼")+" "+(ls.currentInning||""),start,
         pa:g.teams.away.probablePitcher,ph:g.teams.home.probablePitcher};
@@ -590,7 +592,9 @@ function render(){
   const grid=document.getElementById("grid");let plays=0;const cards=[];
   picks.forEach((r,gi)=>{
     const away=r["Away"],home=r["Home"];if(!away||!home)return;
-    const key=`${away}@${home}`,lv=liveMap[key]||{};
+    const gn=parseInt(r["Game#"]||"1")||1;
+    const key=`${away}@${home}`+(gn>1?`#${gn}`:""),lv=liveMap[key]||{};
+    const dhTag=gn>1||liveMap[`${away}@${home}#2`]?` <span style="color:var(--mut);font-size:11px">G${gn}</span>`:"";
     const flagged=String(r["Flag"]||"").includes("BET");if(flagged)plays++;
     const st=lv.state==="Live"?`<span class="st live">● LIVE ${lv.inn||""}</span>`
       :lv.state==="Final"?`<span class="st final">FINAL</span>`:`<span class="st sched">${lv.start||""}</span>`;
@@ -604,7 +608,7 @@ function render(){
     const f5bar=f5?`<div class="playbar f5p" onclick="event.stopPropagation();openInfo(event,'f5')">🕐 F5 PAPER${f5.locked?" 🔒":""} · ${AB[f5.tm]||f5.tm} FIRST-5 ${f5.price>0?"+":""}${f5.price??"—"} · ${f5.edge>0?"+":""}${f5.edge}% · ${f5.locked?"NOT A PLAY":"LOCKS AT LINEUPS"} ⓘ</div>`:"";
     cards.push(`<div class="card${flagged?(isLocked?" play":" play lean-card"):""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
       ${flagged?(isLocked?`<div class="playbar">🔒 OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}${f5bar}
-      <div class="top"><span>${aab} @ ${hab}</span>${st}</div>
+      <div class="top"><span>${aab} @ ${hab}${dhTag}</span>${st}</div>
       <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt="" onclick="event.stopPropagation();openTeam(${TID[away]||0})"><span class="ab">${aab}</span>
         <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
         <span class="odds">DK ${fmtO(r["DK Away Odds"])} MGM ${fmtO(r["MGM Away Odds"])} CZR ${fmtO(r["CZR Away Odds"])}</span>${chip(r["DK Edge Away"])}</div>
@@ -1542,7 +1546,7 @@ async function renderShowcase(){
     const hit=(roster||[]).find(p=>p.n.toLowerCase()===q)||(roster||[]).find(p=>p.n.toLowerCase().includes(q.split(" ").pop()));
     return hit?hit.id:null};
   const cards=flags.map(r=>{
-    const away=r["Away"],home=r["Home"],key=`${away}@${home}`;
+    const away=r["Away"],home=r["Home"],gn=parseInt(r["Game#"]||"1")||1,key=`${away}@${home}`+(gn>1?`#${gn}`:"");
     const s=flagged_side_js(r);if(!s)return"";
     const betTeam=s==="away"?away:home;
     const bp=s==="away"?r["Model Away%"]:r["Model Home%"];
