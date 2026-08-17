@@ -186,6 +186,19 @@ body.light .hd-chart .bar.z{fill:#bbb}
 body.light .ldr.hr-hit{background:#e7f3e9;border-left-color:#0a7a34}
 body.light .hr-flag{background:#e7f3e9;border-color:#9dc7a8;color:#0a6e30}
 
+/* ── k watch ── */
+.k-note{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.14em;color:var(--mut);margin:-4px 0 6px;cursor:pointer}
+.k-sort{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.12em;color:var(--mut);margin:0 0 6px}
+.k-tab{cursor:pointer;color:var(--mut)}.k-tab.on{color:var(--phos)}.k-tab:hover{text-decoration:underline}
+.k-unit{font-size:13px;color:var(--mut);text-shadow:none}
+.hr-odds .ou{color:var(--mut)}
+.k-lean{color:var(--phos-dim)}.k-lean.hot{color:var(--phos)}
+.k-lad{display:grid;grid-template-columns:34px 56px 150px 1fr 1fr;gap:0 10px;padding:1px 0}
+.k-lad .l{color:var(--phos-dim)}.k-lad.on{color:var(--amber)}.k-lad.on .l{color:var(--amber)}
+.k-lad .best{color:var(--gold);font-weight:bold}.k-lad .fair{color:var(--gold)}
+.k-foot{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.08em;color:var(--mut);margin-top:8px;line-height:1.6}
+.ldr.k-done{opacity:.85}
+
 /* ── gameday extras ── */
 .wx{font-family:'VT323',monospace;font-size:15px;color:var(--mut);text-align:center;padding:0 16px 10px;letter-spacing:.05em}
 .boxcols{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 12px}
@@ -416,6 +429,14 @@ body.light .newsitem img{filter:none}
     <div id="hit-body"></div>
     <h3 class="hit-sub-h" onclick="openInfo(event,'hitwatch')">2+ HITS · BEST PRICE OVER 1.5 ⓘ</h3>
     <div id="hit2-body"></div>
+  </div>
+
+  <div class="sect" id="kwatch" style="display:none;margin-top:14px">
+    <h2 onclick="openInfo(event,'kwatch')">K WATCH · TONIGHT'S STRIKEOUT LINES VS THE MODEL ⓘ</h2>
+    <div class="k-note" onclick="openInfo(event,'kwatch')">DISPLAY ONLY · NOT PLAYS · GRADED NIGHTLY ⓘ</div>
+    <div class="k-sort" id="k-sort"></div>
+    <div id="k-body"></div>
+    <div class="k-foot" id="k-foot"></div>
   </div>
 
   <div class="duo">
@@ -806,6 +827,7 @@ classes:{t:"BET CLASSES",b:"ALIGNED: the bet is on the team the model picks to w
 buckets:{t:"EDGE BUCKETS",b:"All games bucketed by how much the model disagrees with the de-vigged market price, with the win rate of the model's value side in each bucket.",i:"The signature finding: 3-6% disagreement wins 57.9% and everything above it loses money. The bet window is built directly on this curve - and was tightened to 3-6% on Aug 12, 2026 because of it."},
 hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of hitting at least one home run today, backtested walk-forward on 21,000+ batter-games of the 2026 season. The number uses only what survived that test: the hitter's season home-run rate (shrunk toward league average so a hot week can't fake its way up the list), the opposing starter's home-run tendency, the ballpark, and how many trips to the plate he gets - his confirmed batting slot once lineups post. Wind and heat badges are shown for context but are NOT in the number: they looked smart in-sample and failed the holdout, so they ride along as information while the nightly grading decides if they ever earn their way in. FAIR is the model's probability expressed as American odds; next to it are real 'to hit a home run' prices from the books as they post them. Once games go live, a hitter who goes deep lights up green with a 💣 - blinking while his game is in progress, steady once it's final. Tap any row to drop down his season line, the model's inputs, and his home runs and hits over the last 5, 10 and 20 games. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"An elite slugger's true chance of homering on any given day is only about 1-in-4 - the list looks 'low' because home runs are genuinely rare. When FAIR is shorter than the book's price the model thinks the book is generous - but home-run props carry heavy vig and this display has no live record yet, so treat gaps as entertainment, not edges. Built before lineups post; wind reads update as game time approaches. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
 hitwatch:{t:"HIT WATCH",b:"The model's estimate of each hitter's chance of recording at least one hit today, with his chance of a two-hit game alongside. Backtested walk-forward on 22,000+ starter-games of the 2026 season, and it uses only what survived that test: the hitter's season hit rate (shrunk toward league average so a hot fortnight can't fake its way up the list), the opposing starter's hits-allowed tendency, the ballpark, and how many trips to the plate he really gets - his own plate appearances per game, tightened to his batting slot once lineups post. The lesson from the backtest was that raw expected plate appearances overstate hit chances - starters get pulled, ejected, or pinch-hit for in about one game in nine - so the number is built on EFFECTIVE trips, calibrated against what actually happened. Recent form and the starter's strikeout rate were tested and failed the holdout, so they are not in the number. FAIR is the model's probability as American odds; next to it are real 'to record a hit' prices from the books as they post them, and the 2+ HITS list underneath ranks the same slate by the chance of a two-hit game, with the best book price over 1.5 hits across DK, MGM and Caesars next to the model's fair - gold when a book is paying more than the model thinks it should. That list only lights up once a hitter has his second. Tap any row to drop down his season line, the model's inputs, and his hits over the last 5, 10 and 20 games. Once games go live, a hitter who gets one lights up green with a 🎯 - blinking while his game is in progress, steady once it's final. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"Even the best hitters only get a hit in about two of every three games, so a 72% top of the list is what elite looks like. Books juice these props hard toward the favorite side - the model's FAIR will usually be longer than the book's price, and that is the vig showing, not an edge. No live record yet; treat gaps as entertainment. If it ever wants to be a betting product, it earns that on paper first, same as F5."},
+kwatch:{t:"K WATCH · DISPLAY ONLY",b:"For every probable starter tonight, the model's full strikeout distribution - not one number but the chance of clearing every half-line from 2.5 up - laid beside the real strikeout lines and prices from DraftKings, FanDuel, BetMGM and Caesars. Built the same way as the other watches and backtested walk-forward on 2,575 starts of the 2026 season (May-June to fit, July onward held out); it uses only what survived: the pitcher's strikeout rate per batter (this season, anchored to his 2025 rate so a short 2026 sample can't run away), the strikeout tendency of the nine hitters he faces (his opponent's most recent lineup in the morning, the confirmed lineup once it posts), and how many batters he is likely to face (mostly his last five starts). Then it rolls those into a distribution that also allows for how many batters he actually gets to face and for the game-to-game noise in a pitcher's stuff. On the holdout it missed the strikeout total by 1.8 per start against 1.9 for simply using his season average and 2.1 for the league average, and its probabilities at the book's line landed within about three points of reality across the buckets. Recent form, batter splits by pitcher hand, the opposing lineup's on-base rate and a longer career anchor were all tested and did NOT beat the plain version out of sample, so none of them are in the number. On each row: EXP K is the model's mean; LINE is the books' consensus line with the model's FAIR price for the over and under; then each book's line and prices. MODEL LEANS is the single over or under, at the single book and line, where the model's probability most exceeds what the price implies - shown in points, brighter at three or more. Tap a row for the pitcher's season line, the model's inputs, and THE LADDER: every half-line with the model's chance of clearing it, its fair over/under price, and the best book price on each side, gold where a book is paying more than the model thinks it should. Once games go live the row shows his strikeouts so far and, at final, whether he cleared the consensus line. Every starter is graded overnight against the boxscore, and the footer keeps the honest running record of the model's lean at the logged price on paper - morning prices and lineup-lock prices separately - $100 flat, published good or bad. Nothing here is a play, nothing is texted, and it stays that way unless the paper record earns otherwise.",i:"Strikeout props are shaded toward the over because that is what the public bets, so a plain model will lean UNDER more often than over - the paper record, not the lean count, is what tells you whether that is real. Big edges on pitchers with a tiny 2026 sample (returning from injury, rookies) are the model trusting last year over the market's read of his stuff; treat those as the model's disagreement to be graded, not a tip. Alternate lines usually post one side only, so their edges carry the full vig and are understated - a lean at an alt line has to clear a higher bar than one at the main line."},
 f5:{t:"F5 SHADOW · PAPER ONLY",b:"An experimental second model that predicts the FIRST FIVE INNINGS winner instead of the full game, logged on paper against real first-5 moneyline prices. No money, no texts - a shadow ledger only.",i:"Why first 5? The model's features are all about starting pitchers, and starters own innings 1-5. Scored against 683 live games it called F5 winners at 57.7% vs 53.2% for full games. The catch: F5 markets are priced off those same starter stats and charge about a point more vig. So it earns its way in the only honest fashion - paper bets at real prices, judged after 50+ flags. The de-vig experiment looked great in backtest and failed live; this gets the same trial."},
 teams:{t:"TEAM SHEET",b:"The model's accuracy when it picks each team, and its betting record when the flag lands on them (minimum sample applies).",i:"Team-level streaks are mostly noise at this sample size - we track them to catch systematic blind spots, not to pick favorites."},
 splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price band, and the sharp-money signal at bet time.",i:"The FADE split should stay empty - plays where sharp money moved against us are vetoed automatically. Historically those bets hit 27%."},
@@ -1118,6 +1140,99 @@ async function refreshHitLive(){
     }catch{}
   }));
   if(changed)renderHitWatch();
+}
+
+/* ── k watch ── */
+let kData=null,kSum=null,kLive={},kSort="edge";const kOpen=new Set();
+const KBOOKS=["dk","fd","mgm","czr"];
+const amerP=p=>p<=0.001?"+9900":p>=0.999?"-9900":p>=0.5?"-"+Math.round(p/(1-p)*100):"+"+Math.round((1-p)/p*100);
+const kBetter=(price,fair)=>price!=null&&fair!=null&&parseFloat(price)>parseFloat(fair);
+const kLuTxt=p=>p.lineup_src==="confirmed"?"LINEUP CONFIRMED":p.lineup_src==="previous"?"PROJECTED LINEUP":"TEAM K RATE";
+async function loadKWatch(){
+  if(!boardDate)return;
+  const t=await tryFetch(`k_watch_${boardDate}.json`)||await tryFetch(`${REPO}/k_watch_${boardDate}.json`);
+  if(!t)return;
+  try{
+    const K=JSON.parse(t);
+    if(!(K.pitchers||[]).length)return;
+    kData=K;
+    const s=await tryFetch("k_summary.json")||await tryFetch(`${REPO}/k_summary.json`);
+    if(s){try{kSum=JSON.parse(s)}catch{}}
+    renderKWatch();
+    document.getElementById("kwatch").style.display="block";
+    refreshKLive();
+  }catch{}
+}
+function kSortBy(ev,s){ev.stopPropagation();kSort=s;renderKWatch()}
+function kRows(){
+  const L=[...(kData.pitchers||[])];
+  if(kSort==="edge")L.sort((a,b)=>((b.best||{}).edge??-9)-((a.best||{}).edge??-9));
+  else if(kSort==="k")L.sort((a,b)=>b.exp_k-a.exp_k);
+  else if(kSort==="over")L.sort((a,b)=>(b.p_over_cons??-1)-(a.p_over_cons??-1));
+  return L;
+}
+function renderKWatch(){
+  if(!kData)return;
+  const tabs=[["edge","BEST EDGE"],["k","EXP K"],["over","P(OVER LINE)"]].map(([s,l])=>`<span class="k-tab${kSort===s?" on":""}" onclick="kSortBy(event,'${s}')">${l}</span>`).join(" · ");
+  document.getElementById("k-sort").innerHTML=`SORT: ${tabs}${kData.lineups_confirmed?` · ${kData.lineups_confirmed} LINEUPS IN`:""}`;
+  document.getElementById("k-body").innerHTML=kRows().map((p,i)=>{
+    const bk=p.books||{},line=p.cons_line;
+    const bookTxt=KBOOKS.filter(b=>bk[b]&&bk[b].line!=null).map(b=>`${b.toUpperCase()} ${bk[b].line} <span class="ou">O</span>${fmtO(bk[b].over)}<span class="ou">/U</span>${fmtO(bk[b].under)}`).join(" · ");
+    const oddsLine=(line!=null?`LINE ${line} · <span class="fair">FAIR O ${p.fair_over} / U ${p.fair_under}</span>`:"NO LINE YET")+(bookTxt?` · ${bookTxt}`:"");
+    const b=p.best;
+    const lean=b?`<span class="k-lean${b.edge>=0.03?" hot":""}">MODEL LEANS ${b.side.toUpperCase()} ${b.line} · ${b.book.toUpperCase()} ${fmtO(b.price)} · ${b.edge>=0?"+":""}${(b.edge*100).toFixed(1)} PTS VS BOOK</span>`:"";
+    const live=kLive[p.id];const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
+    let flag="";
+    if(live!=null&&(st==="Live"||st==="Final")){const res=line!=null&&st==="Final"?(live>line?" · OVER ✓":" · UNDER ✓"):"";flag=`<span class="hr-flag${st==="Final"?" done":""}">⚾ ${live} K${res}</span>`}
+    const open=kOpen.has(p.id);
+    return`<div class="ldr${st==="Final"&&live!=null?" k-done":""}" onclick="toggleKDrop(event,${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
+      <div><div>${p.name} <span class="hr-sub">${p.hand||""}HP</span>${flag}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · ${kLuTxt(p)} · EXP ${p.exp_bf} BF · ${p.kpct??"—"}% K RATE · ${p.gs} GS${p.late?" · LATE CHANGE":""}</div>
+      <div class="hr-odds">${oddsLine}</div>${lean?`<div class="hr-odds">${lean}</div>`:""}</div>
+      <span class="v">${Number(p.exp_k).toFixed(1)}<span class="k-unit"> K</span><span class="hd-caret">${open?"▴":"▾"}</span></span></div>${open?kDropHTML(p):""}`}).join("");
+  renderKFoot();
+}
+function toggleKDrop(ev,id){ev.stopPropagation();if(kOpen.has(id))kOpen.delete(id);else kOpen.add(id);renderKWatch()}
+function kDropHTML(p){
+  const d=p.dist||{},bk=p.books||{};
+  const season=`<div class="hd-role">2026 LINE</div><div class="hd-line">${p.so} K <span class="hd-k">·</span> ${p.bf} BF <span class="hd-k">·</span> ${p.ip} IP <span class="hd-k">·</span> ${p.gs} GS <span class="hd-k">·</span> K/9 ${p.k9??"—"} <span class="hd-k">·</span> K% ${p.kpct??"—"}</div>`;
+  const model=`<div class="hd-role">MODEL INPUTS</div><div class="hd-line"><span class="hd-k">PITCHER K FACTOR</span> ${p.f_pit}× <span class="hd-k">· LINEUP K FACTOR</span> ${p.f_lineup}× <span class="hd-k">(${kLuTxt(p)}${p.lineup_n?`, ${p.lineup_n} BATS`:""})</span> <span class="hd-k">· K PER BATTER</span> ${(p.pk_pa*100).toFixed(1)}% <span class="hd-k">· EXP BF</span> ${p.exp_bf} <span class="hd-k">(L5 ${p.bf_l5})</span> <span class="hd-k">· EXP K</span> ${p.exp_k}</div>`;
+  const rows=Object.keys(d).map(L=>{
+    const po=d[L];let bo=null,bu=null;
+    for(const b of KBOOKS){const x=bk[b];if(!x)continue;const c=[];if(x.line==+L)c.push([x.over,x.under]);if(x.alts&&x.alts[L])c.push(x.alts[L]);
+      for(const [o,u] of c){if(o!=null&&(bo===null||o>bo.o))bo={o,b};if(u!=null&&(bu===null||u>bu.o))bu={o:u,b}}}
+    const fo=amerP(po),fu=amerP(1-po);
+    return`<div class="k-lad${p.cons_line==+L?" on":""}"><span class="l">${L}</span><span>O ${(po*100).toFixed(0)}%</span><span class="fair">FAIR ${fo} / ${fu}</span><span class="${bo&&kBetter(bo.o,fo)?"best":""}">${bo?`O ${bo.b.toUpperCase()} ${fmtO(bo.o)}`:"—"}</span><span class="${bu&&kBetter(bu.o,fu)?"best":""}">${bu?`U ${bu.b.toUpperCase()} ${fmtO(bu.o)}`:"—"}</span></div>`}).join("");
+  return`<div class="hit-drop" onclick="event.stopPropagation()">${season}${model}<div class="hd-role">THE LADDER · MODEL VS BEST BOOK PRICE AT EACH LINE · GOLD = BOOK PAYS MORE THAN FAIR</div><div class="k-ladder">${rows}</div><span class="hd-more" onclick="openPlayer(${p.id})">FULL PLAYER CARD ›</span></div>`;
+}
+function renderKFoot(){
+  const el=document.getElementById("k-foot");if(!el)return;
+  if(!kSum||!kSum.n_starts){el.innerHTML="GRADED RECORD STARTS TOMORROW — EVERY STARTER ON THIS LIST IS SCORED AGAINST THE BOXSCORE OVERNIGHT.";return}
+  const m=kSum.morning||{},l=kSum.lock||{};
+  const rec=x=>(x.w||x.l)?`${x.w}-${x.l} · ${x.pnl>=0?"+":"-"}$${Math.abs(x.pnl)} · ROI ${x.roi>=0?"+":""}${x.roi}%`:"—";
+  el.innerHTML=`GRADED: ${kSum.n_starts} STARTS OVER ${kSum.n_days} DAY${kSum.n_days===1?"":"S"} · MODEL OFF BY ${kSum.mae} K PER START ON AVERAGE (MEAN ${kSum.mean_pred} PROJECTED VS ${kSum.mean_actual} ACTUAL)`+
+    (kSum.n_priced?` · OVERS HIT ${kSum.over_rate}% OF POSTED LINES`:"")+
+    `<br>PAPER RECORD OF THE MODEL'S LEAN AT THE LOGGED PRICE, $100 FLAT — MORNING PRICES: ${rec(m)} · AT LINEUP LOCK: ${rec(l)}${kSum.n_lock?` (${kSum.n_lock} LOCKED)`:""} · NOT PLAYS, NEVER TEXTED`;
+}
+async function refreshKLive(){
+  if(!kData)return;
+  const pks=[...new Set((kData.pitchers||[]).map(p=>p.pk).filter(Boolean))];
+  const active=new Set(Object.values(liveMap).filter(g=>g.state==="Live"||g.state==="Final").map(g=>g.pk));
+  const todo=pks.filter(pk=>active.has(pk));
+  if(!todo.length)return;
+  let changed=false;
+  await Promise.all(todo.map(async pk=>{
+    try{
+      const j=await(await fetch(`https://statsapi.mlb.com/api/v1/game/${pk}/boxscore?fields=teams,away,home,players,person,id,stats,pitching,strikeOuts,battersFaced`)).json();
+      for(const side of ["away","home"]){
+        const pl=j.teams?.[side]?.players||{};
+        for(const k in pl){
+          const id=pl[k]?.person?.id,ps=pl[k]?.stats?.pitching;
+          if(id&&ps&&ps.battersFaced!=null){const so=ps.strikeOuts||0;if(kLive[id]!==so){kLive[id]=so;changed=true}}
+        }
+      }
+    }catch{}
+  }));
+  if(changed)renderKWatch();
 }
 
 /* ── standings ── */
@@ -1440,10 +1555,10 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkShell
 let _rsz=null;
 window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if(window._analytics)loadLedger()},250)});
 
-async function tick(){await loadLive();render();refreshHRLive();refreshHitLive();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
+async function tick(){await loadLive();render();refreshHRLive();refreshHitLive();refreshKLive();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
-  if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadHitWatch();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
-    setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase();loadHRWatch();loadHitWatch()},300000)}
+  if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadHitWatch();loadKWatch();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
+    setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase();loadHRWatch();loadHitWatch();loadKWatch()},300000)}
   else document.getElementById("grid").innerHTML="<div class='vt' style='color:var(--hot);font-size:20px;padding:30px'>NO SLATE FOUND</div>";
 })();
 </script>

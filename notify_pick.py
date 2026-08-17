@@ -313,6 +313,16 @@ def main():
     except Exception as e:
         print(f"hit refresh failed: {e}")
 
+    # K WATCH: same lineup-aware refresh (confirmed-lineup K rates, lock rows).
+    # Display only; morning training log never touched.
+    did_k = False
+    try:
+        subprocess.run([PYTHON, r"C:\Users\Poons\baseball-model\k_model.py", "--refresh"],
+                       timeout=300)
+        did_k = os.path.exists(f"k_watch_{date_str}.json")
+    except Exception as e:
+        print(f"k refresh failed: {e}")
+
     book_odds = fetch_market_odds(date_str) if pending else {}
 
     sent_any = False
@@ -346,7 +356,7 @@ def main():
 
     # Push immediately so the live board reflects locks and dropped leans
     # within one cycle instead of waiting for the next scheduled push.
-    if did_rerun or sent_any or did_hr or did_hit:
+    if did_rerun or sent_any or did_hr or did_hit or did_k:
         try:
             subprocess.run(["git", "add", f"picks_{date_str}.csv", f"notified_{date_str}.json"], timeout=60)
             if os.path.exists(f"f5_shadow_{date_str}.json"):
@@ -357,6 +367,11 @@ def main():
                 subprocess.run(["git", "add", f"hit_watch_{date_str}.json"], timeout=60)
                 if os.path.exists("hit_odds_stamp.txt"):
                     subprocess.run(["git", "add", "hit_odds_stamp.txt"], timeout=60)
+            if did_k:
+                subprocess.run(["git", "add", f"k_watch_{date_str}.json"], timeout=60)
+                for extra in (f"k_lock_{date_str}.csv", "k_odds_stamp.txt"):
+                    if os.path.exists(extra):
+                        subprocess.run(["git", "add", extra], timeout=60)
             subprocess.run(["git", "commit", "-m", f"lineup lock update {date_str}"], timeout=60)
             subprocess.run(["git", "push"], timeout=120)
             print("pushed lock update to site")

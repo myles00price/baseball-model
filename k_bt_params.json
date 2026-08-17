@@ -1,0 +1,175 @@
+{
+ "fit_window": "2026-05-01..2026-07-01",
+ "pit_prior_bf": 200,
+ "pit_prior_target": "True",
+ "bat_prior_pa": 60,
+ "bf_w_recent": 0.75,
+ "bf_n_recent": 5,
+ "bf_prior_starts": 3,
+ "lg_bf": 21.87,
+ "kappa": 200,
+ "resid": {
+  "v": [
+   -18,
+   -17,
+   -16,
+   -15,
+   -14,
+   -13,
+   -12,
+   -11,
+   -10,
+   -9,
+   -8,
+   -7,
+   -6,
+   -5,
+   -4,
+   -3,
+   -2,
+   -1,
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ],
+  "w": [
+   0.00872,
+   0.00201,
+   0.00336,
+   0.00403,
+   0.00268,
+   0.00336,
+   0.00336,
+   0.00403,
+   0.00403,
+   0.00671,
+   0.0047,
+   0.01007,
+   0.01611,
+   0.02752,
+   0.04899,
+   0.05638,
+   0.09396,
+   0.11275,
+   0.13624,
+   0.11409,
+   0.11275,
+   0.07718,
+   0.05973,
+   0.03826,
+   0.02752,
+   0.01409,
+   0.00336,
+   0.00134,
+   0.00134,
+   0.00134
+  ]
+ },
+ "holdout_summary": {
+  "naive: season K/start Poisson": [
+   164.75,
+   245.92
+  ],
+  "naive: league mean Poisson": [
+   183.36,
+   250.27
+  ],
+  "lineup, pit prior 50, lg target": [
+   161.7,
+   234.99
+  ],
+  "lineup, pit prior 100, lg target": [
+   161.56,
+   235.74
+  ],
+  "lineup, pit prior 200, lg target": [
+   162.16,
+   238.25
+  ],
+  "lineup, pit prior 400, lg target": [
+   163.96,
+   239.28
+  ],
+  "lineup, pit prior 100, 2025 target": [
+   160.51,
+   235.38
+  ],
+  "lineup, pit prior 200, 2025 target": [
+   160.12,
+   236.63
+  ],
+  "lineup, pit prior 400, 2025 target": [
+   160.39,
+   235.91
+  ],
+  "lineup, pit prior 100, career target": [
+   160.58,
+   237.17
+  ],
+  "lineup, pit prior 200, career target": [
+   160.44,
+   237.19
+  ],
+  "lineup, pit prior 400, career target": [
+   161.13,
+   241.1
+  ],
+  "lineup, pit prior 800, career target": [
+   162.6,
+   242.61
+  ],
+  "lineup, pit prior 200, career+2025x2 target": [
+   160.12,
+   236.6
+  ],
+  "lineup, pit prior 400, career+2025x2 target": [
+   160.63,
+   240.24
+  ],
+  "lineup, pit prior 800, career+2025x2 target": [
+   161.9,
+   243.13
+  ],
+  "team": [
+   160.31,
+   242.2
+  ],
+  "prev_lineup": [
+   159.91,
+   236.94
+  ],
+  "lineup": [
+   160.12,
+   236.63
+  ],
+  "lineup_p30": [
+   160.32,
+   236.76
+  ],
+  "lineup_p100": [
+   160.09,
+   239.07
+  ],
+  "lineup_2025": [
+   160.26,
+   235.48
+  ],
+  "lineup_hand": [
+   160.6,
+   238.45
+  ],
+  "pitcher only": [
+   163.15,
+   247.06
+  ]
+ }
+}

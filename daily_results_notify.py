@@ -143,6 +143,12 @@ def main():
     except Exception as e:
         print(f"hit grading failed: {e}")
 
+    try:  # grade K watch predictions into the training archive
+        import k_grade
+        k_grade.run()
+    except Exception as e:
+        print(f"k grading failed: {e}")
+
     if "--stats-only" in sys.argv:
         print("(stats-only: no text sent)")
         return
