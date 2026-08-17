@@ -1,6 +1,6 @@
 {
  "date": "2026-08-17",
- "generated": "2026-08-17T12:31:04Z",
+ "generated": "2026-08-17T15:31:45Z",
  "league_hr_pa": 0.0305,
  "players": [
   {
@@ -26,9 +26,9 @@
    "hr_pa": 0.06519,
    "p": 25.7,
    "odds": {
-    "dk": 338,
+    "dk": 307,
     "czr": 305,
-    "mgm": 270
+    "mgm": 280
    },
    "fair": "+289"
   },
@@ -55,9 +55,9 @@
    "hr_pa": 0.06013,
    "p": 24.4,
    "odds": {
-    "dk": 195,
-    "czr": 186,
-    "mgm": 175
+    "dk": 203,
+    "czr": 192,
+    "mgm": 170
    },
    "fair": "+310"
   },
@@ -84,9 +84,9 @@
    "hr_pa": 0.05927,
    "p": 23.6,
    "odds": {
-    "dk": 247,
-    "czr": 235,
-    "mgm": 240
+    "dk": 227,
+    "czr": 225,
+    "mgm": 230
    },
    "fair": "+324"
   },
@@ -113,8 +113,8 @@
    "hr_pa": 0.05487,
    "p": 22.0,
    "odds": {
-    "czr": 174,
-    "dk": 191,
+    "czr": 165,
+    "dk": 179,
     "mgm": 165
    },
    "fair": "+355"
@@ -143,7 +143,7 @@
    "p": 21.5,
    "odds": {
     "dk": 360,
-    "czr": 320,
+    "czr": 330,
     "mgm": 280
    },
    "fair": "+365"
@@ -198,9 +198,9 @@
    "hr_pa": 0.05299,
    "p": 20.4,
    "odds": {
-    "dk": 379,
-    "czr": 350,
-    "mgm": 310
+    "dk": 393,
+    "czr": 370,
+    "mgm": 325
    },
    "fair": "+390"
   },
@@ -227,9 +227,9 @@
    "hr_pa": 0.04825,
    "p": 19.6,
    "odds": {
-    "dk": 373,
+    "dk": 333,
     "czr": 320,
-    "mgm": 270
+    "mgm": 260
    },
    "fair": "+410"
   },
@@ -256,8 +256,8 @@
    "hr_pa": 0.05686,
    "p": 19.5,
    "odds": {
-    "czr": 235,
-    "dk": 251,
+    "czr": 245,
+    "dk": 267,
     "mgm": 230
    },
    "fair": "+413"
@@ -285,39 +285,11 @@
    "hr_pa": 0.04764,
    "p": 19.3,
    "odds": {
-    "dk": 301,
+    "dk": 285,
     "czr": 280,
     "mgm": 280
    },
    "fair": "+418"
-  },
-  {
-   "id": 701398,
-   "name": "Sal Stewart",
-   "team": "Cincinnati Reds",
-   "opp": "St. Louis Cardinals",
-   "home": true,
-   "pk": 824514,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "hr": 26,
-   "pa": 532,
-   "exp_pa": 4.3,
-   "f_bat": 1.38,
-   "f_arsenal": 1.0,
-   "f_pit": 1.0,
-   "f_park": 1.14,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "f_platoon": 1.0,
-   "hr_pa": 0.04817,
-   "p": 19.1,
-   "odds": {
-    "dk": 426,
-    "czr": 400
-   },
-   "fair": "+424"
   },
   {
    "id": 691718,
@@ -342,7 +314,7 @@
    "hr_pa": 0.04591,
    "p": 18.7,
    "odds": {
-    "dk": 320,
+    "dk": 319,
     "czr": 290,
     "mgm": 250
    },
@@ -355,8 +327,8 @@
    "opp": "Cincinnati Reds",
    "home": false,
    "pk": 824514,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
+   "opp_sp": "Kent Emanuel",
+   "opp_sp_id": 592288,
    "hr": 24,
    "pa": 512,
    "exp_pa": 4.3,
@@ -364,17 +336,76 @@
    "f_arsenal": 1.0,
    "f_pit": 1.0,
    "f_park": 1.14,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "f_platoon": 1.0,
+   "f_wind": 1.1,
+   "f_temp": 1.04,
+   "wind": "WIND 5 OUT",
+   "f_platoon": 1.14,
    "hr_pa": 0.04654,
    "p": 18.5,
    "odds": {
-    "dk": 377,
-    "czr": 330
+    "dk": 326,
+    "czr": 290,
+    "mgm": 240
    },
    "fair": "+441"
+  },
+  {
+   "id": 701398,
+   "name": "Sal Stewart",
+   "team": "Cincinnati Reds",
+   "opp": "St. Louis Cardinals",
+   "home": true,
+   "pk": 824514,
+   "opp_sp": "Quinn Mathews",
+   "opp_sp_id": 687273,
+   "hr": 26,
+   "pa": 532,
+   "exp_pa": 4.3,
+   "f_bat": 1.38,
+   "f_arsenal": 1.0,
+   "f_pit": 0.96,
+   "f_park": 1.14,
+   "f_wind": 1.1,
+   "f_temp": 1.04,
+   "wind": "WIND 5 OUT",
+   "f_platoon": 1.04,
+   "hr_pa": 0.0462,
+   "p": 18.4,
+   "odds": {
+    "dk": 433,
+    "czr": 350,
+    "mgm": 280
+   },
+   "fair": "+443"
+  },
+  {
+   "id": 681624,
+   "name": "Andy Pages",
+   "team": "Los Angeles Dodgers",
+   "opp": "Colorado Rockies",
+   "home": false,
+   "pk": 824320,
+   "opp_sp": "Tomoyuki Sugano",
+   "opp_sp_id": 608372,
+   "hr": 21,
+   "pa": 533,
+   "exp_pa": 4.3,
+   "f_bat": 1.19,
+   "f_arsenal": 0.99,
+   "f_pit": 1.19,
+   "f_park": 1.05,
+   "f_wind": 1.0,
+   "f_temp": 1.0,
+   "wind": "",
+   "f_platoon": 0.98,
+   "hr_pa": 0.04532,
+   "p": 18.1,
+   "odds": {
+    "czr": 350,
+    "dk": 372,
+    "mgm": 300
+   },
+   "fair": "+452"
   },
   {
    "id": 668709,
@@ -383,54 +414,26 @@
    "opp": "St. Louis Cardinals",
    "home": true,
    "pk": 824514,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
+   "opp_sp": "Quinn Mathews",
+   "opp_sp_id": 687273,
    "hr": 20,
    "pa": 398,
    "exp_pa": 4.2,
    "f_bat": 1.37,
    "f_arsenal": 1.0,
-   "f_pit": 1.0,
+   "f_pit": 0.96,
    "f_park": 1.14,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "f_platoon": 1.0,
-   "hr_pa": 0.04761,
-   "p": 18.5,
+   "f_wind": 1.1,
+   "f_temp": 1.04,
+   "wind": "WIND 5 OUT",
+   "f_platoon": 1.05,
+   "hr_pa": 0.04567,
+   "p": 17.8,
    "odds": {
     "dk": 416,
     "czr": 390
    },
-   "fair": "+441"
-  },
-  {
-   "id": 682829,
-   "name": "Elly De La Cruz",
-   "team": "Cincinnati Reds",
-   "opp": "St. Louis Cardinals",
-   "home": true,
-   "pk": 824514,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "hr": 20,
-   "pa": 465,
-   "exp_pa": 4.5,
-   "f_bat": 1.25,
-   "f_arsenal": 1.0,
-   "f_pit": 1.0,
-   "f_park": 1.14,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "f_platoon": 1.0,
-   "hr_pa": 0.04344,
-   "p": 18.1,
-   "odds": {
-    "dk": 383,
-    "czr": 390
-   },
-   "fair": "+452"
+   "fair": "+462"
   }
  ]
 }
