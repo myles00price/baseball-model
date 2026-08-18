@@ -1261,14 +1261,19 @@ function renderKWatch(){
     // and stayed under, red on a final miss. Every other row: live K count only.
     let flag="",rowCls="";
     if(live!=null&&(st==="Live"||st==="Final")){
+      // every row grades vs the model's projected side (lean side if it has one,
+      // else the side its P(over) favors); only LEANS get the glow.
+      const gSide=b?b.side:(p.p_over_cons!=null&&line!=null?(p.p_over_cons>=0.5?"over":"under"):null);
+      const gLine=b?b.line:line;
       let verdict=null;
-      if(isLean){
-        if(b.side==="over"){if(live>b.line)verdict=true;else if(st==="Final")verdict=false}
-        else{if(live>b.line)verdict=false;else if(st==="Final")verdict=true}
+      if(gSide&&gLine!=null){
+        if(gSide==="over"){if(live>gLine)verdict=true;else if(st==="Final")verdict=false}
+        else{if(live>gLine)verdict=false;else if(st==="Final")verdict=true}
       }
-      const res=verdict!==null?` · ${b.side.toUpperCase()} ${b.line} ${verdict?"✓ CASHED":"✗"}`:"";
-      flag=`<span class="hr-flag${st==="Final"?" done":""}${verdict===false?" miss":verdict===true?" cash":""}">${verdict===true?"💰 ":"⚾ "}${live} K${res}</span>`;
-      rowCls=verdict===true?" cash":verdict===false?" k-miss":"";
+      const res=verdict!==null?` · ${gSide.toUpperCase()} ${gLine} ${verdict?(isLean?"✓ CASHED":"✓"):"✗"}`:"";
+      const fcls=isLean?(verdict===true?" cash":verdict===false?" miss":""):"";
+      flag=`<span class="hr-flag${st==="Final"?" done":""}${fcls}">${isLean&&verdict===true?"💰 ":"⚾ "}${live} K${res}</span>`;
+      rowCls=isLean?(verdict===true?" cash":verdict===false?" k-miss":""):"";
     }
     const open=kOpen.has(p.id);
     return`<div class="ldr${rowCls}${st==="Final"&&live!=null?" k-done":""}" onclick="toggleKDrop(event,${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
