@@ -92,6 +92,19 @@ body.light .sc-news a{color:#1a56b0}
   font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.4em;text-align:center;padding:3px 0 1px}
 .playbar.lean{background:none;color:var(--gold);border-bottom:1px dashed #8a6d1a}
 .playbar.f5p{background:none;color:#c9992b;border-bottom:1px dashed #6b5514;font-size:11px;letter-spacing:.28em;cursor:pointer}
+/* official play settled: cashed (green) / lost (red) */
+.card.play.cash{border-color:var(--phos);box-shadow:0 0 16px rgba(43,255,100,.35),inset 0 0 22px rgba(43,255,100,.08)}
+.playbar.cash{background:linear-gradient(90deg,#0d5c2d,var(--phos),#0d5c2d);color:#000}
+.card.play.lost{border-color:#8a2323}
+.playbar.lost{background:linear-gradient(90deg,#3a0d0d,#8a2323,#3a0d0d);color:#ffc7c7}
+.sc-card.cash{border-color:var(--phos);box-shadow:0 0 16px rgba(43,255,100,.3)}
+.sc-bar.cash{background:linear-gradient(90deg,#0d5c2d,var(--phos),#0d5c2d);color:#000}
+.sc-card.lost{border-color:#8a2323}
+.sc-bar.lost{background:linear-gradient(90deg,#3a0d0d,#8a2323,#3a0d0d);color:#ffc7c7}
+body.light .card.play.cash{border-color:#0a7a34;box-shadow:0 0 12px rgba(10,122,52,.25)}
+body.light .playbar.cash{background:linear-gradient(90deg,#0a7a34,#2bcf6a,#0a7a34);color:#fff}
+body.light .card.play.lost{border-color:#c41414}
+body.light .playbar.lost{background:linear-gradient(90deg,#8a2323,#c41414,#8a2323);color:#fff}
 .card.play.lean-card{border-style:dashed}
 .top{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;
   font-size:13px;letter-spacing:.14em;padding:7px 12px 5px;border-bottom:1px solid #141414;text-transform:uppercase}
@@ -614,10 +627,16 @@ function render(){
     const sh=String(r["Sharp Signal"]||"");
     const shH=sh.includes("CONFIRMED")?"<span class='sharp-c'>SHARP ✓</span>":sh.includes("FADE")?"<span class='sharp-f'>FADE ✗</span>":"";
     const isLocked=locked.has(key);
+    // settle a locked official play once the game is final: cashed / lost
+    let settled=null;
+    if(flagged&&isLocked&&lv.state==="Final"&&lv.as!=null&&lv.hs!=null&&lv.as!==lv.hs){
+      const side=flagged_side_js(r);
+      if(side){const winner=lv.as>lv.hs?away:home;settled=(side==="away"?away:home)===winner?"cash":"lost"}
+    }
     const f5=f5flags[key];
     const f5bar=f5?`<div class="playbar f5p" onclick="event.stopPropagation();openInfo(event,'f5')">🕐 F5 PAPER${f5.locked?" 🔒":""} · ${AB[f5.tm]||f5.tm} FIRST-5 ${f5.price>0?"+":""}${f5.price??"—"} · ${f5.edge>0?"+":""}${f5.edge}% · ${f5.locked?"NOT A PLAY":"LOCKS AT LINEUPS"} ⓘ</div>`:"";
-    cards.push(`<div class="card${flagged?(isLocked?" play":" play lean-card"):""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
-      ${flagged?(isLocked?`<div class="playbar">🔒 OFFICIAL PLAY</div>`:`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}${f5bar}
+    cards.push(`<div class="card${flagged?(isLocked?" play"+(settled?" "+settled:""):" play lean-card"):""}" onclick="openGame('${key.replace(/'/g,"\\'")}')" data-key="${key}">
+      ${flagged?(isLocked?(settled==="cash"?`<div class="playbar cash">💰 OFFICIAL PLAY · CASHED</div>`:settled==="lost"?`<div class="playbar lost">✗ OFFICIAL PLAY · LOST</div>`:`<div class="playbar">🔒 OFFICIAL PLAY</div>`):`<div class="playbar lean">LEAN · LOCKS AT LINEUPS</div>`):""}${f5bar}
       <div class="top"><span>${aab} @ ${hab}${dhTag}</span>${st}</div>
       <div class="row"><span class="rot">${951+gi*2}</span><img class="tlogo" src="${logo(away)}" alt="" onclick="event.stopPropagation();openTeam(${TID[away]||0})"><span class="ab">${aab}</span>
         <span class="score">${sc(lv.as)}</span><span class="mdl">${num(r["Model Away%"])}</span>
@@ -1617,7 +1636,10 @@ async function renderShowcase(){
     const aid=findId(r["Away SP"]),hid=findId(r["Home SP"]);
     const nick=t=>t.split(" ").pop();
     const news=_articles.filter(a=>{const h=(a.headline||"");return h.includes(nick(away))||h.includes(nick(home))}).slice(0,2);
-    return`<div class="sc-card"><div class="sc-bar">${locked.has(key)?"🔒 OFFICIAL PLAY":"TONIGHT'S LEAN"}</div>
+    const lv=liveMap[key]||{};let settled=null;
+    if(locked.has(key)&&lv.state==="Final"&&lv.as!=null&&lv.hs!=null&&lv.as!==lv.hs){settled=(lv.as>lv.hs?away:home)===betTeam?"cash":"lost"}
+    const barTxt=settled==="cash"?"💰 OFFICIAL PLAY · CASHED":settled==="lost"?"✗ OFFICIAL PLAY · LOST":locked.has(key)?"🔒 OFFICIAL PLAY":"TONIGHT'S LEAN";
+    return`<div class="sc-card${settled?" "+settled:""}"><div class="sc-bar${settled?" "+settled:""}">${barTxt}</div>
       <div class="sc-head">
         <div class="sc-team ${betTeam===away?"pick":""}" onclick="openTeam(${TID[away]||0})"><img src="${logo(away)}"><div class="n">${away}</div></div>
         <span class="sc-vs">@</span>
@@ -1685,7 +1707,12 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkShell
 let _rsz=null;
 window.addEventListener("resize",()=>{clearTimeout(_rsz);_rsz=setTimeout(()=>{if(window._analytics)loadLedger()},250)});
 
-async function tick(){await loadLive();render();refreshHRLive();refreshHitLive();refreshKLive();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
+let _finalSig="";
+async function tick(){await loadLive();render();
+  // re-render the showcase when the set of final games changes (plays settle -> cash/lost bars)
+  const sig=Object.entries(liveMap).filter(([k,g])=>g.state==="Final").map(([k])=>k).sort().join("|");
+  if(sig!==_finalSig){_finalSig=sig;renderShowcase()}
+  refreshHRLive();refreshHitLive();refreshKLive();if(ovKey&&document.getElementById("ov").classList.contains("on"))drawGame()}
 (async()=>{
   if(await loadPicks()){loadStats();await loadF5Flags();await tick();await loadNews();renderShowcase();loadLedger();loadHRWatch();loadHitWatch();loadKWatch();loadProps();loadStandings();loadLeaders();loadUpdates();loadArchive();loadLeaks();
     setInterval(tick,60000);setInterval(async()=>{await loadPicks();await loadF5Flags();render();renderShowcase();loadHRWatch();loadHitWatch();loadKWatch()},300000)}
