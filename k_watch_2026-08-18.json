@@ -1,6 +1,6 @@
 {
  "date": "2026-08-18",
- "generated": "2026-08-18T20:46:09Z",
+ "generated": "2026-08-18T21:01:15Z",
  "pitchers": [
   {
    "id": 690986,
@@ -1705,240 +1705,6 @@
    "k9": 8.57
   },
   {
-   "id": 678022,
-   "name": "Jack Perkins",
-   "team": "Athletics",
-   "opp": "Kansas City Royals",
-   "home": false,
-   "pk": 824075,
-   "hand": "R",
-   "so": 94,
-   "bf": 376,
-   "gs": 11,
-   "ip": 81.7,
-   "f_pit": 1.092,
-   "bf_l5": 22.4,
-   "exp_bf": 22.22,
-   "lineup_src": "confirmed",
-   "lineup_n": 9,
-   "f_lineup": 0.9133680647274519,
-   "pk_pa": 0.2209,
-   "exp_k": 4.8,
-   "dist": {
-    "2.5": 0.8501,
-    "3.5": 0.7061,
-    "4.5": 0.5307,
-    "5.5": 0.3578,
-    "6.5": 0.2161,
-    "7.5": 0.1172,
-    "8.5": 0.0572,
-    "9.5": 0.0253
-   },
-   "books": {
-    "dk": {
-     "line": 3.5,
-     "over": -152,
-     "under": 119,
-     "alts": {
-      "1.5": [
-       -1480,
-       null
-      ],
-      "2.5": [
-       -396,
-       null
-      ],
-      "3.5": [
-       -151,
-       null
-      ],
-      "4.5": [
-       153,
-       null
-      ],
-      "5.5": [
-       339,
-       null
-      ],
-      "6.5": [
-       770,
-       null
-      ],
-      "7.5": [
-       1560,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 3.5,
-     "over": -154,
-     "under": 120,
-     "alts": {
-      "2.5": [
-       -460,
-       null
-      ],
-      "3.5": [
-       -154,
-       null
-      ],
-      "4.5": [
-       154,
-       null
-      ],
-      "5.5": [
-       350,
-       null
-      ],
-      "6.5": [
-       700,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 4.5,
-     "over": 150,
-     "under": -220,
-     "alts": {
-      "5.5": [
-       333,
-       null
-      ],
-      "4.5": [
-       165,
-       null
-      ],
-      "6.5": [
-       600,
-       null
-      ],
-      "3.5": [
-       -135,
-       null
-      ],
-      "2.5": [
-       -300,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -460,
-       null
-      ],
-      "3.5": [
-       -159,
-       null
-      ],
-      "4.5": [
-       143,
-       null
-      ],
-      "5.5": [
-       305,
-       null
-      ],
-      "6.5": [
-       700,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 3.5,
-   "p_over_cons": 0.7061,
-   "fair_over": "-240",
-   "fair_under": "+240",
-   "best": {
-    "side": "over",
-    "book": "mgm",
-    "line": 4.5,
-    "price": 150,
-    "p_model": 0.5307,
-    "implied": 0.3678,
-    "edge": 0.1629,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 3.5,
-      "price": -152,
-      "p_model": 0.7061,
-      "implied": 0.5691,
-      "edge": 0.137,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 3.5,
-      "price": 119,
-      "p_model": 0.2939,
-      "implied": 0.4309,
-      "edge": -0.137,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 3.5,
-      "price": -154,
-      "p_model": 0.7061,
-      "implied": 0.5715,
-      "edge": 0.1346,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 3.5,
-      "price": 120,
-      "p_model": 0.2939,
-      "implied": 0.4285,
-      "edge": -0.1346,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 4.5,
-      "price": 150,
-      "p_model": 0.5307,
-      "implied": 0.3678,
-      "edge": 0.1629,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 4.5,
-      "price": -220,
-      "p_model": 0.4693,
-      "implied": 0.6322,
-      "edge": -0.1629,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 25.0,
-   "k9": 10.35
-  },
-  {
    "id": 800600,
    "name": "Jackson Kent",
    "team": "Washington Nationals",
@@ -2175,6 +1941,232 @@
    "state": "Preview",
    "kpct": 31.6,
    "k9": 13.5
+  },
+  {
+   "id": 672456,
+   "name": "Keider Montero",
+   "team": "Detroit Tigers",
+   "opp": "Pittsburgh Pirates",
+   "home": false,
+   "pk": 823341,
+   "hand": "R",
+   "so": 86,
+   "bf": 515,
+   "gs": 20,
+   "ip": 128.7,
+   "f_pit": 0.794,
+   "bf_l5": 23.2,
+   "exp_bf": 23.08,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.0698419692012848,
+   "pk_pa": 0.1885,
+   "exp_k": 4.29,
+   "dist": {
+    "2.5": 0.794,
+    "3.5": 0.6207,
+    "4.5": 0.4328,
+    "5.5": 0.2684,
+    "6.5": 0.1483,
+    "7.5": 0.0734,
+    "8.5": 0.0327,
+    "9.5": 0.0132
+   },
+   "books": {
+    "dk": {
+     "line": 3.5,
+     "over": -125,
+     "under": -102,
+     "alts": {
+      "1.5": [
+       -1220,
+       null
+      ],
+      "2.5": [
+       -331,
+       null
+      ],
+      "3.5": [
+       -126,
+       null
+      ],
+      "4.5": [
+       187,
+       null
+      ],
+      "5.5": [
+       424,
+       null
+      ],
+      "6.5": [
+       960,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 3.5,
+     "over": -125,
+     "under": -102,
+     "alts": {
+      "2.5": [
+       -370,
+       null
+      ],
+      "3.5": [
+       -125,
+       null
+      ],
+      "4.5": [
+       190,
+       null
+      ],
+      "5.5": [
+       420,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 3.5,
+     "over": -130,
+     "under": -110,
+     "alts": {
+      "6.5": [
+       675,
+       null
+      ],
+      "5.5": [
+       350,
+       null
+      ],
+      "4.5": [
+       175,
+       null
+      ],
+      "3.5": [
+       -125,
+       null
+      ],
+      "2.5": [
+       -300,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -360,
+       null
+      ],
+      "3.5": [
+       -136,
+       null
+      ],
+      "4.5": [
+       167,
+       null
+      ],
+      "5.5": [
+       360,
+       null
+      ],
+      "6.5": [
+       800,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.6207,
+   "fair_over": "-164",
+   "fair_under": "+164",
+   "best": {
+    "side": "over",
+    "book": "mgm",
+    "line": 3.5,
+    "price": -130,
+    "p_model": 0.6207,
+    "implied": 0.519,
+    "edge": 0.1017,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -125,
+      "p_model": 0.6207,
+      "implied": 0.5239,
+      "edge": 0.0968,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -102,
+      "p_model": 0.3793,
+      "implied": 0.4761,
+      "edge": -0.0968,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -125,
+      "p_model": 0.6207,
+      "implied": 0.5239,
+      "edge": 0.0968,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -102,
+      "p_model": 0.3793,
+      "implied": 0.4761,
+      "edge": -0.0968,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -130,
+      "p_model": 0.6207,
+      "implied": 0.519,
+      "edge": 0.1017,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -110,
+      "p_model": 0.3793,
+      "implied": 0.481,
+      "edge": -0.1017,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 16.7,
+   "k9": 6.01
   },
   {
    "id": 607259,
@@ -2881,232 +2873,6 @@
    "state": "Preview",
    "kpct": 15.1,
    "k9": 5.9
-  },
-  {
-   "id": 672456,
-   "name": "Keider Montero",
-   "team": "Detroit Tigers",
-   "opp": "Pittsburgh Pirates",
-   "home": false,
-   "pk": 823341,
-   "hand": "R",
-   "so": 86,
-   "bf": 515,
-   "gs": 20,
-   "ip": 128.7,
-   "f_pit": 0.794,
-   "bf_l5": 23.2,
-   "exp_bf": 23.08,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.043,
-   "pk_pa": 0.1835,
-   "exp_k": 4.18,
-   "dist": {
-    "2.5": 0.7794,
-    "3.5": 0.6001,
-    "4.5": 0.4109,
-    "5.5": 0.2497,
-    "6.5": 0.1351,
-    "7.5": 0.0654,
-    "8.5": 0.0285,
-    "9.5": 0.0112
-   },
-   "books": {
-    "dk": {
-     "line": 3.5,
-     "over": -125,
-     "under": -102,
-     "alts": {
-      "1.5": [
-       -1220,
-       null
-      ],
-      "2.5": [
-       -331,
-       null
-      ],
-      "3.5": [
-       -126,
-       null
-      ],
-      "4.5": [
-       187,
-       null
-      ],
-      "5.5": [
-       424,
-       null
-      ],
-      "6.5": [
-       960,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 3.5,
-     "over": -125,
-     "under": -102,
-     "alts": {
-      "2.5": [
-       -370,
-       null
-      ],
-      "3.5": [
-       -125,
-       null
-      ],
-      "4.5": [
-       190,
-       null
-      ],
-      "5.5": [
-       420,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 3.5,
-     "over": -130,
-     "under": -110,
-     "alts": {
-      "6.5": [
-       675,
-       null
-      ],
-      "5.5": [
-       350,
-       null
-      ],
-      "4.5": [
-       175,
-       null
-      ],
-      "3.5": [
-       -125,
-       null
-      ],
-      "2.5": [
-       -300,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -360,
-       null
-      ],
-      "3.5": [
-       -136,
-       null
-      ],
-      "4.5": [
-       167,
-       null
-      ],
-      "5.5": [
-       360,
-       null
-      ],
-      "6.5": [
-       800,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 3.5,
-   "p_over_cons": 0.6001,
-   "fair_over": "-150",
-   "fair_under": "+150",
-   "best": {
-    "side": "over",
-    "book": "mgm",
-    "line": 3.5,
-    "price": -130,
-    "p_model": 0.6001,
-    "implied": 0.519,
-    "edge": 0.0811,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 3.5,
-      "price": -125,
-      "p_model": 0.6001,
-      "implied": 0.5239,
-      "edge": 0.0762,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 3.5,
-      "price": -102,
-      "p_model": 0.3999,
-      "implied": 0.4761,
-      "edge": -0.0762,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 3.5,
-      "price": -125,
-      "p_model": 0.6001,
-      "implied": 0.5239,
-      "edge": 0.0762,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 3.5,
-      "price": -102,
-      "p_model": 0.3999,
-      "implied": 0.4761,
-      "edge": -0.0762,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 3.5,
-      "price": -130,
-      "p_model": 0.6001,
-      "implied": 0.519,
-      "edge": 0.0811,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 3.5,
-      "price": -110,
-      "p_model": 0.3999,
-      "implied": 0.481,
-      "edge": -0.0811,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 16.7,
-   "k9": 6.01
   },
   {
    "id": 805673,
@@ -6297,6 +6063,48 @@
    "k9": 5.76
   },
   {
+   "id": 669620,
+   "name": "Brady Basso",
+   "team": "Athletics",
+   "opp": "Kansas City Royals",
+   "home": false,
+   "pk": 824075,
+   "hand": "L",
+   "so": 18,
+   "bf": 91,
+   "gs": 1,
+   "ip": 20.7,
+   "f_pit": 0.9140599102715817,
+   "bf_l5": 10.0,
+   "exp_bf": 12.23,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9133680647274519,
+   "pk_pa": 0.1841,
+   "exp_k": 2.19,
+   "dist": {
+    "2.5": 0.3802,
+    "3.5": 0.1879,
+    "4.5": 0.0779,
+    "5.5": 0.0276,
+    "6.5": 0.0085,
+    "7.5": 0.0023,
+    "8.5": 0.0006,
+    "9.5": 0.0001
+   },
+   "books": {},
+   "cons_line": null,
+   "p_over_cons": null,
+   "fair_over": null,
+   "fair_under": null,
+   "best": null,
+   "edges": {},
+   "late": 1,
+   "state": "Preview",
+   "kpct": 19.8,
+   "k9": 7.83
+  },
+  {
    "id": 663738,
    "name": "Daniel Lynch IV",
    "team": "Kansas City Royals",
@@ -6311,20 +6119,20 @@
    "f_pit": 0.8588246326963695,
    "bf_l5": 10.0,
    "exp_bf": 11.79,
-   "lineup_src": "team",
-   "lineup_n": 0,
-   "f_lineup": 1.019645722661969,
-   "pk_pa": 0.1937,
-   "exp_k": 2.3,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9881098693948391,
+   "pk_pa": 0.1874,
+   "exp_k": 2.23,
    "dist": {
-    "2.5": 0.41,
-    "3.5": 0.2109,
-    "4.5": 0.0913,
-    "5.5": 0.0338,
-    "6.5": 0.0109,
-    "7.5": 0.0031,
-    "8.5": 0.0008,
-    "9.5": 0.0002
+    "2.5": 0.3906,
+    "3.5": 0.1958,
+    "4.5": 0.0825,
+    "5.5": 0.0297,
+    "6.5": 0.0093,
+    "7.5": 0.0026,
+    "8.5": 0.0006,
+    "9.5": 0.0001
    },
    "books": {},
    "cons_line": null,
@@ -6353,14 +6161,14 @@
    "f_pit": 1.036416751538109,
    "bf_l5": 4.0,
    "exp_bf": 5.49,
-   "lineup_src": "team",
-   "lineup_n": 0,
-   "f_lineup": 0.984821504263268,
-   "pk_pa": 0.2256,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.983422140357466,
+   "pk_pa": 0.2253,
    "exp_k": 1.19,
    "dist": {
-    "2.5": 0.135,
-    "3.5": 0.0452,
+    "2.5": 0.1346,
+    "3.5": 0.0451,
     "4.5": 0.0128,
     "5.5": 0.0031,
     "6.5": 0.0007,
@@ -6382,7 +6190,7 @@
   }
  ],
  "league_k_pa": 0.221,
- "lineups_confirmed": 24,
+ "lineups_confirmed": 27,
  "odds_at": "2026-08-18T15:30:56Z",
- "locked": 24
+ "locked": 28
 }
