@@ -329,6 +329,13 @@ def main():
     except Exception as e:
         print(f"k refresh failed: {e}")
 
+    # Settle texts: any texted play whose game has gone final (day games)
+    try:
+        import settle_notify
+        settle_notify.main(date_str)
+    except Exception as e:
+        print(f"settle_notify failed: {e}")
+
     # K WATCH lean callouts (owner decision 2026-08-17): text top-5 leans once
     # their lineups confirm. Labeled K WATCH LEAN, never OFFICIAL PLAY.
     if did_k:

@@ -66,6 +66,14 @@ def main():
     lv = timezone(timedelta(hours=-7))
     today = datetime.now(lv).strftime("%Y-%m-%d")
 
+    # catch-up: any settled play not yet texted (machine off when it ended)
+    if "--stats-only" not in sys.argv:
+        try:
+            import settle_notify
+            settle_notify.main(today)
+        except Exception as e:
+            print(f"settle catch-up failed: {e}")
+
     # Today's card
     day = grade_day(today)
     day_w = sum(1 for *_, won, _s in [(0, 0, g[2], g[3]) for g in day] if won)
