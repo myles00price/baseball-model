@@ -1,15 +1,19 @@
 """
-k_notify.py — text callouts for K WATCH leans (owner decision 2026-08-17).
+k_notify.py — K WATCH plays: same lifecycle as main plays (owner decision
+2026-08-17).
 
-Sends the shared subscriber topic a short callout for each K WATCH lean once
-its game's lineups are confirmed. A "lean" here is exactly what lights up on
-the board: model edge >= 3 pts vs the best book AND top-5 edge on the slate.
-Labeled K WATCH LEAN, never OFFICIAL PLAY — these are not part of the graded
-official record; they are graded on the PROPS LEDGER (paper) instead.
+  overnight / morning : EARLY LEANS - probable starters with posted K lines
+                        whose model edge is >= 3 pts vs the best book, top-5
+                        on the slate (the exact rows that light on the board)
+  lineup lock         : 🔒 K PLAY text, once per pitcher per day, when his
+                        game's lineups are confirmed and he is still a lean
+  settle              : settle_notify texts 💰 CASHED / ✗ LOST off the boxscore
 
-State: notified_k_<date>.json (one text per pitcher per day).
-Called from notify_pick.py right after the K refresh; safe standalone:
-    py -3.11 .\\k_notify.py [YYYY-MM-DD]
+K plays are graded on THE PROPS LEDGER (paper, public), separate from the
+main official record - the text says so.
+
+State: notified_k_<date>.json (pitcher ids texted at lock).
+    py -3.11 .\\k_notify.py [YYYY-MM-DD]      # lock texts for the date
 """
 
 import json
@@ -37,13 +41,41 @@ def fmt(o):
     return f"+{o}" if o > 0 else str(o)
 
 
-def leans(K):
-    """Board rule: edge >= LEAN_PTS, top LEAN_MAX by edge, lineups confirmed."""
+def load_watch(date_str):
+    fn = f"k_watch_{date_str}.json"
+    if not os.path.exists(fn):
+        return None
+    try:
+        return json.load(open(fn, encoding="utf-8"))
+    except Exception:
+        return None
+
+
+def leans(K, confirmed_only=False):
+    """Board rule: posted line, edge >= LEAN_PTS, top LEAN_MAX by edge.
+    confirmed_only: restrict to starters whose game lineups are confirmed."""
     cands = [p for p in K.get("pitchers", []) if p.get("best")
              and p["best"].get("edge", 0) >= LEAN_PTS
-             and p.get("lineup_src") == "confirmed"]
+             and p.get("cons_line") is not None]
     cands.sort(key=lambda p: -p["best"]["edge"])
-    return cands[:LEAN_MAX]
+    top = cands[:LEAN_MAX]
+    if confirmed_only:
+        top = [p for p in top if p.get("lineup_src") == "confirmed"]
+    return top
+
+
+def lean_lines(date_str):
+    """Short early-lean bullets for the nightly / morning texts."""
+    K = load_watch(date_str)
+    if not K:
+        return []
+    out = []
+    for p in leans(K):
+        b = p["best"]
+        vs = "vs" if p.get("home") else "@"
+        out.append(f"{p['name']} ({p['team']} {vs} {p['opp']}) {b['side'].upper()} {b['line']} K"
+                   f" - {BOOK.get(b['book'], b['book'].upper())} {fmt(b['price'])}, edge +{b['edge']*100:.1f} pts")
+    return out
 
 
 def body_for(p):
@@ -51,40 +83,39 @@ def body_for(p):
     side = b["side"].upper()
     vs = "vs" if p.get("home") else "@"
     fair = p.get("fair_over") if b["side"] == "over" else p.get("fair_under")
-    lines = [
+    return "\n".join([
         f"{p['name']} ({p['team']} {vs} {p['opp']})",
-        f"K WATCH LEAN: {side} {b['line']} strikeouts",
+        f"** K PLAY: {side} {b['line']} strikeouts **",
         f"Best price: {BOOK.get(b['book'], b['book'].upper())} {fmt(b['price'])}"
         + (f" (model fair {fair})" if fair else ""),
-        f"Model: {p['exp_k']:.1f} K expected | {b['p_model']*100:.0f}% to hit {side.lower()} | edge +{b['edge']*100:.1f} pts vs book",
-        "Lineups confirmed. Display list lean - not an official play; graded on the board's Props Ledger.",
-    ]
-    return "\n".join(lines)
+        f"Model: {p['exp_k']:.1f} K expected | {b['p_model']*100:.0f}% {side.lower()} | edge +{b['edge']*100:.1f} pts vs book",
+        "Lineups confirmed. Graded on the board's Props Ledger (separate from the main record).",
+    ])
 
 
 def main(date_str=None):
+    """Lock texts: each top lean whose lineups are confirmed, once."""
     date_str = date_str or lv_today()
-    fn = f"k_watch_{date_str}.json"
-    if not os.path.exists(fn):
-        print(f"k_notify: no {fn}")
+    K = load_watch(date_str)
+    if not K:
+        print(f"k_notify: no k_watch_{date_str}.json")
         return 0
-    K = json.load(open(fn, encoding="utf-8"))
     state_fn = f"notified_k_{date_str}.json"
     try:
         sent = set(json.load(open(state_fn)))
     except Exception:
         sent = set()
     n = 0
-    for p in leans(K):
-        key = f"{p['id']}"
+    for p in leans(K, confirmed_only=True):
+        key = str(p["id"])
         if key in sent:
             continue
         try:
             requests.post(f"https://ntfy.sh/{NTFY_TOPIC}", data=body_for(p).encode("utf-8"),
-                          headers={"Title": f"K WATCH lean: {p['name']} {p['best']['side'].upper()} {p['best']['line']}",
-                                   "Priority": "default", "Tags": "baseball"}, timeout=15)
+                          headers={"Title": f"K PLAY locked: {p['name']} {p['best']['side'].upper()} {p['best']['line']}",
+                                   "Priority": "high", "Tags": "baseball,moneybag"}, timeout=15)
             sent.add(key); n += 1
-            print(f"k_notify: sent {p['name']} {p['best']['side']} {p['best']['line']}")
+            print(f"k_notify: K PLAY {p['name']} {p['best']['side']} {p['best']['line']}")
         except Exception as e:
             print(f"k_notify: send failed for {p['name']}: {e}")
     json.dump(sorted(sent), open(state_fn, "w"))

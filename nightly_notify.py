@@ -62,8 +62,23 @@ def main():
         lines.append("(pre-lineup numbers — final pick comes when lineups confirm)")
     else:
         lines.append("No BET flags yet — final picks come when lineups confirm.")
-    send_push(f"MLB model: tomorrow's slate ready", "\n".join(lines), bet=bool(bets))
-    print(f"{date_str}: nightly summary sent ({len(picks)} games, {len(bets)} bets)")
+
+    # K WATCH early leans: strikeout lines post overnight for probable starters.
+    # Build tomorrow's K list now (k_model handles the date), then list leans.
+    k_lines = []
+    try:
+        import subprocess
+        subprocess.run([sys.executable, r"C:\Users\Poons\baseball-model\k_model.py", date_str],
+                       timeout=600, cwd=r"C:\Users\Poons\baseball-model")
+        import k_notify
+        k_lines = k_notify.lean_lines(date_str)
+    except Exception as e:
+        print(f"K early leans skipped: {e}")
+    if k_lines:
+        lines.append(f"K WATCH early leans ({len(k_lines)}) - lock as K PLAYS when lineups confirm:")
+        lines.extend(f"- {k}" for k in k_lines)
+    send_push(f"MLB model: tomorrow's slate ready", "\n".join(lines), bet=bool(bets or k_lines))
+    print(f"{date_str}: nightly summary sent ({len(picks)} games, {len(bets)} bets, {len(k_lines)} K leans)")
 
 
 if __name__ == "__main__":

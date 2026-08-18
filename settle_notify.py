@@ -49,8 +49,76 @@ def payout(o):
     return o if o > 0 else 10000.0 / abs(o)
 
 
+def settle_k(date_str):
+    """K PLAYS (texted at lock, ids in notified_k_<date>.json): when the game
+    is Final, text 💰 CASHED / ✗ LOST off the boxscore K total. Once each."""
+    try:
+        ids = set(json.load(open(f"notified_k_{date_str}.json")))
+    except Exception:
+        return 0
+    if not ids:
+        return 0
+    try:
+        K = json.load(open(f"k_watch_{date_str}.json", encoding="utf-8"))
+    except Exception:
+        return 0
+    state_fn = f"notified_ksettle_{date_str}.json"
+    try:
+        done = set(json.load(open(state_fn)))
+    except Exception:
+        done = set()
+    plays = [p for p in K.get("pitchers", []) if str(p.get("id")) in ids and p.get("best")]
+    if not plays:
+        return 0
+    try:
+        sched = requests.get("https://statsapi.mlb.com/api/v1/schedule",
+                             params={"sportId": 1, "date": date_str}, timeout=30).json()
+    except Exception:
+        return 0
+    final_pks = {g["gamePk"] for dd in sched.get("dates", []) for g in dd.get("games", [])
+                 if g.get("status", {}).get("abstractGameState") == "Final"}
+    n = 0
+    for p in plays:
+        key = str(p["id"])
+        if key in done or p.get("pk") not in final_pks:
+            continue
+        try:
+            box = requests.get(f"https://statsapi.mlb.com/api/v1/game/{p['pk']}/boxscore", timeout=30).json()
+        except Exception:
+            continue
+        so = None
+        for side in ("away", "home"):
+            st = box.get("teams", {}).get(side, {}).get("players", {}).get(f"ID{p['id']}", {}).get("stats", {}).get("pitching")
+            if st and st.get("battersFaced") is not None:
+                so = int(st.get("strikeOuts", 0) or 0)
+        if so is None:
+            # texted play, game final, pitcher never appeared -> no action (line voids)
+            done.add(key)
+            continue
+        b = p["best"]
+        won = so > b["line"] if b["side"] == "over" else so < b["line"]
+        head = "💰 CASHED" if won else "✗ LOST"
+        body = (f"{head} · K PLAY {p['name']} {b['side'].upper()} {b['line']} · finished with {so} K\n"
+                f"Graded on the board's Props Ledger.")
+        try:
+            requests.post(f"https://ntfy.sh/{NTFY_TOPIC}", data=body.encode("utf-8"),
+                          headers={"Title": f"K PLAY {'cashed' if won else 'lost'}: {p['name']}",
+                                   "Priority": "high" if won else "default",
+                                   "Tags": "baseball" + (",moneybag" if won else "")}, timeout=15)
+            done.add(key); n += 1
+            print(f"settle K: {head} {p['name']} {b['side']} {b['line']} -> {so} K")
+        except Exception as e:
+            print(f"settle K: send failed for {p['name']}: {e}")
+    json.dump(sorted(done), open(state_fn, "w"))
+    return n
+
+
 def main(date_str=None):
     date_str = date_str or lv_today()
+    try:
+        settle_k(date_str)
+    except Exception as e:
+        print(f"settle K failed: {e}")
     fn = f"picks_{date_str}.csv"
     if not os.path.exists(fn):
         return 0

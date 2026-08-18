@@ -61,6 +61,18 @@ def main():
                      "A lineup lock can still produce a play; you'll get a text if one does.")
     if fades:
         lines.append(f"{fades} game(s) vetoed on sharp movement.")
+
+    # K WATCH: rebuild at morning lines FIRST so the text can carry the early
+    # leans (K lines post overnight; leans lock as K PLAYS at lineup confirm).
+    try:
+        subprocess.run([PYTHON, r"C:\Users\Poons\baseball-model\k_model.py", today], timeout=600)
+        import k_notify
+        k_lines = k_notify.lean_lines(today)
+        if k_lines:
+            lines.append(f"K WATCH early leans ({len(k_lines)}) - lock as K PLAYS when lineups confirm:")
+            lines.extend(f"- {k}" for k in k_lines)
+    except Exception as e:
+        print(f"k watch failed: {e}")
     try:
         s = json.load(open("board_stats.json"))
         y = s.get("today", [])
@@ -93,14 +105,7 @@ def main():
     except Exception as e:
         print(f"hit watch failed: {e}")
 
-    # Refresh the board's K WATCH list (display only, never texted).
-    try:
-        subprocess.run(
-            [PYTHON, r"C:\Users\Poons\baseball-model\k_model.py", today],
-            timeout=600,
-        )
-    except Exception as e:
-        print(f"k watch failed: {e}")
+    # (K WATCH already rebuilt above, before the morning text.)
 
     # Push the refreshed board to the site.
     try:
