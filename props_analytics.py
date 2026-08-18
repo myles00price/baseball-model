@@ -150,6 +150,40 @@ def top_n_daily(rows, pkey, ykey, n=TOP_N):
             "exp": round(tot_e, 1), "n": tot_n}
 
 
+EDGE_BUCKETS = (("<0", -99, 0), ("0-3", 0, 3), ("3-6", 3, 6), ("6-10", 6, 10), ("10+", 10, 999))
+
+
+def edge_buckets(rows, pkey, ykey, odds_keys):
+    """FIND ITS OWN ZONE: bucket every graded row by (model p - best-book
+    implied) in points; per bucket: n, hits, hit rate, expected hits, and
+    flat-$100 paper P&L on 'yes' at the best price. This is how the display
+    lean threshold earns its number instead of being hand-picked."""
+    out = {b[0]: [0, 0, 0.0, 0.0] for b in EDGE_BUCKETS}  # n, hits, sum p, pnl
+    for r in rows:
+        p = f(r.get(pkey))
+        if p is None or str(r.get("played", "1")) == "0":
+            continue
+        best = None
+        for k in odds_keys:
+            o = f(r.get(k))
+            if o is not None and (best is None or o > best):
+                best = o
+        if best is None:
+            continue
+        imp = (-best) / (-best + 100) if best < 0 else 100 / (best + 100)
+        e = (p - imp) * 100
+        y = int(f(r.get(ykey)) or 0)
+        for name, lo, hi in EDGE_BUCKETS:
+            if lo <= e < hi:
+                b = out[name]
+                b[0] += 1; b[1] += y; b[2] += p
+                b[3] += payout(best) if y else -100.0
+                break
+    return [{"b": n, "n": v[0], "hits": v[1], "exp": round(v[2], 1),
+             "rate": round(v[1] / v[0] * 100, 1) if v[0] else 0.0,
+             "pnl": round(v[3])} for n, v in out.items() if v[0]]
+
+
 def market_paper(rows, pkey, ykey, odds_keys, thresh=0.03):
     """Flat $100 paper on 'yes' whenever model p exceeds best-book de-vig
     implied by >= thresh (one-sided market: raw implied). Display-only."""
@@ -189,6 +223,7 @@ def build_hr():
         "players": player_table(rows, "p", "hr_yes"),
         "streaks": streaks(rows, "hr_yes"),
         "paper": market_paper(rows, "p", "hr_yes", ("odds_dk", "odds_mgm", "odds_czr")),
+        "ebuckets": edge_buckets(rows, "p", "hr_yes", ("odds_dk", "odds_mgm", "odds_czr")),
     }
 
 
@@ -204,6 +239,8 @@ def build_hit():
         "players": player_table(rows, "p", "hit_yes"),
         "streaks": streaks(rows, "hit_yes"),
         "paper": market_paper(rows, "p", "hit_yes", ("odds_dk", "odds_mgm", "odds_czr")),
+        "ebuckets": edge_buckets(rows, "p", "hit_yes", ("odds_dk", "odds_mgm", "odds_czr")),
+        "ebuckets2": edge_buckets(rows, "p2", "hit2_yes", ("odds2_dk", "odds2_mgm", "odds2_czr")),
     }
 
 
@@ -230,18 +267,29 @@ def build_k():
     tbl = [{"t": nm, "tm": tm, "n": n, "pred": round(se / n, 2), "act": round(sa / n, 2),
             "d": round((sa - se) / n, 2)} for nm, (n, se, sa, tm) in agg.items() if n >= 3]
     tbl.sort(key=lambda x: -x["d"])
-    # paper vs best line: model side at best price when edge >= 3pts
+    # paper vs best line (model side at best price, edge >= 3 pts) + edge
+    # buckets over EVERY priced start so the K market finds its own zone.
+    # best_edge is stored as a fraction (0.05 = 5 pts).
     w = l = 0; pnl = 0.0
+    kb = {b[0]: [0, 0, 0.0] for b in EDGE_BUCKETS}  # n, wins, pnl
     for r in rows:
         side = r.get("lock_best_side") or r.get("best_side")
         price = f(r.get("lock_best_price") if r.get("lock_best_price") else r.get("best_price"))
         edge = f(r.get("lock_best_edge") if r.get("lock_best_edge") else r.get("best_edge"))
         res = r.get("lock_best_result") or r.get("best_result")
-        if not side or price is None or edge is None or edge < 3 or res in (None, "", "P", "push"):
+        if not side or price is None or edge is None or res in (None, "", "P", "push"):
             continue
         won = str(res).upper().startswith("W") or res == "1"
+        pr = payout(price) if won else -100.0
+        e = edge * 100 if abs(edge) <= 1.5 else edge
+        for name, lo, hi in EDGE_BUCKETS:
+            if lo <= e < hi:
+                kb[name][0] += 1; kb[name][1] += won; kb[name][2] += pr
+                break
+        if e < 3:
+            continue
         w += won; l += (not won)
-        pnl += payout(price) if won else -100.0
+        pnl += pr
     mae = (sum(abs(f(r["k_actual"]) - r["_ek"]) for r in rows if r["_ek"] is not None)
            / max(1, sum(1 for r in rows if r["_ek"] is not None)))
     return {
@@ -252,6 +300,9 @@ def build_k():
         "mae": round(mae, 2),
         "paper": {"w": w, "l": l, "pnl": round(pnl),
                   "roi": round(pnl / ((w + l) * 100) * 100, 1) if w + l else 0.0},
+        "ebuckets": [{"b": n, "n": v[0], "hits": v[1],
+                      "rate": round(v[1] / v[0] * 100, 1) if v[0] else 0.0,
+                      "pnl": round(v[2])} for n, v in kb.items() if v[0]],
     }
 
 
