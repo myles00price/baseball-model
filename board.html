@@ -78,6 +78,17 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.
 .sc-news{padding:0 16px 12px}
 .sc-news a{display:block;font-size:11.5px;color:#8ab4ff;text-decoration:none;padding:2px 0}
 .sc-news a:hover{text-decoration:underline}
+/* K play cards: same card, pitcher-first head */
+.k-sc-cap{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.14em;color:var(--mut);margin:0 0 6px;cursor:pointer}
+.sc-khead{display:flex;align-items:center;gap:14px;padding:12px 16px 4px}
+.sc-mug{width:56px;height:56px;border-radius:50%;background:#111;object-fit:cover;cursor:pointer;border:1px solid #8a6d1a}
+.sc-kname .n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);cursor:pointer}
+.sc-kname .h{font-family:'VT323',monospace;font-size:14px;color:var(--mut)}
+.sc-kname .sub{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.06em;color:var(--mut)}
+.sc-klogos{margin-left:auto;display:flex;align-items:center;gap:8px}
+.sc-klogos img{width:34px;height:34px;cursor:pointer}
+.sc-kstats{font-family:'VT323',monospace;font-size:15px;text-align:center;color:var(--phos);padding:0 12px 8px;letter-spacing:.03em}
+.sc-kstats .soft{color:var(--mut)}
 body.light .sc-card{background:#fdfcf8}
 body.light .sc-sp{background:#f4f1e8}
 body.light .sc-why p{color:#57534a}
@@ -450,6 +461,7 @@ body.light .newsitem img{filter:none}
   <div class="stats" id="stats"></div>
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
   <div class="showcase" id="showcase" style="display:none"><div class="sc-grid" id="sc-grid"></div></div>
+  <div class="showcase" id="k-showcase" style="display:none"><div class="k-sc-cap" onclick="openInfo(event,'kwatch')">K PLAYS · STRIKEOUT PROPS · TOP LEANS LOCK AT LINEUPS · GRADED ON THE PROPS LEDGER ⓘ</div><div class="sc-grid" id="k-sc-grid"></div></div>
   <div class="grid" id="grid"></div>
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
 
@@ -1270,8 +1282,27 @@ async function refreshHitLive(){
 }
 
 /* ── k watch ── */
-let kData=null,kSum=null,kLive={},kSort="edge";const kOpen=new Set();
+let kData=null,kSum=null,kLive={},kSort="edge",kNotified=new Set();const kOpen=new Set();
 const KBOOKS=["dk","fd","mgm","czr"];
+// ONE lean rule for rows, cards and texts (mirrors k_notify.leans): posted line,
+// edge >= LEAN_PTS vs the best book, top-LEAN_MAX by edge on the slate. A pitcher
+// already texted as a K PLAY (notified_k_{date}.json) stays a play on the board
+// even if later prices push him out of the top five.
+function kLeanSet(){
+  const cur=capLeans((kData.pitchers||[]).map(p=>({id:p.id,lean:(p.best&&p.best.edge>=LEAN_PTS&&p.cons_line!=null)?{edge:p.best.edge}:null})));
+  for(const id of kNotified)cur.add(id);
+  return cur;
+}
+// live verdict for a K lean: {live, st, verdict(true/false/null)}
+function kVerdict(p){
+  const live=kLive[p.id];const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
+  let verdict=null;const b=p.best;
+  if(live!=null&&(st==="Live"||st==="Final")&&b){
+    if(b.side==="over"){if(live>b.line)verdict=true;else if(st==="Final")verdict=false}
+    else{if(live>b.line)verdict=false;else if(st==="Final")verdict=true}
+  }
+  return {live,st,verdict};
+}
 const amerP=p=>p<=0.001?"+9900":p>=0.999?"-9900":p>=0.5?"-"+Math.round(p/(1-p)*100):"+"+Math.round((1-p)/p*100);
 const kBetter=(price,fair)=>price!=null&&fair!=null&&parseFloat(price)>parseFloat(fair);
 const kLuTxt=p=>p.lineup_src==="confirmed"?"LINEUP CONFIRMED":p.lineup_src==="previous"?"PROJECTED LINEUP":"TEAM K RATE";
@@ -1285,6 +1316,8 @@ async function loadKWatch(){
     kData=K;
     const s=await tryFetch("k_summary.json")||await tryFetch(`${REPO}/k_summary.json`);
     if(s){try{kSum=JSON.parse(s)}catch{}}
+    const nk=await tryFetch(`notified_k_${boardDate}.json`)||await tryFetch(`${REPO}/notified_k_${boardDate}.json`);
+    if(nk){try{kNotified=new Set(JSON.parse(nk).map(Number))}catch{}}
     renderKWatch();
     document.getElementById("kwatch").style.display="block";
     refreshKLive();
@@ -1302,14 +1335,14 @@ function renderKWatch(){
   if(!kData)return;
   const tabs=[["edge","BEST EDGE"],["k","EXP K"],["over","P(OVER LINE)"]].map(([s,l])=>`<span class="k-tab${kSort===s?" on":""}" onclick="kSortBy(event,'${s}')">${l}</span>`).join(" · ");
   document.getElementById("k-sort").innerHTML=`SORT: ${tabs}${kData.lineups_confirmed?` · ${kData.lineups_confirmed} LINEUPS IN`:""}`;
-  const kLeanIds=capLeans((kData.pitchers||[]).map(p=>({id:p.id,lean:(p.best&&p.best.edge>=LEAN_PTS)?{edge:p.best.edge}:null})));
+  const kLeanIds=kLeanSet();
   document.getElementById("k-body").innerHTML=kRows().map((p,i)=>{
     const bk=p.books||{},line=p.cons_line;
     const bookTxt=KBOOKS.filter(b=>bk[b]&&bk[b].line!=null).map(b=>`${b.toUpperCase()} ${bk[b].line} <span class="ou">O</span>${fmtO(bk[b].over)}<span class="ou">/U</span>${fmtO(bk[b].under)}`).join(" · ");
     const oddsLine=(line!=null?`LINE ${line} · <span class="fair">FAIR O ${p.fair_over} / U ${p.fair_under}</span>`:"NO LINE YET")+(bookTxt?` · ${bookTxt}`:"");
     const b=p.best;
     const isLean=kLeanIds.has(p.id);
-    const kLocked=isLean&&p.lineup_src==="confirmed";
+    const kLocked=isLean&&(kNotified.has(p.id)||p.lineup_src==="confirmed");
     const leanLbl=kLocked?"🔒 K PLAY":isLean?"EARLY LEAN · LOCKS AT LINEUPS":"MODEL EDGE";
     const lean=b?`<span class="k-lean${isLean?" hot":""}">${leanLbl} · ${b.side.toUpperCase()} ${b.line} · ${b.book.toUpperCase()} ${fmtO(b.price)} · ${b.edge>=0?"+":""}${(b.edge*100).toFixed(1)} PTS VS BOOK</span>`:"";
     const live=kLive[p.id];const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
@@ -1338,6 +1371,60 @@ function renderKWatch(){
       <div class="hr-odds">${oddsLine}</div>${lean?`<div class="hr-odds">${lean}</div>`:""}</div>
       <span class="v">${Number(p.exp_k).toFixed(1)}<span class="k-unit"> K</span><span class="hd-caret">${open?"▴":"▾"}</span></span></div>${open?kDropHTML(p):""}`}).join("");
   renderKFoot();
+  renderKShowcase(kLeanIds);
+}
+/* ── K play cards (same lifecycle as the main-play showcase) ── */
+function kOtherPrices(p){
+  // other books' price for the lean's side at the lean's line (main or alt)
+  const b=p.best,bk=p.books||{},out=[];
+  for(const k of KBOOKS){if(k===b.book)continue;const x=bk[k];if(!x)continue;let px=null;
+    if(x.line===b.line)px=x[b.side];
+    if(px==null&&x.alts&&x.alts[String(b.line)])px=x.alts[String(b.line)][b.side==="over"?0:1];
+    if(px!=null)out.push(`${k.toUpperCase()} ${fmtO(px)}`)}
+  return out;
+}
+function kWhyText(p){
+  const b=p.best,side=b.side,last=p.name.split(" ").pop(),opp=AB[p.opp]||p.opp;
+  const conf=p.lineup_src==="confirmed",luSrc=conf?"confirmed lineup":p.lineup_src==="previous"?"projected lineup (their last one)":"lineup, going by team strikeout rate";
+  const s=[];
+  const pm=(b.p_model*100).toFixed(0),art=/^(8|11|18)/.test(pm)?"an":"a";
+  s.push(`The model projects ${Number(p.exp_k).toFixed(1)} strikeouts over about ${Math.round(p.exp_bf)} batters and gives the ${side} ${b.line} ${art} ${pm}% chance; ${b.book.toUpperCase()} at ${fmtO(b.price)} implies ${(b.implied*100).toFixed(0)}% - a ${(b.edge*100).toFixed(1)}-point gap${b.main?"":" (an alternate line priced one-sided, so the gap is understated by the vig)"}.`);
+  const fp=Number(p.f_pit),thin=p.bf<150;
+  if(fp>=1.08)s.push(`${last} misses bats: his strikeout rate per batter runs ${Math.round((fp-1)*100)}% above league (${p.kpct}% this season${thin?", a thin 2026 sample the model anchors to his 2025 rate":""})${side==="under"?" - so this under is about the line and his workload, not the arm":""}.`);
+  else if(fp<=0.92)s.push(`${last} is not a strikeout arm - ${Math.round((1-fp)*100)}% below league per batter (${p.kpct}% this season${thin?", thin sample, anchored to 2025":""}).`);
+  else s.push(`His strikeout rate per batter is about league average (${p.kpct}% this season${thin?", thin sample, anchored to 2025":""}).`);
+  const fl=Number(p.f_lineup);
+  if(fl>=1.05)s.push(`The ${opp} ${luSrc} strikes out ${Math.round((fl-1)*100)}% more than an average nine.`);
+  else if(fl<=0.95)s.push(`The ${opp} ${luSrc} puts the ball in play - ${Math.round((1-fl)*100)}% fewer strikeouts than an average nine.`);
+  else s.push(`The ${opp} ${luSrc} is about average for strikeouts.`);
+  const bfTxt=p.bf_l5?`He has averaged ${Number(p.bf_l5).toFixed(0)} batters over his last five starts`:`Expected workload is about ${Math.round(p.exp_bf)} batters`;
+  s.push(bfTxt+(p.exp_bf<19?" - a short leash caps the over."+"":p.exp_bf>=25?" - he works deep, which is where overs live.":"."));
+  if(side==="under")s.push(`Strikeout props are shaded toward the over because that is what the public bets, so unders are where a plain model most often disagrees with the price - the Props Ledger decides whether that is real.`);
+  s.push(conf?`Lineups are confirmed; this is a K PLAY, graded on the Props Ledger, separate from the main record.`:`Locks as a K PLAY only if it is still a top-five lean when lineups confirm.`);
+  return s.join(" ");
+}
+function renderKShowcase(leanIds){
+  const el=document.getElementById("k-showcase");if(!el||!kData)return;
+  const L=(kData.pitchers||[]).filter(p=>p.best&&leanIds.has(p.id)).sort((a,b)=>b.best.edge-a.best.edge);
+  if(!L.length){el.style.display="none";return}
+  document.getElementById("k-sc-grid").innerHTML=L.map(p=>{
+    const b=p.best,{live,st,verdict}=kVerdict(p);
+    const locked=kNotified.has(p.id)||p.lineup_src==="confirmed";
+    const settled=verdict===true?"cash":verdict===false?"lost":null;
+    const bar=settled==="cash"?"💰 K PLAY · CASHED":settled==="lost"?"✗ K PLAY · LOST":locked?"🔒 K PLAY · LINEUPS CONFIRMED":"TONIGHT'S K LEAN · LOCKS AT LINEUPS";
+    const fair=side=>side==="over"?p.fair_over:p.fair_under;
+    const liveTxt=live!=null&&(st==="Live"||st==="Final")?` · ⚾ ${live} K ${st==="Final"?"FINAL":"SO FAR"}`:"";
+    const others=kOtherPrices(p);
+    return`<div class="sc-card${settled?" "+settled:""}"><div class="sc-bar${settled?" "+settled:""}">${bar}</div>
+      <div class="sc-khead"><img class="sc-mug" src="${mug(p.id)}" onclick="openPlayer(${p.id})" onerror="this.style.visibility='hidden'">
+        <div class="sc-kname"><div class="n" onclick="openPlayer(${p.id})">${p.name} <span class="h">${p.hand||""}HP</span></div><div class="sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · ${kLuTxt(p)}${p.late?" · LATE CHANGE":""}${liveTxt}</div></div>
+        <div class="sc-klogos"><img src="${logo(p.team)}" onclick="openTeam(${TID[p.team]||0})"><span class="sc-vs">${p.home?"vs":"@"}</span><img src="${logo(p.opp)}" onclick="openTeam(${TID[p.opp]||0})"></div></div>
+      <div class="sc-line">${b.side.toUpperCase()} ${b.line} K · ${b.book.toUpperCase()} ${fmtO(b.price)} · FAIR ${fair(b.side)||"—"} · +${(b.edge*100).toFixed(1)} PTS</div>
+      <div class="sc-kstats">EXP ${Number(p.exp_k).toFixed(1)} K · P(${b.side.toUpperCase()} ${b.line}) ${(b.p_model*100).toFixed(0)}% · EXP ${Number(p.exp_bf).toFixed(0)} BF · ${p.kpct??"—"}% K RATE · ${p.gs} GS${others.length?` <span class="soft">· ALSO ${others.join(" · ")}</span>`:""}</div>
+      <div class="sc-why"><h4>WHY THE MODEL LIKES IT</h4><p>${kWhyText(p)}</p></div>
+    </div>`;
+  }).join("");
+  el.style.display="block";
 }
 function toggleKDrop(ev,id){ev.stopPropagation();if(kOpen.has(id))kOpen.delete(id);else kOpen.add(id);renderKWatch()}
 function kDropHTML(p){
