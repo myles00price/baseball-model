@@ -322,17 +322,16 @@ def run_model(target_date, save_csv=True):
         movement = {}
     print(f"Line movement data for {len(movement)} games\n")
 
-    def get_pitcher_whiff(full_name):
+    def get_pitcher_whiff(full_name, pid=None):
         if not full_name or full_name == "TBD":
             return None, None, None, "TBD"
         try:
-            parts = full_name.split()
-            first, last = parts[0], parts[-1]
-            lookup = playerid_lookup(last, first)
-            if lookup.empty:
+            if pid is None:  # fallback only — the schedule id is authoritative
+                from pitcher_stats import resolve_pid
+                pid = resolve_pid(full_name, playerid_lookup, season)
+            if pid is None:
                 return None, None, None, f"{full_name} | Not found"
-            pid = int(lookup.iloc[0]['key_mlbam'])
-            data = statcast_pitcher(season_start, target_str, player_id=pid)
+            data = statcast_pitcher(season_start, target_str, player_id=int(pid))
             if data.empty:
                 return None, None, None, f"{full_name} | No data yet"
             velo  = round(data['release_speed'].mean(), 1)
@@ -403,17 +402,20 @@ def run_model(target_date, save_csv=True):
                 continue
             home_p = game["teams"]["home"].get("probablePitcher", {}).get("fullName", "TBD")
             away_p = game["teams"]["away"].get("probablePitcher", {}).get("fullName", "TBD")
+            # authoritative MLB ids from the schedule — no name lookup collisions
+            home_sched_id = game["teams"]["home"].get("probablePitcher", {}).get("id")
+            away_sched_id = game["teams"]["away"].get("probablePitcher", {}).get("id")
 
-            home_stats, home_pid = get_blended_pitcher_stats(home_p, season, playerid_lookup)
-            away_stats, away_pid = get_blended_pitcher_stats(away_p, season, playerid_lookup)
+            home_stats, home_pid = get_blended_pitcher_stats(home_p, season, playerid_lookup, pid=home_sched_id)
+            away_stats, away_pid = get_blended_pitcher_stats(away_p, season, playerid_lookup, pid=away_sched_id)
 
             home_hand = home_stats["hand"] if home_stats else "R"
             away_hand = away_stats["hand"] if away_stats else "R"
             home_rel  = home_stats.get("reliability", 0) if home_stats else 0
             away_rel  = away_stats.get("reliability", 0) if away_stats else 0
 
-            away_velo, away_spin, away_whiff, away_str = get_pitcher_whiff(away_p)
-            home_velo, home_spin, home_whiff, home_str = get_pitcher_whiff(home_p)
+            away_velo, away_spin, away_whiff, away_str = get_pitcher_whiff(away_p, away_sched_id)
+            home_velo, home_spin, home_whiff, home_str = get_pitcher_whiff(home_p, home_sched_id)
 
             # per-game lineups (doubleheader-safe), team-level fallback
             home_players = lineups.get((game_key, "home"), lineups.get(home, []))

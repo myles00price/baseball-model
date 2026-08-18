@@ -198,6 +198,10 @@ body.light .hr-flag{background:#e7f3e9;border-color:#9dc7a8;color:#0a6e30}
 .k-lad .best{color:var(--gold);font-weight:bold}.k-lad .fair{color:var(--gold)}
 .k-foot{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.08em;color:var(--mut);margin-top:8px;line-height:1.6}
 .ldr.k-done{opacity:.85}
+.ldr.k-miss{background:linear-gradient(90deg,rgba(255,56,56,.08),transparent 70%);border-left:2px solid #7a1f1f}
+.hr-flag.miss{color:#ff6b6b;border-color:#5c0d0d;background:#140000;text-shadow:none}
+body.light .ldr.k-miss{background:#f6e7e7;border-left-color:#c41414}
+body.light .hr-flag.miss{background:#f6e7e7;border-color:#d9a3a3;color:#a01010}
 
 /* ── gameday extras ── */
 .wx{font-family:'VT323',monospace;font-size:15px;color:var(--mut);text-align:center;padding:0 16px 10px;letter-spacing:.05em}
@@ -1192,10 +1196,22 @@ function renderKWatch(){
     const b=p.best;
     const lean=b?`<span class="k-lean${b.edge>=0.03?" hot":""}">MODEL LEANS ${b.side.toUpperCase()} ${b.line} · ${b.book.toUpperCase()} ${fmtO(b.price)} · ${b.edge>=0?"+":""}${(b.edge*100).toFixed(1)} PTS VS BOOK</span>`:"";
     const live=kLive[p.id];const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
-    let flag="";
-    if(live!=null&&(st==="Live"||st==="Final")){const res=line!=null&&st==="Final"?(live>line?" · OVER ✓":" · UNDER ✓"):"";flag=`<span class="hr-flag${st==="Final"?" done":""}">⚾ ${live} K${res}</span>`}
+    // projection to grade live: the model's lean if it has one, else the side its P(over) favors
+    const pSide=b?b.side:(p.p_over_cons!=null?(p.p_over_cons>=0.5?"over":"under"):null);
+    const pLine=b?b.line:line;
+    let flag="",rowCls="";
+    if(live!=null&&(st==="Live"||st==="Final")){
+      let verdict=null;  // true = projection proven right, false = proven wrong, null = still open
+      if(pSide&&pLine!=null){
+        if(pSide==="over"){if(live>pLine)verdict=true;else if(st==="Final")verdict=false}
+        else{if(live>pLine)verdict=false;else if(st==="Final")verdict=true}
+      }
+      const res=pSide&&pLine!=null&&verdict!==null?` · ${pSide.toUpperCase()} ${pLine} ${verdict?"✓":"✗"}`:(line!=null&&st==="Final"?(live>line?" · OVER":" · UNDER"):"");
+      flag=`<span class="hr-flag${st==="Final"?" done":""}${verdict===false?" miss":""}">⚾ ${live} K${res}</span>`;
+      rowCls=verdict===true?" hr-hit":verdict===false?" k-miss":"";
+    }
     const open=kOpen.has(p.id);
-    return`<div class="ldr${st==="Final"&&live!=null?" k-done":""}" onclick="toggleKDrop(event,${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
+    return`<div class="ldr${rowCls}${st==="Final"&&live!=null?" k-done":""}" onclick="toggleKDrop(event,${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
       <div><div>${p.name} <span class="hr-sub">${p.hand||""}HP</span>${flag}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · ${kLuTxt(p)} · EXP ${p.exp_bf} BF · ${p.kpct??"—"}% K RATE · ${p.gs} GS${p.late?" · LATE CHANGE":""}</div>
       <div class="hr-odds">${oddsLine}</div>${lean?`<div class="hr-odds">${lean}</div>`:""}</div>
       <span class="v">${Number(p.exp_k).toFixed(1)}<span class="k-unit"> K</span><span class="hd-caret">${open?"▴":"▾"}</span></span></div>${open?kDropHTML(p):""}`}).join("");

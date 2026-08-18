@@ -119,16 +119,40 @@ def fetch_pitcher_handedness(player_id):
         return "R"  # default to right
 
 
-def get_blended_pitcher_stats(full_name, season, playerid_lookup):
+def resolve_pid(full_name, playerid_lookup, season=None):
+    """MLBAM id for a pitcher name. playerid_lookup can return several
+    players with the same name (2026-08-17: 'Luis Castillo' returned a
+    1996-2010 infielder first, so the real Castillo showed 0% reliability
+    with league-average stats). Prefer the most recently active player,
+    then the one active this season."""
+    parts = full_name.split()
+    first, last = parts[0], parts[-1]
+    lookup = playerid_lookup(last, first)
+    if lookup.empty:
+        return None
+    df = lookup.dropna(subset=["key_mlbam"]).copy()
+    if df.empty:
+        return None
+    if "mlb_played_last" in df.columns:
+        df["_last"] = df["mlb_played_last"].fillna(0)
+        if season is not None and (df["_last"] >= season - 1).any():
+            df = df[df["_last"] >= season - 1]
+        df = df.sort_values("_last", ascending=False)
+    return int(df.iloc[0]["key_mlbam"])
+
+
+def get_blended_pitcher_stats(full_name, season, playerid_lookup, pid=None):
+    """Blended season/career pitcher stats. Pass `pid` (the MLB id from the
+    schedule's probablePitcher) to skip the name lookup entirely — that is
+    the authoritative path; the name lookup is only a fallback."""
     if not full_name or full_name == "TBD":
         return None, None
     try:
-        parts = full_name.split()
-        first, last = parts[0], parts[-1]
-        lookup = playerid_lookup(last, first)
-        if lookup.empty:
+        if pid is None:
+            pid = resolve_pid(full_name, playerid_lookup, season)
+        if pid is None:
             return None, None
-        pid = int(lookup.iloc[0]['key_mlbam'])
+        pid = int(pid)
 
         # Get handedness
         hand = fetch_pitcher_handedness(pid)
