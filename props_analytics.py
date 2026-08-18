@@ -153,11 +153,19 @@ def top_n_daily(rows, pkey, ykey, n=TOP_N):
 EDGE_BUCKETS = (("<0", -99, 0), ("0-3", 0, 3), ("3-6", 3, 6), ("6-10", 6, 10), ("10+", 10, 999))
 
 
-def edge_buckets(rows, pkey, ykey, odds_keys):
+def _imp(o):
+    return (-o) / (-o + 100) if o < 0 else 100 / (o + 100)
+
+
+def edge_buckets(rows, pkey, ykey, odds_keys, under_key=None):
     """FIND ITS OWN ZONE: bucket every graded row by (model p - best-book
     implied) in points; per bucket: n, hits, hit rate, expected hits, and
     flat-$100 paper P&L on 'yes' at the best price. This is how the display
-    lean threshold earns its number instead of being hand-picked."""
+    lean threshold earns its number instead of being hand-picked.
+
+    under_key: when the row carries the opposite side's price (DK posts
+    Under 0.5 on batter_hits), the book's implied is DE-VIGGED:
+    imp_yes / (imp_yes + imp_no). Otherwise raw implied (edge understated)."""
     out = {b[0]: [0, 0, 0.0, 0.0] for b in EDGE_BUCKETS}  # n, hits, sum p, pnl
     for r in rows:
         p = f(r.get(pkey))
@@ -170,7 +178,14 @@ def edge_buckets(rows, pkey, ykey, odds_keys):
                 best = o
         if best is None:
             continue
-        imp = (-best) / (-best + 100) if best < 0 else 100 / (best + 100)
+        imp = _imp(best)
+        u = f(r.get(under_key)) if under_key else None
+        dk = f(r.get("odds_dk")) if under_key else None
+        if u is not None and dk is not None:
+            # de-vig off DK's two-sided price, then apply the same hold to the
+            # best book's price (books' holds are near-identical on this market)
+            hold = _imp(dk) + _imp(u)
+            imp = imp / hold if hold > 0 else imp
         e = (p - imp) * 100
         y = int(f(r.get(ykey)) or 0)
         for name, lo, hi in EDGE_BUCKETS:
@@ -239,8 +254,10 @@ def build_hit():
         "players": player_table(rows, "p", "hit_yes"),
         "streaks": streaks(rows, "hit_yes"),
         "paper": market_paper(rows, "p", "hit_yes", ("odds_dk", "odds_mgm", "odds_czr")),
-        "ebuckets": edge_buckets(rows, "p", "hit_yes", ("odds_dk", "odds_mgm", "odds_czr")),
+        "ebuckets": edge_buckets(rows, "p", "hit_yes", ("odds_dk", "odds_mgm", "odds_czr"),
+                                 under_key="odds_dk_u"),
         "ebuckets2": edge_buckets(rows, "p2", "hit2_yes", ("odds2_dk", "odds2_mgm", "odds2_czr")),
+        "devig": sum(1 for r in rows if f(r.get("odds_dk_u")) is not None),
     }
 
 

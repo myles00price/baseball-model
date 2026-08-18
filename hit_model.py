@@ -102,7 +102,8 @@ LOG_COLS = ["date", "pk", "player_id", "name", "team", "opp", "home",
             "season_g", "pa_g", "n_eff", "f_bat", "f_pit", "f_park",
             "h_pa", "p", "p2",
             "odds_dk", "odds_mgm", "odds_czr",
-            "odds2_dk", "odds2_mgm", "odds2_czr", "fair", "fair2"]
+            "odds2_dk", "odds2_mgm", "odds2_czr", "fair", "fair2",
+            "odds_dk_u"]  # DK Under 0.5 (no-hit side) -> de-vig anchor
 
 # Approximate multi-year HITS park factors (100 = neutral), keyed by home
 # team name. Compressed relative to HR factors; damped further by PARK_DAMP.
@@ -294,6 +295,9 @@ def _log_odds(r):
         v = r.get(f"odds2_{bk}")
         if v:
             o[bk + "2"] = int(float(v))
+    v = r.get("odds_dk_u")
+    if v:
+        o["dku"] = int(float(v))
     return o
 
 
@@ -379,9 +383,17 @@ def fetch_hit_odds(date, games):
                 if mk["key"] not in ("batter_hits", "batter_hits_alternate"):
                     continue
                 for o in mk["outcomes"]:
+                    pt = o.get("point")
+                    if o.get("name") == "Under":
+                        # DK posts the UNDER 0.5 ('no hit') side too — the only
+                        # two-sided price in this market, so it is what makes a
+                        # real de-vig possible. Kept as '<book>u'. (2026-08-17)
+                        if pt == 0.5:
+                            prices.setdefault(norm_name(o.get("description")), {}) \
+                                  .setdefault(col + "u", o["price"])
+                        continue
                     if o.get("name") != "Over":
                         continue
-                    pt = o.get("point")
                     suffix = "" if pt == 0.5 else "2" if pt == 1.5 else None
                     if suffix is None:
                         continue
@@ -488,6 +500,7 @@ def main():
                 "odds2_dk": o.get("dk2", ""), "odds2_mgm": o.get("mgm2", ""),
                 "odds2_czr": o.get("czr2", ""),
                 "fair": p["fair"], "fair2": p["fair2"],
+                "odds_dk_u": o.get("dku", ""),
             })
     print(f"Logged {len(players)} hitter rows to {log_fn}")
 
