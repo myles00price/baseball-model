@@ -271,6 +271,15 @@ body.light .hr-flag.miss{background:#f6e7e7;border-color:#d9a3a3;color:#a01010}
 .guard{display:inline-block;font-family:'VT323',monospace;font-size:15px;color:#ff8c8c;
   border:1px solid #5c1515;background:#140303;padding:1px 9px;margin:3px 4px 0 0;cursor:pointer}
 .guard:hover{color:#fff}
+.guard.paper{color:#c9992b;border-color:#5c4410;background:#140f03}
+.eng-tabs{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.25em;color:var(--mut);margin-bottom:6px}
+.eng-tabs span{cursor:pointer;padding:2px 6px;border-bottom:1px solid transparent}
+.eng-tabs span:hover{color:#ddd}.eng-tabs span.on{color:var(--phos);border-bottom-color:var(--phos)}
+.eng-note{font-family:'VT323',monospace;font-size:14px;color:var(--mut);padding:6px 2px 0;line-height:1.35}
+.coef .cbar.b{background:linear-gradient(90deg,#3a3a3a,#6a6a6a);box-shadow:none;opacity:.7}
+.coef.bench .fn{color:var(--mut);text-decoration:line-through}
+body.light .eng-tabs span.on{color:#0a7a34;border-bottom-color:#0a7a34}
+body.light .guard.paper{background:#fbf3df;border-color:#d9c39a;color:#8a6d1a}
 .upd{padding:7px 2px;border-bottom:1px solid #101010;cursor:pointer}
 .upd:hover{background:#0e0e0e}
 .upd .ud{font-family:'VT323',monospace;font-size:15px;color:var(--phos-dim)}
@@ -490,15 +499,11 @@ body.light .newsitem img{filter:none}
 
   <div class="duo">
     <div class="sect"><h2>THE ENGINE · MODEL BIOLOGY</h2>
-      <div class="eng-formula">P(win) = σ( era·.395 + ops·.223 + k%·.082 + whip·.033 + .093 )</div>
+      <div class="eng-tabs" id="eng-tabs"></div>
+      <div class="eng-formula" id="eng-formula"></div>
       <div id="eng-coefs"></div>
-      <div style="margin-top:10px">
-        <span class="guard" onclick="openInfo(event,'window')">3-6% WINDOW</span>
-        <span class="guard" onclick="openInfo(event,'veto')">SHARP FADE VETO</span>
-        <span class="guard" onclick="openInfo(event,'coors')">COORS EXCLUSION</span>
-        <span class="guard" onclick="openInfo(event,'clamp')">22-78 CLAMP</span>
-        <span class="guard" onclick="openInfo(event,'cuts')">13 FEATURES CUT</span>
-      </div>
+      <div class="eng-note" id="eng-note"></div>
+      <div style="margin-top:10px" id="eng-guards"></div>
     </div>
     <div class="sect"><h2>MODEL UPDATES</h2><div id="updates"></div></div>
   </div>
@@ -867,6 +872,23 @@ hrwatch:{t:"LONG BALL WATCH",b:"The model's estimate of each hitter's chance of 
 hitwatch:{t:"HIT WATCH",b:"The model's estimate of each hitter's chance of recording at least one hit today, with his chance of a two-hit game alongside. Backtested walk-forward on 22,000+ starter-games of the 2026 season, and it uses only what survived that test: the hitter's season hit rate (shrunk toward league average so a hot fortnight can't fake its way up the list), the opposing starter's hits-allowed tendency, the ballpark, and how many trips to the plate he really gets - his own plate appearances per game, tightened to his batting slot once lineups post. The lesson from the backtest was that raw expected plate appearances overstate hit chances - starters get pulled, ejected, or pinch-hit for in about one game in nine - so the number is built on EFFECTIVE trips, calibrated against what actually happened. Recent form and the starter's strikeout rate were tested and failed the holdout, so they are not in the number. FAIR is the model's probability as American odds; next to it are real 'to record a hit' prices from the books as they post them, and the 2+ HITS list underneath ranks the same slate by the chance of a two-hit game, with the best book price over 1.5 hits across DK, MGM and Caesars next to the model's fair - gold when a book is paying more than the model thinks it should. That list only lights up once a hitter has his second. Tap any row to drop down his season line, the model's inputs, and his hits over the last 5, 10 and 20 games. Once games go live, a hitter who gets one lights up green with a 🎯 - blinking while his game is in progress, steady once it's final. Displayed for the fun of it - these are NOT plays and carry no bet flags.",i:"Even the best hitters only get a hit in about two of every three games, so a 72% top of the list is what elite looks like. Books juice these props hard toward the favorite side - the model's FAIR will usually be longer than the book's price, and that is the vig showing, not an edge. No live record yet; treat gaps as entertainment. If it ever wants to be a betting product, it earns that on paper first, same as F5. A row that LIGHTS UP is a MODEL LEAN: the model's number beats the best book price by 3+ points and it ranks in the list's top five - at most five per list, so the board never lights up like a scoreboard. 'Records a hit' prices carry heavy one-sided vig (there is no 'no hit' side to strip it against), so edge math on this list is guesswork - which is why, like Long Ball, ANY listed hitter who records a hit lights up green the moment it lands (two-hit games light the 2+ list). Leans additionally turn red if their game ends hitless. Since 8/17 the model also captures DraftKings' 'no hit' price - the only two-sided price in this market - and strips the vig off it, so hit edges (and THE PROPS LEDGER's hit edge zones) are now honest where DK posts both sides; other books' one-sided prices are scaled by DK's hold."},
 kwatch:{t:"K WATCH · DISPLAY ONLY",b:"For every probable starter tonight, the model's full strikeout distribution - not one number but the chance of clearing every half-line from 2.5 up - laid beside the real strikeout lines and prices from DraftKings, FanDuel, BetMGM and Caesars. Built the same way as the other watches and backtested walk-forward on 2,575 starts of the 2026 season (May-June to fit, July onward held out); it uses only what survived: the pitcher's strikeout rate per batter (this season, anchored to his 2025 rate so a short 2026 sample can't run away), the strikeout tendency of the nine hitters he faces (his opponent's most recent lineup in the morning, the confirmed lineup once it posts), and how many batters he is likely to face (mostly his last five starts). Then it rolls those into a distribution that also allows for how many batters he actually gets to face and for the game-to-game noise in a pitcher's stuff. On the holdout it missed the strikeout total by 1.8 per start against 1.9 for simply using his season average and 2.1 for the league average, and its probabilities at the book's line landed within about three points of reality across the buckets. Recent form, batter splits by pitcher hand, the opposing lineup's on-base rate and a longer career anchor were all tested and did NOT beat the plain version out of sample, so none of them are in the number. On each row: EXP K is the model's mean; LINE is the books' consensus line with the model's FAIR price for the over and under; then each book's line and prices. MODEL LEANS is the single over or under, at the single book and line, where the model's probability most exceeds what the price implies - shown in points, brighter at three or more. Tap a row for the pitcher's season line, the model's inputs, and THE LADDER: every half-line with the model's chance of clearing it, its fair over/under price, and the best book price on each side, gold where a book is paying more than the model thinks it should. Once games go live the row shows his strikeouts so far and, at final, whether he cleared the consensus line. Every starter is graded overnight against the boxscore, and the footer keeps the honest running record of the model's lean at the logged price on paper - morning prices and lineup-lock prices separately - $100 flat, published good or bad. Nothing here is a play, nothing is texted, and it stays that way unless the paper record earns otherwise.",i:"Strikeout props are shaded toward the over because that is what the public bets, so a plain model will lean UNDER more often than over - the paper record, not the lean count, is what tells you whether that is real. Big edges on pitchers with a tiny 2026 sample (returning from injury, rookies) are the model trusting last year over the market's read of his stuff; treat those as the model's disagreement to be graded, not a tip. Alternate lines usually post one side only, so their edges carry the full vig and are understated - a lean at an alt line has to clear a higher bar than one at the main line. A row that LIGHTS UP is a MODEL LEAN: the model's number beats the best book price by 3+ points and it ranks in the list's top five - at most five per list, so the board never lights up like a scoreboard. Only leans light (green when they hit, red when a finished game misses); every other row just shows the live count with its emoji."},
 props:{t:"THE PROPS LEDGER",b:"The three watch lists (Long Ball, Hit, K) are display-only - but they grade themselves every night, and this is their report card, built the same way as the full-game LEDGER: calibration (did 15% hitters homer 15% of the time?), the published top-15 vs what the model expected, home/away splits, who beats or trails their model number most, current streaks, and a flat-$100 paper line against the best book price.",i:"Read the calibration first - it is the only number that says whether the model knows what it is talking about. The paper-vs-market line will usually be NEGATIVE: books price these props off the same public stats, plus vig. That is expected and honest. Best/worst-with-model lists need a minimum sample and are mostly noise early - they are tracked to catch blind spots, not to chase names."},
+f5lock:{t:"F5 LOCKS WITH LINEUPS",b:"A first-5 paper flag freezes at the exact moment the real play locks - the lineup-confirmed evaluation. Pre-lineup flags that do not survive that evaluation drop off the site and never enter the ledger.",i:"Same rule as real leans, so the paper record is judged on the same information at the same moment as the official record."},
+f5win:{t:"F5 FINDS ITS OWN WINDOW",b:"Instead of assuming the full-game 3-6% window transfers to a different market, every locked first-5 game is graded by edge bucket in THE LEDGER.",i:"When the sample is large enough, the window used will be the one the first-5 data chose - not the one inherited from full games."},
+hrbat:{t:"BAT HR RATE",b:"The hitter's season home runs per plate appearance, shrunk toward league with a 300-PA prior so a hot week cannot impersonate a power hitter.",i:"By far the strongest lever in the Long Ball engine - the influence bar is the spread of this factor across the slate, and it dwarfs everything else."},
+hrpit:{t:"STARTER HR / BF",b:"The opposing starter's home runs allowed per batter faced, shrunk toward league.",i:"Small but real on holdout - homer-prone starters raise every hitter's number a little; the effect survived the walk-forward test that benched four other factors."},
+hrpark:{t:"PARK",b:"A damped park home-run factor for the ballpark the game is played in.",i:"Kept because it survived holdout, damped because raw park factors overfit; Coors is the only park that moves the number much."},
+hrbench:{t:"BENCHED FACTORS",b:"Platoon split, pitch-arsenal matchup, wind and temperature are all computed and logged every night - and NONE are in the published number.",i:"Each improved the fit window and degraded the holdout at every strength tested, so they were removed. They stay in the archive so a trained model can re-litigate them with more graded days."},
+hrprior:{t:"300-PA BAT PRIOR",b:"How much the hitter's own rate is trusted vs league average - roughly a full half-season before it stands on its own.",i:"Chosen 2026-08-15 after the miss audit showed the elite tier running hot; 400 fixed the elite gap but lost the early months, so 300 is the compromise on the record."},
+hrpa:{t:"EXPECTED PA BY SLOT",b:"Once lineups post, each hitter's expected plate appearances come from his batting-order slot (leadoff ~4.4, ninth ~3.1) instead of his season average.",i:"A hitter dropped from a lineup is removed from the list on the same refresh; the morning training log is never touched."},
+hitbat:{t:"BAT H / PA",b:"The hitter's season hits per plate appearance, shrunk toward league with a 400-PA prior.",i:"Hits are common, so even the strongest factor moves the number only a few points - which is why every book prices this market off almost the same inputs."},
+hitpit:{t:"STARTER H / BF",b:"The opposing starter's hits allowed per batter faced, shrunk toward league with a 300-BF prior.",i:"A small real sliver on holdout - contact-suppressing starters lower every hitter's chance a little."},
+hitpark:{t:"PARK (HALF STRENGTH)",b:"A static hits park factor applied at half strength.",i:"Hits park effects are real but noisy year to year; half strength kept the holdout gain without the overfit."},
+hitprior:{t:"HIT PRIORS",b:"400 PA for the batter's rate, 300 BF for the pitcher's - how long each must be sampled before the model trusts it over league average.",i:"Longer priors than Long Ball because hit rate has less true talent spread than home-run rate."},
+hitpa:{t:"N_EFF BY SLOT",b:"Effective plate appearances for the night, blended from season average and batting-order slot once lineups post.",i:"The 2+ hits list is the same distribution read at two hits instead of one."},
+kpit:{t:"PITCHER K RATE",b:"The starter's 2026 strikeouts per batter faced, shrunk 200 BF toward his own 2025 rate (itself shrunk toward league).",i:"Anchoring to last season instead of league average was the single biggest holdout gain in the K backtest - a strikeout pitcher's identity is stable across seasons."},
+klineup:{t:"LINEUP K RATE",b:"Each of the nine confirmed batters' strikeout rate (60-PA prior), combined with the pitcher in log-odds space so a whiff-heavy lineup and a whiff-heavy pitcher compound properly.",i:"Morning lists use the opponent's previous lineup; the refresh swaps in the confirmed one and re-prices."},
+kbf:{t:"WORKLOAD · EXPECTED BATTERS FACED",b:"How many hitters the starter is expected to face: 75% his last five starts, 25% his season mean, straight from the pitch-usage archive.",i:"A strikeout total is a rate times a workload - the workload half is what most K props ignore, and it is why hooks and pitch counts matter more than velocity here."},
+kdist:{t:"BETA-BINOMIAL DISTRIBUTION",b:"Rather than one predicted number, the engine produces the full probability of every strikeout total, allowing a little extra spread (κ=200) beyond a coin-flip model.",i:"That is what lets it price EVERY half-line - 3.5, 4.5, 5.5 - and compare each to the books, instead of guessing one line."},
 f5:{t:"F5 SHADOW · PAPER ONLY",b:"An experimental second model that predicts the FIRST FIVE INNINGS winner instead of the full game, logged on paper against real first-5 moneyline prices. No money, no texts - a shadow ledger only.",i:"Why first 5? The model's features are all about starting pitchers, and starters own innings 1-5. Scored against 683 live games it called F5 winners at 57.7% vs 53.2% for full games. The catch: F5 markets are priced off those same starter stats and charge about a point more vig. So it earns its way in the only honest fashion - paper bets at real prices, judged after 50+ flags. The de-vig experiment looked great in backtest and failed live; this gets the same trial."},
 teams:{t:"TEAM SHEET",b:"The model's accuracy when it picks each team, and its betting record when the flag lands on them (minimum sample applies).",i:"Team-level streaks are mostly noise at this sample size - we track them to catch systematic blind spots, not to pick favorites."},
 splits:{t:"THE SPLITS",b:"Official plays broken out by side (home/away), price band, and the sharp-money signal at bet time.",i:"The FADE split should stay empty - plays where sharp money moved against us are vetoed automatically. Historically those bets hit 27%."},
@@ -922,13 +944,47 @@ async function loadLeaks(){
   }catch{}
 }
 
-/* ── engine coefficients ── */
-(function(){
-  const C=[["era","era gap",.395],["ops","lineup gap",.223],["kpct","contact gap",.082],["whip","baserunners",.033],["hfa","home field",.093]];
-  document.getElementById("eng-coefs").innerHTML=C.map(([k,n,v])=>
-    `<div class="coef" onclick="openInfo(event,'${k}')"><span class="fn">${n}</span>
-     <div class="cbar ${k==="hfa"?"g":""}" style="width:${v*560}px"></div><span class="cv">${v.toFixed(3)}</span></div>`).join("");
-})();
+/* ── engine biology: every market's model, same anatomy ──
+   bars: for the logistic heads (full game, F5) = standardized coefficient;
+   for the multiplicative watch models = INFLUENCE, the spread (log-sd) of
+   each factor across recent slates, i.e. how much it actually moves the
+   published number. Grey/struck = computed and logged but benched from the
+   published number after losing holdout. Bars scale to each engine's max. */
+const ENGINES={
+  fg:{tab:"FULL GAME",formula:"P(win) = σ( era·.395 + ops·.223 + k%·.082 + whip·.033 + .093 )",unit:"std coef",
+      c:[["era","era gap",.395],["ops","lineup gap",.223],["kpct","contact gap",.082],["whip","baserunners",.033],["hfa","home field",.093,"g"]],
+      note:"4-feature calibrated logistic regression, walk-forward 61.7% / .2304 Brier on 8,379 games. Retrained weekly. The engine behind every OFFICIAL PLAY.",
+      g:[["window","3-6% WINDOW"],["veto","SHARP FADE VETO"],["coors","COORS EXCLUSION"],["clamp","22-78 CLAMP"],["cuts","13 FEATURES CUT"]]},
+  f5:{tab:"FIRST 5",formula:"P(lead after 5) = σ( era·.494 + ops·.193 + whip·.095 + k%·.014 + .138 )",unit:"std coef",
+      c:[["era","era gap",.494],["ops","lineup gap",.193],["whip","baserunners",.095],["kpct","contact gap",.014],["hfa","home field",.138,"g"]],
+      note:"Same four inputs, retrained on the first-5-innings winner (ties out): walk-forward 62.5% / .2252 on 7,170 games. Note the biology shift - ERA and WHIP carry more, contact rate nearly vanishes: the first five are the starters' innings. PAPER ONLY until the ledger earns it in.",
+      g:[["f5","PAPER LEDGER · NOT PLAYS","paper"],["f5lock","LOCKS WITH LINEUPS"],["f5win","FINDING ITS OWN WINDOW"],["f5","DECISION AT 50 FLAGS","paper"]]},
+  hr:{tab:"LONG BALL",formula:"P(HR) = 1 − (1 − bat·pitcher·park)^exp PA",unit:"influence",
+      c:[["hrbat","bat hr rate",.267],["hrpit","starter hr/bf",.091],["hrpark","park",.055],["hrbench","platoon (benched)",.118,"b"],["hrbench","wind (benched)",.090,"b"],["hrbench","arsenal (benched)",.077,"b"],["hrbench","temp (benched)",.027,"b"]],
+      note:"Multiplicative rate model through slot-based expected plate appearances. Backtested walk-forward on 21,000+ batter-games: bat rate does most of the work; pitcher and park add small real slivers. Platoon, arsenal, wind and temp all lost the holdout and were benched - still computed and logged nightly so the archive can re-litigate them.",
+      g:[["hrwatch","DISPLAY ONLY","paper"],["hrprior","300-PA BAT PRIOR"],["hrpa","EXP PA BY LINEUP SLOT"],["props","SELF-GRADED NIGHTLY"]]},
+  hit:{tab:"HIT",formula:"P(hit) = 1 − (1 − bat·pitcher·park½)^n_eff",unit:"influence",
+      c:[["hitbat","bat h/pa",.058],["hitpit","starter h/bf",.028],["hitpark","park (½ strength)",.023]],
+      note:"Same anatomy as Long Ball on a far more common event, so every factor moves the number less. Backtested walk-forward on 22,000+ starter-games; the 2+ hits list is the same distribution read at two. Book prices here are de-vigged off DraftKings' two-sided line since 8/17.",
+      g:[["hitwatch","DISPLAY ONLY","paper"],["hitprior","400-PA / 300-BF PRIORS"],["hitpa","N_EFF BY SLOT"],["props","SELF-GRADED NIGHTLY"]]},
+  k:{tab:"STRIKEOUTS",formula:"K ~ BetaBinomial( exp BF , pK ) · logit pK = logit(pitcher) + logit(lineup) − logit(league)",unit:"influence",
+      c:[["kpit","pitcher k rate",.150],["klineup","lineup k rate",.080],["kbf","workload (exp bf)",.076]],
+      note:"A full strikeout distribution, not a point estimate: per-batter K probability by log-odds blend of the starter (2026 rate shrunk 200 BF toward his 2025) and the nine confirmed bats (60-PA prior), over expected batters faced from the pitch-usage archive. Walk-forward on 2,575 starts: beats naive by 3.4 Brier points; MAE 1.82 K.",
+      g:[["kwatch","DISPLAY ONLY","paper"],["kdist","BETA-BINOMIAL κ=200"],["kbf","EXP BF · L5 + SEASON"],["props","SELF-GRADED NIGHTLY"]]},
+};
+let engOn="fg";
+function renderEngine(){
+  const E=ENGINES[engOn];
+  document.getElementById("eng-tabs").innerHTML=Object.entries(ENGINES).map(([k,e])=>`<span class="${k===engOn?"on":""}" onclick="engOn='${k}';renderEngine()">${e.tab}</span>`).join(" · ");
+  document.getElementById("eng-formula").textContent=E.formula;
+  const mx=Math.max(...E.c.map(x=>x[2]));
+  document.getElementById("eng-coefs").innerHTML=E.c.map(([k,n,v,cls])=>
+    `<div class="coef${cls==="b"?" bench":""}" onclick="openInfo(event,'${k}')"><span class="fn">${n}</span>
+     <div class="cbar ${cls||""}" style="width:${Math.max(4,v/mx*221)}px"></div><span class="cv">${v.toFixed(3)}<span style="opacity:.55"> ${E.unit}</span></span></div>`).join("");
+  document.getElementById("eng-note").textContent=E.note;
+  document.getElementById("eng-guards").innerHTML=E.g.map(([k,t,cls])=>`<span class="guard ${cls||""}" onclick="openInfo(event,'${k}')">${t}</span>`).join("");
+}
+renderEngine();
 
 /* ── model updates (changelog) ── */
 async function loadUpdates(){
