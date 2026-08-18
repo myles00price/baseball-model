@@ -2,11 +2,11 @@
  "New York Yankees@Baltimore Orioles": {
   "away": "New York Yankees",
   "home": "Baltimore Orioles",
-  "prob_home": 50.6,
+  "prob_home": 49.6,
   "odds": {
    "fanduel": {
-    "Baltimore Orioles": -114,
-    "New York Yankees": -110
+    "Baltimore Orioles": -116,
+    "New York Yankees": -108
    },
    "betmgm": {
     "Baltimore Orioles": -110,
@@ -23,16 +23,16 @@
   },
   "best_away": [
    "fanduel",
-   -110
+   -108
   ],
   "best_home": [
    "williamhill_us",
    -105
   ],
-  "dv_edge_away": -0.2,
-  "dv_edge_home": 2.6,
+  "dv_edge_away": 1.2,
+  "dv_edge_home": 1.6,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Detroit Tigers@Pittsburgh Pirates": {
   "away": "Detroit Tigers",
@@ -52,8 +52,8 @@
     "Pittsburgh Pirates": -170
    },
    "draftkings": {
-    "Detroit Tigers": 140,
-    "Pittsburgh Pirates": -180
+    "Detroit Tigers": 135,
+    "Pittsburgh Pirates": -175
    }
   },
   "best_away": [
@@ -64,7 +64,7 @@
    "fanduel",
    -166
   ],
-  "dv_edge_away": 15.3,
+  "dv_edge_away": 15.0,
   "dv_edge_home": -13.7,
   "flag": "",
   "locked": false
@@ -212,37 +212,37 @@
  "Arizona Diamondbacks@Boston Red Sox": {
   "away": "Arizona Diamondbacks",
   "home": "Boston Red Sox",
-  "prob_home": 63.0,
+  "prob_home": 63.7,
   "odds": {
    "fanduel": {
     "Arizona Diamondbacks": 144,
     "Boston Red Sox": -182
    },
    "betmgm": {
-    "Arizona Diamondbacks": 145,
-    "Boston Red Sox": -185
+    "Arizona Diamondbacks": 140,
+    "Boston Red Sox": -175
    },
    "williamhill_us": {
     "Arizona Diamondbacks": 140,
     "Boston Red Sox": -170
    },
    "draftkings": {
-    "Arizona Diamondbacks": 150,
-    "Boston Red Sox": -195
+    "Arizona Diamondbacks": 145,
+    "Boston Red Sox": -188
    }
   },
   "best_away": [
    "draftkings",
-   150
+   145
   ],
   "best_home": [
    "williamhill_us",
    -170
   ],
-  "dv_edge_away": -0.7,
-  "dv_edge_home": 2.8,
-  "flag": "",
-  "locked": false
+  "dv_edge_away": -2.2,
+  "dv_edge_home": 3.5,
+  "flag": "home",
+  "locked": true
  },
  "San Diego Padres@New York Mets": {
   "away": "San Diego Padres",
@@ -282,7 +282,7 @@
  "Atlanta Braves@Minnesota Twins": {
   "away": "Atlanta Braves",
   "home": "Minnesota Twins",
-  "prob_home": 44.5,
+  "prob_home": 45.3,
   "odds": {
    "fanduel": {
     "Atlanta Braves": -124,
@@ -309,8 +309,8 @@
    "fanduel",
    100
   ],
-  "dv_edge_away": 3.0,
-  "dv_edge_home": -2.4,
+  "dv_edge_away": 2.2,
+  "dv_edge_home": -1.6,
   "flag": "",
   "locked": false
  },
@@ -433,8 +433,8 @@
     "Los Angeles Dodgers": -170
    },
    "draftkings": {
-    "Colorado Rockies": 135,
-    "Los Angeles Dodgers": -175
+    "Colorado Rockies": 124,
+    "Los Angeles Dodgers": -160
    },
    "betmgm": {
     "Colorado Rockies": 130,
@@ -442,14 +442,14 @@
    }
   },
   "best_away": [
-   "betmgm",
+   "draftkings",
    -160
   ],
   "best_home": [
    "williamhill_us",
    140
   ],
-  "dv_edge_away": -1.6,
+  "dv_edge_away": -1.0,
   "dv_edge_home": 3.2,
   "flag": "",
   "locked": false

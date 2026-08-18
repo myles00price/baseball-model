@@ -1,6 +1,6 @@
 {
  "date": "2026-08-18",
- "generated": "2026-08-18T19:31:26Z",
+ "generated": "2026-08-18T19:46:31Z",
  "pitchers": [
   {
    "id": 554430,
@@ -2177,256 +2177,6 @@
    "k9": 6.97
   },
   {
-   "id": 669358,
-   "name": "Shane Baz",
-   "team": "Baltimore Orioles",
-   "opp": "New York Yankees",
-   "home": true,
-   "pk": 824803,
-   "hand": "R",
-   "so": 122,
-   "bf": 598,
-   "gs": 24,
-   "ip": 139.3,
-   "f_pit": 0.966,
-   "bf_l5": 23.2,
-   "exp_bf": 23.58,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.08,
-   "pk_pa": 0.2308,
-   "exp_k": 5.48,
-   "dist": {
-    "2.5": 0.9024,
-    "3.5": 0.7931,
-    "4.5": 0.643,
-    "5.5": 0.4752,
-    "6.5": 0.3182,
-    "7.5": 0.1929,
-    "8.5": 0.106,
-    "9.5": 0.0529
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": -156,
-     "under": 122,
-     "alts": {
-      "2.5": [
-       -3300,
-       null
-      ],
-      "3.5": [
-       -880,
-       null
-      ],
-      "4.5": [
-       -344,
-       null
-      ],
-      "5.5": [
-       -156,
-       null
-      ],
-      "6.5": [
-       130,
-       null
-      ],
-      "7.5": [
-       264,
-       null
-      ],
-      "8.5": [
-       540,
-       null
-      ],
-      "9.5": [
-       1080,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": -148,
-     "under": 116,
-     "alts": {
-      "3.5": [
-       -1100,
-       null
-      ],
-      "4.5": [
-       -400,
-       null
-      ],
-      "5.5": [
-       -148,
-       null
-      ],
-      "6.5": [
-       134,
-       null
-      ],
-      "7.5": [
-       280,
-       null
-      ],
-      "8.5": [
-       560,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": -155,
-     "under": 105,
-     "alts": {
-      "5.5": [
-       -150,
-       null
-      ],
-      "4.5": [
-       -275,
-       null
-      ],
-      "6.5": [
-       125,
-       null
-      ],
-      "7.5": [
-       225,
-       null
-      ],
-      "3.5": [
-       -625,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "9.5": [
-       800,
-       null
-      ],
-      "3.5": [
-       -1450,
-       null
-      ],
-      "4.5": [
-       -380,
-       null
-      ],
-      "5.5": [
-       -164,
-       null
-      ],
-      "6.5": [
-       121,
-       null
-      ],
-      "7.5": [
-       225,
-       null
-      ],
-      "8.5": [
-       425,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.4752,
-   "fair_over": "+110",
-   "fair_under": "-110",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 5.5,
-    "price": 122,
-    "p_model": 0.5248,
-    "implied": 0.425,
-    "edge": 0.0998,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": -156,
-      "p_model": 0.4752,
-      "implied": 0.575,
-      "edge": -0.0998,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": 122,
-      "p_model": 0.5248,
-      "implied": 0.425,
-      "edge": 0.0998,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": -148,
-      "p_model": 0.4752,
-      "implied": 0.5631,
-      "edge": -0.088,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": 116,
-      "p_model": 0.5248,
-      "implied": 0.4369,
-      "edge": 0.088,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -155,
-      "p_model": 0.4752,
-      "implied": 0.5548,
-      "edge": -0.0796,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": 105,
-      "p_model": 0.5248,
-      "implied": 0.4452,
-      "edge": 0.0796,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 20.4,
-   "k9": 7.88
-  },
-  {
    "id": 607259,
    "name": "Nick Martinez",
    "team": "Tampa Bay Rays",
@@ -3357,6 +3107,498 @@
    "state": "Preview",
    "kpct": 16.7,
    "k9": 6.01
+  },
+  {
+   "id": 641816,
+   "name": "Tyler Mahle",
+   "team": "Atlanta Braves",
+   "opp": "Minnesota Twins",
+   "home": false,
+   "pk": 823667,
+   "hand": "R",
+   "so": 105,
+   "bf": 448,
+   "gs": 20,
+   "ip": 106.7,
+   "f_pit": 1.015,
+   "bf_l5": 22.2,
+   "exp_bf": 22.29,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9029830038509853,
+   "pk_pa": 0.2026,
+   "exp_k": 4.41,
+   "dist": {
+    "2.5": 0.8086,
+    "3.5": 0.6423,
+    "4.5": 0.4564,
+    "5.5": 0.2887,
+    "6.5": 0.1628,
+    "7.5": 0.0821,
+    "8.5": 0.0373,
+    "9.5": 0.0153
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": -128,
+     "under": 101,
+     "alts": {
+      "2.5": [
+       -890,
+       null
+      ],
+      "3.5": [
+       -303,
+       null
+      ],
+      "4.5": [
+       -129,
+       null
+      ],
+      "5.5": [
+       171,
+       null
+      ],
+      "6.5": [
+       361,
+       null
+      ],
+      "7.5": [
+       770,
+       null
+      ],
+      "8.5": [
+       1580,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 4.5,
+     "over": -122,
+     "under": -104,
+     "alts": {
+      "2.5": [
+       -1100,
+       null
+      ],
+      "3.5": [
+       -340,
+       null
+      ],
+      "4.5": [
+       -122,
+       null
+      ],
+      "5.5": [
+       176,
+       null
+      ],
+      "6.5": [
+       370,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 4.5,
+     "over": -125,
+     "under": -115,
+     "alts": {
+      "4.5": [
+       -125,
+       null
+      ],
+      "5.5": [
+       165,
+       null
+      ],
+      "2.5": [
+       -700,
+       null
+      ],
+      "3.5": [
+       -275,
+       null
+      ],
+      "6.5": [
+       320,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -1700,
+       null
+      ],
+      "3.5": [
+       -325,
+       null
+      ],
+      "4.5": [
+       -137,
+       null
+      ],
+      "5.5": [
+       155,
+       null
+      ],
+      "6.5": [
+       305,
+       null
+      ],
+      "7.5": [
+       650,
+       null
+      ],
+      "8.5": [
+       1400,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.4564,
+   "fair_over": "+119",
+   "fair_under": "-119",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 4.5,
+    "price": 101,
+    "p_model": 0.5436,
+    "implied": 0.4698,
+    "edge": 0.0738,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -128,
+      "p_model": 0.4564,
+      "implied": 0.5302,
+      "edge": -0.0738,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": 101,
+      "p_model": 0.5436,
+      "implied": 0.4698,
+      "edge": 0.0738,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": -122,
+      "p_model": 0.4564,
+      "implied": 0.5188,
+      "edge": -0.0623,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -104,
+      "p_model": 0.5436,
+      "implied": 0.4812,
+      "edge": 0.0623,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 4.5,
+      "price": -125,
+      "p_model": 0.4564,
+      "implied": 0.5095,
+      "edge": -0.0531,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 4.5,
+      "price": -115,
+      "p_model": 0.5436,
+      "implied": 0.4905,
+      "edge": 0.0531,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 23.4,
+   "k9": 8.86
+  },
+  {
+   "id": 669358,
+   "name": "Shane Baz",
+   "team": "Baltimore Orioles",
+   "opp": "New York Yankees",
+   "home": true,
+   "pk": 824803,
+   "hand": "R",
+   "so": 122,
+   "bf": 598,
+   "gs": 24,
+   "ip": 139.3,
+   "f_pit": 0.966,
+   "bf_l5": 23.2,
+   "exp_bf": 23.58,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.1101414812018626,
+   "pk_pa": 0.2373,
+   "exp_k": 5.64,
+   "dist": {
+    "2.5": 0.9115,
+    "3.5": 0.8097,
+    "4.5": 0.6664,
+    "5.5": 0.5015,
+    "6.5": 0.3428,
+    "7.5": 0.2124,
+    "8.5": 0.1195,
+    "9.5": 0.0611
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": -156,
+     "under": 122,
+     "alts": {
+      "2.5": [
+       -3300,
+       null
+      ],
+      "3.5": [
+       -880,
+       null
+      ],
+      "4.5": [
+       -344,
+       null
+      ],
+      "5.5": [
+       -156,
+       null
+      ],
+      "6.5": [
+       130,
+       null
+      ],
+      "7.5": [
+       264,
+       null
+      ],
+      "8.5": [
+       540,
+       null
+      ],
+      "9.5": [
+       1080,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": -148,
+     "under": 116,
+     "alts": {
+      "3.5": [
+       -1100,
+       null
+      ],
+      "4.5": [
+       -400,
+       null
+      ],
+      "5.5": [
+       -148,
+       null
+      ],
+      "6.5": [
+       134,
+       null
+      ],
+      "7.5": [
+       280,
+       null
+      ],
+      "8.5": [
+       560,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": -155,
+     "under": 105,
+     "alts": {
+      "5.5": [
+       -150,
+       null
+      ],
+      "4.5": [
+       -275,
+       null
+      ],
+      "6.5": [
+       125,
+       null
+      ],
+      "7.5": [
+       225,
+       null
+      ],
+      "3.5": [
+       -625,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       800,
+       null
+      ],
+      "3.5": [
+       -1450,
+       null
+      ],
+      "4.5": [
+       -380,
+       null
+      ],
+      "5.5": [
+       -164,
+       null
+      ],
+      "6.5": [
+       121,
+       null
+      ],
+      "7.5": [
+       225,
+       null
+      ],
+      "8.5": [
+       425,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.5015,
+   "fair_over": "-101",
+   "fair_under": "+101",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 5.5,
+    "price": 122,
+    "p_model": 0.4985,
+    "implied": 0.425,
+    "edge": 0.0735,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -156,
+      "p_model": 0.5015,
+      "implied": 0.575,
+      "edge": -0.0735,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": 122,
+      "p_model": 0.4985,
+      "implied": 0.425,
+      "edge": 0.0735,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -148,
+      "p_model": 0.5015,
+      "implied": 0.5631,
+      "edge": -0.0616,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": 116,
+      "p_model": 0.4985,
+      "implied": 0.4369,
+      "edge": 0.0616,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -155,
+      "p_model": 0.5015,
+      "implied": 0.5548,
+      "edge": -0.0533,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 105,
+      "p_model": 0.4985,
+      "implied": 0.4452,
+      "edge": 0.0533,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 20.4,
+   "k9": 7.88
   },
   {
    "id": 687931,
@@ -4775,248 +5017,6 @@
    "k9": 8.89
   },
   {
-   "id": 641816,
-   "name": "Tyler Mahle",
-   "team": "Atlanta Braves",
-   "opp": "Minnesota Twins",
-   "home": false,
-   "pk": 823667,
-   "hand": "R",
-   "so": 105,
-   "bf": 448,
-   "gs": 20,
-   "ip": 106.7,
-   "f_pit": 1.015,
-   "bf_l5": 22.2,
-   "exp_bf": 22.29,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.932,
-   "pk_pa": 0.2092,
-   "exp_k": 4.55,
-   "dist": {
-    "2.5": 0.8245,
-    "3.5": 0.6662,
-    "4.5": 0.4834,
-    "5.5": 0.3131,
-    "6.5": 0.1811,
-    "7.5": 0.0938,
-    "8.5": 0.0437,
-    "9.5": 0.0184
-   },
-   "books": {
-    "dk": {
-     "line": 4.5,
-     "over": -128,
-     "under": 101,
-     "alts": {
-      "2.5": [
-       -890,
-       null
-      ],
-      "3.5": [
-       -303,
-       null
-      ],
-      "4.5": [
-       -129,
-       null
-      ],
-      "5.5": [
-       171,
-       null
-      ],
-      "6.5": [
-       361,
-       null
-      ],
-      "7.5": [
-       770,
-       null
-      ],
-      "8.5": [
-       1580,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 4.5,
-     "over": -122,
-     "under": -104,
-     "alts": {
-      "2.5": [
-       -1100,
-       null
-      ],
-      "3.5": [
-       -340,
-       null
-      ],
-      "4.5": [
-       -122,
-       null
-      ],
-      "5.5": [
-       176,
-       null
-      ],
-      "6.5": [
-       370,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 4.5,
-     "over": -125,
-     "under": -115,
-     "alts": {
-      "4.5": [
-       -125,
-       null
-      ],
-      "5.5": [
-       165,
-       null
-      ],
-      "2.5": [
-       -700,
-       null
-      ],
-      "3.5": [
-       -275,
-       null
-      ],
-      "6.5": [
-       320,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -1700,
-       null
-      ],
-      "3.5": [
-       -325,
-       null
-      ],
-      "4.5": [
-       -137,
-       null
-      ],
-      "5.5": [
-       155,
-       null
-      ],
-      "6.5": [
-       305,
-       null
-      ],
-      "7.5": [
-       650,
-       null
-      ],
-      "8.5": [
-       1400,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 4.5,
-   "p_over_cons": 0.4834,
-   "fair_over": "+107",
-   "fair_under": "-107",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 4.5,
-    "price": 101,
-    "p_model": 0.5166,
-    "implied": 0.4698,
-    "edge": 0.0468,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 4.5,
-      "price": -128,
-      "p_model": 0.4834,
-      "implied": 0.5302,
-      "edge": -0.0468,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 4.5,
-      "price": 101,
-      "p_model": 0.5166,
-      "implied": 0.4698,
-      "edge": 0.0468,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 4.5,
-      "price": -122,
-      "p_model": 0.4834,
-      "implied": 0.5188,
-      "edge": -0.0353,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 4.5,
-      "price": -104,
-      "p_model": 0.5166,
-      "implied": 0.4812,
-      "edge": 0.0353,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 4.5,
-      "price": -125,
-      "p_model": 0.4834,
-      "implied": 0.5095,
-      "edge": -0.0261,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 4.5,
-      "price": -115,
-      "p_model": 0.5166,
-      "implied": 0.4905,
-      "edge": 0.0261,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 23.4,
-   "k9": 8.86
-  },
-  {
    "id": 681517,
    "name": "Kyle Leahy",
    "team": "St. Louis Cardinals",
@@ -6298,7 +6298,7 @@
   }
  ],
  "league_k_pa": 0.221,
- "lineups_confirmed": 12,
+ "lineups_confirmed": 14,
  "odds_at": "2026-08-18T15:30:56Z",
- "locked": 12
+ "locked": 14
 }
