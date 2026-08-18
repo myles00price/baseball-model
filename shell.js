@@ -21,10 +21,10 @@
     { id: "mlb",   label: "MLB",    href: "board.html", status: "live"  },
     { id: "nfl",   label: "NFL",    href: "nfl.html",   status: "paper" },
     { id: "mma",   label: "MMA",    href: "mma.html",   status: "paper" },
+    { id: "soccer",label: "SOCCER", href: "soccer.html",status: "paper" },
     { id: "nba",   label: "NBA",    href: null,         status: "soon"  },
     { id: "ncaam", label: "NCAAM",  href: null,         status: "soon"  },
-    { id: "nhl",   label: "NHL",    href: null,         status: "soon"  },
-    { id: "soccer",label: "SOCCER", href: null,         status: "soon"  }
+    { id: "nhl",   label: "NHL",    href: null,         status: "soon"  }
   ];
 
   /* ---- CSS: nav + the exact marquee rules from board.html (duplicating them
