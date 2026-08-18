@@ -198,6 +198,12 @@ body.light .hr-flag{background:#e7f3e9;border-color:#9dc7a8;color:#0a6e30}
 .k-lad .best{color:var(--gold);font-weight:bold}.k-lad .fair{color:var(--gold)}
 .k-foot{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.08em;color:var(--mut);margin-top:8px;line-height:1.6}
 .ldr.k-done{opacity:.85}
+/* a MODEL LEAN that cashed: full green row + cash tag */
+.ldr.cash{background:linear-gradient(90deg,rgba(43,255,100,.28),rgba(43,255,100,.10));border-left:3px solid var(--phos);box-shadow:inset 0 0 18px rgba(43,255,100,.12)}
+.ldr.cash .v,.ldr.cash>div>div:first-child{color:var(--phos);text-shadow:0 0 10px rgba(43,255,100,.7)}
+.hr-flag.cash{background:#03200c;border-color:var(--phos);color:var(--phos);font-weight:bold}
+body.light .ldr.cash{background:linear-gradient(90deg,#cdeed6,#e7f3e9);border-left-color:#0a7a34;box-shadow:none}
+body.light .hr-flag.cash{background:#cdeed6;border-color:#0a7a34;color:#0a6e30}
 .ldr.k-miss{background:linear-gradient(90deg,rgba(255,56,56,.08),transparent 70%);border-left:2px solid #7a1f1f}
 .hr-flag.miss{color:#ff6b6b;border-color:#5c0d0d;background:#140000;text-shadow:none}
 body.light .ldr.k-miss{background:#f6e7e7;border-left-color:#c41414}
@@ -1008,8 +1014,8 @@ function renderHRWatch(){
     const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
     // Home runs are rare: ANY listed hitter going deep lights the row (green).
     // Leans additionally go red if their game finishes without one.
-    const ls=n>0?{row:" hr-hit"}:leanState(!!L,false,st);
-    const flag=n?`<span class="hr-flag${st==="Final"?" done":""}">💣 ${n>1?n+" HR":"GONE"} ✓</span>`:(L&&st==="Final"?`<span class="hr-flag done miss">💣 0 HR ✗</span>`:"");
+    const ls=n>0?{row:L?" cash":" hr-hit"}:leanState(!!L,false,st);
+    const flag=n?`<span class="hr-flag${st==="Final"?" done":""}${L?" cash":""}">${L?"💰 ":"💣 "}${n>1?n+" HR":"GONE"} ✓${L?" CASHED":""}</span>`:(L&&st==="Final"?`<span class="hr-flag done miss">💣 0 HR ✗</span>`:"");
     const open=typeof hitOpen!=="undefined"&&hitOpen.has("h"+p.id);
     return`<div class="ldr${ls.row}" onclick="toggleHitDrop(event,'h',${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
       <div><div>${p.name}${flag}</div><div class="hr-sub">${AB[p.team]||p.team} ${p.home?"vs":"@"} ${AB[p.opp]||p.opp} · FACING ${(p.opp_sp||"TBD").toUpperCase()} · ${p.hr} HR SEASON</div>
@@ -1067,8 +1073,8 @@ function renderHitWatch(){
     // Hit prices carry heavy one-sided vig (no 'no-hit' side to de-vig against),
     // so edge math here is guesswork: like HR, ANY listed hitter who records a
     // hit lights the row. Leans still go red if their game ends hitless.
-    const ls=n>0?{row:" hr-hit"}:leanState(!!L,false,st);
-    const flag=n?`<span class="hr-flag${st==="Final"?" done":""}">🎯 ${n>1?n+" HITS":"HIT"} ✓</span>`:(L&&st==="Final"?`<span class="hr-flag done miss">🎯 0 H ✗</span>`:"");
+    const ls=n>0?{row:L?" cash":" hr-hit"}:leanState(!!L,false,st);
+    const flag=n?`<span class="hr-flag${st==="Final"?" done":""}${L?" cash":""}">${L?"💰 ":"🎯 "}${n>1?n+" HITS":"HIT"} ✓${L?" CASHED":""}</span>`:(L&&st==="Final"?`<span class="hr-flag done miss">🎯 0 H ✗</span>`:"");
     const slotTxt=p.slot?` · BATTING ${p.slot}${p.slot===1?"ST":p.slot===2?"ND":p.slot===3?"RD":"TH"}`:"";
     const open=hitOpen.has("a"+p.id);
     return`<div class="ldr${ls.row}" onclick="toggleHitDrop(event,'a',${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
@@ -1158,8 +1164,8 @@ function renderHit2(){
       (best!==null?` · <span class="${better?"best":""}">BEST ${best.toUpperCase()} ${fmtO(o[best+"2"])}</span>`+(rest?` · ${rest}`:""):p.fair2?" · NO 1.5 LINE YET":"")+leanTag(L);
     const n=hitLive[p.id]||0;
     const st=(Object.values(liveMap).find(g=>g.pk===p.pk)||{}).state;
-    const ls=n>=2?{row:" hr-hit"}:leanState(!!L,false,st);   // 2+ list: any two-hit game lights
-    const flag=n>=2?`<span class="hr-flag${st==="Final"?" done":""}">🎯 ${n} HITS ✓</span>`:(L&&st==="Final"?`<span class="hr-flag done miss">🎯 ${n} H ✗</span>`:"");
+    const ls=n>=2?{row:L?" cash":" hr-hit"}:leanState(!!L,false,st);   // 2+ list: any two-hit game lights
+    const flag=n>=2?`<span class="hr-flag${st==="Final"?" done":""}${L?" cash":""}">${L?"💰 ":"🎯 "}${n} HITS ✓${L?" CASHED":""}</span>`:(L&&st==="Final"?`<span class="hr-flag done miss">🎯 ${n} H ✗</span>`:"");
     const sofar=n===1?` · <span class="soft">1 HIT SO FAR</span>`:"";
     const open=hitOpen.has("b"+p.id);
     return`<div class="ldr${ls.row}" onclick="toggleHitDrop(event,'b',${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
@@ -1241,9 +1247,9 @@ function renderKWatch(){
         if(b.side==="over"){if(live>b.line)verdict=true;else if(st==="Final")verdict=false}
         else{if(live>b.line)verdict=false;else if(st==="Final")verdict=true}
       }
-      const res=verdict!==null?` · ${b.side.toUpperCase()} ${b.line} ${verdict?"✓":"✗"}`:"";
-      flag=`<span class="hr-flag${st==="Final"?" done":""}${verdict===false?" miss":""}">⚾ ${live} K${res}</span>`;
-      rowCls=verdict===true?" hr-hit":verdict===false?" k-miss":"";
+      const res=verdict!==null?` · ${b.side.toUpperCase()} ${b.line} ${verdict?"✓ CASHED":"✗"}`:"";
+      flag=`<span class="hr-flag${st==="Final"?" done":""}${verdict===false?" miss":verdict===true?" cash":""}">${verdict===true?"💰 ":"⚾ "}${live} K${res}</span>`;
+      rowCls=verdict===true?" cash":verdict===false?" k-miss":"";
     }
     const open=kOpen.has(p.id);
     return`<div class="ldr${rowCls}${st==="Final"&&live!=null?" k-done":""}" onclick="toggleKDrop(event,${p.id})"><span class="hr-rank">${i+1}</span><img src="${mug(p.id)}">
