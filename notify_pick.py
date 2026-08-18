@@ -329,6 +329,15 @@ def main():
     except Exception as e:
         print(f"k refresh failed: {e}")
 
+    # K WATCH lean callouts (owner decision 2026-08-17): text top-5 leans once
+    # their lineups confirm. Labeled K WATCH LEAN, never OFFICIAL PLAY.
+    if did_k:
+        try:
+            import k_notify
+            k_notify.main(date_str)
+        except Exception as e:
+            print(f"k_notify failed: {e}")
+
     book_odds = fetch_market_odds(date_str) if pending else {}
 
     sent_any = False
@@ -368,6 +377,8 @@ def main():
             subprocess.run(["git", "add", f"picks_{date_str}.csv", f"notified_{date_str}.json"], timeout=60)
             if os.path.exists(f"f5_shadow_{date_str}.json"):
                 subprocess.run(["git", "add", f"f5_shadow_{date_str}.json"], timeout=60)
+            if os.path.exists(f"notified_k_{date_str}.json"):
+                subprocess.run(["git", "add", f"notified_k_{date_str}.json"], timeout=60)
             if did_hr:
                 subprocess.run(["git", "add", f"hr_watch_{date_str}.json", "hr_odds_stamp.txt"], timeout=60)
             if did_hit:

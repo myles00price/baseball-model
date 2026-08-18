@@ -276,6 +276,8 @@ body.light .hr-flag.miss{background:#f6e7e7;border-color:#d9a3a3;color:#a01010}
 .eng-tabs span{cursor:pointer;padding:2px 6px;border-bottom:1px solid transparent}
 .eng-tabs span:hover{color:#ddd}.eng-tabs span.on{color:var(--phos);border-bottom-color:var(--phos)}
 .eng-note{font-family:'VT323',monospace;font-size:14px;color:var(--mut);padding:6px 2px 0;line-height:1.35}
+.eng-block{padding:10px 0 14px;border-bottom:1px solid #141414}.eng-block:last-child{border-bottom:none}
+.eng-block .eng-tabs span.on{font-size:15px;letter-spacing:.3em}
 .coef .cbar.b{background:linear-gradient(90deg,#3a3a3a,#6a6a6a);box-shadow:none;opacity:.7}
 .coef.bench .fn{color:var(--mut);text-decoration:line-through}
 body.light .eng-tabs span.on{color:#0a7a34;border-bottom-color:#0a7a34}
@@ -498,12 +500,8 @@ body.light .newsitem img{filter:none}
   </div>
 
   <div class="duo">
-    <div class="sect"><h2>THE ENGINE · MODEL BIOLOGY</h2>
-      <div class="eng-tabs" id="eng-tabs"></div>
-      <div class="eng-formula" id="eng-formula"></div>
-      <div id="eng-coefs"></div>
-      <div class="eng-note" id="eng-note"></div>
-      <div style="margin-top:10px" id="eng-guards"></div>
+    <div class="sect"><h2>THE ENGINE · MODEL BIOLOGY · ALL FIVE MARKETS</h2>
+      <div id="eng-all"></div>
     </div>
     <div class="sect"><h2>MODEL UPDATES</h2><div id="updates"></div></div>
   </div>
@@ -972,17 +970,18 @@ const ENGINES={
       note:"A full strikeout distribution, not a point estimate: per-batter K probability by log-odds blend of the starter (2026 rate shrunk 200 BF toward his 2025) and the nine confirmed bats (60-PA prior), over expected batters faced from the pitch-usage archive. Walk-forward on 2,575 starts: beats naive by 3.4 Brier points; MAE 1.82 K.",
       g:[["kwatch","DISPLAY ONLY","paper"],["kdist","BETA-BINOMIAL κ=200"],["kbf","EXP BF · L5 + SEASON"],["props","SELF-GRADED NIGHTLY"]]},
 };
-let engOn="fg";
 function renderEngine(){
-  const E=ENGINES[engOn];
-  document.getElementById("eng-tabs").innerHTML=Object.entries(ENGINES).map(([k,e])=>`<span class="${k===engOn?"on":""}" onclick="engOn='${k}';renderEngine()">${e.tab}</span>`).join(" · ");
-  document.getElementById("eng-formula").textContent=E.formula;
-  const mx=Math.max(...E.c.map(x=>x[2]));
-  document.getElementById("eng-coefs").innerHTML=E.c.map(([k,n,v,cls])=>
-    `<div class="coef${cls==="b"?" bench":""}" onclick="openInfo(event,'${k}')"><span class="fn">${n}</span>
-     <div class="cbar ${cls||""}" style="width:${Math.max(4,v/mx*221)}px"></div><span class="cv">${v.toFixed(3)}<span style="opacity:.55"> ${E.unit}</span></span></div>`).join("");
-  document.getElementById("eng-note").textContent=E.note;
-  document.getElementById("eng-guards").innerHTML=E.g.map(([k,t,cls])=>`<span class="guard ${cls||""}" onclick="openInfo(event,'${k}')">${t}</span>`).join("");
+  // all five engines stacked, same anatomy each
+  document.getElementById("eng-all").innerHTML=Object.entries(ENGINES).map(([k,E])=>{
+    const mx=Math.max(...E.c.map(x=>x[2]));
+    const bars=E.c.map(([key,n,v,cls])=>
+      `<div class="coef${cls==="b"?" bench":""}" onclick="openInfo(event,'${key}')"><span class="fn">${n}</span>
+       <div class="cbar ${cls||""}" style="width:${Math.max(4,v/mx*221)}px"></div><span class="cv">${v.toFixed(3)}<span style="opacity:.55"> ${E.unit}</span></span></div>`).join("");
+    const guards=E.g.map(([key,t,cls])=>`<span class="guard ${cls||""}" onclick="openInfo(event,'${key}')">${t}</span>`).join("");
+    return`<div class="eng-block"><div class="eng-tabs"><span class="on">${E.tab}</span></div>
+      <div class="eng-formula">${E.formula}</div>${bars}
+      <div class="eng-note">${E.note}</div><div style="margin-top:8px">${guards}</div></div>`;
+  }).join("");
 }
 renderEngine();
 
