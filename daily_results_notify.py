@@ -166,7 +166,15 @@ def main():
     if "--stats-only" in sys.argv:
         print("(stats-only: no text sent)")
         return
+    # dedupe: a boot-time catch-up run must not re-send a record already texted
+    # for this slate (2026-08-18: 7:10 AM catch-up duplicated the 9:25 PM text)
+    marker = f"notified_daily_{today}.json"
+    import os
+    if os.path.exists(marker):
+        print("daily record already texted for today - skipping send")
+        return
     send_push("MLB model: daily record", "\n".join(lines), bet=False)
+    json.dump({"sent": datetime.now().isoformat()}, open(marker, "w"))
     print("\n".join(lines))
 
 
