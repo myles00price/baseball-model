@@ -107,6 +107,34 @@ RESID_W = [0.00872, 0.00201, 0.00336, 0.00403, 0.00268, 0.00336, 0.00336, 0.0040
            0.13624, 0.11409, 0.11275, 0.07718, 0.05973, 0.03826, 0.02752, 0.01409, 0.00336,
            0.00134, 0.00134, 0.00134]
 LINES = [2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5]
+
+# ── WEEKLY RETRAIN HOOK (2026-08-19) ────────────────────────────────────
+# k_backtest.py refits the tunable parameters on a rolling window and writes
+# k_bt_params.json; the live model reads it here so the weekly props retrain
+# actually reaches production. Constants above are the fallback defaults.
+def _load_bt_params():
+    global PIT_PRIOR_BF, BAT_PRIOR_PA, BF_W_RECENT, BF_N_RECENT, BF_PRIOR_STARTS, LG_BF, KAPPA, RESID_V, RESID_W
+    try:
+        import json as _json
+        P = _json.load(open("k_bt_params.json", encoding="utf-8"))
+    except Exception:
+        return None
+    try:
+        PIT_PRIOR_BF = int(P.get("pit_prior_bf", PIT_PRIOR_BF))
+        BAT_PRIOR_PA = int(P.get("bat_prior_pa", BAT_PRIOR_PA))
+        BF_W_RECENT = float(P.get("bf_w_recent", BF_W_RECENT))
+        BF_N_RECENT = int(P.get("bf_n_recent", BF_N_RECENT))
+        BF_PRIOR_STARTS = int(P.get("bf_prior_starts", BF_PRIOR_STARTS))
+        LG_BF = float(P.get("lg_bf", LG_BF))
+        KAPPA = float(P.get("kappa", KAPPA))
+        r = P.get("resid") or {}
+        if r.get("v") and r.get("w") and len(r["v"]) == len(r["w"]):
+            RESID_V, RESID_W = [int(x) for x in r["v"]], [float(x) for x in r["w"]]
+        return P.get("fit_window")
+    except Exception:
+        return None
+BT_FIT_WINDOW = _load_bt_params()
+
 CSV_LINES = [3.5, 4.5, 5.5, 6.5, 7.5, 8.5]
 
 ODDS_STAMP_FN = "k_odds_stamp.txt"

@@ -20,6 +20,7 @@ played-batters-only, i.e. the post-lineup-refresh regime.
 Run:  C:\\Users\\Poons\\Model\\.venv\\Scripts\\python.exe hr_backtest.py
 """
 
+import os
 import sys
 
 import numpy as np
@@ -28,7 +29,8 @@ import pandas as pd
 if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
-EVAL_START = "2026-05-01"   # ~5 weeks of burn-in for season-to-date stats
+EVAL_START = "2026-05-01"
+HOLDOUT_START = os.environ.get("PROPS_HOLDOUT_START", "2026-07-01")  # rolling: set by props_retrain.py   # ~5 weeks of burn-in for season-to-date stats
 MIN_PA = 100
 BATTER_PRIOR = 200
 PLATOON_PRIOR = 300
@@ -155,7 +157,7 @@ def main():
     print("\nDamp exponent alpha: p_PA = lg * (stack/lg)^alpha")
     stack_pa = (df["bat_rate"] * df["f_platoon"] * df["f_pit"] * df["f_park"])
     ratio = stack_pa / lgr
-    fit_m = df["date"] < "2026-07-01"
+    fit_m = df["date"] < HOLDOUT_START
     test_m = ~fit_m
     best = None
     for alpha in np.arange(0.3, 1.31, 0.05):
@@ -178,8 +180,8 @@ def main():
         print(f"                     damped pred {p_cal[m].mean()*100:.1f}% "
               f"actual {df.loc[m,'y'].mean()*100:.1f}% (n={m.sum()})")
     top_c = df.assign(pc=p_cal).sort_values("pc", ascending=False).groupby("date").head(15)
-    tgc = top_c[top_c["date"] >= "2026-07-01"].groupby("date").agg(h=("y", "sum"), e=("pc", "sum"))
-    tgu = top[top["date"] >= "2026-07-01"].groupby("date").agg(h=("y", "sum"), e=("p_full", "sum"))
+    tgc = top_c[top_c["date"] >= HOLDOUT_START].groupby("date").agg(h=("y", "sum"), e=("pc", "sum"))
+    tgu = top[top["date"] >= HOLDOUT_START].groupby("date").agg(h=("y", "sum"), e=("p_full", "sum"))
     print(f"  Jul+ top-15/day: alpha=1 hits {tgu['h'].mean():.2f} vs exp {tgu['e'].mean():.2f} | "
           f"damped hits {tgc['h'].mean():.2f} vs exp {tgc['e'].mean():.2f}")
 

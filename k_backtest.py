@@ -31,6 +31,7 @@ Run:  C:\\Users\\Poons\\Model\\.venv\\Scripts\\python.exe k_backtest.py
 """
 
 import json
+import os
 import sys
 
 import numpy as np
@@ -41,7 +42,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 EVAL_START = "2026-05-01"
-HOLDOUT_START = "2026-07-01"
+HOLDOUT_START = os.environ.get("PROPS_HOLDOUT_START", "2026-07-01")  # rolling: set by props_retrain.py
 MIN_PIT_BF = 60          # eligibility: some 2026 record
 KMAX = 20                # distribution support 0..KMAX
 LINES = [3.5, 4.5, 5.5, 6.5, 7.5, 8.5]

@@ -26,6 +26,7 @@ Run:  C:\\Users\\Poons\\Model\\.venv\\Scripts\\python.exe hit_backtest.py
 """
 
 import json
+import os
 import sys
 
 import numpy as np
@@ -35,7 +36,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 EVAL_START = "2026-05-01"   # ~5 weeks burn-in for season-to-date stats
-HOLDOUT_START = "2026-07-01"
+HOLDOUT_START = os.environ.get("PROPS_HOLDOUT_START", "2026-07-01")  # rolling: set by props_retrain.py
 MIN_PA = 100
 BATTER_PRIOR = 400            # 2026-08-16 sweep: 300-600 flat, 400 slightly better tail
 PITCH_PRIOR = 300

@@ -94,6 +94,30 @@ ODDS_REFRESH_HOURS = 3
 # backtest) — not the full-game table the HR watch uses; see docstring.
 SLOT_MEAN_PA = [4.42, 4.31, 4.19, 4.04, 3.89, 3.75, 3.58, 3.30, 3.08]
 
+# ── WEEKLY RETRAIN HOOK (2026-08-19) ────────────────────────────────────
+# hit_backtest.py refits EFF_PA_K / SLOT_W / batter prior / slot PA means on
+# a rolling window and writes hit_bt_params.json; read here so the weekly
+# props retrain reaches production. Constants above are fallback defaults.
+def _load_bt_params():
+    global EFF_PA_K, SLOT_W, BATTER_PRIOR_PA, SLOT_MEAN_PA
+    try:
+        import json as _json
+        P = _json.load(open("hit_bt_params.json", encoding="utf-8"))
+    except Exception:
+        return None
+    try:
+        EFF_PA_K = float(P.get("morning_k", EFF_PA_K))
+        SLOT_W = float(P.get("refresh_w_slot", SLOT_W))
+        BATTER_PRIOR_PA = int(P.get("batter_prior", BATTER_PRIOR_PA))
+        sm = P.get("slot_mean_pa")
+        if isinstance(sm, dict) and len(sm) == 9:
+            SLOT_MEAN_PA = [float(sm[str(i)]) for i in range(1, 10)]
+        return P.get("fit_window")
+    except Exception:
+        return None
+BT_FIT_WINDOW = _load_bt_params()
+
+
 # Columns of hit_log_{date}.csv, in order. hit_grade.py appends outcome
 # columns to these when building hit_training_data.csv — change both
 # together (hit_grade migrates the training file's header on change).
