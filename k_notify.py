@@ -5,8 +5,8 @@ k_notify.py — K WATCH plays: same lifecycle as main plays (owner decision
   overnight / morning : EARLY LEANS - probable starters with posted K lines
                         whose model edge is >= 3 pts vs the best book, top-5
                         on the slate (the exact rows that light on the board)
-  lineup lock         : 🔒 K PLAY text, once per pitcher per day, when his
-                        game's lineups are confirmed and he is still a lean
+  lineup lock         : 🔒 K PLAY text, once per pitcher per day, when BOTH
+                        lineups in his game are confirmed and he is still a lean
   settle              : settle_notify texts 💰 CASHED / ✗ LOST off the boxscore
 
 K plays are graded on THE PROPS LEDGER (paper, public), separate from the
@@ -93,13 +93,34 @@ def body_for(p):
     ])
 
 
+def both_lineups_pks(date_str):
+    """gamePks where BOTH lineups are posted (owner rule 2026-08-19: a K PLAY
+    locks only when the pitcher's own lineup is in too - the model's
+    'confirmed' already means the OPPOSING lineup he faces; his own team's
+    posting confirms the game is set and he is actually taking the ball)."""
+    try:
+        j = requests.get("https://statsapi.mlb.com/api/v1/schedule",
+                         params={"sportId": 1, "date": date_str, "hydrate": "lineups"},
+                         timeout=20).json()
+    except Exception:
+        return set()
+    out = set()
+    for dd in j.get("dates", []):
+        for g in dd.get("games", []):
+            lu = g.get("lineups", {})
+            if lu.get("homePlayers") and lu.get("awayPlayers"):
+                out.add(g["gamePk"])
+    return out
+
+
 def main(date_str=None):
-    """Lock texts: each top lean whose lineups are confirmed, once."""
+    """Lock texts: each top lean whose game has BOTH lineups confirmed, once."""
     date_str = date_str or lv_today()
     K = load_watch(date_str)
     if not K:
         print(f"k_notify: no k_watch_{date_str}.json")
         return 0
+    both = both_lineups_pks(date_str)
     state_fn = f"notified_k_{date_str}.json"
     try:
         sent = set(json.load(open(state_fn)))
@@ -109,6 +130,9 @@ def main(date_str=None):
     for p in leans(K, confirmed_only=True):
         key = str(p["id"])
         if key in sent:
+            continue
+        if p.get("pk") not in both:
+            print(f"k_notify: {p['name']} waiting - opposing lineup in, own lineup not yet posted")
             continue
         try:
             requests.post(f"https://ntfy.sh/{NTFY_TOPIC}", data=body_for(p).encode("utf-8"),
