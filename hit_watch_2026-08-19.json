@@ -1,7 +1,7 @@
 {
  "date": "2026-08-19",
- "generated": "2026-08-19T19:16:26Z",
- "lineups_confirmed": 9,
+ "generated": "2026-08-19T19:31:08Z",
+ "lineups_confirmed": 10,
  "players": [
   {
    "id": 518692,
@@ -25,12 +25,10 @@
    "f_park": 1.07,
    "h_pa": 0.28742,
    "odds": {
+    "dk": -461,
     "dk2": 116,
-    "dk": -455,
     "czr": -530,
-    "czr2": 113,
-    "mgm2": 115,
-    "mgm": -450
+    "czr2": 113
    },
    "fair": "-297",
    "fair2": "+199"
@@ -57,12 +55,10 @@
    "f_park": 1.07,
    "h_pa": 0.27495,
    "odds": {
-    "dk2": 114,
     "dk": -491,
+    "dk2": 114,
     "czr": -625,
-    "czr2": 105,
-    "mgm2": 100,
-    "mgm": -450
+    "czr2": 105
    },
    "fair": "-286",
    "fair2": "+205"
@@ -89,15 +85,45 @@
    "f_park": 1.07,
    "h_pa": 0.27261,
    "odds": {
+    "dk": -499,
     "dk2": 109,
-    "dk": -518,
     "czr": -625,
-    "czr2": 106,
-    "mgm2": 100,
-    "mgm": -450
+    "czr2": 106
    },
    "fair": "-268",
    "fair2": "+222"
+  },
+  {
+   "id": 672640,
+   "name": "Otto Lopez",
+   "team": "Miami Marlins",
+   "opp": "Philadelphia Phillies",
+   "home": false,
+   "pk": 823424,
+   "opp_sp": "Aaron Nola",
+   "opp_sp_id": 605400,
+   "p": 72.7,
+   "p2": 31.0,
+   "h": 152,
+   "pa": 534,
+   "g": 123,
+   "pa_g": 4.34,
+   "n_eff": 4.11,
+   "slot": 2,
+   "f_bat": 1.18,
+   "f_pit": 1.06,
+   "f_park": 1.0,
+   "h_pa": 0.27062,
+   "odds": {
+    "dk": -283,
+    "dk2": 193,
+    "mgm": -275,
+    "mgm2": 180,
+    "czr": -310,
+    "czr2": 188
+   },
+   "fair": "-266",
+   "fair2": "+223"
   },
   {
    "id": 650333,
@@ -121,12 +147,12 @@
    "f_park": 1.0,
    "h_pa": 0.25858,
    "odds": {
+    "dk": -296,
     "dk2": 187,
-    "dk": -307,
-    "czr2": 181,
-    "czr": -295,
+    "mgm": -325,
     "mgm2": 150,
-    "mgm": -325
+    "czr": -295,
+    "czr2": 188
    },
    "fair": "-244",
    "fair2": "+244"
@@ -153,14 +179,12 @@
    "f_park": 0.99,
    "h_pa": 0.25043,
    "odds": {
-    "dk": -249,
-    "dku": 184,
-    "dk2": 230,
-    "czr2": 188,
+    "dk": -281,
+    "dk2": 191,
+    "mgm": -275,
+    "mgm2": 180,
     "czr": -320,
-    "mgm": -250,
-    "mgmu": 165,
-    "mgm2": 220
+    "czr2": 188
    },
    "fair": "-229",
    "fair2": "+262"
@@ -187,12 +211,13 @@
    "f_park": 1.03,
    "h_pa": 0.25264,
    "odds": {
-    "dk2": 199,
-    "dk": -273,
-    "czr": -320,
-    "czr2": 191,
+    "dk": -275,
+    "dk2": 202,
+    "mgm": -325,
     "mgm2": 160,
-    "mgm": -325
+    "czr": -320,
+    "czr2": 184,
+    "dku": 202
    },
    "fair": "-222",
    "fair2": "+275"
@@ -219,12 +244,13 @@
    "f_park": 0.99,
    "h_pa": 0.25751,
    "odds": {
-    "dk2": 179,
-    "dk": -311,
+    "dk": -261,
+    "dk2": 213,
+    "mgm": -285,
+    "mgm2": 180,
     "czr": -325,
-    "czr2": 175,
-    "mgm2": 150,
-    "mgm": -325
+    "czr2": 181,
+    "dku": 192
    },
    "fair": "-222",
    "fair2": "+276"
@@ -252,48 +278,15 @@
    "h_pa": 0.23989,
    "odds": {
     "dk": -221,
-    "dku": 164,
-    "dk2": 253,
-    "czr": -265,
-    "czr2": 215,
+    "dk2": 252,
     "mgm": -220,
-    "mgmu": 150,
-    "mgm2": 240
+    "mgm2": 240,
+    "czr": -265,
+    "czr2": 205,
+    "dku": 164
    },
    "fair": "-219",
    "fair2": "+273"
-  },
-  {
-   "id": 677951,
-   "name": "Bobby Witt Jr.",
-   "team": "Kansas City Royals",
-   "opp": "Athletics",
-   "home": true,
-   "pk": 824076,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "p": 68.6,
-   "p2": 26.7,
-   "h": 121,
-   "pa": 476,
-   "g": 108,
-   "pa_g": 4.41,
-   "n_eff": 4.19,
-   "slot": null,
-   "f_bat": 1.09,
-   "f_pit": 1.0,
-   "f_park": 1.02,
-   "h_pa": 0.24171,
-   "odds": {
-    "dk2": 149,
-    "dk": -379,
-    "czr2": 155,
-    "czr": -390,
-    "mgm2": 165,
-    "mgm": -300
-   },
-   "fair": "-218",
-   "fair2": "+275"
   },
   {
    "id": 605141,
@@ -317,14 +310,44 @@
    "f_park": 1.07,
    "h_pa": 0.25251,
    "odds": {
-    "dk2": 136,
     "dk": -392,
-    "czr2": 130,
+    "dk2": 136,
     "czr": -460,
-    "mgm2": 115,
-    "mgm": -450
+    "czr2": 130
    },
    "fair": "-218",
+   "fair2": "+279"
+  },
+  {
+   "id": 677951,
+   "name": "Bobby Witt Jr.",
+   "team": "Kansas City Royals",
+   "opp": "Athletics",
+   "home": true,
+   "pk": 824076,
+   "opp_sp": "TBD",
+   "opp_sp_id": null,
+   "p": 68.4,
+   "p2": 26.4,
+   "h": 121,
+   "pa": 476,
+   "g": 108,
+   "pa_g": 4.41,
+   "n_eff": 4.16,
+   "slot": 2,
+   "f_bat": 1.09,
+   "f_pit": 1.0,
+   "f_park": 1.02,
+   "h_pa": 0.24171,
+   "odds": {
+    "dk": -326,
+    "dk2": 166,
+    "mgm": -300,
+    "mgm2": 165,
+    "czr": -345,
+    "czr2": 169
+   },
+   "fair": "-216",
    "fair2": "+279"
   },
   {
@@ -361,6 +384,39 @@
    "fair2": "+292"
   },
   {
+   "id": 669364,
+   "name": "Xavier Edwards",
+   "team": "Miami Marlins",
+   "opp": "Philadelphia Phillies",
+   "home": false,
+   "pk": 823424,
+   "opp_sp": "Aaron Nola",
+   "opp_sp_id": 605400,
+   "p": 68.0,
+   "p2": 25.8,
+   "h": 132,
+   "pa": 533,
+   "g": 127,
+   "pa_g": 4.2,
+   "n_eff": 3.99,
+   "slot": 3,
+   "f_bat": 1.08,
+   "f_pit": 1.06,
+   "f_park": 1.0,
+   "h_pa": 0.2482,
+   "odds": {
+    "dk": -258,
+    "dk2": 217,
+    "mgm": -275,
+    "mgm2": 180,
+    "czr": -310,
+    "czr2": 188,
+    "dku": 190
+   },
+   "fair": "-213",
+   "fair2": "+288"
+  },
+  {
    "id": 701398,
    "name": "Sal Stewart",
    "team": "Cincinnati Reds",
@@ -382,14 +438,13 @@
    "f_park": 1.01,
    "h_pa": 0.24023,
    "odds": {
-    "dk": -246,
-    "dku": 182,
-    "dk2": 223,
-    "czr2": 181,
-    "czr": -325,
+    "dk": -236,
+    "dk2": 229,
     "mgm": -275,
-    "mgmu": 180,
-    "mgm2": 200
+    "mgm2": 200,
+    "czr": -325,
+    "czr2": 188,
+    "dku": 175
    },
    "fair": "-209",
    "fair2": "+291"
@@ -416,82 +471,16 @@
    "f_park": 1.01,
    "h_pa": 0.23953,
    "odds": {
+    "dk": -212,
+    "dk2": 252,
+    "mgm": -235,
+    "mgm2": 210,
     "czr": -265,
     "czr2": 220,
-    "dk": -220,
-    "dku": 163,
-    "dk2": 249,
-    "mgm": -235,
-    "mgmu": 160,
-    "mgm2": 220
+    "dku": 158
    },
    "fair": "-206",
    "fair2": "+297"
-  },
-  {
-   "id": 681198,
-   "name": "TJ Rumfield",
-   "team": "Colorado Rockies",
-   "opp": "Los Angeles Dodgers",
-   "home": true,
-   "pk": 824318,
-   "opp_sp": "Roki Sasaki",
-   "opp_sp_id": 808963,
-   "p": 67.3,
-   "p2": 24.8,
-   "h": 127,
-   "pa": 492,
-   "g": 122,
-   "pa_g": 4.03,
-   "n_eff": 3.83,
-   "slot": null,
-   "f_bat": 1.11,
-   "f_pit": 0.99,
-   "f_park": 1.07,
-   "h_pa": 0.25287,
-   "odds": {
-    "dk": -271,
-    "dku": 199,
-    "dk2": 212,
-    "czr": -345,
-    "czr2": 178,
-    "mgm2": 180,
-    "mgm": -285
-   },
-   "fair": "-206",
-   "fair2": "+303"
-  },
-  {
-   "id": 664983,
-   "name": "Jake McCarthy",
-   "team": "Colorado Rockies",
-   "opp": "Los Angeles Dodgers",
-   "home": true,
-   "pk": 824318,
-   "opp_sp": "Roki Sasaki",
-   "opp_sp_id": 808963,
-   "p": 67.1,
-   "p2": 24.5,
-   "h": 118,
-   "pa": 434,
-   "g": 111,
-   "pa_g": 3.91,
-   "n_eff": 3.71,
-   "slot": null,
-   "f_bat": 1.13,
-   "f_pit": 0.99,
-   "f_park": 1.07,
-   "h_pa": 0.25906,
-   "odds": {
-    "dk2": 173,
-    "dk": -303,
-    "czr": -335,
-    "czr2": 175,
-    "mgm2": 150,
-    "mgm": -325
-   },
-   "fair": "-204",
-   "fair2": "+308"
   }
  ],
  "players2": [
@@ -517,12 +506,10 @@
    "f_park": 1.07,
    "h_pa": 0.28742,
    "odds": {
+    "dk": -461,
     "dk2": 116,
-    "dk": -455,
     "czr": -530,
-    "czr2": 113,
-    "mgm2": 115,
-    "mgm": -450
+    "czr2": 113
    },
    "fair": "-297",
    "fair2": "+199"
@@ -549,12 +536,10 @@
    "f_park": 1.07,
    "h_pa": 0.27495,
    "odds": {
-    "dk2": 114,
     "dk": -491,
+    "dk2": 114,
     "czr": -625,
-    "czr2": 105,
-    "mgm2": 100,
-    "mgm": -450
+    "czr2": 105
    },
    "fair": "-286",
    "fair2": "+205"
@@ -581,15 +566,45 @@
    "f_park": 1.07,
    "h_pa": 0.27261,
    "odds": {
+    "dk": -499,
     "dk2": 109,
-    "dk": -518,
     "czr": -625,
-    "czr2": 106,
-    "mgm2": 100,
-    "mgm": -450
+    "czr2": 106
    },
    "fair": "-268",
    "fair2": "+222"
+  },
+  {
+   "id": 672640,
+   "name": "Otto Lopez",
+   "team": "Miami Marlins",
+   "opp": "Philadelphia Phillies",
+   "home": false,
+   "pk": 823424,
+   "opp_sp": "Aaron Nola",
+   "opp_sp_id": 605400,
+   "p": 72.7,
+   "p2": 31.0,
+   "h": 152,
+   "pa": 534,
+   "g": 123,
+   "pa_g": 4.34,
+   "n_eff": 4.11,
+   "slot": 2,
+   "f_bat": 1.18,
+   "f_pit": 1.06,
+   "f_park": 1.0,
+   "h_pa": 0.27062,
+   "odds": {
+    "dk": -283,
+    "dk2": 193,
+    "mgm": -275,
+    "mgm2": 180,
+    "czr": -310,
+    "czr2": 188
+   },
+   "fair": "-266",
+   "fair2": "+223"
   },
   {
    "id": 650333,
@@ -613,12 +628,12 @@
    "f_park": 1.0,
    "h_pa": 0.25858,
    "odds": {
+    "dk": -296,
     "dk2": 187,
-    "dk": -307,
-    "czr2": 181,
-    "czr": -295,
+    "mgm": -325,
     "mgm2": 150,
-    "mgm": -325
+    "czr": -295,
+    "czr2": 188
    },
    "fair": "-244",
    "fair2": "+244"
@@ -645,14 +660,12 @@
    "f_park": 0.99,
    "h_pa": 0.25043,
    "odds": {
-    "dk": -249,
-    "dku": 184,
-    "dk2": 230,
-    "czr2": 188,
+    "dk": -281,
+    "dk2": 191,
+    "mgm": -275,
+    "mgm2": 180,
     "czr": -320,
-    "mgm": -250,
-    "mgmu": 165,
-    "mgm2": 220
+    "czr2": 188
    },
    "fair": "-229",
    "fair2": "+262"
@@ -680,13 +693,12 @@
    "h_pa": 0.23989,
    "odds": {
     "dk": -221,
-    "dku": 164,
-    "dk2": 253,
-    "czr": -265,
-    "czr2": 215,
+    "dk2": 252,
     "mgm": -220,
-    "mgmu": 150,
-    "mgm2": 240
+    "mgm2": 240,
+    "czr": -265,
+    "czr2": 205,
+    "dku": 164
    },
    "fair": "-219",
    "fair2": "+273"
@@ -713,46 +725,15 @@
    "f_park": 1.03,
    "h_pa": 0.25264,
    "odds": {
-    "dk2": 199,
-    "dk": -273,
-    "czr": -320,
-    "czr2": 191,
+    "dk": -275,
+    "dk2": 202,
+    "mgm": -325,
     "mgm2": 160,
-    "mgm": -325
+    "czr": -320,
+    "czr2": 184,
+    "dku": 202
    },
    "fair": "-222",
-   "fair2": "+275"
-  },
-  {
-   "id": 677951,
-   "name": "Bobby Witt Jr.",
-   "team": "Kansas City Royals",
-   "opp": "Athletics",
-   "home": true,
-   "pk": 824076,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "p": 68.6,
-   "p2": 26.7,
-   "h": 121,
-   "pa": 476,
-   "g": 108,
-   "pa_g": 4.41,
-   "n_eff": 4.19,
-   "slot": null,
-   "f_bat": 1.09,
-   "f_pit": 1.0,
-   "f_park": 1.02,
-   "h_pa": 0.24171,
-   "odds": {
-    "dk2": 149,
-    "dk": -379,
-    "czr2": 155,
-    "czr": -390,
-    "mgm2": 165,
-    "mgm": -300
-   },
-   "fair": "-218",
    "fair2": "+275"
   },
   {
@@ -777,12 +758,13 @@
    "f_park": 0.99,
    "h_pa": 0.25751,
    "odds": {
-    "dk2": 179,
-    "dk": -311,
+    "dk": -261,
+    "dk2": 213,
+    "mgm": -285,
+    "mgm2": 180,
     "czr": -325,
-    "czr2": 175,
-    "mgm2": 150,
-    "mgm": -325
+    "czr2": 181,
+    "dku": 192
    },
    "fair": "-222",
    "fair2": "+276"
@@ -809,15 +791,78 @@
    "f_park": 1.07,
    "h_pa": 0.25251,
    "odds": {
-    "dk2": 136,
     "dk": -392,
-    "czr2": 130,
+    "dk2": 136,
     "czr": -460,
-    "mgm2": 115,
-    "mgm": -450
+    "czr2": 130
    },
    "fair": "-218",
    "fair2": "+279"
+  },
+  {
+   "id": 677951,
+   "name": "Bobby Witt Jr.",
+   "team": "Kansas City Royals",
+   "opp": "Athletics",
+   "home": true,
+   "pk": 824076,
+   "opp_sp": "TBD",
+   "opp_sp_id": null,
+   "p": 68.4,
+   "p2": 26.4,
+   "h": 121,
+   "pa": 476,
+   "g": 108,
+   "pa_g": 4.41,
+   "n_eff": 4.16,
+   "slot": 2,
+   "f_bat": 1.09,
+   "f_pit": 1.0,
+   "f_park": 1.02,
+   "h_pa": 0.24171,
+   "odds": {
+    "dk": -326,
+    "dk2": 166,
+    "mgm": -300,
+    "mgm2": 165,
+    "czr": -345,
+    "czr2": 169
+   },
+   "fair": "-216",
+   "fair2": "+279"
+  },
+  {
+   "id": 669364,
+   "name": "Xavier Edwards",
+   "team": "Miami Marlins",
+   "opp": "Philadelphia Phillies",
+   "home": false,
+   "pk": 823424,
+   "opp_sp": "Aaron Nola",
+   "opp_sp_id": 605400,
+   "p": 68.0,
+   "p2": 25.8,
+   "h": 132,
+   "pa": 533,
+   "g": 127,
+   "pa_g": 4.2,
+   "n_eff": 3.99,
+   "slot": 3,
+   "f_bat": 1.08,
+   "f_pit": 1.06,
+   "f_park": 1.0,
+   "h_pa": 0.2482,
+   "odds": {
+    "dk": -258,
+    "dk2": 217,
+    "mgm": -275,
+    "mgm2": 180,
+    "czr": -310,
+    "czr2": 188,
+    "dku": 190
+   },
+   "fair": "-213",
+   "fair2": "+288"
   },
   {
    "id": 701398,
@@ -841,14 +886,13 @@
    "f_park": 1.01,
    "h_pa": 0.24023,
    "odds": {
-    "dk": -246,
-    "dku": 182,
-    "dk2": 223,
-    "czr2": 181,
-    "czr": -325,
+    "dk": -236,
+    "dk2": 229,
     "mgm": -275,
-    "mgmu": 180,
-    "mgm2": 200
+    "mgm2": 200,
+    "czr": -325,
+    "czr2": 188,
+    "dku": 175
    },
    "fair": "-209",
    "fair2": "+291"
@@ -908,83 +952,16 @@
    "f_park": 1.01,
    "h_pa": 0.23953,
    "odds": {
+    "dk": -212,
+    "dk2": 252,
+    "mgm": -235,
+    "mgm2": 210,
     "czr": -265,
     "czr2": 220,
-    "dk": -220,
-    "dku": 163,
-    "dk2": 249,
-    "mgm": -235,
-    "mgmu": 160,
-    "mgm2": 220
+    "dku": 158
    },
    "fair": "-206",
    "fair2": "+297"
-  },
-  {
-   "id": 665487,
-   "name": "Fernando Tatis Jr.",
-   "team": "San Diego Padres",
-   "opp": "New York Mets",
-   "home": false,
-   "pk": 823587,
-   "opp_sp": "Robert Stock",
-   "opp_sp_id": 476594,
-   "p": 67.0,
-   "p2": 25.1,
-   "h": 136,
-   "pa": 551,
-   "g": 125,
-   "pa_g": 4.41,
-   "n_eff": 4.18,
-   "slot": 1,
-   "f_bat": 1.08,
-   "f_pit": 1.01,
-   "f_park": 0.98,
-   "h_pa": 0.2331,
-   "odds": {
-    "dk": -292,
-    "dk2": 179,
-    "mgm": -275,
-    "mgm2": 180,
-    "czr": -320,
-    "czr2": 188
-   },
-   "fair": "-203",
-   "fair2": "+298"
-  },
-  {
-   "id": 666018,
-   "name": "Jonathan Aranda",
-   "team": "Tampa Bay Rays",
-   "opp": "Toronto Blue Jays",
-   "home": true,
-   "pk": 822937,
-   "opp_sp": "Max Scherzer",
-   "opp_sp_id": 453286,
-   "p": 67.0,
-   "p2": 25.0,
-   "h": 132,
-   "pa": 536,
-   "g": 122,
-   "pa_g": 4.39,
-   "n_eff": 4.12,
-   "slot": 3,
-   "f_bat": 1.08,
-   "f_pit": 1.02,
-   "f_park": 0.99,
-   "h_pa": 0.23586,
-   "odds": {
-    "dk": -213,
-    "dku": 158,
-    "dk2": 273,
-    "czr": -280,
-    "czr2": 200,
-    "mgm": -250,
-    "mgmu": 165,
-    "mgm2": 220
-   },
-   "fair": "-203",
-   "fair2": "+300"
   }
  ]
 }
