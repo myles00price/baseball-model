@@ -422,37 +422,37 @@
  "Chicago White Sox@Chicago Cubs": {
   "away": "Chicago White Sox",
   "home": "Chicago Cubs",
-  "prob_home": 55.4,
+  "prob_home": 60.1,
   "odds": {
    "fanduel": {
     "Chicago Cubs": -156,
     "Chicago White Sox": 124
    },
    "draftkings": {
-    "Chicago Cubs": -160,
-    "Chicago White Sox": 124
+    "Chicago Cubs": -166,
+    "Chicago White Sox": 130
    },
    "williamhill_us": {
     "Chicago Cubs": -160,
     "Chicago White Sox": 130
    },
    "betmgm": {
-    "Chicago Cubs": -160,
+    "Chicago Cubs": -165,
     "Chicago White Sox": 130
    }
   },
   "best_away": [
-   "williamhill_us",
+   "draftkings",
    130
   ],
   "best_home": [
    "fanduel",
    -156
   ],
-  "dv_edge_away": 3.2,
-  "dv_edge_home": -2.3,
+  "dv_edge_away": -1.2,
+  "dv_edge_home": 2.4,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Washington Nationals@Texas Rangers": {
   "away": "Washington Nationals",
@@ -460,12 +460,12 @@
   "prob_home": 40.2,
   "odds": {
    "fanduel": {
-    "Texas Rangers": -122,
-    "Washington Nationals": -102
+    "Texas Rangers": -120,
+    "Washington Nationals": -104
    },
    "williamhill_us": {
-    "Texas Rangers": -115,
-    "Washington Nationals": -115
+    "Texas Rangers": -105,
+    "Washington Nationals": -125
    },
    "draftkings": {
     "Texas Rangers": -110,
@@ -478,14 +478,14 @@
   },
   "best_away": [
    "fanduel",
-   -102
+   -104
   ],
   "best_home": [
-   "draftkings",
-   -110
+   "williamhill_us",
+   -105
   ],
-  "dv_edge_away": 11.9,
-  "dv_edge_home": -8.8,
+  "dv_edge_away": 11.5,
+  "dv_edge_home": -7.8,
   "flag": "",
   "locked": false
  }
