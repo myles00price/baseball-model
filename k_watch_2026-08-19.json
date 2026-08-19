@@ -1,6 +1,6 @@
 {
  "date": "2026-08-19",
- "generated": "2026-08-19T05:42:42Z",
+ "generated": "2026-08-19T05:50:52Z",
  "pitchers": [
   {
    "id": 669160,
@@ -283,7 +283,30 @@
        null
       ],
       "6.5": [
-       850,
+       900,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 3.5,
+     "over": -113,
+     "under": -113,
+     "alts": {
+      "2.5": [
+       -340,
+       null
+      ],
+      "3.5": [
+       -113,
+       null
+      ],
+      "4.5": [
+       200,
+       null
+      ],
+      "5.5": [
+       450,
        null
       ]
      }
@@ -323,6 +346,28 @@
       "p_model": 0.6463,
       "implied": 0.4824,
       "edge": 0.1639,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -113,
+      "p_model": 0.3537,
+      "implied": 0.5,
+      "edge": -0.1463,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -113,
+      "p_model": 0.6463,
+      "implied": 0.5,
+      "edge": 0.1463,
       "main": true
      }
     }
@@ -1275,6 +1320,37 @@
        null
       ]
      }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": 132,
+     "under": -170,
+     "alts": {
+      "2.5": [
+       -2000,
+       null
+      ],
+      "3.5": [
+       -500,
+       null
+      ],
+      "4.5": [
+       -194,
+       null
+      ],
+      "5.5": [
+       132,
+       null
+      ],
+      "6.5": [
+       265,
+       null
+      ],
+      "7.5": [
+       560,
+       null
+      ]
+     }
     }
    },
    "cons_line": 4.5,
@@ -1283,12 +1359,12 @@
    "fair_under": "+102",
    "best": {
     "side": "under",
-    "book": "dk",
-    "line": 4.5,
-    "price": 122,
-    "p_model": 0.495,
-    "implied": 0.4256,
-    "edge": 0.0694,
+    "book": "fd",
+    "line": 5.5,
+    "price": -170,
+    "p_model": 0.6666,
+    "implied": 0.5936,
+    "edge": 0.073,
     "main": true
    },
    "edges": {
@@ -1313,216 +1389,33 @@
       "edge": 0.0694,
       "main": true
      }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 132,
+      "p_model": 0.3334,
+      "implied": 0.4064,
+      "edge": -0.073,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -170,
+      "p_model": 0.6666,
+      "implied": 0.5936,
+      "edge": 0.073,
+      "main": true
+     }
     }
    },
    "state": "Preview",
    "kpct": 26.3,
    "k9": 9.26
-  },
-  {
-   "id": 801139,
-   "name": "Payton Tolle",
-   "team": "Boston Red Sox",
-   "opp": "Arizona Diamondbacks",
-   "home": true,
-   "pk": 824722,
-   "hand": "L",
-   "so": 128,
-   "bf": 461,
-   "gs": 20,
-   "ip": 115.0,
-   "f_pit": 1.1926329052231694,
-   "bf_l5": 22.0,
-   "exp_bf": 22.22,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.9009810508657932,
-   "pk_pa": 0.2386,
-   "exp_k": 5.19,
-   "dist": {
-    "2.5": 0.8818,
-    "3.5": 0.7588,
-    "4.5": 0.5974,
-    "5.5": 0.4256,
-    "6.5": 0.2731,
-    "7.5": 0.1579,
-    "8.5": 0.0824,
-    "9.5": 0.0389
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": -110,
-     "under": -116,
-     "alts": {
-      "2.5": [
-       -2300,
-       null
-      ],
-      "3.5": [
-       -620,
-       null
-      ],
-      "4.5": [
-       -241,
-       null
-      ],
-      "5.5": [
-       -109,
-       null
-      ],
-      "6.5": [
-       193,
-       null
-      ],
-      "7.5": [
-       407,
-       null
-      ],
-      "8.5": [
-       840,
-       null
-      ],
-      "9.5": [
-       1640,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "9.5": [
-       1300,
-       null
-      ],
-      "3.5": [
-       -750,
-       null
-      ],
-      "4.5": [
-       -245,
-       null
-      ],
-      "5.5": [
-       -114,
-       null
-      ],
-      "6.5": [
-       173,
-       null
-      ],
-      "7.5": [
-       330,
-       null
-      ],
-      "8.5": [
-       650,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": -108,
-     "under": -118,
-     "alts": {
-      "2.5": [
-       -3000,
-       null
-      ],
-      "3.5": [
-       -670,
-       null
-      ],
-      "4.5": [
-       -265,
-       null
-      ],
-      "5.5": [
-       -108,
-       null
-      ],
-      "6.5": [
-       182,
-       null
-      ],
-      "7.5": [
-       360,
-       null
-      ],
-      "8.5": [
-       750,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.4256,
-   "fair_over": "+135",
-   "fair_under": "-135",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 5.5,
-    "price": -116,
-    "p_model": 0.5744,
-    "implied": 0.5062,
-    "edge": 0.0682,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": -110,
-      "p_model": 0.4256,
-      "implied": 0.4938,
-      "edge": -0.0682,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": -116,
-      "p_model": 0.5744,
-      "implied": 0.5062,
-      "edge": 0.0682,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": -108,
-      "p_model": 0.4256,
-      "implied": 0.4896,
-      "edge": -0.064,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": -118,
-      "p_model": 0.5744,
-      "implied": 0.5104,
-      "edge": 0.064,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 27.8,
-   "k9": 10.02
   },
   {
    "id": 669302,
@@ -1724,6 +1617,388 @@
    "state": "Preview",
    "kpct": 26.6,
    "k9": 9.42
+  },
+  {
+   "id": 801139,
+   "name": "Payton Tolle",
+   "team": "Boston Red Sox",
+   "opp": "Arizona Diamondbacks",
+   "home": true,
+   "pk": 824722,
+   "hand": "L",
+   "so": 128,
+   "bf": 461,
+   "gs": 20,
+   "ip": 115.0,
+   "f_pit": 1.1926329052231694,
+   "bf_l5": 22.0,
+   "exp_bf": 22.22,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9009810508657932,
+   "pk_pa": 0.2386,
+   "exp_k": 5.19,
+   "dist": {
+    "2.5": 0.8818,
+    "3.5": 0.7588,
+    "4.5": 0.5974,
+    "5.5": 0.4256,
+    "6.5": 0.2731,
+    "7.5": 0.1579,
+    "8.5": 0.0824,
+    "9.5": 0.0389
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": -102,
+     "under": -125,
+     "alts": {
+      "2.5": [
+       -2100,
+       null
+      ],
+      "3.5": [
+       -557,
+       null
+      ],
+      "4.5": [
+       -221,
+       null
+      ],
+      "5.5": [
+       -102,
+       null
+      ],
+      "6.5": [
+       204,
+       null
+      ],
+      "7.5": [
+       441,
+       null
+      ],
+      "8.5": [
+       900,
+       null
+      ],
+      "9.5": [
+       1780,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       1300,
+       null
+      ],
+      "3.5": [
+       -750,
+       null
+      ],
+      "4.5": [
+       -245,
+       null
+      ],
+      "5.5": [
+       -114,
+       null
+      ],
+      "6.5": [
+       173,
+       null
+      ],
+      "7.5": [
+       330,
+       null
+      ],
+      "8.5": [
+       650,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": -108,
+     "under": -118,
+     "alts": {
+      "2.5": [
+       -3000,
+       null
+      ],
+      "3.5": [
+       -670,
+       null
+      ],
+      "4.5": [
+       -265,
+       null
+      ],
+      "5.5": [
+       -108,
+       null
+      ],
+      "6.5": [
+       182,
+       null
+      ],
+      "7.5": [
+       360,
+       null
+      ],
+      "8.5": [
+       750,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.4256,
+   "fair_over": "+135",
+   "fair_under": "-135",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 5.5,
+    "price": -118,
+    "p_model": 0.5744,
+    "implied": 0.5104,
+    "edge": 0.064,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -102,
+      "p_model": 0.4256,
+      "implied": 0.4761,
+      "edge": -0.0506,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -125,
+      "p_model": 0.5744,
+      "implied": 0.5239,
+      "edge": 0.0506,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -108,
+      "p_model": 0.4256,
+      "implied": 0.4896,
+      "edge": -0.064,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -118,
+      "p_model": 0.5744,
+      "implied": 0.5104,
+      "edge": 0.064,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 27.8,
+   "k9": 10.02
+  },
+  {
+   "id": 694297,
+   "name": "Brandon Pfaadt",
+   "team": "Arizona Diamondbacks",
+   "opp": "Boston Red Sox",
+   "home": false,
+   "pk": 824722,
+   "hand": "R",
+   "so": 61,
+   "bf": 379,
+   "gs": 12,
+   "ip": 92.7,
+   "f_pit": 0.7862106249075509,
+   "bf_l5": 23.62,
+   "exp_bf": 23.47,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8977628299376996,
+   "pk_pa": 0.1549,
+   "exp_k": 3.52,
+   "dist": {
+    "2.5": 0.6773,
+    "3.5": 0.4701,
+    "4.5": 0.2853,
+    "5.5": 0.1522,
+    "6.5": 0.0719,
+    "7.5": 0.0303,
+    "8.5": 0.0115,
+    "9.5": 0.0039
+   },
+   "books": {
+    "dk": {
+     "line": 3.5,
+     "over": -130,
+     "under": 102,
+     "alts": {
+      "1.5": [
+       -1280,
+       null
+      ],
+      "2.5": [
+       -346,
+       null
+      ],
+      "3.5": [
+       -131,
+       null
+      ],
+      "4.5": [
+       180,
+       null
+      ],
+      "5.5": [
+       405,
+       null
+      ],
+      "6.5": [
+       890,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -400,
+       null
+      ],
+      "3.5": [
+       -139,
+       null
+      ],
+      "4.5": [
+       170,
+       null
+      ],
+      "5.5": [
+       350,
+       null
+      ],
+      "6.5": [
+       800,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 3.5,
+     "over": -125,
+     "under": -102,
+     "alts": {
+      "2.5": [
+       -390,
+       null
+      ],
+      "3.5": [
+       -125,
+       null
+      ],
+      "4.5": [
+       180,
+       null
+      ],
+      "5.5": [
+       400,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.4701,
+   "fair_over": "+113",
+   "fair_under": "-113",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 3.5,
+    "price": 102,
+    "p_model": 0.5299,
+    "implied": 0.4669,
+    "edge": 0.063,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -130,
+      "p_model": 0.4701,
+      "implied": 0.5331,
+      "edge": -0.063,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": 102,
+      "p_model": 0.5299,
+      "implied": 0.4669,
+      "edge": 0.063,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -125,
+      "p_model": 0.4701,
+      "implied": 0.5239,
+      "edge": -0.0538,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -102,
+      "p_model": 0.5299,
+      "implied": 0.4761,
+      "edge": 0.0538,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 16.1,
+   "k9": 5.92
   },
   {
    "id": 676917,
@@ -2217,183 +2492,6 @@
    "state": "Preview",
    "kpct": 20.9,
    "k9": 8.22
-  },
-  {
-   "id": 694297,
-   "name": "Brandon Pfaadt",
-   "team": "Arizona Diamondbacks",
-   "opp": "Boston Red Sox",
-   "home": false,
-   "pk": 824722,
-   "hand": "R",
-   "so": 61,
-   "bf": 379,
-   "gs": 12,
-   "ip": 92.7,
-   "f_pit": 0.7862106249075509,
-   "bf_l5": 23.62,
-   "exp_bf": 23.47,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.8977628299376996,
-   "pk_pa": 0.1549,
-   "exp_k": 3.52,
-   "dist": {
-    "2.5": 0.6773,
-    "3.5": 0.4701,
-    "4.5": 0.2853,
-    "5.5": 0.1522,
-    "6.5": 0.0719,
-    "7.5": 0.0303,
-    "8.5": 0.0115,
-    "9.5": 0.0039
-   },
-   "books": {
-    "dk": {
-     "line": 3.5,
-     "over": -117,
-     "under": -109,
-     "alts": {
-      "1.5": [
-       -1080,
-       null
-      ],
-      "2.5": [
-       -306,
-       null
-      ],
-      "3.5": [
-       -117,
-       null
-      ],
-      "4.5": [
-       201,
-       null
-      ],
-      "5.5": [
-       461,
-       null
-      ],
-      "6.5": [
-       1020,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -400,
-       null
-      ],
-      "3.5": [
-       -139,
-       null
-      ],
-      "4.5": [
-       170,
-       null
-      ],
-      "5.5": [
-       350,
-       null
-      ],
-      "6.5": [
-       800,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 3.5,
-     "over": -125,
-     "under": -102,
-     "alts": {
-      "2.5": [
-       -390,
-       null
-      ],
-      "3.5": [
-       -125,
-       null
-      ],
-      "4.5": [
-       180,
-       null
-      ],
-      "5.5": [
-       400,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 3.5,
-   "p_over_cons": 0.4701,
-   "fair_over": "+113",
-   "fair_under": "-113",
-   "best": {
-    "side": "under",
-    "book": "fd",
-    "line": 3.5,
-    "price": -102,
-    "p_model": 0.5299,
-    "implied": 0.4761,
-    "edge": 0.0538,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 3.5,
-      "price": -117,
-      "p_model": 0.4701,
-      "implied": 0.5083,
-      "edge": -0.0382,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 3.5,
-      "price": -109,
-      "p_model": 0.5299,
-      "implied": 0.4917,
-      "edge": 0.0382,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 3.5,
-      "price": -125,
-      "p_model": 0.4701,
-      "implied": 0.5239,
-      "edge": -0.0538,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 3.5,
-      "price": -102,
-      "p_model": 0.5299,
-      "implied": 0.4761,
-      "edge": 0.0538,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 16.1,
-   "k9": 5.92
   },
   {
    "id": 700363,
@@ -3160,211 +3258,6 @@
    "k9": 8.76
   },
   {
-   "id": 671737,
-   "name": "Taj Bradley",
-   "team": "Minnesota Twins",
-   "opp": "Atlanta Braves",
-   "home": true,
-   "pk": 823664,
-   "hand": "R",
-   "so": 151,
-   "bf": 579,
-   "gs": 24,
-   "ip": 135.7,
-   "f_pit": 1.1248292733778702,
-   "bf_l5": 25.0,
-   "exp_bf": 24.76,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.980811800900901,
-   "pk_pa": 0.2438,
-   "exp_k": 6.03,
-   "dist": {
-    "2.5": 0.9321,
-    "3.5": 0.8472,
-    "4.5": 0.7207,
-    "5.5": 0.5659,
-    "6.5": 0.4066,
-    "7.5": 0.2663,
-    "8.5": 0.1589,
-    "9.5": 0.0865
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": -133,
-     "under": 105,
-     "alts": {
-      "2.5": [
-       -2400,
-       null
-      ],
-      "3.5": [
-       -700,
-       null
-      ],
-      "4.5": [
-       -288,
-       null
-      ],
-      "5.5": [
-       -134,
-       null
-      ],
-      "6.5": [
-       154,
-       null
-      ],
-      "7.5": [
-       311,
-       null
-      ],
-      "8.5": [
-       640,
-       null
-      ],
-      "9.5": [
-       1260,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "9.5": [
-       950,
-       null
-      ],
-      "3.5": [
-       -950,
-       null
-      ],
-      "4.5": [
-       -320,
-       null
-      ],
-      "5.5": [
-       -139,
-       null
-      ],
-      "6.5": [
-       139,
-       null
-      ],
-      "7.5": [
-       270,
-       null
-      ],
-      "8.5": [
-       500,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": -130,
-     "under": 102,
-     "alts": {
-      "2.5": [
-       -4500,
-       null
-      ],
-      "3.5": [
-       -900,
-       null
-      ],
-      "4.5": [
-       -340,
-       null
-      ],
-      "5.5": [
-       -130,
-       null
-      ],
-      "6.5": [
-       146,
-       null
-      ],
-      "7.5": [
-       300,
-       null
-      ],
-      "8.5": [
-       600,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.5659,
-   "fair_over": "-130",
-   "fair_under": "+130",
-   "best": {
-    "side": "over",
-    "book": "fd",
-    "line": 5.5,
-    "price": -130,
-    "p_model": 0.5659,
-    "implied": 0.5331,
-    "edge": 0.0328,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": -133,
-      "p_model": 0.5659,
-      "implied": 0.5392,
-      "edge": 0.0267,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": 105,
-      "p_model": 0.4341,
-      "implied": 0.4608,
-      "edge": -0.0267,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": -130,
-      "p_model": 0.5659,
-      "implied": 0.5331,
-      "edge": 0.0328,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": 102,
-      "p_model": 0.4341,
-      "implied": 0.4669,
-      "edge": -0.0328,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 26.1,
-   "k9": 10.01
-  },
-  {
    "id": 605135,
    "name": "Chris Bassitt",
    "team": "Baltimore Orioles",
@@ -3735,6 +3628,211 @@
    "k9": 9.51
   },
   {
+   "id": 671737,
+   "name": "Taj Bradley",
+   "team": "Minnesota Twins",
+   "opp": "Atlanta Braves",
+   "home": true,
+   "pk": 823664,
+   "hand": "R",
+   "so": 151,
+   "bf": 579,
+   "gs": 24,
+   "ip": 135.7,
+   "f_pit": 1.1248292733778702,
+   "bf_l5": 25.0,
+   "exp_bf": 24.76,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.980811800900901,
+   "pk_pa": 0.2438,
+   "exp_k": 6.03,
+   "dist": {
+    "2.5": 0.9321,
+    "3.5": 0.8472,
+    "4.5": 0.7207,
+    "5.5": 0.5659,
+    "6.5": 0.4066,
+    "7.5": 0.2663,
+    "8.5": 0.1589,
+    "9.5": 0.0865
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": -133,
+     "under": 105,
+     "alts": {
+      "2.5": [
+       -2400,
+       null
+      ],
+      "3.5": [
+       -700,
+       null
+      ],
+      "4.5": [
+       -288,
+       null
+      ],
+      "5.5": [
+       -134,
+       null
+      ],
+      "6.5": [
+       154,
+       null
+      ],
+      "7.5": [
+       311,
+       null
+      ],
+      "8.5": [
+       640,
+       null
+      ],
+      "9.5": [
+       1260,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       950,
+       null
+      ],
+      "3.5": [
+       -950,
+       null
+      ],
+      "4.5": [
+       -320,
+       null
+      ],
+      "5.5": [
+       -139,
+       null
+      ],
+      "6.5": [
+       139,
+       null
+      ],
+      "7.5": [
+       270,
+       null
+      ],
+      "8.5": [
+       500,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": -132,
+     "under": 104,
+     "alts": {
+      "2.5": [
+       -4500,
+       null
+      ],
+      "3.5": [
+       -950,
+       null
+      ],
+      "4.5": [
+       -340,
+       null
+      ],
+      "5.5": [
+       -132,
+       null
+      ],
+      "6.5": [
+       150,
+       null
+      ],
+      "7.5": [
+       300,
+       null
+      ],
+      "8.5": [
+       630,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.5659,
+   "fair_over": "-130",
+   "fair_under": "+130",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 5.5,
+    "price": -132,
+    "p_model": 0.5659,
+    "implied": 0.5372,
+    "edge": 0.0287,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -133,
+      "p_model": 0.5659,
+      "implied": 0.5392,
+      "edge": 0.0267,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": 105,
+      "p_model": 0.4341,
+      "implied": 0.4608,
+      "edge": -0.0267,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -132,
+      "p_model": 0.5659,
+      "implied": 0.5372,
+      "edge": 0.0287,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": 104,
+      "p_model": 0.4341,
+      "implied": 0.4628,
+      "edge": -0.0287,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 26.1,
+   "k9": 10.01
+  },
+  {
    "id": 800048,
    "name": "Parker Messick",
    "team": "Cleveland Guardians",
@@ -3958,7 +4056,7 @@
        null
       ],
       "7.5": [
-       475,
+       450,
        null
       ],
       "8.5": [
@@ -4259,5 +4357,5 @@
  ],
  "league_k_pa": 0.2209,
  "lineups_confirmed": 0,
- "odds_at": "2026-08-19T05:42:42Z"
+ "odds_at": "2026-08-19T05:50:52Z"
 }
