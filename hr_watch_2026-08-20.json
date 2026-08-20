@@ -1,7 +1,7 @@
 {
  "date": "2026-08-20",
- "generated": "2026-08-20T16:30:32Z",
- "lineups_confirmed": 6,
+ "generated": "2026-08-20T20:00:33Z",
+ "lineups_confirmed": 7,
  "players": [
   {
    "id": 808959,
@@ -22,7 +22,7 @@
    "f_pit": 1.08,
    "f_park": 1.05,
    "f_wind": 1.0,
-   "f_temp": 1.01,
+   "f_temp": 1.02,
    "wind": "",
    "odds": {
     "dk": 264,
@@ -81,9 +81,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 230,
-    "mgm": 240,
-    "czr": 225
+    "czr": 225,
+    "dk": 234,
+    "mgm": 240
    },
    "fair": "+331"
   },
@@ -106,7 +106,7 @@
    "f_pit": 0.99,
    "f_park": 1.05,
    "f_wind": 1.0,
-   "f_temp": 1.01,
+   "f_temp": 1.02,
    "wind": "",
    "odds": {
     "dk": 347,
@@ -134,7 +134,7 @@
    "f_pit": 1.15,
    "f_park": 1.14,
    "f_wind": 1.06,
-   "f_temp": 1.02,
+   "f_temp": 1.01,
    "wind": "WIND 3 OUT",
    "odds": {
     "dk": 417,
@@ -162,7 +162,7 @@
    "f_pit": 1.04,
    "f_park": 1.14,
    "f_wind": 1.06,
-   "f_temp": 1.02,
+   "f_temp": 1.01,
    "wind": "WIND 3 OUT",
    "odds": {
     "dk": 477,
@@ -170,6 +170,34 @@
     "czr": 500
    },
    "fair": "+381"
+  },
+  {
+   "id": 700250,
+   "name": "Ben Rice",
+   "team": "New York Yankees",
+   "opp": "Baltimore Orioles",
+   "home": false,
+   "pk": 824802,
+   "opp_sp": "Kyle Bradish",
+   "opp_sp_id": 680694,
+   "p": 20.6,
+   "hr": 34,
+   "pa": 518,
+   "exp_pa": 4.5,
+   "f_bat": 1.73,
+   "f_platoon": 1.18,
+   "f_arsenal": 1.04,
+   "f_pit": 0.91,
+   "f_park": 1.03,
+   "f_wind": 0.78,
+   "f_temp": 1.02,
+   "wind": "WIND 11 IN",
+   "odds": {
+    "czr": 350,
+    "dk": 364,
+    "mgm": 333
+   },
+   "fair": "+385"
   },
   {
    "id": 678246,
@@ -190,7 +218,7 @@
    "f_pit": 1.08,
    "f_park": 1.05,
    "f_wind": 1.0,
-   "f_temp": 1.01,
+   "f_temp": 1.02,
    "wind": "",
    "odds": {
     "dk": 374,
@@ -198,34 +226,6 @@
     "czr": 350
    },
    "fair": "+395"
-  },
-  {
-   "id": 700250,
-   "name": "Ben Rice",
-   "team": "New York Yankees",
-   "opp": "Baltimore Orioles",
-   "home": false,
-   "pk": 824802,
-   "opp_sp": "Kyle Bradish",
-   "opp_sp_id": 680694,
-   "p": 19.7,
-   "hr": 34,
-   "pa": 518,
-   "exp_pa": 4.3,
-   "f_bat": 1.73,
-   "f_platoon": 1.18,
-   "f_arsenal": 1.04,
-   "f_pit": 0.91,
-   "f_park": 1.03,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 351,
-    "mgm": 340,
-    "czr": 330
-   },
-   "fair": "+408"
   },
   {
    "id": 668709,
@@ -246,7 +246,7 @@
    "f_pit": 1.04,
    "f_park": 1.14,
    "f_wind": 1.06,
-   "f_temp": 1.02,
+   "f_temp": 1.01,
    "wind": "WIND 3 OUT",
    "odds": {
     "dk": 379,
@@ -273,15 +273,43 @@
    "f_arsenal": 0.95,
    "f_pit": 1.1,
    "f_park": 1.05,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "ROOF",
+   "f_wind": 0.86,
+   "f_temp": 1.03,
+   "wind": "WIND 7 IN",
    "odds": {
     "dk": 539,
     "mgm": 360,
     "czr": 500
    },
    "fair": "+413"
+  },
+  {
+   "id": 624413,
+   "name": "Pete Alonso",
+   "team": "Baltimore Orioles",
+   "opp": "New York Yankees",
+   "home": true,
+   "pk": 824802,
+   "opp_sp": "Gerrit Cole",
+   "opp_sp_id": 543037,
+   "p": 19.4,
+   "hr": 29,
+   "pa": 551,
+   "exp_pa": 4.5,
+   "f_bat": 1.47,
+   "f_platoon": 1.15,
+   "f_arsenal": 1.15,
+   "f_pit": 1.01,
+   "f_park": 1.03,
+   "f_wind": 0.78,
+   "f_temp": 1.02,
+   "wind": "WIND 11 IN",
+   "odds": {
+    "czr": 320,
+    "dk": 303,
+    "mgm": 300
+   },
+   "fair": "+415"
   },
   {
    "id": 676475,
@@ -302,7 +330,7 @@
    "f_pit": 1.15,
    "f_park": 1.14,
    "f_wind": 1.06,
-   "f_temp": 1.02,
+   "f_temp": 1.01,
    "wind": "WIND 3 OUT",
    "odds": {
     "dk": 327,
@@ -333,9 +361,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 340,
-    "mgm": 325,
-    "czr": 330
+    "dk": 319,
+    "czr": 330,
+    "mgm": 325
    },
    "fair": "+424"
   },
@@ -358,7 +386,7 @@
    "f_pit": 1.04,
    "f_park": 1.14,
    "f_wind": 1.06,
-   "f_temp": 1.02,
+   "f_temp": 1.01,
    "wind": "WIND 3 OUT",
    "odds": {
     "dk": 355,
@@ -394,34 +422,6 @@
     "czr": 370
    },
    "fair": "+429"
-  },
-  {
-   "id": 695657,
-   "name": "Colson Montgomery",
-   "team": "Chicago White Sox",
-   "opp": "Atlanta Braves",
-   "home": true,
-   "pk": 824589,
-   "opp_sp": "Grant Holmes",
-   "opp_sp_id": 656550,
-   "p": 18.8,
-   "hr": 26,
-   "pa": 503,
-   "exp_pa": 4.1,
-   "f_bat": 1.44,
-   "f_platoon": 1.11,
-   "f_arsenal": 1.05,
-   "f_pit": 1.08,
-   "f_park": 1.05,
-   "f_wind": 1.0,
-   "f_temp": 1.01,
-   "wind": "",
-   "odds": {
-    "dk": 330,
-    "mgm": 310,
-    "czr": 330
-   },
-   "fair": "+432"
   }
  ]
 }
