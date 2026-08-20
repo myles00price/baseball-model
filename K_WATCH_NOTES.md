@@ -57,3 +57,29 @@ Odds API: 2 credits per game per fetch (two market keys) → ~30 in the morning 
 ## Rules
 
 Display only. No texts to the subscriber topic, ever. Any bet flag would have to be earned by the graded archive beating the market on paper — same bar as F5.
+
+## Loss autopsy (2026-08-19, after the text pull)
+
+82 graded starts decomposed into workload error (BF) x rate error (K/BF), then
+49 starts joined to pitch-by-pitch Statcast (whiff/called/foul/zone/velo).
+
+- Misses live in the RATE, not the workload: |rate err| 1.71 K vs |BF err| 0.60 K.
+  Both biases ~0. The exp-BF model is genuinely good.
+- The rate-error component (1.71 K) sits AT the binomial noise floor of a single
+  start (+-1.81 K at ~22 BF, pK~.20). Total MAE 1.78 vs the book's line MAE 1.76.
+  Both the model and the books are already at the floor; there is no missing
+  variable with room to matter at the single-start level.
+- W vs L on the paper leans: identical edges (+.086/+.085), mirror-image rate
+  errors (-.036/+.035) - the statistical signature of variance, not bias.
+- Pitch level: losses show NO pre-game footprint. Velo-vs-season W -0.01 / L +0.15,
+  called-strike%, zone%, fouls, pitch counts all identical. The miss correlates
+  with the night's whiff rate (r=+.57) - which correlates with pre-game velo delta
+  at only r=+.09. The thing that decides these bets is not predictable pre-game.
+- One structural weak corner: OVER leans went 8-16 (33%) while unders went 24-20;
+  mean projected 4.44 vs actual 4.27 (model a shade high), and books shade lines
+  toward overs. n=24 - logged for the weekly retrain to keep correcting, not
+  worth a post-hoc rule.
+
+Verdict: variance on top of a no-edge tie, NOT missing data. Any future K edge
+must come from price (stale lines, best-price shopping at extremes), not from
+out-predicting the total. Display-only stands.
