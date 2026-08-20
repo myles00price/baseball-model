@@ -1,6 +1,6 @@
 {
  "date": "2026-08-20",
- "generated": "2026-08-20T16:01:51Z",
+ "generated": "2026-08-20T16:30:33Z",
  "pitchers": [
   {
    "id": 688107,
@@ -1410,6 +1410,252 @@
    "k9": 6.84
   },
   {
+   "id": 669923,
+   "name": "George Kirby",
+   "team": "Seattle Mariners",
+   "opp": "Milwaukee Brewers",
+   "home": false,
+   "pk": 823747,
+   "hand": "R",
+   "so": 114,
+   "bf": 567,
+   "gs": 23,
+   "ip": 136.7,
+   "f_pit": 0.968,
+   "bf_l5": 24.0,
+   "exp_bf": 24.1,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.061603994644714,
+   "pk_pa": 0.2272,
+   "exp_k": 5.4,
+   "dist": {
+    "2.5": 0.8972,
+    "3.5": 0.7832,
+    "4.5": 0.6294,
+    "5.5": 0.4604,
+    "6.5": 0.3049,
+    "7.5": 0.1826,
+    "8.5": 0.0991,
+    "9.5": 0.0489
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": -143,
+     "under": 112,
+     "alts": {
+      "2.5": [
+       -850,
+       null
+      ],
+      "3.5": [
+       -317,
+       null
+      ],
+      "4.5": [
+       -144,
+       null
+      ],
+      "5.5": [
+       150,
+       null
+      ],
+      "6.5": [
+       311,
+       null
+      ],
+      "7.5": [
+       620,
+       null
+      ],
+      "8.5": [
+       1260,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 4.5,
+     "over": -138,
+     "under": 108,
+     "alts": {
+      "2.5": [
+       -1400,
+       null
+      ],
+      "3.5": [
+       -370,
+       null
+      ],
+      "4.5": [
+       -138,
+       null
+      ],
+      "5.5": [
+       148,
+       null
+      ],
+      "6.5": [
+       310,
+       null
+      ],
+      "7.5": [
+       630,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": 125,
+     "under": -185,
+     "alts": {
+      "5.5": [
+       130,
+       null
+      ],
+      "7.5": [
+       475,
+       null
+      ],
+      "4.5": [
+       -155,
+       null
+      ],
+      "6.5": [
+       260,
+       null
+      ],
+      "3.5": [
+       -350,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -1700,
+       null
+      ],
+      "3.5": [
+       -380,
+       null
+      ],
+      "4.5": [
+       -150,
+       null
+      ],
+      "5.5": [
+       136,
+       null
+      ],
+      "6.5": [
+       280,
+       null
+      ],
+      "7.5": [
+       525,
+       null
+      ],
+      "8.5": [
+       1100,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.6294,
+   "fair_over": "-170",
+   "fair_under": "+170",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 4.5,
+    "price": -138,
+    "p_model": 0.6294,
+    "implied": 0.5467,
+    "edge": 0.0827,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -143,
+      "p_model": 0.6294,
+      "implied": 0.5551,
+      "edge": 0.0744,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": 112,
+      "p_model": 0.3706,
+      "implied": 0.4449,
+      "edge": -0.0744,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": -138,
+      "p_model": 0.6294,
+      "implied": 0.5467,
+      "edge": 0.0827,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": 108,
+      "p_model": 0.3706,
+      "implied": 0.4533,
+      "edge": -0.0827,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 125,
+      "p_model": 0.4604,
+      "implied": 0.4064,
+      "edge": 0.054,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -185,
+      "p_model": 0.5396,
+      "implied": 0.5936,
+      "edge": -0.054,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 20.1,
+   "k9": 7.51
+  },
+  {
    "id": 641743,
    "name": "Anthony Kay",
    "team": "Chicago White Sox",
@@ -2127,7 +2373,7 @@
      }
     }
    },
-   "state": "Preview",
+   "state": "Live",
    "kpct": 16.9,
    "k9": 6.2
   },
@@ -2834,252 +3080,6 @@
    "k9": 8.28
   },
   {
-   "id": 669923,
-   "name": "George Kirby",
-   "team": "Seattle Mariners",
-   "opp": "Milwaukee Brewers",
-   "home": false,
-   "pk": 823747,
-   "hand": "R",
-   "so": 114,
-   "bf": 567,
-   "gs": 23,
-   "ip": 136.7,
-   "f_pit": 0.968,
-   "bf_l5": 24.0,
-   "exp_bf": 24.1,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.949,
-   "pk_pa": 0.2029,
-   "exp_k": 4.82,
-   "dist": {
-    "2.5": 0.8516,
-    "3.5": 0.7066,
-    "4.5": 0.5312,
-    "5.5": 0.3592,
-    "6.5": 0.2181,
-    "7.5": 0.1192,
-    "8.5": 0.0588,
-    "9.5": 0.0263
-   },
-   "books": {
-    "dk": {
-     "line": 4.5,
-     "over": -143,
-     "under": 112,
-     "alts": {
-      "2.5": [
-       -850,
-       null
-      ],
-      "3.5": [
-       -317,
-       null
-      ],
-      "4.5": [
-       -144,
-       null
-      ],
-      "5.5": [
-       150,
-       null
-      ],
-      "6.5": [
-       311,
-       null
-      ],
-      "7.5": [
-       620,
-       null
-      ],
-      "8.5": [
-       1260,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 4.5,
-     "over": -138,
-     "under": 108,
-     "alts": {
-      "2.5": [
-       -1400,
-       null
-      ],
-      "3.5": [
-       -370,
-       null
-      ],
-      "4.5": [
-       -138,
-       null
-      ],
-      "5.5": [
-       148,
-       null
-      ],
-      "6.5": [
-       310,
-       null
-      ],
-      "7.5": [
-       630,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": 125,
-     "under": -185,
-     "alts": {
-      "5.5": [
-       130,
-       null
-      ],
-      "7.5": [
-       475,
-       null
-      ],
-      "4.5": [
-       -155,
-       null
-      ],
-      "6.5": [
-       260,
-       null
-      ],
-      "3.5": [
-       -350,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -1700,
-       null
-      ],
-      "3.5": [
-       -380,
-       null
-      ],
-      "4.5": [
-       -150,
-       null
-      ],
-      "5.5": [
-       136,
-       null
-      ],
-      "6.5": [
-       280,
-       null
-      ],
-      "7.5": [
-       525,
-       null
-      ],
-      "8.5": [
-       1100,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 4.5,
-   "p_over_cons": 0.5312,
-   "fair_over": "-113",
-   "fair_under": "+113",
-   "best": {
-    "side": "under",
-    "book": "mgm",
-    "line": 5.5,
-    "price": -185,
-    "p_model": 0.6408,
-    "implied": 0.5936,
-    "edge": 0.0472,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 4.5,
-      "price": -143,
-      "p_model": 0.5312,
-      "implied": 0.5551,
-      "edge": -0.0239,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 4.5,
-      "price": 112,
-      "p_model": 0.4688,
-      "implied": 0.4449,
-      "edge": 0.0239,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 4.5,
-      "price": -138,
-      "p_model": 0.5312,
-      "implied": 0.5467,
-      "edge": -0.0155,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 4.5,
-      "price": 108,
-      "p_model": 0.4688,
-      "implied": 0.4533,
-      "edge": 0.0155,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": 125,
-      "p_model": 0.3592,
-      "implied": 0.4064,
-      "edge": -0.0472,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -185,
-      "p_model": 0.6408,
-      "implied": 0.5936,
-      "edge": 0.0472,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 20.1,
-   "k9": 7.51
-  },
-  {
    "id": 663903,
    "name": "Brady Singer",
    "team": "Cincinnati Reds",
@@ -3313,7 +3313,7 @@
      }
     }
    },
-   "state": "Preview",
+   "state": "Live",
    "kpct": 18.7,
    "k9": 7.45
   },
@@ -4315,7 +4315,7 @@
   }
  ],
  "league_k_pa": 0.2211,
- "lineups_confirmed": 11,
+ "lineups_confirmed": 12,
  "odds_at": "2026-08-20T15:31:50Z",
- "locked": 11
+ "locked": 12
 }
