@@ -237,6 +237,39 @@ def write_summary():
     lock_rows = [r for r in rows if r.get("lock_exp_k")]
     lock_mae = (sum(abs(int(r["k_actual"]) - float(r["lock_exp_k"])) for r in lock_rows) / len(lock_rows)
                 if lock_rows else None)
+    # CLV vs captured closing prices (k_close_{date}.json): the model's lean
+    # side/line at the logged lock (or morning) price vs the same side/line at
+    # close, best book each. Positive pts = we beat the close.
+    import glob as _glob
+    clvs = []
+    closes = {}
+    for cf in _glob.glob("k_close_2026-*.json"):
+        try:
+            closes[cf[8:18]] = json.load(open(cf, encoding="utf-8"))
+        except Exception:
+            pass
+    def _imp(o):
+        o = float(o)
+        return (-o) / (-o + 100) if o < 0 else 100 / (o + 100)
+    for r in rows:
+        side = r.get("lock_best_side") or r.get("best_side")
+        line = r.get("lock_best_line") or r.get("best_line")
+        px = r.get("lock_best_price") or r.get("best_price")
+        day = closes.get(r["date"])
+        if not (side and line and px and day):
+            continue
+        best_close = None
+        for g in day.values():
+            snap = g.get("prices", {}).get(r["name"])
+            if not snap:
+                continue
+            for bk, mkts in snap.items():
+                v = mkts.get(f"{side}_{line}")
+                if v is not None and (best_close is None or float(v) > best_close):
+                    best_close = float(v)
+        if best_close is None:
+            continue
+        clvs.append((_imp(best_close) - _imp(px)) * 100)  # close implied - our implied: + = we got the better number
     dates = sorted({r["date"] for r in rows})
     out = {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -246,6 +279,8 @@ def write_summary():
         "n_priced": len(priced),
         "over_rate": round(100 * sum(int(r["over_cons"]) for r in priced) / len(priced), 1) if priced else None,
         "line_mae": round(line_mae, 2) if line_mae is not None else None,
+        "clv_n": len(clvs), "clv_avg": round(sum(clvs)/len(clvs), 2) if clvs else None,
+        "clv_beat": round(100*sum(1 for c in clvs if c > 0)/len(clvs), 1) if clvs else None,
         "side_margin": round(side_margin, 2) if side_margin is not None else None,
         "calib": calib,
         "morning": _ledger(rows, ""),

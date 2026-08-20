@@ -1452,6 +1452,7 @@ function renderKFoot(){
   const rec=x=>(x.w||x.l)?`${x.w}-${x.l} · ${x.pnl>=0?"+":"-"}$${Math.abs(x.pnl)} · ROI ${x.roi>=0?"+":""}${x.roi}%`:"—";
   el.innerHTML=`GRADED: ${kSum.n_starts} STARTS OVER ${kSum.n_days} DAY${kSum.n_days===1?"":"S"} · MODEL OFF BY ${kSum.mae} K PER START ON AVERAGE (MEAN ${kSum.mean_pred} PROJECTED VS ${kSum.mean_actual} ACTUAL)`+
     (kSum.line_mae!=null?` · ACTUALS LAND ${kSum.line_mae} K FROM THE BOOK'S LINE, ${kSum.side_margin>=0?"+":""}${kSum.side_margin} K TOWARD THE MODEL'S SIDE (0 = COIN FLIP)`:"")+
+    (kSum.clv_avg!=null?` · CLV ${kSum.clv_avg>=0?"+":""}${kSum.clv_avg} PTS VS CLOSE, BEAT IT ${kSum.clv_beat}% (${kSum.clv_n} LEANS)`:"")+
     (kSum.n_priced?` · OVERS HIT ${kSum.over_rate}% OF POSTED LINES`:"")+
     `<br>PAPER RECORD OF THE MODEL'S LEAN AT THE LOGGED PRICE, $100 FLAT — MORNING PRICES: ${rec(m)} · AT LINEUP LOCK: ${rec(l)}${kSum.n_lock?` (${kSum.n_lock} LOCKED)`:""} · NOT PLAYS, NEVER TEXTED`;
 }

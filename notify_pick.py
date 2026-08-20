@@ -336,6 +336,13 @@ def main():
     except Exception as e:
         print(f"ideas archive failed: {e}")
 
+    # K closing-line capture (CLV): final K prices ~1h before each first pitch
+    try:
+        import k_close
+        k_close.capture(date_str)
+    except Exception as e:
+        print(f"k_close failed: {e}")
+
     # Settle texts: any texted play whose game has gone final (day games)
     try:
         import settle_notify

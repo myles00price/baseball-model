@@ -83,3 +83,18 @@ Display only. No texts to the subscriber topic, ever. Any bet flag would have to
 Verdict: variance on top of a no-edge tie, NOT missing data. Any future K edge
 must come from price (stale lines, best-price shopping at extremes), not from
 out-predicting the total. Display-only stands.
+
+## Form retest + CLV (2026-08-19)
+
+- CLV capture live: k_close.py snapshots pitcher_strikeouts ~1h pre-pitch
+  (notify_pick day cycles + SettleWatch evening cycles, ~1 credit/game);
+  k_grade scores each lean's lock price vs same side/line at close ->
+  clv_avg / clv_beat in k_summary.json + board footer.
+- Pitcher recent form (L5/L8 blends, holdout 7/28+, n=518): w=0 MAE 1.760;
+  w=.25 ties (1.763) with +2.3 win% vs proxy line; w>=.5 worse. Not adopted
+  (tie != beat). Team K% form (14d/21d): worse everywhere. Recency 0-for-5
+  lifetime in this repo.
+- Historical "win% vs all lines": real lines exist only since 8/16 (34-34).
+  Vs a proxy line (pitcher's point-in-time season K/start rounded to .5):
+  60.2% on held-out starts. Proxy has no vig and no market information;
+  the 60->50 gap is the book's skill, not a bug.
