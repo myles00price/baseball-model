@@ -1,6 +1,11 @@
 [
  {
   "d": "2026-08-19",
+  "t": "K PLAY TEXTS PULLED - THE LEDGER SAID NO",
+  "x": "Three days ago strikeout leans started going out as texts, with a public tripwire: they live or die by the Props Ledger. The ledger has spoken - 82 graded starts, 26-28, minus $544 at flat stakes, negative in every edge bucket including the largest edges, which is the signature of a model whose disagreements with the book are the book's information, not ours. The model's strikeout PREDICTIONS are fine (off by about 1.6 per start); its edges against the prices are not real. So K WATCH returns to display-only: the list stays up, grades itself nightly, and retrains weekly. The texts come back only if the card earns it. Also fixed today: idea-box submissions were passing through a message service that only keeps things for 12 hours - they are now archived permanently the moment they arrive, and two ideas already in the queue (average miss vs the line, bullpen rankings) are logged."
+ },
+ {
+  "d": "2026-08-19",
   "t": "WEEKLY RETRAINS FOR THE PROP MODELS - THE WATCH LISTS NOW LEARN",
   "x": "The main model has retrained every week since launch; the K, Hit and Long Ball models had not - their settings were fit once in the spring and frozen, so a model drifting (say, projecting strikeout totals a shade too high, which the K list did in its first two days: 4.3 projected vs 4.0 actual per start) had no way to correct itself. Fixed at the root: every Thursday morning each prop model refreshes its full-season data, refits its settings on a rolling window (everything through three weeks ago, tested on the most recent three weeks), and the live lists read the refit the next morning. Same discipline as the main engine: the retrain has to prove itself out of sample every week, and every parameter change is logged. First refit ran tonight."
  },

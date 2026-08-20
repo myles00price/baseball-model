@@ -329,6 +329,13 @@ def main():
     except Exception as e:
         print(f"k refresh failed: {e}")
 
+    # IDEA BOX archive: ntfy only caches ~12h; pull new submissions into the repo
+    try:
+        import ideas_archive
+        ideas_archive.collect()
+    except Exception as e:
+        print(f"ideas archive failed: {e}")
+
     # Settle texts: any texted play whose game has gone final (day games)
     try:
         import settle_notify
@@ -336,14 +343,10 @@ def main():
     except Exception as e:
         print(f"settle_notify failed: {e}")
 
-    # K WATCH lean callouts (owner decision 2026-08-17): text top-5 leans once
-    # their lineups confirm. Labeled K WATCH LEAN, never OFFICIAL PLAY.
-    if did_k:
-        try:
-            import k_notify
-            k_notify.main(date_str)
-        except Exception as e:
-            print(f"k_notify failed: {e}")
+    # K PLAY texts PULLED 2026-08-19 (owner call): 3 days / 82 starts on the
+    # Props Ledger came back 26-28, -$544, every edge zone negative. K WATCH
+    # is display-only again; the ledger keeps grading. Re-enable only if the
+    # card earns it. (k_notify.main call removed here.)
 
     book_odds = fetch_market_odds(date_str) if pending else {}
 

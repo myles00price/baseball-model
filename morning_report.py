@@ -66,11 +66,7 @@ def main():
     # leans (K lines post overnight; leans lock as K PLAYS at lineup confirm).
     try:
         subprocess.run([PYTHON, r"C:\Users\Poons\baseball-model\k_model.py", today], timeout=600)
-        import k_notify
-        k_lines = k_notify.lean_lines(today)
-        if k_lines:
-            lines.append(f"K WATCH early leans ({len(k_lines)}) - lock as K PLAYS when lineups confirm:")
-            lines.extend(f"- {k}" for k in k_lines)
+        # K lean lines pulled from subscriber texts 2026-08-19 (display-only)
     except Exception as e:
         print(f"k watch failed: {e}")
     try:

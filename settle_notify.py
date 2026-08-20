@@ -115,10 +115,7 @@ def settle_k(date_str):
 
 def main(date_str=None):
     date_str = date_str or lv_today()
-    try:
-        settle_k(date_str)
-    except Exception as e:
-        print(f"settle K failed: {e}")
+    # settle_k() disabled 2026-08-19 with the K PLAY pull (display-only again)
     fn = f"picks_{date_str}.csv"
     if not os.path.exists(fn):
         return 0

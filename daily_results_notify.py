@@ -133,6 +133,12 @@ def main():
     except Exception as e:
         print(f"analytics generation failed: {e}")
 
+    try:  # IDEA BOX archive (ntfy cache is ~12h; keep submissions forever)
+        import ideas_archive
+        ideas_archive.collect()
+    except Exception as e:
+        print(f"ideas archive failed: {e}")
+
     try:  # nightly pitcher-usage collection (data for future bullpen trials)
         import pen_usage_log
         pen_usage_log.collect_recent()
