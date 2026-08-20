@@ -219,6 +219,21 @@ def write_summary():
             calib.append({"lo": lo, "hi": hi, "n": len(sub),
                           "pred": round(100 * sum(float(r["p_over_cons"]) for r in sub) / len(sub), 1),
                           "actual": round(100 * sum(int(r["over_cons"]) for r in sub) / len(sub), 1)})
+    # IDEA BOX 2026-08-19: "average miss ON THE LINE" - how far the actual K
+    # total lands from the BOOK'S line, and whether it lands on the model's
+    # side. mae says the model predicts totals well; these say how that
+    # translates at the line, which is what a bet actually experiences.
+    line_mae = (sum(abs(int(r["k_actual"]) - float(r["cons_line"])) for r in priced) / len(priced)
+                if priced else None)
+    side_margin = None
+    if priced:
+        # signed distance in the direction of the model's lean at the consensus
+        # line: positive = actual landed on the model's side, negative = book's
+        margins = []
+        for r in priced:
+            d = int(r["k_actual"]) - float(r["cons_line"])
+            margins.append(d if float(r["p_over_cons"]) >= 0.5 else -d)
+        side_margin = sum(margins) / len(margins)
     lock_rows = [r for r in rows if r.get("lock_exp_k")]
     lock_mae = (sum(abs(int(r["k_actual"]) - float(r["lock_exp_k"])) for r in lock_rows) / len(lock_rows)
                 if lock_rows else None)
@@ -230,6 +245,8 @@ def write_summary():
         "naive_mae": None,
         "n_priced": len(priced),
         "over_rate": round(100 * sum(int(r["over_cons"]) for r in priced) / len(priced), 1) if priced else None,
+        "line_mae": round(line_mae, 2) if line_mae is not None else None,
+        "side_margin": round(side_margin, 2) if side_margin is not None else None,
         "calib": calib,
         "morning": _ledger(rows, ""),
         "lock": _ledger(rows, "lock_"), "n_lock": len(lock_rows), "lock_mae": round(lock_mae, 2) if lock_mae else None,

@@ -101,6 +101,12 @@ def main():
     except Exception as e:
         print(f"hit watch failed: {e}")
 
+    # BULLPEN RANKINGS (idea box, display-only): refresh quality+fatigue table
+    try:
+        subprocess.run([PYTHON, r"C:\Users\Poons\baseball-model\bullpen_rankings.py"], timeout=300)
+    except Exception as e:
+        print(f"bullpen rankings failed: {e}")
+
     # (K WATCH already rebuilt above, before the morning text.)
 
     # Push the refreshed board to the site.
