@@ -1,6 +1,6 @@
 {
  "date": "2026-08-21",
- "generated": "2026-08-21T19:14:21Z",
+ "generated": "2026-08-21T19:29:14Z",
  "pitchers": [
   {
    "id": 694819,
@@ -1253,224 +1253,6 @@
    "k9": 9.95
   },
   {
-   "id": 695418,
-   "name": "Brad Lord",
-   "team": "Washington Nationals",
-   "opp": "Miami Marlins",
-   "home": false,
-   "pk": 823830,
-   "hand": "R",
-   "so": 57,
-   "bf": 269,
-   "gs": 3,
-   "ip": 62.3,
-   "f_pit": 0.943,
-   "bf_l5": 9.67,
-   "exp_bf": 11.18,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.975,
-   "pk_pa": 0.2033,
-   "exp_k": 2.22,
-   "dist": {
-    "2.5": 0.3892,
-    "3.5": 0.1957,
-    "4.5": 0.0826,
-    "5.5": 0.0298,
-    "6.5": 0.0093,
-    "7.5": 0.0026,
-    "8.5": 0.0006,
-    "9.5": 0.0001
-   },
-   "books": {
-    "dk": {
-     "line": 2.5,
-     "over": -112,
-     "under": -114,
-     "alts": {
-      "0.5": [
-       -2100,
-       null
-      ],
-      "1.5": [
-       -336,
-       null
-      ],
-      "2.5": [
-       -112,
-       null
-      ],
-      "3.5": [
-       233,
-       null
-      ],
-      "4.5": [
-       587,
-       null
-      ],
-      "5.5": [
-       1480,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 2.5,
-     "over": -104,
-     "under": -122,
-     "alts": {
-      "2.5": [
-       -104,
-       null
-      ],
-      "3.5": [
-       240,
-       null
-      ],
-      "4.5": [
-       600,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 2.5,
-     "over": -110,
-     "under": -120,
-     "alts": {
-      "4.5": [
-       625,
-       null
-      ],
-      "2.5": [
-       -110,
-       null
-      ],
-      "6.5": [
-       1350,
-       null
-      ],
-      "5.5": [
-       1200,
-       null
-      ],
-      "3.5": [
-       260,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "1.5": [
-       -420,
-       null
-      ],
-      "2.5": [
-       -121,
-       null
-      ],
-      "3.5": [
-       215,
-       null
-      ],
-      "4.5": [
-       550,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 2.5,
-   "p_over_cons": 0.3892,
-   "fair_over": "+157",
-   "fair_under": "-157",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 2.5,
-    "price": -114,
-    "p_model": 0.6108,
-    "implied": 0.5021,
-    "edge": 0.1087,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 2.5,
-      "price": -112,
-      "p_model": 0.3892,
-      "implied": 0.4979,
-      "edge": -0.1087,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 2.5,
-      "price": -114,
-      "p_model": 0.6108,
-      "implied": 0.5021,
-      "edge": 0.1087,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 2.5,
-      "price": -104,
-      "p_model": 0.3892,
-      "implied": 0.4812,
-      "edge": -0.092,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 2.5,
-      "price": -122,
-      "p_model": 0.6108,
-      "implied": 0.5188,
-      "edge": 0.092,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 2.5,
-      "price": -110,
-      "p_model": 0.3892,
-      "implied": 0.4899,
-      "edge": -0.1007,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 2.5,
-      "price": -120,
-      "p_model": 0.6108,
-      "implied": 0.5101,
-      "edge": 0.1007,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 21.2,
-   "k9": 8.23
-  },
-  {
    "id": 685299,
    "name": "Tanner Gordon",
    "team": "Colorado Rockies",
@@ -1943,6 +1725,248 @@
    "k9": 8.37
   },
   {
+   "id": 642547,
+   "name": "Freddy Peralta",
+   "team": "Tampa Bay Rays",
+   "opp": "Baltimore Orioles",
+   "home": false,
+   "pk": 824800,
+   "hand": "R",
+   "so": 123,
+   "bf": 573,
+   "gs": 25,
+   "ip": 128.0,
+   "f_pit": 1.034,
+   "bf_l5": 21.62,
+   "exp_bf": 21.93,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.1635893471727046,
+   "pk_pa": 0.2657,
+   "exp_k": 5.78,
+   "dist": {
+    "2.5": 0.9181,
+    "3.5": 0.8249,
+    "4.5": 0.6894,
+    "5.5": 0.5282,
+    "6.5": 0.368,
+    "7.5": 0.2324,
+    "8.5": 0.133,
+    "9.5": 0.0691
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": 112,
+     "under": -143,
+     "alts": {
+      "2.5": [
+       -1440,
+       null
+      ],
+      "3.5": [
+       -471,
+       null
+      ],
+      "4.5": [
+       -193,
+       null
+      ],
+      "5.5": [
+       114,
+       null
+      ],
+      "6.5": [
+       245,
+       null
+      ],
+      "7.5": [
+       524,
+       null
+      ],
+      "8.5": [
+       1100,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": 112,
+     "under": -142,
+     "alts": {
+      "2.5": [
+       -2500,
+       null
+      ],
+      "3.5": [
+       -620,
+       null
+      ],
+      "4.5": [
+       -225,
+       null
+      ],
+      "5.5": [
+       112,
+       null
+      ],
+      "6.5": [
+       220,
+       null
+      ],
+      "7.5": [
+       470,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": 120,
+     "under": -160,
+     "alts": {
+      "7.5": [
+       400,
+       null
+      ],
+      "3.5": [
+       -450,
+       null
+      ],
+      "5.5": [
+       105,
+       null
+      ],
+      "6.5": [
+       200,
+       null
+      ],
+      "4.5": [
+       -190,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -530,
+       null
+      ],
+      "4.5": [
+       -205,
+       null
+      ],
+      "5.5": [
+       106,
+       null
+      ],
+      "6.5": [
+       200,
+       null
+      ],
+      "7.5": [
+       390,
+       null
+      ],
+      "8.5": [
+       750,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.5282,
+   "fair_over": "-112",
+   "fair_under": "+112",
+   "best": {
+    "side": "over",
+    "book": "mgm",
+    "line": 5.5,
+    "price": 120,
+    "p_model": 0.5282,
+    "implied": 0.4248,
+    "edge": 0.1033,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": 112,
+      "p_model": 0.5282,
+      "implied": 0.4449,
+      "edge": 0.0832,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -143,
+      "p_model": 0.4718,
+      "implied": 0.5551,
+      "edge": -0.0832,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 112,
+      "p_model": 0.5282,
+      "implied": 0.4456,
+      "edge": 0.0825,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -142,
+      "p_model": 0.4718,
+      "implied": 0.5544,
+      "edge": -0.0825,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 120,
+      "p_model": 0.5282,
+      "implied": 0.4248,
+      "edge": 0.1033,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -160,
+      "p_model": 0.4718,
+      "implied": 0.5752,
+      "edge": -0.1033,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 21.5,
+   "k9": 8.65
+  },
+  {
    "id": 669432,
    "name": "Trevor Rogers",
    "team": "Baltimore Orioles",
@@ -2177,125 +2201,109 @@
    "k9": 7.73
   },
   {
-   "id": 642547,
-   "name": "Freddy Peralta",
-   "team": "Tampa Bay Rays",
-   "opp": "Baltimore Orioles",
+   "id": 695418,
+   "name": "Brad Lord",
+   "team": "Washington Nationals",
+   "opp": "Miami Marlins",
    "home": false,
-   "pk": 824800,
+   "pk": 823830,
    "hand": "R",
-   "so": 123,
-   "bf": 573,
-   "gs": 25,
-   "ip": 128.0,
-   "f_pit": 1.034,
-   "bf_l5": 21.62,
-   "exp_bf": 21.93,
-   "lineup_src": "previous",
+   "so": 57,
+   "bf": 269,
+   "gs": 3,
+   "ip": 62.3,
+   "f_pit": 0.943,
+   "bf_l5": 9.67,
+   "exp_bf": 11.18,
+   "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.15,
-   "pk_pa": 0.2626,
-   "exp_k": 5.71,
+   "f_lineup": 1.0197698482821809,
+   "pk_pa": 0.2128,
+   "exp_k": 2.32,
    "dist": {
-    "2.5": 0.9146,
-    "3.5": 0.8182,
-    "4.5": 0.6796,
-    "5.5": 0.5167,
-    "6.5": 0.3568,
-    "7.5": 0.2232,
-    "8.5": 0.1264,
-    "9.5": 0.065
+    "2.5": 0.4161,
+    "3.5": 0.2168,
+    "4.5": 0.0951,
+    "5.5": 0.0357,
+    "6.5": 0.0116,
+    "7.5": 0.0033,
+    "8.5": 0.0008,
+    "9.5": 0.0002
    },
    "books": {
     "dk": {
-     "line": 5.5,
-     "over": 112,
-     "under": -143,
+     "line": 2.5,
+     "over": -112,
+     "under": -114,
      "alts": {
+      "0.5": [
+       -2100,
+       null
+      ],
+      "1.5": [
+       -336,
+       null
+      ],
       "2.5": [
-       -1440,
+       -112,
        null
       ],
       "3.5": [
-       -471,
+       233,
        null
       ],
       "4.5": [
-       -193,
+       587,
        null
       ],
       "5.5": [
-       114,
-       null
-      ],
-      "6.5": [
-       245,
-       null
-      ],
-      "7.5": [
-       524,
-       null
-      ],
-      "8.5": [
-       1100,
+       1480,
        null
       ]
      }
     },
     "fd": {
-     "line": 5.5,
-     "over": 112,
-     "under": -142,
+     "line": 2.5,
+     "over": -104,
+     "under": -122,
      "alts": {
       "2.5": [
-       -2500,
+       -104,
        null
       ],
       "3.5": [
-       -620,
+       240,
        null
       ],
       "4.5": [
-       -225,
-       null
-      ],
-      "5.5": [
-       112,
-       null
-      ],
-      "6.5": [
-       220,
-       null
-      ],
-      "7.5": [
-       470,
+       600,
        null
       ]
      }
     },
     "mgm": {
-     "line": 5.5,
-     "over": 120,
-     "under": -160,
+     "line": 2.5,
+     "over": -110,
+     "under": -120,
      "alts": {
-      "7.5": [
-       400,
+      "4.5": [
+       625,
        null
       ],
-      "3.5": [
-       -450,
-       null
-      ],
-      "5.5": [
-       105,
+      "2.5": [
+       -110,
        null
       ],
       "6.5": [
-       200,
+       1350,
        null
       ],
-      "4.5": [
-       -190,
+      "5.5": [
+       1200,
+       null
+      ],
+      "3.5": [
+       260,
        null
       ]
      }
@@ -2305,45 +2313,37 @@
      "over": null,
      "under": null,
      "alts": {
+      "1.5": [
+       -420,
+       null
+      ],
+      "2.5": [
+       -121,
+       null
+      ],
       "3.5": [
-       -530,
+       215,
        null
       ],
       "4.5": [
-       -205,
-       null
-      ],
-      "5.5": [
-       106,
-       null
-      ],
-      "6.5": [
-       200,
-       null
-      ],
-      "7.5": [
-       390,
-       null
-      ],
-      "8.5": [
-       750,
+       550,
        null
       ]
      }
     }
    },
-   "cons_line": 5.5,
-   "p_over_cons": 0.5167,
-   "fair_over": "-107",
-   "fair_under": "+107",
+   "cons_line": 2.5,
+   "p_over_cons": 0.4161,
+   "fair_over": "+140",
+   "fair_under": "-140",
    "best": {
-    "side": "over",
-    "book": "mgm",
-    "line": 5.5,
-    "price": 120,
-    "p_model": 0.5167,
-    "implied": 0.4248,
-    "edge": 0.0919,
+    "side": "under",
+    "book": "dk",
+    "line": 2.5,
+    "price": -114,
+    "p_model": 0.5839,
+    "implied": 0.5021,
+    "edge": 0.0818,
     "main": true
    },
    "edges": {
@@ -2351,21 +2351,21 @@
      "over": {
       "side": "over",
       "book": "dk",
-      "line": 5.5,
-      "price": 112,
-      "p_model": 0.5167,
-      "implied": 0.4449,
-      "edge": 0.0718,
+      "line": 2.5,
+      "price": -112,
+      "p_model": 0.4161,
+      "implied": 0.4979,
+      "edge": -0.0818,
       "main": true
      },
      "under": {
       "side": "under",
       "book": "dk",
-      "line": 5.5,
-      "price": -143,
-      "p_model": 0.4833,
-      "implied": 0.5551,
-      "edge": -0.0718,
+      "line": 2.5,
+      "price": -114,
+      "p_model": 0.5839,
+      "implied": 0.5021,
+      "edge": 0.0818,
       "main": true
      }
     },
@@ -2373,21 +2373,21 @@
      "over": {
       "side": "over",
       "book": "fd",
-      "line": 5.5,
-      "price": 112,
-      "p_model": 0.5167,
-      "implied": 0.4456,
-      "edge": 0.0711,
+      "line": 2.5,
+      "price": -104,
+      "p_model": 0.4161,
+      "implied": 0.4812,
+      "edge": -0.0652,
       "main": true
      },
      "under": {
       "side": "under",
       "book": "fd",
-      "line": 5.5,
-      "price": -142,
-      "p_model": 0.4833,
-      "implied": 0.5544,
-      "edge": -0.0711,
+      "line": 2.5,
+      "price": -122,
+      "p_model": 0.5839,
+      "implied": 0.5188,
+      "edge": 0.0652,
       "main": true
      }
     },
@@ -2395,28 +2395,28 @@
      "over": {
       "side": "over",
       "book": "mgm",
-      "line": 5.5,
-      "price": 120,
-      "p_model": 0.5167,
-      "implied": 0.4248,
-      "edge": 0.0919,
+      "line": 2.5,
+      "price": -110,
+      "p_model": 0.4161,
+      "implied": 0.4899,
+      "edge": -0.0738,
       "main": true
      },
      "under": {
       "side": "under",
       "book": "mgm",
-      "line": 5.5,
-      "price": -160,
-      "p_model": 0.4833,
-      "implied": 0.5752,
-      "edge": -0.0919,
+      "line": 2.5,
+      "price": -120,
+      "p_model": 0.5839,
+      "implied": 0.5101,
+      "edge": 0.0738,
       "main": true
      }
     }
    },
    "state": "Preview",
-   "kpct": 21.5,
-   "k9": 8.65
+   "kpct": 21.2,
+   "k9": 8.23
   },
   {
    "id": 702070,
@@ -4147,248 +4147,6 @@
    "state": "Preview",
    "kpct": 24.5,
    "k9": 8.42
-  },
-  {
-   "id": 657277,
-   "name": "Logan Webb",
-   "team": "San Francisco Giants",
-   "opp": "Boston Red Sox",
-   "home": false,
-   "pk": 824721,
-   "hand": "R",
-   "so": 110,
-   "bf": 560,
-   "gs": 22,
-   "ip": 139.0,
-   "f_pit": 0.957,
-   "bf_l5": 24.88,
-   "exp_bf": 24.9,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.935,
-   "pk_pa": 0.1978,
-   "exp_k": 4.9,
-   "dist": {
-    "2.5": 0.8585,
-    "3.5": 0.717,
-    "4.5": 0.5438,
-    "5.5": 0.3719,
-    "6.5": 0.2288,
-    "7.5": 0.127,
-    "8.5": 0.0637,
-    "9.5": 0.0291
-   },
-   "books": {
-    "dk": {
-     "line": 4.5,
-     "over": -114,
-     "under": -112,
-     "alts": {
-      "1.5": [
-       -3300,
-       null
-      ],
-      "2.5": [
-       -710,
-       null
-      ],
-      "3.5": [
-       -261,
-       null
-      ],
-      "4.5": [
-       -112,
-       null
-      ],
-      "5.5": [
-       188,
-       null
-      ],
-      "6.5": [
-       386,
-       null
-      ],
-      "7.5": [
-       780,
-       null
-      ],
-      "8.5": [
-       1620,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 4.5,
-     "over": -115,
-     "under": -111,
-     "alts": {
-      "2.5": [
-       -1000,
-       null
-      ],
-      "3.5": [
-       -310,
-       null
-      ],
-      "4.5": [
-       -115,
-       null
-      ],
-      "5.5": [
-       180,
-       null
-      ],
-      "6.5": [
-       390,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 4.5,
-     "over": -110,
-     "under": -120,
-     "alts": {
-      "5.5": [
-       185,
-       null
-      ],
-      "2.5": [
-       -625,
-       null
-      ],
-      "3.5": [
-       -235,
-       null
-      ],
-      "4.5": [
-       -110,
-       null
-      ],
-      "6.5": [
-       360,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -1000,
-       null
-      ],
-      "3.5": [
-       -320,
-       null
-      ],
-      "4.5": [
-       -125,
-       null
-      ],
-      "5.5": [
-       168,
-       null
-      ],
-      "6.5": [
-       350,
-       null
-      ],
-      "7.5": [
-       700,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 4.5,
-   "p_over_cons": 0.5438,
-   "fair_over": "-119",
-   "fair_under": "+119",
-   "best": {
-    "side": "over",
-    "book": "mgm",
-    "line": 4.5,
-    "price": -110,
-    "p_model": 0.5438,
-    "implied": 0.4899,
-    "edge": 0.054,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 4.5,
-      "price": -114,
-      "p_model": 0.5438,
-      "implied": 0.5021,
-      "edge": 0.0418,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 4.5,
-      "price": -112,
-      "p_model": 0.4562,
-      "implied": 0.4979,
-      "edge": -0.0418,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 4.5,
-      "price": -115,
-      "p_model": 0.5438,
-      "implied": 0.5042,
-      "edge": 0.0397,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 4.5,
-      "price": -111,
-      "p_model": 0.4562,
-      "implied": 0.4958,
-      "edge": -0.0397,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 4.5,
-      "price": -110,
-      "p_model": 0.5438,
-      "implied": 0.4899,
-      "edge": 0.054,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 4.5,
-      "price": -120,
-      "p_model": 0.4562,
-      "implied": 0.5101,
-      "edge": -0.054,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 19.6,
-   "k9": 7.12
   },
   {
    "id": 696149,
@@ -6339,6 +6097,248 @@
    "k9": 9.65
   },
   {
+   "id": 657277,
+   "name": "Logan Webb",
+   "team": "San Francisco Giants",
+   "opp": "Boston Red Sox",
+   "home": false,
+   "pk": 824721,
+   "hand": "R",
+   "so": 110,
+   "bf": 560,
+   "gs": 22,
+   "ip": 139.0,
+   "f_pit": 0.957,
+   "bf_l5": 24.88,
+   "exp_bf": 24.9,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.8984709007381589,
+   "pk_pa": 0.1899,
+   "exp_k": 4.7,
+   "dist": {
+    "2.5": 0.8399,
+    "3.5": 0.6876,
+    "4.5": 0.5085,
+    "5.5": 0.3378,
+    "6.5": 0.2014,
+    "7.5": 0.1081,
+    "8.5": 0.0525,
+    "9.5": 0.0231
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": -114,
+     "under": -112,
+     "alts": {
+      "1.5": [
+       -3300,
+       null
+      ],
+      "2.5": [
+       -710,
+       null
+      ],
+      "3.5": [
+       -261,
+       null
+      ],
+      "4.5": [
+       -112,
+       null
+      ],
+      "5.5": [
+       188,
+       null
+      ],
+      "6.5": [
+       386,
+       null
+      ],
+      "7.5": [
+       780,
+       null
+      ],
+      "8.5": [
+       1620,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 4.5,
+     "over": -115,
+     "under": -111,
+     "alts": {
+      "2.5": [
+       -1000,
+       null
+      ],
+      "3.5": [
+       -310,
+       null
+      ],
+      "4.5": [
+       -115,
+       null
+      ],
+      "5.5": [
+       180,
+       null
+      ],
+      "6.5": [
+       390,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 4.5,
+     "over": -110,
+     "under": -120,
+     "alts": {
+      "5.5": [
+       185,
+       null
+      ],
+      "2.5": [
+       -625,
+       null
+      ],
+      "3.5": [
+       -235,
+       null
+      ],
+      "4.5": [
+       -110,
+       null
+      ],
+      "6.5": [
+       360,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -1000,
+       null
+      ],
+      "3.5": [
+       -320,
+       null
+      ],
+      "4.5": [
+       -125,
+       null
+      ],
+      "5.5": [
+       168,
+       null
+      ],
+      "6.5": [
+       350,
+       null
+      ],
+      "7.5": [
+       700,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.5085,
+   "fair_over": "-103",
+   "fair_under": "+103",
+   "best": {
+    "side": "over",
+    "book": "mgm",
+    "line": 4.5,
+    "price": -110,
+    "p_model": 0.5085,
+    "implied": 0.4899,
+    "edge": 0.0187,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -114,
+      "p_model": 0.5085,
+      "implied": 0.5021,
+      "edge": 0.0065,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -112,
+      "p_model": 0.4915,
+      "implied": 0.4979,
+      "edge": -0.0065,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": -115,
+      "p_model": 0.5085,
+      "implied": 0.5042,
+      "edge": 0.0044,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -111,
+      "p_model": 0.4915,
+      "implied": 0.4958,
+      "edge": -0.0044,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 4.5,
+      "price": -110,
+      "p_model": 0.5085,
+      "implied": 0.4899,
+      "edge": 0.0187,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 4.5,
+      "price": -120,
+      "p_model": 0.4915,
+      "implied": 0.5101,
+      "edge": -0.0187,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 19.6,
+   "k9": 7.12
+  },
+  {
    "id": 669713,
    "name": "Hayden Wesneski",
    "team": "Houston Astros",
@@ -6665,7 +6665,7 @@
   }
  ],
  "league_k_pa": 0.2212,
- "lineups_confirmed": 5,
+ "lineups_confirmed": 8,
  "odds_at": "2026-08-21T18:14:06Z",
- "locked": 5
+ "locked": 8
 }
