@@ -43,11 +43,17 @@ table.proj td.med .am{color:#8a8a8a}
 .dur{font-family:'VT323',monospace;font-size:14px;color:var(--mut);margin-top:8px}
 .dur .sp{color:#8a8a8a}
 .dur .am{color:#8a8a8a}
+.sect .sc{color:var(--mut);letter-spacing:.05em;font-size:12px}
+.norate{font-family:'VT323',monospace;font-size:13px;color:var(--mut);margin-top:4px}
+.flags.led li{color:#b5b5b5}.flags.led li:before{content:''}
 .sect{font-family:'VT323',monospace;font-size:13px;color:var(--amber);letter-spacing:.14em;
   margin-top:10px;border-top:1px dashed #2a2a2a;padding-top:8px}
 table.proj.sot{margin-top:2px}
 table.proj.sot td.wide{color:var(--mut)}
-body.light .sect{border-color:#d8d2c2}
+body.light .sect .sc{color:var(--mut);letter-spacing:.05em;font-size:12px}
+.norate{font-family:'VT323',monospace;font-size:13px;color:var(--mut);margin-top:4px}
+.flags.led li{color:#b5b5b5}.flags.led li:before{content:''}
+.sect{border-color:#d8d2c2}
 .flags{list-style:none;margin-top:8px;border-top:1px dashed #2a2a2a;padding-top:6px}
 .flags li{font-family:'VT323',monospace;font-size:13px;color:var(--amber)}
 .flags li:before{content:"⚠ "}
@@ -91,6 +97,21 @@ body.light table.proj td.n{color:#5a554a}
     80% ranges covered 86% (ranges on whole numbers run a touch wide by construction),
     and each PIT decile between 0.090 and 0.113 where a perfectly calibrated model shows 0.100. No public archive of shots
     lines exists to test against, so unlike the goals numbers this one is calibration-only.</p>
+    <p><b>Player shots on target</b> allocates each club's validated team number to its shooters:
+    a player's on-target rate comes from his own shot history (every shot he has taken, on target
+    = goal or forced save), shrunk toward the league rate, decayed for recency, and adjusted for
+    the opponent's shot suppression. Walk-forward over 7355 player-matches
+    (2024-25 → now, given actual minutes): projected 38% to land 1+ and it
+    happened 38% of the time; average projection 0.55 on
+    target against 0.52 actual. It runs a hair hot on 2-plus (12.4% projected,
+    10.7% happened) &mdash; read the 2+ column with that in mind. The card projects <em>per
+    start</em> &mdash; lineups are not known when it posts, and that extra uncertainty is not in
+    those numbers. No public archive
+    of player shots lines exists, so this too is calibration, not a beaten market.</p>
+    <p><b>The Ledger</b> at the bottom grades every published number after each matchweek —
+    win/draw/win against the closing line, the over/under calls, the ranges, every player
+    projection, and a flat $100 paper record on anything the model liked by 3%+. Grades are final
+    and misses publish too, same as the MLB board.</p>
     <p>MODEL and MARKET show a probability and its fair American price (no vig). MARKET = Pinnacle with
     the vig removed. BEST US = the best American-odds price across DraftKings, FanDuel, BetMGM, Caesars
     at the last snapshot. DNB = draw-no-bet, the two-way moneyline, priced off the same grid. Lines
@@ -131,6 +152,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>1–3</td>
         <td class='wide'>0–4</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/359.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Bukayo Saka</td><td class='med'>0.9</td><td>61% <span class='am'>-156</span></td><td>24% <span class='am'>+314</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/359.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Viktor Gyokeres</td><td class='med'>0.7</td><td>50% <span class='am'>-100</span></td><td>15% <span class='am'>+549</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/359.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Leandro Trossard</td><td class='med'>0.7</td><td>48% <span class='am'>+106</span></td><td>14% <span class='am'>+598</span></td></tr></table><div class='norate'>Coventry: no shot history in the dataset (promoted squad) — no numbers rather than guessed ones</div>
   <div class='dur'>xG 2.6 – 0.6 · BTTS 43% ·
     1X 94% · X2 21% · DNB Arsenal -1330
     / Coventry +1330</div>
@@ -167,6 +189,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>4–7</td>
         <td class='wide'>3–9</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/360.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Matheus Cunha</td><td class='med'>1.2</td><td>69% <span class='am'>-222</span></td><td>33% <span class='am'>+207</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/360.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Bruno Fernandes</td><td class='med'>0.9</td><td>60% <span class='am'>-153</span></td><td>24% <span class='am'>+321</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/360.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Benjamin Sesko</td><td class='med'>0.9</td><td>60% <span class='am'>-148</span></td><td>23% <span class='am'>+335</span></td></tr></table><div class='norate'>Hull: no shot history in the dataset (promoted squad) — no numbers rather than guessed ones</div>
   <div class='dur'>xG 1.1 – 1.9 · BTTS 59% ·
     1X 46% · X2 78% · DNB Hull +248
     / Man -248</div>
@@ -203,6 +226,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>2–5</td>
         <td class='wide'>1–6</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/393.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Morgan Gibbs-White</td><td class='med'>0.8</td><td>55% <span class='am'>-124</span></td><td>19% <span class='am'>+418</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/393.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Igor Jesus</td><td class='med'>0.7</td><td>51% <span class='am'>-104</span></td><td>16% <span class='am'>+521</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/393.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Chris Wood</td><td class='med'>0.7</td><td>49% <span class='am'>+104</span></td><td>15% <span class='am'>+583</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/357.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Dominic Calvert-Lewin</td><td class='med'>1.0</td><td>63% <span class='am'>-169</span></td><td>26% <span class='am'>+283</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/357.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Noah Okafor</td><td class='med'>0.5</td><td>41% <span class='am'>+141</span></td><td>10% <span class='am'>+890</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/357.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Anton Stach</td><td class='med'>0.4</td><td>35% <span class='am'>+183</span></td><td>7% <span class='am'>+1303</span></td></tr></table>
   <div class='dur'>xG 1.5 – 1.4 · BTTS 59% ·
     1X 65% · X2 62% · DNB Nott&#x27;m -108
     / Leeds +108</div>
@@ -239,6 +263,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>2–5</td>
         <td class='wide'>1–6</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/366.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Brian Brobbey</td><td class='med'>0.8</td><td>56% <span class='am'>-128</span></td><td>20% <span class='am'>+400</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/366.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Bertrand Traoré</td><td class='med'>0.6</td><td>43% <span class='am'>+130</span></td><td>11% <span class='am'>+790</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/366.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Enzo Le Fée</td><td class='med'>0.5</td><td>37% <span class='am'>+168</span></td><td>8% <span class='am'>+1141</span></td></tr></table><div class='norate'>Ipswich: no shot history in the dataset (promoted squad) — no numbers rather than guessed ones</div>
   <div class='dur'>xG 1.2 – 1.3 · BTTS 52% ·
     1X 63% · X2 67% · DNB Ipswich +111
     / Sunderland -111</div>
@@ -275,6 +300,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>2–5</td>
         <td class='wide'>1–6</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/368.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Iliman Ndiaye</td><td class='med'>0.7</td><td>52% <span class='am'>-108</span></td><td>17% <span class='am'>+499</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/368.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Beto</td><td class='med'>0.6</td><td>47% <span class='am'>+113</span></td><td>13% <span class='am'>+654</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/368.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Kiernan Dewsbury-Hall</td><td class='med'>0.6</td><td>44% <span class='am'>+130</span></td><td>11% <span class='am'>+787</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/384.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Ismaila Sarr</td><td class='med'>0.6</td><td>47% <span class='am'>+112</span></td><td>13% <span class='am'>+646</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/384.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Jean-Philippe Mateta</td><td class='med'>0.6</td><td>46% <span class='am'>+118</span></td><td>13% <span class='am'>+691</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/384.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Eberechi Eze</td><td class='med'>0.6</td><td>44% <span class='am'>+127</span></td><td>12% <span class='am'>+766</span></td></tr></table>
   <div class='dur'>xG 1.4 – 1.3 · BTTS 57% ·
     1X 66% · X2 62% · DNB Everton -115
     / Crystal +115</div>
@@ -311,6 +337,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>3–6</td>
         <td class='wide'>2–7</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/337.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Thiago</td><td class='med'>1.1</td><td>68% <span class='am'>-213</span></td><td>32% <span class='am'>+216</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/337.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Kevin Schade</td><td class='med'>0.7</td><td>52% <span class='am'>-109</span></td><td>17% <span class='am'>+492</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/337.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Dango Ouattara</td><td class='med'>0.7</td><td>51% <span class='am'>-106</span></td><td>16% <span class='am'>+513</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/367.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Richarlison</td><td class='med'>0.8</td><td>57% <span class='am'>-133</span></td><td>21% <span class='am'>+383</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/367.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Dominic Solanke</td><td class='med'>0.7</td><td>51% <span class='am'>-105</span></td><td>16% <span class='am'>+517</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/367.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Mohammed Kudus</td><td class='med'>0.6</td><td>44% <span class='am'>+129</span></td><td>11% <span class='am'>+778</span></td></tr></table>
   <div class='dur'>xG 1.9 – 1.3 · BTTS 62% ·
     1X 75% · X2 49% · DNB Brentford -207
     / Tottenham +207</div>
@@ -347,6 +374,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>2–5</td>
         <td class='wide'>1–6</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/382.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Erling Haaland</td><td class='med'>1.6</td><td>80% <span class='am'>-408</span></td><td>48% <span class='am'>+107</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/382.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Antoine Semenyo</td><td class='med'>1.1</td><td>66% <span class='am'>-192</span></td><td>29% <span class='am'>+244</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/382.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Omar Marmoush</td><td class='med'>0.6</td><td>42% <span class='am'>+136</span></td><td>11% <span class='am'>+841</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/349.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Eli Junior Kroupi</td><td class='med'>0.5</td><td>41% <span class='am'>+146</span></td><td>10% <span class='am'>+928</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/349.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Marcus Tavernier</td><td class='med'>0.5</td><td>41% <span class='am'>+146</span></td><td>10% <span class='am'>+934</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/349.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Evanilson</td><td class='med'>0.5</td><td>41% <span class='am'>+147</span></td><td>10% <span class='am'>+940</span></td></tr></table>
   <div class='dur'>xG 2.2 – 1.2 · BTTS 63% ·
     1X 81% · X2 41% · DNB Man -315
     / Bournemouth +315</div>
@@ -383,6 +411,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>2–5</td>
         <td class='wide'>1–6</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/331.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Danny Welbeck</td><td class='med'>0.8</td><td>56% <span class='am'>-127</span></td><td>20% <span class='am'>+405</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/331.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Kaoru Mitoma</td><td class='med'>0.7</td><td>51% <span class='am'>-105</span></td><td>16% <span class='am'>+519</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/331.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Jack Hinshelwood</td><td class='med'>0.7</td><td>51% <span class='am'>-103</span></td><td>16% <span class='am'>+531</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/362.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Donyell Malen</td><td class='med'>1.2</td><td>71% <span class='am'>-245</span></td><td>35% <span class='am'>+184</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/362.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Ollie Watkins</td><td class='med'>0.9</td><td>60% <span class='am'>-152</span></td><td>24% <span class='am'>+323</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/362.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Morgan Rogers</td><td class='med'>0.6</td><td>47% <span class='am'>+111</span></td><td>14% <span class='am'>+636</span></td></tr></table>
   <div class='dur'>xG 1.6 – 1.3 · BTTS 60% ·
     1X 70% · X2 57% · DNB Brighton -142
     / Aston +142</div>
@@ -419,6 +448,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>3–6</td>
         <td class='wide'>2–8</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/361.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Anthony Gordon</td><td class='med'>0.8</td><td>55% <span class='am'>-121</span></td><td>19% <span class='am'>+429</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/361.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Harvey Barnes</td><td class='med'>0.6</td><td>46% <span class='am'>+118</span></td><td>13% <span class='am'>+688</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/361.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Bruno Guimarães</td><td class='med'>0.6</td><td>46% <span class='am'>+118</span></td><td>13% <span class='am'>+692</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/364.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Mohamed Salah</td><td class='med'>0.9</td><td>61% <span class='am'>-157</span></td><td>24% <span class='am'>+311</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/364.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Hugo Ekitike</td><td class='med'>0.9</td><td>60% <span class='am'>-150</span></td><td>23% <span class='am'>+328</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/364.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Florian Wirtz</td><td class='med'>0.8</td><td>53% <span class='am'>-113</span></td><td>18% <span class='am'>+469</span></td></tr></table>
   <div class='dur'>xG 1.7 – 1.7 · BTTS 68% ·
     1X 61% · X2 64% · DNB Newcastle +109
     / Liverpool -109</div>
@@ -455,6 +485,7 @@ body.light table.proj td.n{color:#5a554a}
         <td>3–5</td>
         <td class='wide'>2–7</td></tr>
   </table>
+  <div class='sect'>PLAYER SHOTS ON TARGET <span class='sc'>per start · lineups unknown at post</span></div><table class='proj sot'><tr><th></th><th>PROJ</th><th>1+</th><th>2+</th></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/370.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Harry Wilson</td><td class='med'>0.7</td><td>52% <span class='am'>-108</span></td><td>17% <span class='am'>+496</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/370.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Raúl Jiménez</td><td class='med'>0.5</td><td>41% <span class='am'>+145</span></td><td>10% <span class='am'>+924</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/370.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Rodrigo Muniz</td><td class='med'>0.5</td><td>39% <span class='am'>+158</span></td><td>9% <span class='am'>+1047</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/363.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Cole Palmer</td><td class='med'>1.0</td><td>65% <span class='am'>-182</span></td><td>28% <span class='am'>+260</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/363.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">João Pedro</td><td class='med'>0.7</td><td>51% <span class='am'>-102</span></td><td>16% <span class='am'>+535</span></td></tr><tr><td class='who'><img class='mini' src='https://a.espncdn.com/i/teamlogos/soccer/500/363.png' alt='' loading='lazy' referrerpolicy='no-referrer' onerror="this.style.display='none'">Enzo Fernández</td><td class='med'>0.7</td><td>49% <span class='am'>+103</span></td><td>15% <span class='am'>+577</span></td></tr></table>
   <div class='dur'>xG 1.4 – 1.6 · BTTS 61% ·
     1X 60% · X2 66% · DNB Fulham +117
     / Chelsea -117</div>
@@ -462,6 +493,7 @@ body.light table.proj td.n{color:#5a554a}
   
 </div>
   </div>
+<div class='evt' style='margin-top:26px'>THE LEDGER <span>· every published number, graded after the whistle · grades are final</span></div><div class='banner'><p>Nothing graded yet — the first card lands after matchweek 1 settles. What gets graded: the win/draw/win numbers against Pinnacle's closing line (log-loss, lower is better), a flat $100 paper bet on any price the model liked by 3% or more at post time (paper — never real money), the over/under call on the main line, whether shots on target landed inside the published ranges, and every player projection against what he actually did. Misses publish too.</p></div>
 
   <div class="foot">
     model fit on 4180 matches through 2026-05-24 · home advantage
@@ -469,6 +501,6 @@ body.light table.proj td.n{color:#5a554a}
     low-score correction &rho; = -0.10<br>
     lines snapshot Aug 20, 10:36 PM ET · promoted sides carry a prior until they have played
     &mdash; flagged on the card<br>
-    generated 2026-08-20 19:52
+    generated 2026-08-20 20:11
   </div>
 </div></body></html>
