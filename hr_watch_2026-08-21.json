@@ -1,7 +1,7 @@
 {
  "date": "2026-08-21",
- "generated": "2026-08-21T21:30:03Z",
- "lineups_confirmed": 13,
+ "generated": "2026-08-21T21:44:05Z",
+ "lineups_confirmed": 14,
  "players": [
   {
    "id": 656941,
@@ -21,9 +21,9 @@
    "f_arsenal": 1.0,
    "f_pit": 1.0,
    "f_park": 1.06,
-   "f_wind": 0.94,
-   "f_temp": 1.04,
-   "wind": "WIND 3 IN",
+   "f_wind": 1.0,
+   "f_temp": 1.05,
+   "wind": "HOT 82F",
    "odds": {
     "dk": 223,
     "mgm": 195,
@@ -256,34 +256,6 @@
    "fair": "+418"
   },
   {
-   "id": 691718,
-   "name": "Pete Crow-Armstrong",
-   "team": "Chicago Cubs",
-   "opp": "Seattle Mariners",
-   "home": false,
-   "pk": 823101,
-   "opp_sp": "Emerson Hancock",
-   "opp_sp_id": 676106,
-   "p": 19.2,
-   "hr": 31,
-   "pa": 570,
-   "exp_pa": 4.5,
-   "f_bat": 1.52,
-   "f_platoon": 1.13,
-   "f_arsenal": 0.94,
-   "f_pit": 1.01,
-   "f_park": 0.99,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 309,
-    "mgm": 250,
-    "czr": 305
-   },
-   "fair": "+421"
-  },
-  {
    "id": 664040,
    "name": "Brandon Lowe",
    "team": "Pittsburgh Pirates",
@@ -416,6 +388,34 @@
     "dk": 384,
     "mgm": 360,
     "czr": 390
+   },
+   "fair": "+462"
+  },
+  {
+   "id": 686527,
+   "name": "Dominic Canzone",
+   "team": "Seattle Mariners",
+   "opp": "Chicago Cubs",
+   "home": true,
+   "pk": 823101,
+   "opp_sp": "Matthew Boyd",
+   "opp_sp_id": 571510,
+   "p": 17.8,
+   "hr": 19,
+   "pa": 386,
+   "exp_pa": 4.4,
+   "f_bat": 1.35,
+   "f_platoon": 1.05,
+   "f_arsenal": 1.06,
+   "f_pit": 1.06,
+   "f_park": 0.99,
+   "f_wind": 1.0,
+   "f_temp": 1.0,
+   "wind": "ROOF",
+   "odds": {
+    "dk": 533,
+    "mgm": 390,
+    "czr": 525
    },
    "fair": "+462"
   }
