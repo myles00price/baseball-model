@@ -50,6 +50,16 @@ body.light .banner p{color:#4a463c}
 body.light table.proj td{border-color:#e6e0d0}
 body.light table.proj td.who{color:#3b3830}
 body.light tr.tot td{border-color:#d8d2c2}
+
+.news{margin:14px 0 0;background:#0a0a0a;border:1px solid var(--line);padding:10px 14px}
+.news h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:8px}
+.newsrow{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
+.newsitem{min-width:250px;max-width:250px;background:#020202;border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.newsitem img{width:100%;height:110px;object-fit:cover;display:block;filter:saturate(.7)}
+.newsitem .h{font-size:12.5px;padding:8px 10px;line-height:1.4}
+body.light .news{background:#f7f4ec;border-color:var(--line)}
+body.light .newsitem{background:#fdfcf8;border-color:var(--line);color:#14171c}
+body.light .newsitem img{filter:none}
 </style>
 </head>
 <body><div class="frame">
@@ -261,7 +271,7 @@ body.light tr.tot td{border-color:#d8d2c2}
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 11.6 min · P(decision) 0.62</div>
-  
+  <ul class='flags'><li>eduarda moura: weight-class change, w_strawweight -&gt; w_flyweight</li></ul>
 </div><div class='bout'>
   <div class='slot'>PRELIMS · middleweight · 3R</div>
   <div class='names' data-player='Ryan Gandra Ozzy Diaz'>
@@ -315,9 +325,11 @@ body.light tr.tot td{border-color:#d8d2c2}
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 9.0 min · P(decision) 0.36</div>
-  <ul class='flags'><li>joosang yoo: only 3 prior UFC rounds (&lt; 8)</li><li>joosang yoo: weight-class change, catch_weight -&gt; featherweight</li></ul>
+  <ul class='flags'><li>joosang yoo: only 3 prior UFC rounds (&lt; 8)</li></ul>
 </div>
   </div>
+
+  <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
 
   <div class="foot">
     median = 50th percentile of the predictive distribution · N = prior UFC rounds in the
@@ -325,6 +337,22 @@ body.light tr.tot td{border-color:#d8d2c2}
     ranges are genuine predictive intervals, not confidence bands: a fight that ends in
     round one produces very few strikes, so the low end is real<br>
     strike rate and fight duration are modelled separately and combined by convolution ·
-    generated 2026-08-16 12:55
+    generated 2026-08-20 20:29
   </div>
-</div></body></html>
+</div>
+<script>
+(async function loadNews(){
+  try{
+    const j=await(await fetch("https://site.api.espn.com/apis/site/v2/sports/mma/ufc/news?limit=12")).json();
+    const arts=(j.articles||[]).slice(0,12);
+    if(!arts.length)return;
+    document.getElementById("newsrow").innerHTML=arts.map(a=>{
+      const img=a.images&&a.images[0]?a.images[0].url:null;
+      const href=(a.links&&a.links.web&&a.links.web.href)||"#";
+      const h=(a.headline||"").replace(/</g,"&lt;");
+      return`<a class="newsitem" href="${href}" target="_blank" rel="noopener">
+        ${img?`<img src="${img}" alt="" loading="lazy">`:""}<div class="h">${h}</div></a>`}).join("");
+    document.getElementById("news").style.display="block";
+  }catch(e){}
+})();
+</script></body></html>
