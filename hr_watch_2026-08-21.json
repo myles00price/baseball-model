@@ -1,7 +1,7 @@
 {
  "date": "2026-08-21",
- "generated": "2026-08-21T19:29:13Z",
- "lineups_confirmed": 5,
+ "generated": "2026-08-21T20:29:50Z",
+ "lineups_confirmed": 11,
  "players": [
   {
    "id": 656941,
@@ -40,24 +40,24 @@
    "pk": 824559,
    "opp_sp": "Sean Manaea",
    "opp_sp_id": 640455,
-   "p": 23.4,
+   "p": 24.0,
    "hr": 29,
    "pa": 402,
-   "exp_pa": 4.4,
+   "exp_pa": 4.5,
    "f_bat": 1.79,
    "f_platoon": 0.96,
    "f_arsenal": 1.01,
    "f_pit": 1.03,
    "f_park": 1.05,
    "f_wind": 1.0,
-   "f_temp": 1.0,
+   "f_temp": 1.03,
    "wind": "",
    "odds": {
     "dk": 328,
     "mgm": 280,
     "czr": 320
    },
-   "fair": "+327"
+   "fair": "+317"
   },
   {
    "id": 700250,
@@ -68,7 +68,7 @@
    "pk": 823510,
    "opp_sp": "Mason Fluharty",
    "opp_sp_id": 689254,
-   "p": 21.9,
+   "p": 22.0,
    "hr": 34,
    "pa": 523,
    "exp_pa": 4.3,
@@ -77,15 +77,15 @@
    "f_arsenal": 0.85,
    "f_pit": 0.98,
    "f_park": 1.08,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
+   "f_wind": 0.86,
+   "f_temp": 1.03,
+   "wind": "WIND 7 IN",
    "odds": {
     "dk": 366,
     "mgm": 280,
     "czr": 350
    },
-   "fair": "+357"
+   "fair": "+355"
   },
   {
    "id": 670541,
@@ -142,6 +142,34 @@
     "czr": 350
    },
    "fair": "+376"
+  },
+  {
+   "id": 691406,
+   "name": "Junior Caminero",
+   "team": "Tampa Bay Rays",
+   "opp": "Baltimore Orioles",
+   "home": false,
+   "pk": 824800,
+   "opp_sp": "Trevor Rogers",
+   "opp_sp_id": 669432,
+   "p": 20.1,
+   "hr": 35,
+   "pa": 555,
+   "exp_pa": 4.4,
+   "f_bat": 1.7,
+   "f_platoon": 0.97,
+   "f_arsenal": 0.97,
+   "f_pit": 0.93,
+   "f_park": 1.03,
+   "f_wind": 0.94,
+   "f_temp": 1.02,
+   "wind": "WIND 3 IN",
+   "odds": {
+    "dk": 288,
+    "mgm": 280,
+    "czr": 280
+   },
+   "fair": "+398"
   },
   {
    "id": 624413,
@@ -208,7 +236,7 @@
    "pk": 824559,
    "opp_sp": "Sean Manaea",
    "opp_sp_id": 640455,
-   "p": 19.2,
+   "p": 19.3,
    "hr": 28,
    "pa": 551,
    "exp_pa": 4.4,
@@ -218,14 +246,14 @@
    "f_pit": 1.03,
    "f_park": 1.05,
    "f_wind": 1.0,
-   "f_temp": 1.0,
+   "f_temp": 1.03,
    "wind": "",
    "odds": {
     "dk": 329,
     "mgm": 325,
     "czr": 320
    },
-   "fair": "+421"
+   "fair": "+418"
   },
   {
    "id": 691718,
@@ -302,7 +330,7 @@
    "f_pit": 1.03,
    "f_park": 1.05,
    "f_wind": 1.0,
-   "f_temp": 1.0,
+   "f_temp": 1.03,
    "wind": "",
    "odds": {
     "dk": 402,
@@ -310,6 +338,30 @@
     "czr": 400
    },
    "fair": "+443"
+  },
+  {
+   "id": 502671,
+   "name": "Paul Goldschmidt",
+   "team": "New York Yankees",
+   "opp": "Toronto Blue Jays",
+   "home": true,
+   "pk": 823510,
+   "opp_sp": "Mason Fluharty",
+   "opp_sp_id": 689254,
+   "p": 18.3,
+   "hr": 16,
+   "pa": 330,
+   "exp_pa": 4.7,
+   "f_bat": 1.31,
+   "f_platoon": 1.17,
+   "f_arsenal": 0.93,
+   "f_pit": 0.98,
+   "f_park": 1.08,
+   "f_wind": 0.86,
+   "f_temp": 1.03,
+   "wind": "WIND 7 IN",
+   "odds": {},
+   "fair": "+446"
   },
   {
    "id": 660271,
@@ -366,62 +418,6 @@
     "czr": 390
    },
    "fair": "+468"
-  },
-  {
-   "id": 547180,
-   "name": "Bryce Harper",
-   "team": "Philadelphia Phillies",
-   "opp": "St. Louis Cardinals",
-   "home": true,
-   "pk": 823420,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "p": 17.6,
-   "hr": 25,
-   "pa": 546,
-   "exp_pa": 4.4,
-   "f_bat": 1.33,
-   "f_platoon": 1.0,
-   "f_arsenal": 1.0,
-   "f_pit": 1.0,
-   "f_park": 1.06,
-   "f_wind": 0.94,
-   "f_temp": 1.04,
-   "wind": "WIND 3 IN",
-   "odds": {
-    "dk": 400,
-    "mgm": 300,
-    "czr": 390
-   },
-   "fair": "+468"
-  },
-  {
-   "id": 671277,
-   "name": "Luis Garc\u00eda Jr.",
-   "team": "New York Yankees",
-   "opp": "Toronto Blue Jays",
-   "home": true,
-   "pk": 823510,
-   "opp_sp": "Mason Fluharty",
-   "opp_sp_id": 689254,
-   "p": 17.2,
-   "hr": 25,
-   "pa": 433,
-   "exp_pa": 3.7,
-   "f_bat": 1.53,
-   "f_platoon": 1.0,
-   "f_arsenal": 1.15,
-   "f_pit": 0.98,
-   "f_park": 1.08,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 425,
-    "mgm": 390,
-    "czr": 400
-   },
-   "fair": "+481"
   }
  ]
 }
