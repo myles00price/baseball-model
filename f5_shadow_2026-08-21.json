@@ -352,42 +352,42 @@
  "Pittsburgh Pirates@Los Angeles Dodgers": {
   "away": "Pittsburgh Pirates",
   "home": "Los Angeles Dodgers",
-  "prob_home": 68.7,
+  "prob_home": 69.5,
   "odds": {
    "fanduel": {
-    "Los Angeles Dodgers": -265,
-    "Pittsburgh Pirates": 205
+    "Los Angeles Dodgers": -250,
+    "Pittsburgh Pirates": 194
    },
    "draftkings": {
-    "Los Angeles Dodgers": -250,
-    "Pittsburgh Pirates": 190
+    "Los Angeles Dodgers": -260,
+    "Pittsburgh Pirates": 195
    },
    "williamhill_us": {
-    "Los Angeles Dodgers": -250,
-    "Pittsburgh Pirates": 200
+    "Los Angeles Dodgers": -260,
+    "Pittsburgh Pirates": 210
    },
    "betmgm": {
     "Los Angeles Dodgers": -250,
-    "Pittsburgh Pirates": 190
+    "Pittsburgh Pirates": 195
    }
   },
   "best_away": [
-   "fanduel",
-   205
+   "williamhill_us",
+   210
   ],
   "best_home": [
-   "draftkings",
+   "fanduel",
    -250
   ],
-  "dv_edge_away": 0.2,
-  "dv_edge_home": 1.3,
+  "dv_edge_away": -0.4,
+  "dv_edge_home": 1.8,
   "flag": "",
   "locked": false
  },
  "Chicago Cubs@Seattle Mariners": {
   "away": "Chicago Cubs",
   "home": "Seattle Mariners",
-  "prob_home": 54.4,
+  "prob_home": 55.4,
   "odds": {
    "fanduel": {
     "Chicago Cubs": -104,
@@ -414,10 +414,10 @@
    "fanduel",
    -120
   ],
-  "dv_edge_away": -1.3,
-  "dv_edge_home": 2.7,
+  "dv_edge_away": -2.3,
+  "dv_edge_home": 3.7,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Toronto Blue Jays@New York Yankees": {
   "away": "Toronto Blue Jays",
