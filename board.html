@@ -461,7 +461,7 @@ body.light .newsitem img{filter:none}
   <div class="stats" id="stats"></div>
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
   <div class="showcase" id="showcase" style="display:none"><div class="sc-grid" id="sc-grid"></div></div>
-  <div class="showcase" id="k-showcase" style="display:none"><div class="k-sc-cap" onclick="openInfo(event,'kwatch')">K PLAYS · STRIKEOUT PROPS · TOP LEANS LOCK AT LINEUPS · GRADED ON THE PROPS LEDGER ⓘ</div><div class="sc-grid" id="k-sc-grid"></div></div>
+  <!-- K showcase removed 2026-08-20 (owner): K WATCH is display-only; no play cards -->
   <div class="grid" id="grid"></div>
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
 
@@ -1377,7 +1377,7 @@ function renderKWatch(){
       <div class="hr-odds">${oddsLine}</div>${lean?`<div class="hr-odds">${lean}</div>`:""}</div>
       <span class="v">${Number(p.exp_k).toFixed(1)}<span class="k-unit"> K</span><span class="hd-caret">${open?"▴":"▾"}</span></span></div>${open?kDropHTML(p):""}`}).join("");
   renderKFoot();
-  renderKShowcase(kLeanIds);
+  // renderKShowcase(kLeanIds);  // K play cards removed 2026-08-20 - display-only list below
 }
 /* ── K play cards (same lifecycle as the main-play showcase) ── */
 function kOtherPrices(p){
