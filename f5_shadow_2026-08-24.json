@@ -212,7 +212,7 @@
  "Minnesota Twins@Athletics": {
   "away": "Minnesota Twins",
   "home": "Athletics",
-  "prob_home": 53.5,
+  "prob_home": 51.0,
   "odds": {
    "fanduel": {
     "Athletics": 120,
@@ -239,10 +239,10 @@
    "fanduel",
    120
   ],
-  "dv_edge_away": -8.6,
-  "dv_edge_home": 10.4,
+  "dv_edge_away": -6.1,
+  "dv_edge_home": 7.9,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Philadelphia Phillies@Seattle Mariners": {
   "away": "Philadelphia Phillies",
@@ -250,8 +250,8 @@
   "prob_home": 52.5,
   "odds": {
    "fanduel": {
-    "Philadelphia Phillies": -120,
-    "Seattle Mariners": -104
+    "Philadelphia Phillies": -122,
+    "Seattle Mariners": -102
    },
    "betmgm": {
     "Philadelphia Phillies": -118,
@@ -272,10 +272,10 @@
   ],
   "best_home": [
    "fanduel",
-   -104
+   -102
   ],
   "dv_edge_away": -2.5,
-  "dv_edge_home": 4.5,
+  "dv_edge_home": 4.6,
   "flag": "home",
   "locked": false
  },
@@ -317,7 +317,7 @@
  "Cincinnati Reds@San Francisco Giants": {
   "away": "Cincinnati Reds",
   "home": "San Francisco Giants",
-  "prob_home": 26.1,
+  "prob_home": 24.8,
   "odds": {
    "draftkings": {
     "Cincinnati Reds": -200,
@@ -329,23 +329,23 @@
    },
    "betmgm": {
     "Cincinnati Reds": -200,
-    "San Francisco Giants": 155
+    "San Francisco Giants": 160
    },
    "fanduel": {
-    "Cincinnati Reds": -190,
-    "San Francisco Giants": 150
+    "Cincinnati Reds": -188,
+    "San Francisco Giants": 148
    }
   },
   "best_away": [
-   "williamhill_us",
-   -190
+   "fanduel",
+   -188
   ],
   "best_home": [
-   "williamhill_us",
-   155
+   "betmgm",
+   160
   ],
-  "dv_edge_away": 11.8,
-  "dv_edge_home": -10.9,
+  "dv_edge_away": 13.4,
+  "dv_edge_home": -11.8,
   "flag": "",
   "locked": false
  }
