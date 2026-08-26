@@ -93,7 +93,18 @@ def main():
     from master_v2 import bet_side_ok
     xsplits = {k: [0, 0, 0.0] for k in
                ("home", "away", "fav-155", "fav", "dog", "dog+150",
-                "sharp-conf", "sharp-na", "veto-would", "rl-shadow")}
+                "sharp-conf", "sharp-na", "veto-would", "rl-shadow", "rl-value")}
+
+    # empirical P(cover +1.5 | side model win prob), 856 live games (2026-08-25).
+    # Piecewise by win prob; the margin layer that prices the runline from our
+    # own probability instead of blanket-betting the cover.
+    RL_CURVE = ((0.40, 0.619), (0.45, 0.595), (0.50, 0.623), (0.55, 0.634),
+                (0.60, 0.670), (1.01, 0.694))
+    def rl_fair_cover(p_side):
+        for hi, c in RL_CURVE:
+            if p_side < hi:
+                return c
+        return RL_CURVE[-1][1]
 
     def _f(x):
         import re as _re
@@ -165,6 +176,14 @@ def main():
                             margin = us - them
                             covered = (margin + pt) > 0
                             _xadd("rl-shadow", covered, payout(px) if covered else -100.0)
+                            # rl-value: only when the captured price beats our
+                            # curve-fair for this side's win prob by >= 3 pts
+                            if pt > 0:  # +1.5 side only (the -1.5 was dismissed)
+                                p_side = float(ap) / 100 if fs == "away" else float(hp) / 100
+                                fair_c = rl_fair_cover(p_side)
+                                imp_px = implied(px) / 100
+                                if fair_c - imp_px >= 0.03:
+                                    _xadd("rl-value", covered, payout(px) if covered else -100.0)
                         except (ValueError, TypeError):
                             pass
 
