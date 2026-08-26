@@ -93,7 +93,7 @@ def main():
     from master_v2 import bet_side_ok
     xsplits = {k: [0, 0, 0.0] for k in
                ("home", "away", "fav-155", "fav", "dog", "dog+150",
-                "sharp-conf", "sharp-na", "veto-would")}
+                "sharp-conf", "sharp-na", "veto-would", "rl-shadow")}
 
     def _f(x):
         import re as _re
@@ -151,6 +151,22 @@ def main():
                     _xadd(band, bwon, bprofit)
                     sh = str(row.get("Sharp Signal", ""))
                     _xadd("sharp-conf" if "CONFIRMED" in sh else "sharp-na", bwon, bprofit)
+
+                    # RUNLINE SHADOW (paper, 2026-08-24): same flagged side on the
+                    # +/-1.5 at the captured price. Covers = win by rule of the
+                    # point; graded only where a price was captured.
+                    rl_raw = row.get("DK RL Away" if fs == "away" else "DK RL Home") or                              row.get("MGM RL Away" if fs == "away" else "MGM RL Home")
+                    if rl_raw and "@" in str(rl_raw):
+                        try:
+                            pt_s, px_s = str(rl_raw).split("@")
+                            pt, px = float(pt_s), float(px_s)
+                            us = res["away_score"] if fs == "away" else res["home_score"]
+                            them = res["home_score"] if fs == "away" else res["away_score"]
+                            margin = us - them
+                            covered = (margin + pt) > 0
+                            _xadd("rl-shadow", covered, payout(px) if covered else -100.0)
+                        except (ValueError, TypeError):
+                            pass
 
             # phantom ledger: bets the sharp FADE veto suppressed (live era) —
             # tracks whether the veto keeps paying for itself

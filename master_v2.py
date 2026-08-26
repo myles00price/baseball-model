@@ -218,6 +218,8 @@ PICK_COLUMNS = [
     # single games) + MLB gamePk. Appended LAST so positional consumers of
     # the older columns are unaffected.
     "Game#", "GamePk",
+    # runline shadow (2026-08-24): flagged-side +/-1.5 point@price per book
+    "DK RL Away", "DK RL Home", "MGM RL Away", "MGM RL Home",
 ]
 
 
@@ -244,7 +246,7 @@ def run_model(target_date, save_csv=True):
         params={
             "apiKey": os.environ["ODDS_API_KEY"],  # V2: env only — rotate the old key, it was committed in plain text
             "regions": "us",
-            "markets": "h2h",
+            "markets": "h2h,spreads",
             "oddsFormat": "american",
             "bookmakers": "draftkings,williamhill_us,betmgm"
         }
@@ -264,6 +266,7 @@ def run_model(target_date, save_csv=True):
             continue  # only THIS slate's games — the API returns multiple days
         ev = {"away": game.get("away_team"), "home": game.get("home_team"),
               "t": game.get("commence_time"), "odds": {}}
+        ev["rl"] = {}
         for bookmaker in game["bookmakers"]:
             bk = bookmaker["key"]
             for market in bookmaker["markets"]:
@@ -274,7 +277,33 @@ def run_model(target_date, save_csv=True):
                             odds_lookup[team] = {}
                         odds_lookup[team][bk] = outcome["price"]
                         ev["odds"].setdefault(team, {})[bk] = outcome["price"]
+                elif market["key"] == "spreads":
+                    # RUNLINE SHADOW (2026-08-24): capture the +/-1.5 prices so a
+                    # paper runline ledger can grade every flagged play vs real
+                    # prices (44% of losses are one-run; +1.5 covered 71% in
+                    # backtest - but only live prices can say if it pays).
+                    for outcome in market["outcomes"]:
+                        team = outcome["name"]
+                        pt = outcome.get("point")
+                        if pt is None:
+                            continue
+                        ev["rl"].setdefault(team, {})[bk] = f"{pt:+g}@{outcome['price']}"
         odds_events.append(ev)
+
+    def rl_for_game(away, home, game_date_iso):
+        """Runline prices for THIS game (DH-safe, mirrors odds_for_game)."""
+        evs = [e for e in odds_events if e["away"] == away and e["home"] == home]
+        if not evs:
+            return {}
+        if len(evs) == 1:
+            return evs[0].get("rl", {})
+        try:
+            gt = datetime.fromisoformat(str(game_date_iso).replace("Z", "+00:00"))
+            best = min(evs, key=lambda e: abs(
+                (datetime.fromisoformat(str(e["t"]).replace("Z", "+00:00")) - gt).total_seconds()))
+            return best.get("rl", {})
+        except Exception:
+            return evs[0].get("rl", {})
 
     def odds_for_game(away, home, game_date_iso):
         """Odds for THIS game: if the matchup has multiple events today (DH),
@@ -422,6 +451,7 @@ def run_model(target_date, save_csv=True):
             away_players = lineups.get((game_key, "away"), lineups.get(away, []))
             # per-game odds (DH: nearest-start event), team-level fallback
             g_odds = odds_for_game(away, home, game.get("gameDate"))
+            g_rl = rl_for_game(away, home, game.get("gameDate"))
 
             # V2 FIX — lineup swap bug. home_lineup_ops is the HOME team's
             # offense: home batters vs the AWAY pitcher's hand. The old code
@@ -647,6 +677,8 @@ def run_model(target_date, save_csv=True):
                 g_odds.get(away, {}).get("williamhill_us", "N/A"),
                 g_odds.get(home, {}).get("williamhill_us", "N/A"),
                 game_no, game_pk,
+                g_rl.get(away, {}).get("draftkings", ""), g_rl.get(home, {}).get("draftkings", ""),
+                g_rl.get(away, {}).get("betmgm", ""), g_rl.get(home, {}).get("betmgm", ""),
             ])
 
     # End-of-run FADE veto summary
