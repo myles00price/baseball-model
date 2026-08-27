@@ -28,7 +28,13 @@ from check_results import get_game_results, result_for_row
 from notify_pick import send_push
 
 V2_LAUNCH = "2026-07-16"
-GATE_PICKS, GATE_WINPCT = 100, 54.0
+# Gate redefined 2026-08-27 (owner call, published): the model is a value-dog
+# book - plus-money average price makes ~48% its breakeven, so a raw 54%
+# win-rate bar measured the wrong thing. New gate, decided BEFORE bet 100:
+# at 150 graded plays, quarter-Kelly turns on iff ROI >= +3% AND CLV beat
+# rate >= 60%. Until then: flat $100.
+GATE_PICKS = 150
+GATE_ROI_MIN, GATE_CLVBEAT_MIN = 3.0, 60.0
 
 
 def payout(odds):
@@ -150,7 +156,9 @@ def main():
         f"- V2 official flagged bets since launch ({V2_LAUNCH}): **{v2_w}-{len(v2_bets)-v2_w}** "
         f"({gate_pct:.1f}%), P&L **{v2_pnl:+.0f}** at $100 flat "
         f"(ROI {v2_pnl/(len(v2_bets)*100)*100 if v2_bets else 0:+.1f}%)",
-        f"- Deploy gate: **{len(v2_bets)} / {GATE_PICKS}** picks at {gate_pct:.1f}% (need >={GATE_WINPCT}%)",
+        f"- Deploy gate: **{len(v2_bets)} / {GATE_PICKS}** plays - graded on PROFIT "
+        f"(ROI {v2_pnl/(len(v2_bets)*100)*100 if v2_bets else 0:+.1f}%, need >=+{GATE_ROI_MIN}%) and "
+        f"BEATING THE CLOSING PRICE (need >={GATE_CLVBEAT_MIN:.0f}%), not raw win rate",
         f"- V2 pick accuracy (all games): {v2_picks_w}/{len(v2)} ({v2_picks_w/len(v2)*100 if v2 else 0:.1f}%)",
     ]
     if clv_v2:

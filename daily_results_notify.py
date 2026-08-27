@@ -110,7 +110,7 @@ def main():
     winpct = run_w / run_n * 100 if run_n else 0.0
     lines.append(f"V2 running: {run_w}-{run_n - run_w} ({winpct:.1f}%) | "
                  f"{run_pnl:+.0f} at $100 flat | ROI {roi:+.1f}%")
-    lines.append(f"Gate: {run_n}/100 picks")
+    lines.append(f"Gate: {run_n}/150 picks")
 
     # Stats file for board.html — regenerated every nightly grade
     import json
@@ -119,7 +119,7 @@ def main():
             "updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
             "record": f"{run_w}-{run_n - run_w}", "win_pct": round(winpct, 1),
             "pnl": round(run_pnl), "roi": round(roi, 1),
-            "gate": run_n, "gate_target": 100,
+            "gate": run_n, "gate_target": 150,
             "flagged_clv": 6.49, "clv_beat_pct": 96,
             "today": [{"team": bt, "odds": odds,
                        "result": ("W" if won else "L") if won is not None else "pending",
