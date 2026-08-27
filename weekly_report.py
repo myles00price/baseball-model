@@ -24,7 +24,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 from features_v2 import flagged_side
-from check_results import get_game_results, result_for_row
+from check_results import get_game_results, result_for_row, official_keys
 from notify_pick import send_push
 
 V2_LAUNCH = "2026-07-16"
@@ -45,6 +45,7 @@ def payout(odds):
 def gather():
     """Grade every picks file once. Returns per-game records."""
     games = []
+    from features_v2 import key_from_row
     for f in sorted(glob("picks_2026-*.csv")):
         d = f.replace("picks_", "").replace(".csv", "")
         try:
@@ -53,6 +54,7 @@ def gather():
             continue
         if not results:
             continue
+        texted = official_keys(d)
         time.sleep(0.2)
         for row in csv.DictReader(open(f, encoding="utf-8-sig")):
             ap, hp = row["Model Away%"], row["Model Home%"]
@@ -65,8 +67,11 @@ def gather():
             pick = a if float(ap) > float(hp) else h
             g = {"date": d, "away": a, "home": h, "winner": res["winner"],
                  "pick": pick, "pick_won": pick == res["winner"],
-                 "bet_team": None, "bet_won": None, "bet_profit": 0.0}
-            if "BET" in str(row.get("Flag", "")):
+                 "bet_team": None, "bet_won": None, "bet_profit": 0.0, "official": False}
+            # official = texted at lock (lock-on-text); untexted flags are
+            # backtest-only and must not enter the official record
+            g["official"] = key_from_row(row) in texted
+            if "BET" in str(row.get("Flag", "")) and (d < V2_LAUNCH or g["official"]):
                 s = flagged_side(row)
                 bt = a if s == "away" else h if s == "home" else pick
                 odds = row["DK Away Odds"] if bt == a else row["DK Home Odds"]
@@ -220,7 +225,7 @@ def main():
         f"Weekly report ({today}):",
         f"This week: {week_w}-{week_bets-week_w} official plays, {week_pnl:+.0f}",
         f"V2 since launch: {v2_w}-{len(v2_bets)-v2_w} ({gate_pct:.0f}%), {v2_pnl:+.0f} at $100 flat",
-        f"Gate: {len(v2_bets)}/{GATE_PICKS} picks (need 54%+)",
+        f"Gate: {len(v2_bets)}/{GATE_PICKS} picks (gate: ROI>=+3% & close-beat>=60% at 150)",
     ]
     if clv_v2:
         body.append(f"CLV: {clv_v2['avg']:+.2f}% avg, {clv_v2['beat']/clv_v2['n']*100:.0f}% beat close")

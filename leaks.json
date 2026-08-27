@@ -96,5 +96,61 @@
   "leak": "The old pipeline kept betting into games where professional money had moved the line against it.",
   "ev": "Those bets went 2-15 (13.3%) for -$1,062 before the veto existed. Sharps opposing the model win ~58% of the time.",
   "fix": "The FADE veto: any play with significant sharp movement against it is killed automatically, no exceptions."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE FROZEN RULER",
+  "leak": "The closing-line tracker silently stopped capturing closes at the end of July - the odds API drops finished games - and the board's CLV tile was a hardcoded number that could never change.",
+  "ev": "The tile read +6.49% / 96% beat for a month straight. The owner noticed it had not moved and asked. He was right.",
+  "fix": "True closes are now captured about an hour before every first pitch, 334 historical games were re-scored from archived snapshots, and the tile is computed live from the log every night. The UPDATED stamp now shows the DATA's timestamp, not the browser clock."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE SHARP MIRAGE",
+  "leak": "Opening lines were saved without a date and never overwritten, so in any series the 'sharp money' signal compared today's game against a PREVIOUS game's line.",
+  "ev": "615 of 619 sharp-movement signals were measured against the wrong game. The FADE veto's famous 2-15 evidence was built on this. The owner called it: sharps don't lose their edge.",
+  "fix": "Openings are date-scoped (and doubleheader-scoped) per game. The sharp veto is retired from live play until a clean signal earns its way back; the movement is still logged for study."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE PHANTOM PLAY",
+  "leak": "The graders trusted the picks files' bet flags instead of the record of what was actually texted, so a flag that never became a play could count in the official record.",
+  "ev": "One July 21 game carried a bet flag in the file that was never sent to anyone. It sat inside the official record for five weeks. A weekend of untexted flags was heading the same way.",
+  "fix": "Every grader now cross-checks the sent-text log before counting anything - lock-on-text is enforced by code across the record, the weekly report, the analytics, and this site. The phantom is gone from the record."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE TWIN-GAME TANGLE",
+  "leak": "Doubleheaders shared one key almost everywhere - picks, opening lines, first-five grading, closing-line attribution, player cards - so game 2 could silently overwrite or mis-grade game 1.",
+  "ev": "The Aug 17 Cardinals-Reds twin bill collided live on this site: the 9 AM texted play and the afternoon game showed as one game. Subscribers took the morning game; the record briefly graded the wrong one.",
+  "fix": "Every pipeline now keys game 1 and game 2 separately, end to end. Closing-line entries that cannot be attributed to a specific game of a twin bill are excluded rather than guessed."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE HALF-MEASURED CLOSE",
+  "leak": "Closing prices were only recorded for the model's PICK side - but most plays bet the other side (the value dog), so the close of the side we actually bet was never captured.",
+  "ev": "29 of 75 plays had no true bet-side close. Estimating the missing half from a margin assumption flips the verdict from 56% beat to 39% beat - the assumption WAS the answer.",
+  "fix": "Both sides' true closes are recorded on every play from Aug 27 on. The board only publishes the measured plays (41% beat on 46 plays - negative, and printed anyway) and refuses to estimate the rest."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE SHIFTING MORNING",
+  "leak": "The props boards' morning predictions could be silently rebuilt later in the day - after lineups, even after games started - which would let a bad morning call vanish.",
+  "ev": "Caught by code review before it was caught rewriting history: reruns of the model scripts on a started slate would regenerate the frozen logs in place.",
+  "fix": "Frozen means frozen: the HR, hits, and strikeout models now refuse by code to rebuild a log once the slate has started, and refuse past dates entirely. The graded ledgers only ever see the morning's frozen predictions."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE SCRATCH LOOPHOLE",
+  "leak": "The props ledger's 'top picks' tables were built from players who RECORDED a stat line, so a top pick who was scratched or benched quietly fell out of his own report card.",
+  "ev": "Survivorship bias in miniature: the exact mechanism that makes bad funds look good. Also: two players named Max Muncy shared one row.",
+  "fix": "Top-pick tables are now selected from the full morning list including did-not-plays, and every player table is keyed by league ID, not name."
+ },
+ {
+  "d": "2026-08-27",
+  "n": "THE TRADED-STINT BUG",
+  "leak": "For traded pitchers, the weekly training pipeline read only the newest team's partial-season stats - a three-start stint could stand in for a full season in the model's training data.",
+  "ev": "Deadline season is exactly when this bites hardest, and this audit began as a deadline investigation. The live pick engine had the fix; the training side did not - they were learning from different books.",
+  "fix": "Training now uses combined full-season totals for traded players, matching the live engine. A visible warning fires whenever a pitcher's stats fall back to a weaker source, instead of silently gating him at 0% reliability."
  }
 ]

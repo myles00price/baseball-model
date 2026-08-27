@@ -18,7 +18,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 from weekly_report import gather, V2_LAUNCH, payout
-from check_results import get_game_results, result_for_row
+from check_results import get_game_results, result_for_row, official_keys
 from features_v2 import BET_MIN, BET_MAX
 
 
@@ -28,9 +28,6 @@ def implied(o):
 
 
 BUCKETS = (("0-3", 0, 3), ("3-6", 3, 6), ("6-10", 6, 10), ("10+", 10, 999))
-
-
-VIG_TWOWAY = 104.8  # typical DK two-way overround, for the non-pick side's close
 
 
 def bet_side_clv_summary(since="2026-07-16"):
@@ -43,19 +40,34 @@ def bet_side_clv_summary(since="2026-07-16"):
         log = _json.load(open("clv_log.json"))
     except Exception:
         return {"n": 0, "avg": None, "beat_pct": None}
-    CL = {(e["date"], e["away"], e["home"]): e for e in log
-          if e.get("closing_implied") is not None}
+    CL = {}
+    dh_dupes = set()
+    for e in log:
+        if e.get("closing_implied") is None:
+            continue
+        k = (e["date"], e["away"], e["home"])
+        if k in CL:
+            dh_dupes.add(k)   # doubleheader ambiguity: cannot attribute closes
+        else:
+            CL[k] = e
+    for k in dh_dupes:
+        CL.pop(k, None)
     def _imp(o):
         o = float(o)
         return (-o) / (-o + 100) * 100 if o < 0 else 100 / (o + 100) * 100
     clvs = []
+    unmeasured = 0
     for f in sorted(glob("picks_2026-*.csv")):
         d = f.replace("picks_", "").replace(".csv", "")
         if d < since:
             continue
+        from features_v2 import key_from_row as _kfr
+        texted = official_keys(d)
         for row in csv.DictReader(open(f, encoding="utf-8-sig")):
             if "BET" not in str(row.get("Flag", "")):
                 continue
+            if _kfr(row) not in texted:
+                continue  # untexted flag = not an official play (lock-on-text)
             fs = _fs(row)
             if not fs:
                 continue
@@ -64,16 +76,32 @@ def bet_side_clv_summary(since="2026-07-16"):
                 continue
             try:
                 lock = float(row["DK Away Odds"] if fs == "away" else row["DK Home Odds"])
+                oa = float(row["DK Away Odds"]); oh = float(row["DK Home Odds"])
             except (ValueError, TypeError):
                 continue
             bet_team = row["Away"] if fs == "away" else row["Home"]
             pick_close = e["closing_implied"]
-            bet_close = pick_close if e["model_pick"] == bet_team else (VIG_TWOWAY - pick_close)
+            if e["model_pick"] == bet_team:
+                bet_close = pick_close
+            elif e.get("other_implied") is not None:
+                # true close of the non-pick side (stored from 8/27 on)
+                bet_close = e["other_implied"]
+            else:
+                # Pre-8/27 entries only captured the PICK side's close. For
+                # value-dog plays (bet != pick) the bet side's close was never
+                # recorded, and estimating it from an overround assumption
+                # flips the metric's sign (audit 2026-08-27: 104.8 constant
+                # said +0.47/56%, lock-time overround said -0.27/39% on the
+                # SAME rows). No estimate belongs in a gate metric - count
+                # the row as unmeasured instead. Both-side closes are stored
+                # going forward, so this class stops growing.
+                unmeasured += 1
+                continue
             clvs.append(bet_close - _imp(lock))
     if not clvs:
         return {"n": 0, "avg": None, "beat_pct": None}
     beat = sum(1 for c in clvs if c > 0)
-    return {"n": len(clvs), "avg": round(sum(clvs) / len(clvs), 2),
+    return {"n": len(clvs), "avg": round(sum(clvs) / len(clvs), 2), "unmeasured": unmeasured,
             "beat_pct": round(beat / len(clvs) * 100)}
 
 
@@ -168,6 +196,8 @@ def main():
             continue
         if not results:
             continue
+        _texted = official_keys(dt)
+        from features_v2 import key_from_row
         time.sleep(0.15)
         for row in csv.DictReader(open(f, encoding="utf-8-sig")):
             ap, hp = row.get("Model Away%"), row.get("Model Home%")
@@ -195,8 +225,10 @@ def main():
                     s[2] += payout(odds) if won else -100.0
                     break
 
-            # flagged-bet extra splits
-            if "BET" in str(row.get("Flag", "")):
+            # flagged-bet extra splits — OFFICIAL plays only (texted, V2 era):
+            # the board renders these as "OFFICIAL PLAYS" and until 2026-08-27
+            # they included ~75 pre-launch never-texted backtest flags
+            if dt >= V2_LAUNCH and "BET" in str(row.get("Flag", ""))                     and key_from_row(row) in _texted:
                 fs = flagged_side(row)
                 if fs:
                     bt = a if fs == "away" else h
@@ -225,7 +257,9 @@ def main():
                             _xadd("rl-shadow", covered, payout(px) if covered else -100.0)
                             # rl-value: only when the captured price beats our
                             # curve-fair for this side's win prob by >= 3 pts
-                            if pt > 0:  # +1.5 side only (the -1.5 was dismissed)
+                            if pt > 0 and dt >= "2026-08-26":  # +1.5 only, FORWARD-ONLY:
+                                # the curve was fit on games through 8/25; grading
+                                # those same games would be in-sample (audit)
                                 p_side = float(ap) / 100 if fs == "away" else float(hp) / 100
                                 fair_c = rl_fair_cover(p_side)
                                 imp_px = implied(px) / 100

@@ -767,6 +767,21 @@ def main():
 
     built_at = now_iso()
     log_fn = f"k_log_{date}.csv"
+    # FROZEN-LOG GUARD (2026-08-27 audit): a rebuild after first pitch - or
+    # any build for a PAST date - would write live/post-hoc season stats into
+    # the frozen training log. Refuse both.
+    import requests as _rq
+    _sess = _rq.Session()
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    _today = _dt.now(_tz(_td(hours=-7))).strftime("%Y-%m-%d")
+    if date < _today:
+        print(f"main: {date} is in the past - a rebuilt log would leak post-game "
+              f"stats into the training archive. Refusing.")
+        return
+    if os.path.exists(log_fn) and slate_started(_sess, date):
+        print("main: slate already underway and a frozen log exists - refusing "
+              "to rebuild it (no leaky log)")
+        return
     with open(log_fn, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=LOG_COLS)
         w.writeheader()

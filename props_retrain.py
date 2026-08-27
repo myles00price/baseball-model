@@ -61,6 +61,12 @@ def run(label, args, py=PY311, timeout=3600, env=None):
 
 def main():
     os.chdir(REPO)
+    # once-per-day guard (log showed duplicate runs doubling API/compute cost)
+    if os.path.exists(LOG):
+        with open(LOG, encoding="utf-8") as f:
+            if any(ln.startswith(date.today().isoformat()) for ln in f):
+                print("props retrain already ran today - skipping")
+                return {}
     holdout = (date.today() - timedelta(days=HOLDOUT_DAYS)).isoformat()
     env = dict(os.environ, PROPS_HOLDOUT_START=holdout)
     print(f"props retrain {datetime.now():%Y-%m-%d %H:%M} | rolling holdout from {holdout}")

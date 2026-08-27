@@ -20,7 +20,7 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 from features_v2 import flagged_side
-from check_results import get_game_results, result_for_row
+from check_results import get_game_results, result_for_row, official_keys
 from notify_pick import send_push
 
 V2_LAUNCH = "2026-07-16"
@@ -44,9 +44,13 @@ def grade_day(date_str, results=None):
         except Exception:
             results = {}
     out = []
+    from features_v2 import key_from_row
+    texted = official_keys(date_str)
     for row in rows:
         if "BET" not in str(row.get("Flag", "")):
             continue
+        if key_from_row(row) not in texted:
+            continue  # never texted -> never official (lock-on-text)
         a, h = row["Away"], row["Home"]
         s = flagged_side(row)
         bt = a if s == "away" else h if s == "home" else None
@@ -69,7 +73,8 @@ def _flagged_clv():
     try:
         from gen_analytics import bet_side_clv_summary
         r = bet_side_clv_summary(since=V2_LAUNCH)
-        return {"flagged_clv": r["avg"], "clv_beat_pct": r["beat_pct"]}
+        return {"flagged_clv": r["avg"], "clv_beat_pct": r["beat_pct"],
+                "clv_n": r["n"], "clv_unmeasured": r.get("unmeasured", 0)}
     except Exception:
         return {"flagged_clv": None, "clv_beat_pct": None}
 

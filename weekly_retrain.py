@@ -129,7 +129,12 @@ def get_pitcher_stats(player_id, season):
         splits = data["stats"][0]["splits"]
         if not splits:
             return None
-        s = splits[0]["stat"]
+        # traded players: statsapi returns per-team stints; splits[0] can be a
+        # 3-inning new-team stint (audit 2026-08-27 - inference had this fix
+        # since the deadline, training rows did not). Prefer the combined
+        # split (no 'team' key), else the max-IP stint.
+        from pitcher_stats import season_total_split
+        s = season_total_split(splits)
         ip = parse_ip(s.get("inningsPitched", 0))
         if ip < 1:
             return None
@@ -206,7 +211,8 @@ def get_batter_ops(player_id, season, vs_hand=None):
         splits = data["stats"][0]["splits"]
         if not splits:
             return None
-        ops = float(splits[0]["stat"].get("ops", 0))
+        from lineup_stats import _best_split
+        ops = float(_best_split(splits).get("ops", 0))
         return ops if ops > 0 else None
     except:
         return None

@@ -26,21 +26,24 @@ OUT = "pen_usage.csv"
 FIELDS = ["date", "game_pk", "team", "pid", "name", "started", "ip", "pitches", "batters_faced"]
 
 
-def _done_dates():
+def _done_pks():
+    """Game-level idempotency (2026-08-27 audit: date-level marking swallowed
+    the rest of a slate whenever an early final was collected mid-day -
+    2026-08-17 archived 1 of a full slate's games)."""
     if not os.path.exists(OUT):
         return set()
     with open(OUT, encoding="utf-8-sig") as f:
-        return {r["date"] for r in csv.DictReader(f)}
+        return {r["game_pk"] for r in csv.DictReader(f)}
 
 
 def collect(date_str):
-    """Collect one date's pitcher usage. Skips if already collected."""
-    if date_str in _done_dates():
-        return 0
+    """Collect one date's pitcher usage. Skips games already collected."""
+    done = _done_pks()
     j = requests.get("https://statsapi.mlb.com/api/v1/schedule",
                      params={"sportId": 1, "date": date_str}, timeout=30).json()
     pks = [g["gamePk"] for dd in j.get("dates", []) for g in dd.get("games", [])
-           if g.get("status", {}).get("codedGameState") == "F"]
+           if g.get("status", {}).get("codedGameState") == "F"
+           and str(g["gamePk"]) not in done]
     if not pks:
         return 0
     rows = []

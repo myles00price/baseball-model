@@ -22,37 +22,44 @@ def save_current_lines(date_str):
     lines = {}
     lv = timezone(timedelta(hours=-7))
 
+    # group by matchup so doubleheaders get ordered #1/#2 keys (audit
+    # 2026-08-27: same-date DH games overwrote each other's opening)
+    grouped = {}
     for game in data:
-        # Only save lines for the target date
         commence = datetime.fromisoformat(
             game["commence_time"].replace("Z", "+00:00")
         ).astimezone(lv)
         if commence.strftime("%Y-%m-%d") != date_str:
             continue
+        mk = game["away_team"] + "@" + game["home_team"]
+        grouped.setdefault(mk, []).append(game)
 
-        home = game["home_team"]
-        away = game["away_team"]
-        # DATE-SCOPED key (2026-08-27): the old key had no date and was never
-        # overwritten, so series games reused a PREVIOUS game's line as their
-        # "opening" - 615 of 619 sharp signals were measured against a
-        # different game. Every consumer now reads {date}|{matchup}.
-        key = f"{date_str}|{away}@{home}"
+    for mk, evs in grouped.items():
+        evs.sort(key=lambda g: str(g.get("commence_time")))
+        for gi, game in enumerate(evs):
+            home = game["home_team"]
+            away = game["away_team"]
+            # DATE-SCOPED key (2026-08-27): the old key had no date and was never
+            # overwritten, so series games reused a PREVIOUS game's line as their
+            # "opening" - 615 of 619 sharp signals were measured against a
+            # different game. Every consumer now reads {date}|{matchup}[#N].
+            key = f"{date_str}|{away}@{home}" + (f"#{gi+1}" if gi > 0 else "")
 
-        lines[key] = {
-            "home": home,
-            "away": away,
-            "saved_at": datetime.now(lv).isoformat(),
-            "odds": {}
-        }
+            lines[key] = {
+                "home": home,
+                "away": away,
+                "saved_at": datetime.now(lv).isoformat(),
+                "odds": {}
+            }
 
-        for bk in game["bookmakers"]:
-            for market in bk["markets"]:
-                if market["key"] == "h2h":
-                    for outcome in market["outcomes"]:
-                        team = outcome["name"]
-                        if team not in lines[key]["odds"]:
-                            lines[key]["odds"][team] = {}
-                        lines[key]["odds"][team][bk["key"]] = outcome["price"]
+            for bk in game["bookmakers"]:
+                for market in bk["markets"]:
+                    if market["key"] == "h2h":
+                        for outcome in market["outcomes"]:
+                            team = outcome["name"]
+                            if team not in lines[key]["odds"]:
+                                lines[key]["odds"][team] = {}
+                            lines[key]["odds"][team][bk["key"]] = outcome["price"]
 
     # Load existing saved lines
     all_lines = {}
@@ -95,24 +102,28 @@ def get_line_movement(date_str):
 
     lv = timezone(timedelta(hours=-7))
     current = {}
+    grouped = {}
     for game in data:
         commence = datetime.fromisoformat(
             game["commence_time"].replace("Z", "+00:00")
         ).astimezone(lv)
         if commence.strftime("%Y-%m-%d") != date_str:
             continue
-        home = game["home_team"]
-        away = game["away_team"]
-        key = f"{away}@{home}"
-        current[key] = {}
-        for bk in game["bookmakers"]:
-            for market in bk["markets"]:
-                if market["key"] == "h2h":
-                    for outcome in market["outcomes"]:
-                        team = outcome["name"]
-                        if team not in current[key]:
-                            current[key][team] = {}
-                        current[key][team][bk["key"]] = outcome["price"]
+        mk = game["away_team"] + "@" + game["home_team"]
+        grouped.setdefault(mk, []).append(game)
+    for mk, evs in grouped.items():
+        evs.sort(key=lambda g: str(g.get("commence_time")))
+        for gi, game in enumerate(evs):
+            key = mk + (f"#{gi+1}" if gi > 0 else "")
+            current[key] = {}
+            for bk in game["bookmakers"]:
+                for market in bk["markets"]:
+                    if market["key"] == "h2h":
+                        for outcome in market["outcomes"]:
+                            team = outcome["name"]
+                            if team not in current[key]:
+                                current[key][team] = {}
+                            current[key][team][bk["key"]] = outcome["price"]
 
     # Calculate movement (openings are date-scoped: {date}|{matchup})
     movement = {}

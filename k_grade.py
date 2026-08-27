@@ -259,8 +259,10 @@ def write_summary():
         if not (side and line and px and day):
             continue
         best_close = None
+        from k_model import norm_name as _nn
         for g in day.values():
-            snap = g.get("prices", {}).get(r["name"])
+            _prices = { _nn(nm): v for nm, v in (g.get("prices") or {}).items() }
+            snap = _prices.get(_nn(r["name"]))
             if not snap:
                 continue
             for bk, mkts in snap.items():

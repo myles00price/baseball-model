@@ -374,6 +374,7 @@ def main():
         title = f"MLB pick locked: {g['away']} @ {g['home']}{gtag}"
         send_push(title, body, bet)
         notified.add(key)
+        save_state(date_str, notified)   # per-send: a crash must not orphan a texted play
         sent_any = True
         print(f"Notified: {key}")
         # F5 shadow locks on the same lineup-confirmed evaluation as the

@@ -74,8 +74,15 @@ def capture(date_str=None):
     from features_v2 import commence_lv_date
     emap = {}
     for e in evs:
-        if commence_lv_date(e.get("commence_time")) == date_str:
-            emap.setdefault(f"{e['away_team']}@{e['home_team']}", []).append(e)
+        if commence_lv_date(e.get("commence_time")) != date_str:
+            continue
+        try:
+            _st = datetime.fromisoformat(str(e["commence_time"]).replace("Z", "+00:00"))
+            if _st <= now:
+                continue  # already commenced: prices are LIVE, not closing (DH game-1 trap)
+        except Exception:
+            pass
+        emap.setdefault(f"{e['away_team']}@{e['home_team']}", []).append(e)
     n = 0
     for pk, away, home in todo:
         cands = sorted(emap.get(f"{away}@{home}", []), key=lambda e: e["commence_time"])

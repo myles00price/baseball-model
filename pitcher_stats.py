@@ -165,23 +165,35 @@ def get_blended_pitcher_stats(full_name, season, playerid_lookup, pid=None):
 
         # If no data at all use league averages
         if not current and not career:
+            # every path must carry "reliability" (audit 2026-08-27: fallback
+            # dicts without it read as 0% downstream, so one HTTP hiccup on a
+            # veteran silently flipped his reliability gate)
+            print(f"  WARNING: no stats at all for pid {pid} - league-average "
+                  f"fallback, reliability 0")
             return {
                 "era":  LEAGUE_AVG_ERA,
                 "whip": LEAGUE_AVG_WHIP,
                 "k9":   LEAGUE_AVG_K9,
                 "bb9":  LEAGUE_AVG_BB9,
                 "fip":  LEAGUE_AVG_FIP,
-                "hand": hand
+                "hand": hand,
+                "reliability": 0.0
             }, pid
 
         # If no current season fall back to career
         if not current:
+            print(f"  WARNING: no current-season stats for pid {pid} - "
+                  f"career fallback")
             career["hand"] = hand
+            career["reliability"] = round(
+                min(career.get("ip", 0) / RELIABLE_IP, 1.0) * 100, 1)
             return career, pid
 
         # If no career use current only
         if not career:
             current["hand"] = hand
+            current["reliability"] = round(
+                min(current.get("ip", 0) / RELIABLE_IP, 1.0) * 100, 1)
             return current, pid
 
         # Blend: weight current by IP vs reliable threshold

@@ -215,7 +215,10 @@ def f5_results(date_str):
                 continue
             a5 = sum(x.get("away", {}).get("runs", 0) or 0 for x in inns[:5])
             h5 = sum(x.get("home", {}).get("runs", 0) or 0 for x in inns[:5])
-            k = f"{g['teams']['away']['team']['name']}@{g['teams']['home']['team']['name']}"
+            from features_v2 import key_from_sched as _kfs
+            k = _kfs(g)   # DH-safe: game 2 -> 'Away@Home#2' (audit 2026-08-27:
+                          # bare keys graded game-1 F5 vs whichever game came last
+                          # and never graded a locked game-2 flag)
             out[k] = "tie" if a5 == h5 else ("home" if h5 > a5 else "away")
     return out
 

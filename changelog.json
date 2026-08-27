@@ -243,5 +243,15 @@
   "d": "2026-07-30",
   "t": "THE BOARD LAUNCHES",
   "x": "This site. Live game cards with the model's number on every line, Gameday view, standings, leaders, player files, the full ledger, and everything you are reading right now. Updates itself from the nightly pipeline."
+ },
+ {
+  "d": "2026-08-27",
+  "t": "A CORRECTION TO THIS MORNING'S CORRECTION",
+  "x": "This morning this page said our bet-side closing-line value was a thin, improving edge (55% of locked prices beat the close). Tonight's line-by-line audit found that number was resting on a guess: for 29 of our 75 measured plays - the value-underdog bets, the heart of this model - the closing price of the side we bet was never actually recorded, only the other side's. We had been estimating the missing half from an assumption about bookmaker margin, and the assumption decides the answer: one reasonable version says 56% beat, another says 39%. A number that flips with an assumption is not a measurement, so we no longer publish it. The honest reading on the 46 plays with a real recorded close: 41% beat the close, average -0.65. That is a negative price signal and it stays on the board until real data says otherwise. As of tonight every play records BOTH sides' true closing prices, so this number is fully measured from here on - no estimates, no guesses. Fourth metric correction this week; all of them are on this page."
+ },
+ {
+  "d": "2026-08-27",
+  "t": "THE LINE-BY-LINE CLEAN - EVERY FILE AUDITED",
+  "x": "The owner ordered a full audit of every line of code: find the errors, the double counts, the overfit numbers. Four independent review passes covered the pick engine, the grading and record pipeline, the props models, and this website itself. Roughly 45 verified findings, all now fixed. The ones that touched YOUR numbers: a play that was never texted had crept into the official record (removed - the record only ever counts what was sent to your phone, enforced by code now, not by promise); doubleheader games could overwrite each other in several ledgers (every pipeline now keys game 1 and game 2 separately); the props boards could quietly rebuild their morning predictions after games started (frozen logs are now frozen by code); the 'best hitters' tables only ranked players who played, hiding bad misses on scratches (fixed); and several stale explainer numbers on this site were replaced with live ones that update nightly. The record after all corrections: 38-39, +$351, +4.6% return on 77 official plays. Nothing about tonight's audit changed a single graded result you were texted - it changed how hard it is for a wrong number to survive here."
  }
 ]

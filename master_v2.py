@@ -223,13 +223,39 @@ PICK_COLUMNS = [
 ]
 
 
-def save_picks_to_csv(picks, date_str):
+def save_picks_to_csv(picks, date_str, texted_at_start=None):
+    """Atomic write (temp+rename). Race guard: if a play was TEXTED while this
+    run was computing (minutes of statcast calls), restore that game's row
+    from the pre-run CSV instead of overwriting the locked pick (the 7/28
+    dropped-flag bug class, closed at the writer)."""
     filename = f"picks_{date_str}.csv"
-    with open(filename, "w", newline="", encoding="utf-8-sig") as f:
+    try:
+        import json as _json
+        now_texted = {k for k in _json.load(open(f"notified_{date_str}.json"))
+                      if not k.startswith("_")}
+    except (OSError, ValueError):
+        now_texted = set()
+    newly = now_texted - (texted_at_start or set())
+    if newly and os.path.exists(filename):
+        from features_v2 import key_from_row as _kfr
+        try:
+            with open(filename, encoding="utf-8-sig") as f:
+                prior = {_kfr(r): r for r in csv.DictReader(f)}
+            for i, pick in enumerate(picks):
+                row = dict(zip(PICK_COLUMNS, [str(p) for p in pick]))
+                k = _kfr(row)
+                if k in newly and k in prior:
+                    picks[i] = [prior[k].get(c, "") for c in PICK_COLUMNS]
+                    print(f"  race guard: kept locked row for {k} (texted mid-run)")
+        except Exception as e:
+            print(f"  race guard skipped ({e})")
+    tmp = filename + ".tmp"
+    with open(tmp, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
         writer.writerow(PICK_COLUMNS)
         for pick in picks:
             writer.writerow([str(p) for p in pick])
+    os.replace(tmp, filename)
     print(f"\nPicks saved to {filename}")
 
 def run_model(target_date, save_csv=True):
@@ -397,8 +423,8 @@ def run_model(target_date, save_csv=True):
             texted_keys = {k for k in json_module.load(f) if not k.startswith("_")}
         if texted_keys:
             print(f"{len(texted_keys)} texted picks are locked and will not be re-evaluated\n")
-    except OSError:
-        pass
+    except (OSError, ValueError):
+        pass  # partially-written notified file must not kill the run
 
     # Session-level FADE veto counter for end-of-run summary
     fade_vetoes = []
@@ -415,6 +441,16 @@ def run_model(target_date, save_csv=True):
             if game_status in ["Live", "Final"] or game_key in texted_keys:
                 if game_key in existing_picks:
                     row = existing_picks[game_key]
+                    if game_key not in texted_keys and "BET" in str(row.get("Flag", "")):
+                        # NEVER-TEXTED flag on a started game: not an official
+                        # play (lock-on-text) - strip so it cannot enter the
+                        # record. (Audit 2026-08-27: a 7/21 flag survived this
+                        # path into the official record.)
+                        row = dict(row)
+                        row["Flag"] = ""
+                        for _c in ("DK Edge Away", "MGM Edge Away", "DK Edge Home", "MGM Edge Home"):
+                            row[_c] = str(row.get(_c, "")).replace(" ** BET **", "")
+                        print(f"  stripped never-texted flag: {game_key}")
                     frozen = [row.get(col, "") for col in PICK_COLUMNS]
                     # backfill DH columns on rows written before they existed
                     frozen[PICK_COLUMNS.index("Game#")] = row.get("Game#") or game_no
@@ -424,6 +460,9 @@ def run_model(target_date, save_csv=True):
                                     else "✅ FINAL" if game_status == "Final"
                                     else "🔒 TEXTED/LOCKED")
                     print(f"  {status_label} — {away} @ {home} [FROZEN — using pre-game pick]")
+                elif game_key in texted_keys:
+                    print(f"  WARNING: texted play {game_key} has NO row in the existing CSV - "
+                          f"row lost upstream; grader must rely on notified json")
                 if f5_on:
                     # game locked -> freeze its F5 shadow row at last snapshot
                     f5_shadow.capture(target_str, game_key, None, away, home,
@@ -696,7 +735,7 @@ def run_model(target_date, save_csv=True):
         print("=" * 75)
 
     if save_csv:
-        save_picks_to_csv(picks, target_str)
+        save_picks_to_csv(picks, target_str, texted_at_start=texted_keys)
     if f5_on:
         f5_shadow.save(target_str)
 

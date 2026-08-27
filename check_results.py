@@ -57,6 +57,18 @@ def result_for_row(results, row):
         return results.get(key)      # DH game 2+ without pk: exact key only
     return results.get(key)
 
+def official_keys(date_str):
+    """Game keys texted to subscribers on date_str (lock-on-text). A flag that
+    was never texted is NOT an official play - no grader may count it.
+    (2026-08-27 audit: a never-texted 7/21 flag survived a Live-game freeze
+    and sat in the official record; graders never checked this file.)"""
+    try:
+        with open(f"notified_{date_str}.json") as f:
+            return {k for k in json.load(f) if not k.startswith("_")}
+    except Exception:
+        return set()
+
+
 def get_closing_lines(date_str=None):
     from features_v2 import commence_lv_date
     try:
@@ -218,6 +230,13 @@ def check_picks(date_str):
         closing_data = closing.get(model_winner, {})
         closing_implied = closing_data.get("implied")
         closing_odds = closing_data.get("odds")
+        # other side's TRUE close too (audit 2026-08-27: bet-side CLV had to
+        # infer the non-pick close from the lock-time overround; store the
+        # real number when we have it so the gate metric stops estimating)
+        other_team = home if model_winner == away else away
+        other_data = closing.get(other_team, {})
+        other_implied = other_data.get("implied")
+        other_odds = other_data.get("odds")
         clv = round(model_prob - closing_implied, 1) if closing_implied else None
         clv_positive = clv > 0 if clv is not None else None
 
@@ -234,6 +253,9 @@ def check_picks(date_str):
         already_logged = any(
             e.get("date") == date_str and e.get("away") == away and e.get("home") == home
             for e in clv_log
+        ) or any(
+            e.get("date") == date_str and e.get("away") == away and e.get("home") == home
+            for e in new_clv_entries   # same-run dedupe (audit: 7 dupes, DH rows)
         )
         if not already_logged:
             new_clv_entries.append({
@@ -243,6 +265,8 @@ def check_picks(date_str):
                 "opening_odds": opening_odds,             # NEW
                 "closing_implied": closing_implied,
                 "closing_odds": closing_odds,
+                "other_implied": other_implied,
+                "other_odds": other_odds,
                 "open_close_drift": open_close_drift,     # NEW
                 "clv": clv, "clv_positive": clv_positive,
                 "won": model_winner == actual_winner,

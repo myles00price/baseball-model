@@ -74,12 +74,17 @@ def calib(rows, pkey, ykey, edges=(0, .05, .10, .15, .20, .30, 1.01)):
 
 
 def streaks(rows, ykey, datekey="date", namekey="name"):
-    """Current consecutive-day 'yes' streak per player (any played row)."""
+    """Current consecutive-day 'yes' streak per player (any played row).
+    Keyed by player_id (two Max Muncys exist); name kept for display."""
     by = defaultdict(list)
+    names = {}
     for r in rows:
-        by[r[namekey]].append((r[datekey], int(f(r.get(ykey)) or 0)))
+        pid = r.get("player_id") or r.get("pitcher_id") or r[namekey]
+        names[pid] = r[namekey]
+        by[pid].append((r[datekey], int(f(r.get(ykey)) or 0)))
     out = []
-    for nm, seq in by.items():
+    for pid, seq in by.items():
+        nm = names[pid]
         seq.sort()
         s = 0
         for _, y in reversed(seq):
@@ -94,15 +99,17 @@ def streaks(rows, ykey, datekey="date", namekey="name"):
 
 def player_table(rows, pkey, ykey, namekey="name", teamkey="team", label_pos=True):
     """Best/worst vs model: actual rate minus predicted rate, min sample."""
-    agg = defaultdict(lambda: [0, 0.0, 0, ""])  # n, sum p, sum y, team
+    agg = defaultdict(lambda: [0, 0.0, 0, "", ""])  # n, sum p, sum y, team, name
     for r in rows:
         p = f(r.get(pkey))
         if p is None:
             continue
-        a = agg[r[namekey]]
-        a[0] += 1; a[1] += p; a[2] += int(f(r.get(ykey)) or 0); a[3] = r.get(teamkey, "")
+        pid = r.get("player_id") or r.get("pitcher_id") or r[namekey]
+        a = agg[pid]
+        a[0] += 1; a[1] += p; a[2] += int(f(r.get(ykey)) or 0)
+        a[3] = r.get(teamkey, ""); a[4] = r[namekey]
     tbl = []
-    for nm, (n, sp, sy, tm) in agg.items():
+    for _pid, (n, sp, sy, tm, nm) in agg.items():
         if n < MIN_PLAYER_N:
             continue
         tbl.append({"t": nm, "tm": tm, "n": n, "pred": round(sp / n * 100, 1),
@@ -227,13 +234,14 @@ def market_paper(rows, pkey, ykey, odds_keys, thresh=0.03):
 
 
 def build_hr():
-    rows = [r for r in load("hr_training_data.csv", ("p",)) if str(r.get("played", "1")) != "0"]
+    allrows = load("hr_training_data.csv", ("p",))
+    rows = [r for r in allrows if str(r.get("played", "1")) != "0"]
     if not rows:
         return None
     return {
         "days": len({r["date"] for r in rows}), "n": len(rows),
         "calib": calib(rows, "p", "hr_yes"),
-        "topn": top_n_daily(rows, "p", "hr_yes"),
+        "topn": top_n_daily(allrows, "p", "hr_yes"),  # select from FULL list incl DNP (audit: survivorship)
         "sides": side_split(rows, "p", "hr_yes"),
         "players": player_table(rows, "p", "hr_yes"),
         "streaks": streaks(rows, "hr_yes"),
@@ -243,13 +251,14 @@ def build_hr():
 
 
 def build_hit():
-    rows = [r for r in load("hit_training_data.csv", ("p", "p2")) if str(r.get("played", "1")) != "0"]
+    allrows = load("hit_training_data.csv", ("p", "p2"))
+    rows = [r for r in allrows if str(r.get("played", "1")) != "0"]
     if not rows:
         return None
     return {
         "days": len({r["date"] for r in rows}), "n": len(rows),
         "calib": calib(rows, "p", "hit_yes", edges=(0, .5, .6, .65, .7, .75, .8, 1.01)),
-        "topn": top_n_daily(rows, "p", "hit_yes"),
+        "topn": top_n_daily(allrows, "p", "hit_yes"),
         "sides": side_split(rows, "p", "hit_yes"),
         "players": player_table(rows, "p", "hit_yes"),
         "streaks": streaks(rows, "hit_yes"),
