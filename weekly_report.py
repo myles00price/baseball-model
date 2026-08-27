@@ -161,8 +161,16 @@ def main():
         f"BEATING THE CLOSING PRICE (need >={GATE_CLVBEAT_MIN:.0f}%), not raw win rate",
         f"- V2 pick accuracy (all games): {v2_picks_w}/{len(v2)} ({v2_picks_w/len(v2)*100 if v2 else 0:.1f}%)",
     ]
+    try:
+        from gen_analytics import bet_side_clv_summary
+        bclv = bet_side_clv_summary(since=V2_LAUNCH)
+    except Exception:
+        bclv = {"n": 0}
+    if bclv.get("n"):
+        lines.append(f"- BET-side CLV (gate metric): **{bclv['avg']:+.2f}%** avg, beat close "
+                     f"{bclv['beat_pct']}% of {bclv['n']} plays")
     if clv_v2:
-        lines.append(f"- V2-window CLV: **{clv_v2['avg']:+.2f}%** avg, beat close "
+        lines.append(f"- Pick-side CLV (model-opinion tracking): {clv_v2['avg']:+.2f}% avg, "
                      f"{clv_v2['beat']}/{clv_v2['n']} ({clv_v2['beat']/clv_v2['n']*100:.0f}%)")
     if clv_season:
         lines.append(f"- Season CLV: {clv_season['avg']:+.2f}% avg over {clv_season['n']} games "

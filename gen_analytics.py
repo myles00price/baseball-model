@@ -30,6 +30,53 @@ def implied(o):
 BUCKETS = (("0-3", 0, 3), ("3-6", 3, 6), ("6-10", 6, 10), ("10+", 10, 999))
 
 
+VIG_TWOWAY = 104.8  # typical DK two-way overround, for the non-pick side's close
+
+
+def bet_side_clv_summary(since="2026-07-16"):
+    """THE gate CLV metric (2026-08-27): locked price of the FLAGGED side vs
+    the true close of that same side. The log's 'clv' field is PICK-side -
+    anti-correlated with our bet on value-dog plays and wrong for the gate."""
+    import json as _json
+    from features_v2 import flagged_side as _fs
+    try:
+        log = _json.load(open("clv_log.json"))
+    except Exception:
+        return {"n": 0, "avg": None, "beat_pct": None}
+    CL = {(e["date"], e["away"], e["home"]): e for e in log
+          if e.get("closing_implied") is not None}
+    def _imp(o):
+        o = float(o)
+        return (-o) / (-o + 100) * 100 if o < 0 else 100 / (o + 100) * 100
+    clvs = []
+    for f in sorted(glob("picks_2026-*.csv")):
+        d = f.replace("picks_", "").replace(".csv", "")
+        if d < since:
+            continue
+        for row in csv.DictReader(open(f, encoding="utf-8-sig")):
+            if "BET" not in str(row.get("Flag", "")):
+                continue
+            fs = _fs(row)
+            if not fs:
+                continue
+            e = CL.get((d, row["Away"], row["Home"]))
+            if not e:
+                continue
+            try:
+                lock = float(row["DK Away Odds"] if fs == "away" else row["DK Home Odds"])
+            except (ValueError, TypeError):
+                continue
+            bet_team = row["Away"] if fs == "away" else row["Home"]
+            pick_close = e["closing_implied"]
+            bet_close = pick_close if e["model_pick"] == bet_team else (VIG_TWOWAY - pick_close)
+            clvs.append(bet_close - _imp(lock))
+    if not clvs:
+        return {"n": 0, "avg": None, "beat_pct": None}
+    beat = sum(1 for c in clvs if c > 0)
+    return {"n": len(clvs), "avg": round(sum(clvs) / len(clvs), 2),
+            "beat_pct": round(beat / len(clvs) * 100)}
+
+
 def main():
     games = gather()
 

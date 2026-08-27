@@ -63,19 +63,15 @@ def grade_day(date_str, results=None):
 
 
 def _flagged_clv():
-    """Flagged-play CLV summary from clv_log.json for the board tiles."""
-    import json as _json
+    """Board tile CLV = BET-side (locked flagged price vs that side's true
+    close). 2026-08-27: the log's pick-side clv is anti-correlated with our
+    value-dog bets and misread the deadline story twice in one day."""
     try:
-        log = _json.load(open("clv_log.json"))
+        from gen_analytics import bet_side_clv_summary
+        r = bet_side_clv_summary(since=V2_LAUNCH)
+        return {"flagged_clv": r["avg"], "clv_beat_pct": r["beat_pct"]}
     except Exception:
         return {"flagged_clv": None, "clv_beat_pct": None}
-    fl = [e for e in log if e.get("flagged") and e.get("clv") is not None
-          and e.get("date", "") >= V2_LAUNCH]
-    if not fl:
-        return {"flagged_clv": None, "clv_beat_pct": None}
-    beat = sum(1 for e in fl if e["clv"] > 0)
-    return {"flagged_clv": round(sum(e["clv"] for e in fl) / len(fl), 2),
-            "clv_beat_pct": round(beat / len(fl) * 100)}
 
 
 def main():
