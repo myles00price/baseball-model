@@ -62,6 +62,22 @@ def grade_day(date_str, results=None):
     return out
 
 
+def _flagged_clv():
+    """Flagged-play CLV summary from clv_log.json for the board tiles."""
+    import json as _json
+    try:
+        log = _json.load(open("clv_log.json"))
+    except Exception:
+        return {"flagged_clv": None, "clv_beat_pct": None}
+    fl = [e for e in log if e.get("flagged") and e.get("clv") is not None
+          and e.get("date", "") >= V2_LAUNCH]
+    if not fl:
+        return {"flagged_clv": None, "clv_beat_pct": None}
+    beat = sum(1 for e in fl if e["clv"] > 0)
+    return {"flagged_clv": round(sum(e["clv"] for e in fl) / len(fl), 2),
+            "clv_beat_pct": round(beat / len(fl) * 100)}
+
+
 def main():
     lv = timezone(timedelta(hours=-7))
     today = datetime.now(lv).strftime("%Y-%m-%d")
@@ -120,7 +136,8 @@ def main():
             "record": f"{run_w}-{run_n - run_w}", "win_pct": round(winpct, 1),
             "pnl": round(run_pnl), "roi": round(roi, 1),
             "gate": run_n, "gate_target": 150,
-            "flagged_clv": 6.49, "clv_beat_pct": 96,
+            # live from clv_log (was hardcoded 6.49/96 - stale since July, caught 8/27)
+            **_flagged_clv(),
             "today": [{"team": bt, "odds": odds,
                        "result": ("W" if won else "L") if won is not None else "pending",
                        "score": score} for bt, odds, won, score in day],
