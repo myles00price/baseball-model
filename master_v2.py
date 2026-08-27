@@ -565,8 +565,14 @@ def run_model(target_date, save_csv=True):
             # FADE bets went 2/15 (13.3%) for -$1,062 P&L over 6 weeks of paper trading.
             # When sharps move against the model, we suppress the BET flag.
             min_reliability = min(home_rel, away_rel)
-            sharp_veto = "FADE" in str(sharp_signal)
-            base_ok = home != "Colorado Rockies" and not sharp_veto
+            # SHARP VETO NEUTRALIZED 2026-08-27: the signal's line-movement
+            # source was measured against date-less "openings" (a prior
+            # game's line, 615/619 cases), so every sharp-based decision -
+            # including the veto's founding 2-15 evidence - was built on
+            # noise. Signal still computed+logged on CLEAN date-scoped
+            # openings for the record; it gates nothing until re-founded.
+            sharp_veto = False
+            base_ok = home != "Colorado Rockies"
             # side-aware gate: our side's SP must be sampled; thin opposing
             # SPs are fadeable only if their stuff is unproven (whiff < 11)
             reliable_away = base_ok and bet_side_ok(away_rel, home_rel, home_whiff)

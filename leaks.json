@@ -1,6 +1,13 @@
 [
  {
   "d": "2026-08-27",
+  "n": "THE SHARP MIRAGE",
+  "leak": "Every 'sharp money' reading on this board - the line-movement arrows, the CONFIRMED and FADE tags, the veto that blocked plays when professionals moved against us, and the finding that 'sharps lost their edge at the trade deadline' - was measured against opening lines that had no date attached and were never replaced. Teams play three and four game series: the 'opening line' for most games was actually a PREVIOUS game's line, sometimes months old. 615 of 619 sharp signals ever recorded were comparing prices from two different games.",
+  "ev": "The owner called it: sharps don't lose their edge - that's what makes them sharp. Re-measured with a clean ruler (each morning's real price against the true pre-pitch close), the side the market moved toward won 51% before the deadline and 48% after - a coin flip in both eras. The dramatic 56.6%-to-53.5% 'decay' was cross-game price differences masquerading as sharp action. The veto's founding evidence (2-15 in paper trading) was built on the same broken ruler.",
+  "fix": "Opening lines are now saved per date, movement is only ever computed inside a single game's own day, and the sharp-fade veto no longer blocks anything - the signal is still computed and logged on clean data, but it earns its way back in from zero evidence or it stays decorative. What the clean data DID reveal: the model's own closing-line edge genuinely decayed after the deadline (+1.44% and 69% beat before, -0.73% and 51% after) - hidden until now behind the frozen tile. That number is the real deadline story, it is now live on the board nightly, and it is the one being watched."
+ },
+ {
+  "d": "2026-08-27",
   "n": "THE SILENT CLV BLACKOUT",
   "leak": "The July 29 fix for fake closing lines had a side effect nobody noticed: by grading time each night, the odds feed has already dropped that day's finished games, so the date filter correctly rejected tomorrow's lines and then found nothing at all. Every closing-line comparison since July 29 was silently recorded as empty - while the site kept displaying the last healthy numbers as if they were current.",
   "ev": "Caught by the owner, who noticed the 69% close-beat figure hadn't moved in a month. Sure enough: 336 empty entries since July 29, and a stat tile still hardcoded to numbers from July. Rebuilt against true pre-pitch price snapshots, the honest figures are lower: plays beat the final price 61% of the time at +0.5% average (not 69% at +3.5%), and over just the repaired month the plays actually ran slightly behind the close (54% beat, -0.6%).",

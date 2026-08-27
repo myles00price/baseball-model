@@ -32,7 +32,11 @@ def save_current_lines(date_str):
 
         home = game["home_team"]
         away = game["away_team"]
-        key = f"{away}@{home}"
+        # DATE-SCOPED key (2026-08-27): the old key had no date and was never
+        # overwritten, so series games reused a PREVIOUS game's line as their
+        # "opening" - 615 of 619 sharp signals were measured against a
+        # different game. Every consumer now reads {date}|{matchup}.
+        key = f"{date_str}|{away}@{home}"
 
         lines[key] = {
             "home": home,
@@ -110,8 +114,11 @@ def get_line_movement(date_str):
                             current[key][team] = {}
                         current[key][team][bk["key"]] = outcome["price"]
 
-    # Calculate movement
+    # Calculate movement (openings are date-scoped: {date}|{matchup})
     movement = {}
+    saved = { (k.split("|",1)[1] if "|" in k else k): v
+              for k, v in saved.items()
+              if k.startswith(date_str + "|") }   # ONLY this date's openings
     for key, cur in current.items():
         if key not in saved:
             continue
