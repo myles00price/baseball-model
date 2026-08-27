@@ -85,22 +85,31 @@ def capture(date_str=None):
         try:
             r = requests.get(f"https://api.the-odds-api.com/v4/sports/baseball_mlb/events/{eid}/odds",
                              params={"apiKey": key, "regions": "us",
-                                     "markets": "pitcher_strikeouts",
+                                     "markets": "pitcher_strikeouts,h2h",
                                      "oddsFormat": "american",
                                      "bookmakers": "draftkings,fanduel,betmgm,williamhill_us"},
                              timeout=20).json()
         except Exception:
             continue
         snap = {}
+        ml = {}
         for bk in r.get("bookmakers", []):
             for mk in bk.get("markets", []):
+                if mk["key"] == "h2h":
+                    # ML close for true-CLV (2026-08-27: the 7/29 closing-line fix
+                    # silently produced NO closing lines for a month - the API
+                    # drops finished games by grade time; capture close here,
+                    # pre-pitch, where the game still exists)
+                    for o in mk["outcomes"]:
+                        ml.setdefault(o["name"], {})[bk["key"]] = o["price"]
+                    continue
                 if mk["key"] != "pitcher_strikeouts":
                     continue
                 for o in mk["outcomes"]:
                     nm = o.get("description", "")
                     snap.setdefault(nm, {}).setdefault(bk["key"], {})[
                         f"{o['name'].lower()}_{o.get('point')}"] = o["price"]
-        store[pk] = {"at": datetime.now(timezone.utc).strftime("%H:%MZ"), "prices": snap}
+        store[pk] = {"at": datetime.now(timezone.utc).strftime("%H:%MZ"), "prices": snap, "ml": ml, "away": away, "home": home}
         n += 1
     if n:
         json.dump(store, open(fn, "w", encoding="utf-8"), indent=1)

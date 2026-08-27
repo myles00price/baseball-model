@@ -154,6 +154,20 @@ def check_picks(date_str):
 
     print("Pulling closing lines for CLV...")
     closing = get_closing_lines(date_str)
+    # TRUE closes from the pre-pitch snapshots (k_close_{date}.json, captured
+    # ~1h before each first pitch while the game still exists on the odds
+    # feed). The 10:30 PM fetch above finds nothing for finished games - the
+    # 7/29 date-filter fix silently nulled a month of CLV (caught 2026-08-27).
+    try:
+        import json as _json
+        _kc = _json.load(open(f"k_close_{date_str}.json", encoding="utf-8"))
+        for _g in _kc.values():
+            for _team, _bks in (_g.get("ml") or {}).items():
+                _px = _bks.get("draftkings")
+                if _px is not None and _team not in closing:
+                    closing[_team] = {"odds": int(_px), "implied": odds_to_implied(_px)}
+    except OSError:
+        pass
     saved_opening = load_opening_lines()   # NEW
 
     picks = []
