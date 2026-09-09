@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
 <style>
-:root{--phos:#2bff64;--phos-dim:#1f7a3d;--amber:#ffb000;--hot:#ff2020;--ink:#f2f2f2;--mut:#5c5c5c;--line:#1c1c1c}
+:root{--phos:#2bff64;--phos-dim:#1f7a3d;--amber:#ffb000;--hot:#ff2020;--gold:#c9992b;--ink:#f2f2f2;--mut:#5c5c5c;--line:#1c1c1c}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:#000;min-height:100%}
 body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.5vw,40px) 40px}
@@ -133,6 +133,159 @@ body.light .povbox,body.light .povhead{background:#f7f4ec;border-color:var(--lin
 body.light .povmkt{border-color:#e6e0d0}
 body.light .povmkt line.grid{stroke:#e6e0d0}
 body.light .prow:hover{background:#efece0}
+
+/* ---- MLB board parity (copied from board.html) ---- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:10px}
+.stat{background:#020202;border:1px solid var(--line);padding:9px 14px 7px;text-align:center}
+.stat .v{font-family:'VT323',monospace;font-size:31px;color:var(--amber);text-shadow:0 0 11px rgba(255,176,0,.6)}
+.stat .v.grn{color:var(--phos);text-shadow:0 0 9px rgba(43,255,100,.55)}
+.stat .k{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.25em;color:var(--mut);margin-top:1px}
+.statusline .lit{color:var(--phos)}
+.showcase{margin:0 0 14px}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:10px}
+.sc-card{background:#050505;border:1px solid #8a6d1a;position:relative}
+.sc-head{display:flex;align-items:center;justify-content:center;gap:16px;padding:12px 14px 6px}
+.sc-team{text-align:center;width:120px;cursor:pointer}
+.sc-team img{width:52px;height:52px}
+.sc-team .n{font-family:'Bebas Neue',sans-serif;font-size:17px;margin-top:2px}
+.sc-team.pick .n{color:var(--gold)}
+.sc-vs{font-family:'VT323',monospace;font-size:20px;color:var(--mut)}
+.sc-sps{display:flex;justify-content:center;gap:14px;padding:0 14px 8px;flex-wrap:wrap}
+.sc-sp img{width:40px;height:40px;border-radius:50%;background:#111;object-fit:cover}
+.sc-sp .nm{font-size:12.5px;font-weight:600}
+.sc-sp .ln{font-family:'VT323',monospace;font-size:14px;color:var(--phos)}
+.sc-why{border-top:1px solid #141414;padding:9px 16px 11px}
+.sc-why h4{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.3em;color:var(--gold);margin-bottom:5px}
+.sc-why p{font-size:12.5px;color:#a8a8a8;line-height:1.65}
+.sc-news{padding:0 16px 12px}
+.sc-news a{display:block;font-size:11.5px;color:#8ab4ff;text-decoration:none;padding:2px 0}
+.sc-news a:hover{text-decoration:underline}
+.sc-khead{display:flex;align-items:center;gap:14px;padding:12px 16px 4px}
+.sc-mug{width:56px;height:56px;border-radius:50%;background:#111;object-fit:cover;cursor:pointer;border:1px solid #8a6d1a}
+.sc-kname .n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);cursor:pointer}
+.sc-kname .h{font-family:'VT323',monospace;font-size:14px;color:var(--mut)}
+.sc-kname .sub{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.06em;color:var(--mut)}
+.sc-klogos{margin-left:auto;display:flex;align-items:center;gap:8px}
+.sc-klogos img{width:34px;height:34px;cursor:pointer}
+.sc-kstats{font-family:'VT323',monospace;font-size:15px;text-align:center;color:var(--phos);padding:0 12px 8px;letter-spacing:.03em}
+.sc-kstats .soft{color:var(--mut)}
+body.light .sc-card{background:#fdfcf8}
+body.light .sc-sp{background:#f4f1e8}
+body.light .sc-why p{color:#57534a}
+body.light .sc-news a{color:#1a56b0}
+.sc-card.cash{border-color:var(--phos);box-shadow:0 0 16px rgba(43,255,100,.3)}
+.sc-bar.cash{background:linear-gradient(90deg,#0d5c2d,var(--phos),#0d5c2d);color:#000}
+.sc-card.lost{border-color:#8a2323}
+.sc-bar.lost{background:linear-gradient(90deg,#3a0d0d,#8a2323,#3a0d0d);color:#ffc7c7}
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:14px}
+.strow:hover{background:#111}
+.strow img{width:18px;height:18px}
+.strow .tn{width:52px;font-family:'Bebas Neue',sans-serif;font-size:16px;color:#ddd}
+.strow .wl{width:64px;color:var(--phos)}
+.strow .gb{width:44px;color:var(--mut)}
+.strow .l10{width:44px;color:#8f8f8f}
+.strow .stk{margin-left:auto}
+.ldr:hover{background:#111}
+.ldr img{width:30px;height:30px;border-radius:50%;background:#111;object-fit:cover}
+.ldr .v{margin-left:auto;color:var(--amber);text-shadow:0 0 8px rgba(255,176,0,.5)}
+.ldr .cat{color:var(--phos-dim);width:38px}
+.ledger{margin-top:14px;background:#0a0a0a;border:1px solid var(--line);padding:12px 14px}
+.ledger h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:10px}
+.upd{padding:7px 2px;border-bottom:1px solid #101010;cursor:pointer}
+.upd:hover{background:#0e0e0e}
+.upd .ud{font-family:'VT323',monospace;font-size:15px;color:var(--phos-dim)}
+.upd .ut{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.15em;color:#ddd;margin-left:8px}
+.upd .ux{font-size:12px;color:#8f8f8f;line-height:1.55;margin-top:4px;display:none}
+.upd.open .ux{display:block}
+.arch:hover{background:#111;color:#fff}
+.leak{border-bottom:1px solid #101010;cursor:pointer;padding:7px 2px}
+.leak:hover{background:#0e0e0e}
+.leak .ld{font-family:'VT323',monospace;font-size:15px;color:#ff8c8c}
+.leak .ln2{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.15em;color:#ddd;margin-left:8px}
+.leak .lx{display:none;padding:8px 2px 4px;font-size:12px;line-height:1.6}
+.leak.open .lx{display:block}
+.leak .lx .tag{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:.25em;display:block;margin-top:7px}
+.leak .lx .t-leak{color:#ff5c5c}.leak .lx .t-ev{color:var(--phos)}.leak .lx .t-fix{color:var(--gold)}
+.leak .lx p{color:#9a9a9a;margin:2px 0 0}
+body.light .leak{border-color:#eee9dd}
+body.light .leak:hover{background:#efece0}
+body.light .leak .ln2{color:#14171c}
+body.light .leak .lx p{color:#57534a}
+body.light .idea textarea{background:#fdfcf8;border-color:var(--line);color:#0a6e30}
+body.light *{text-shadow:none!important}
+body.light .marquee,body.light .sect,body.light .news,body.light .ledger{background:#f7f4ec;border-color:var(--line)}
+body.light .marquee h1{color:#14171c}
+body.light .statusline{color:var(--mut)}
+body.light .top{color:#14171c;border-color:#e7e3d8}
+body.light .foot{border-color:#e7e3d8;color:var(--mut)}
+body.light .st.final{color:#8a857a}
+body.light .ab{color:#14171c}
+body.light .rot{color:#9aa79e}
+body.light .chip{border-color:var(--line)}
+body.light .chip.pos{background:#e7f3e9;border-color:#9dc7a8;color:#0a6e30}
+body.light .chip.neg{background:#fbe9e9;border-color:#d9a3a3;color:#b31414}
+body.light .chip.dim{background:#f1eee5;color:#9a958a}
+body.light .searchbox input{background:#fdfcf8;border-color:var(--line);color:#0a6e30}
+body.light .searchbox input::placeholder{color:#b5b0a2}
+body.light .sr{background:#fdfcf8;border-color:var(--line)}
+body.light .sr div{border-color:#eee9dd}
+body.light .sr div:hover,body.light .strow:hover,body.light .ldr:hover,body.light .upd:hover,body.light .arch:hover{background:#efece0}
+body.light .strow,body.light .ldr,body.light .arch{color:#3a3630;border-color:#eee9dd}
+body.light .strow .tn{color:#14171c}
+body.light .divname{color:#8a857a;border-color:var(--line)}
+body.light .lg-table td{color:#3a3630;border-color:#eee9dd}
+body.light .lg-table th{border-color:var(--line)}
+body.light .lg-rows div{color:#3a3630;border-color:#eee9dd}
+body.light .bucketbar .bn{color:#3a3630}
+body.light .bucketbar .bar{box-shadow:none}
+body.light .coef{border-color:#eee9dd}
+body.light .coef .fn{color:#14171c}
+body.light .coef .cbar{box-shadow:none}
+body.light .upd .ut{color:#14171c}
+body.light .upd .ux{color:#57534a}
+body.light .upd{border-color:#eee9dd}
+body.light .ov{background:rgba(238,234,224,.95)}
+body.light .panel{background:#fdfcf8;border-color:#c5c0b2}
+body.light .ph{border-color:var(--line)}
+body.light .innings th,body.light .innings td{border-color:#e0dccf;color:#3a3630}
+body.light .pcard{background:#f4f1e8;border-color:var(--line)}
+body.light .pcard img{background:#e7e3d8}
+body.light .base{background:#e7e3d8;border-color:#b5b0a2}
+body.light .base.on{background:var(--amber);border-color:var(--amber);box-shadow:none}
+body.light .homep{border-color:#b5b0a2}
+body.light .boxcol div{color:#57534a}
+body.light .boxcol div:hover{color:#000}
+body.light .boxcol b{color:#14171c}
+body.light .plays div{color:#57534a;border-color:#eee9dd}
+body.light .mdbody{color:#3a3630}
+body.light .mdbody h1{color:#14171c}
+body.light .mdbody td,body.light .mdbody th{border-color:#ddd8cb}
+body.light .mdbody strong{color:#14171c}
+body.light .newsitem{color:#14171c}
+body.light .newsitem img{filter:none}
+.statusline{display:flex;justify-content:space-between;font-family:'VT323',monospace;font-size:14px;color:var(--mut);padding:0 4px 8px}
+.sc-bar{background:linear-gradient(90deg,#8a6d1a,var(--gold),#8a6d1a);color:#000;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.35em;text-align:center;padding:3px}
+.sc-line{font-family:'VT323',monospace;font-size:20px;text-align:center;color:var(--gold);padding:2px 12px 6px}
+.sc-sp{display:flex;align-items:center;gap:8px;background:#0a0a0a;border:1px solid var(--line);padding:5px 10px}
+.strow{display:flex;align-items:center;gap:8px;padding:3px 2px;font-family:'VT323',monospace;font-size:16px;border-bottom:1px solid #0f0f0f}
+.ldr{display:flex;align-items:center;gap:9px;padding:4px 2px;font-family:'VT323',monospace;font-size:17px;border-bottom:1px solid #0f0f0f}
+.arch{display:flex;justify-content:space-between;font-family:'VT323',monospace;font-size:17px;color:#bbb;padding:5px 4px;text-decoration:none;border-bottom:1px solid #101010}
+.card.play{border-color:#8a6d1a}
+body.light .card.play{border-color:#8a6d1a}
+
+.ch .score{margin-left:auto;font-family:'VT323',monospace;font-size:14px}
+.ch .score .live{color:var(--hot)} .ch .score .final{color:var(--phos)}
+.lg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.lg-box{background:#050505;border:1px solid var(--line);padding:10px 12px}
+.lg-box h3{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.25em;color:var(--gold);margin-bottom:6px}
+.lg-table{width:100%;border-collapse:collapse}
+.lg-table th{font-family:'VT323',monospace;font-size:12px;color:var(--mut);text-align:left;padding:3px 6px;border-bottom:1px solid var(--line);font-weight:400}
+.lg-table td{font-family:'VT323',monospace;font-size:15px;padding:3px 6px;border-bottom:1px solid #111;text-align:left;color:var(--ink)}
+.lg-table td.eo{color:var(--chart-o)} .lg-table td.eu{color:var(--chart-u)}
+body.light .lg-box{background:#fdfcf8;border-color:var(--line)}
+body.light .stat{background:#fdfcf8;border-color:var(--line)}
+body.light .card{background:#f7f4ec}
+
 /* light mode ("print edition") -- shell.js toggles body.light, same as the MLB board */
 body.light{--phos:#0a7a34;--phos-dim:#67916f;--amber:#a35600;--hot:#c41414;--ink:#14171c;
   --mut:#8a8272;--line:#d8d2c2;background:#efece0;color:#14171c}
@@ -166,17 +319,168 @@ body.light .newsitem img{filter:none}
   <script>window.SHELL={sport:'nfl',accent:'NFL',sub:'WEEK 1 · 2026 · PAPER',ownUI:true}</script>
   <script src="shell.js"></script>
 
-  <div class="paper">■ PAPER MODE — these are PROJECTIONS, not picks. No bet window exists yet.
-  The shadow season starts Week 1: paper picks on receptions / receiving yards / rushing yards,
-  every one logged and graded in public. Not a dollar is at stake until half a season proves it.</div>
-
-  <div class="recbox">
-    <div class="cell"><b>53.8%</b><span>RECEPTIONS vs CLOSE (2025 pilot, n=353)</span></div>
-    <div class="cell"><b>21/27</b><span>LINES MOVED TOWARD ENGINE (receptions)</span></div>
-    <div class="cell"><b>57.9%</b><span>RUSH YDS vs OPEN (n=107)</span></div>
-    <div class="cell"><b>52.35%</b><span>ALL MARKETS vs CLOSE — BREAKEVEN, HONEST</span></div>
-    <div class="cell dead"><b>DROPPED</b><span>PASS YDS — MARKET MOVES AWAY FROM US</span></div>
+  <div class='stats' id='stats'><div class='stat'><div class='v'>0-0</div><div class='k'>SHADOW RECORD</div></div><div class='stat'><div class='v'>—</div><div class='k'>WIN RATE</div></div><div class='stat'><div class='v'>—</div><div class='k'>CLV · LINES OUR WAY</div></div><div class='stat'><div class='v'>0/100</div><div class='k'>PAPER GATE</div></div><div class='stat'><div class='v'>0-0</div><div class='k'>REC</div></div><div class='stat'><div class='v'>0-0</div><div class='k'>REC YDS</div></div><div class='stat'><div class='v'>0-0</div><div class='k'>RUSH YDS</div></div></div>
+  <div class='statusline'><span id='sl-date'>WEEK 1 · 2026-09-09</span><span>BUILT <span class='lit'>12:34 PM</span> · SCORES <span class='lit' id='sl-upd'>—</span> · AUTO 60s</span></div>
+  <div class="paper">■ PAPER MODE — shadow season. Picks are locked and texted, then graded at the locked
+  line; not a dollar is at stake until 100 graded picks clear 52.4% with positive CLV. 2025 pilot:
+  receptions 53.8% vs close, lines moved toward the engine 21/27; pass yards dropped.</div>
+  <div class='showcase' id='showcase'><div class='sc-grid' id='sc-grid'>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4371733.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Kenny Gainwell</div>
+      <div class='h'>TB v CIN · RB</div>
+      <div class='sub'>REC</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/tb.png'></div>
   </div>
+  <div class='sc-line'>UNDER 3.5 (-167) · OUR # 1.3</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 1.3 against the DK line of 3.5 — 2.2 of daylight on the UNDER, 4.3x the tested threshold for this market. 17 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4569173.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Rhamondre Stevenson</div>
+      <div class='h'>NE v SEA · RB</div>
+      <div class='sub'>REC</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/ne.png'></div>
+  </div>
+  <div class='sc-line'>UNDER 3.5 (-139) · OUR # 1.6</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 1.6 against the DK line of 3.5 — 1.9 of daylight on the UNDER, 3.8x the tested threshold for this market. With TreVeyon Henderson out, his share of the offense rises. 14 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4262921.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Justin Jefferson</div>
+      <div class='h'>MIN v GB · WR</div>
+      <div class='sub'>REC YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/min.png'></div>
+  </div>
+  <div class='sc-line'>UNDER 75.5 (-114) · OUR # 53.8</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 53.8 against the DK line of 75.5 — 21.7 yds of daylight on the UNDER, 3.8x the tested threshold for this market. With Ben Yurosek out, his share of the offense rises. 17 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4379399.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>James Cook</div>
+      <div class='h'>BUF v HOU · RB</div>
+      <div class='sub'>RUSH YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/buf.png'></div>
+  </div>
+  <div class='sc-line'>OVER 74.5 (-113) · OUR # 100.2</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 100.2 against the DK line of 74.5 — 25.7 yds of daylight on the OVER, 3.8x the tested threshold for this market. 17 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4432773.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Brian Thomas Jr.</div>
+      <div class='h'>JAX v CLE · WR</div>
+      <div class='sub'>REC</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/jax.png'></div>
+  </div>
+  <div class='sc-line'>OVER 2.5 (-149) · OUR # 4.3</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 4.3 against the DK line of 2.5 — 1.8 of daylight on the OVER, 3.7x the tested threshold for this market. He's in a new role on the depth chart, so his old usage is only half-weighted. 14 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4685278.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Luther Burden III</div>
+      <div class='h'>CHI v CAR · WR</div>
+      <div class='sub'>REC YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/chi.png'></div>
+  </div>
+  <div class='sc-line'>UNDER 55.5 (-114) · OUR # 35.4</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 35.4 against the DK line of 55.5 — 20.1 yds of daylight on the UNDER, 3.5x the tested threshold for this market. He's in a new role on the depth chart, so his old usage is only half-weighted. 15 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/3121422.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Terry McLaurin</div>
+      <div class='h'>WAS v PHI · WR</div>
+      <div class='sub'>REC YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/wsh.png'></div>
+  </div>
+  <div class='sc-line'>UNDER 49.5 (-111) · OUR # 30.3</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 30.3 against the DK line of 49.5 — 19.2 yds of daylight on the UNDER, 3.4x the tested threshold for this market. He's in a new role on the depth chart, so his old usage is only half-weighted. 10 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4362619.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Chris Rodriguez Jr.</div>
+      <div class='h'>JAX v CLE · RB</div>
+      <div class='sub'>RUSH YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/jax.png'></div>
+  </div>
+  <div class='sc-line'>OVER 35.5 (-109) · OUR # 57</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 57 against the DK line of 35.5 — 21.5 yds of daylight on the OVER, 3.2x the tested threshold for this market. 12 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4569173.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Rhamondre Stevenson</div>
+      <div class='h'>NE v SEA · RB</div>
+      <div class='sub'>REC YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/ne.png'></div>
+  </div>
+  <div class='sc-line'>UNDER 24.5 (-116) · OUR # 6.6</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 6.6 against the DK line of 24.5 — 17.9 yds of daylight on the UNDER, 3.1x the tested threshold for this market. With TreVeyon Henderson out, his share of the offense rises. 14 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/3043078.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Derrick Henry</div>
+      <div class='h'>BAL v IND · RB</div>
+      <div class='sub'>RUSH YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/bal.png'></div>
+  </div>
+  <div class='sc-line'>OVER 79.5 (-111) · OUR # 100.2</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 100.2 against the DK line of 79.5 — 20.7 yds of daylight on the OVER, 3.0x the tested threshold for this market. 17 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4428850.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Dontayvion Wicks</div>
+      <div class='h'>PHI v WAS · WR</div>
+      <div class='sub'>REC YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/phi.png'></div>
+  </div>
+  <div class='sc-line'>UNDER 28.5 (-109) · OUR # 11.3</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 11.3 against the DK line of 28.5 — 17.2 yds of daylight on the UNDER, 3.0x the tested threshold for this market. 13 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div>
+<div class='sc-card '>
+  <div class='sc-bar '>SHADOW PICK · PAPER</div>
+  <div class='sc-khead'>
+    <img class='sc-mug' src='https://a.espncdn.com/i/headshots/nfl/players/full/4701936.png' onerror="this.style.visibility='hidden'">
+    <div class='sc-kname'><div class='n'>Matthew Golden</div>
+      <div class='h'>GB v MIN · WR</div>
+      <div class='sub'>REC YDS</div></div>
+    <div class='sc-klogos'><img src='https://a.espncdn.com/i/teamlogos/nfl/500/gb.png'></div>
+  </div>
+  <div class='sc-line'>UNDER 40.5 (-110) · OUR # 23.7</div>
+  
+  <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 23.7 against the DK line of 40.5 — 16.8 yds of daylight on the UNDER, 2.9x the tested threshold for this market. He's in a new role on the depth chart, so his old usage is only half-weighted. 14 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
+</div></div></div>
 
   <div class="teambar"><label>TEAM</label>
     <select id="teamsel" onchange="filterTeam(this.value)">
@@ -187,7 +491,7 @@ body.light .newsitem img{filter:none}
   <div class='sect'><h2>EDGE SCANNER — OURS vs DK / MGM / CZR</h2><p class='hintline'>Points gap between our fair-line number and the posted-book median. INFORMATIONAL, PAPER — not picks. ★ receptions is the only market where big disagreements carried historical signal (58% on the larger half, 2025 pilot); yardage edges are unproven. Books shade lines for a reason; assume they know something we don't until the shadow record says otherwise. † PASS YDS is display-only, never a pick: it failed the 2025 line test four ways (43.6% record, market moved against us) — shown for context since pass attempts/completions rejoined the pool on new backtest evidence. Dimmed THIN rows = under 8 games of 2025 data behind OUR number — the baseball model went 11-22 trusting its own thin samples; those rows are data warnings, not edges, and sort below solid-sample rows.</p><table class='edgetbl'><thead><tr><th>PLAYER</th><th>MKT</th><th>G</th><th>OURS</th><th>DK</th><th>MGM</th><th>CZR</th><th>MED</th><th>EDGE</th></tr></thead><tbody><tr><td class='nm'>Ja&#x27;Marr Chase<span class='pos'>CIN</span></td><td>REC YDS</td><td>16</td><td>119.6</td><td>86.5</td><td>85.5</td><td>—</td><td>86.0</td><td class='eo'>+33.6 OVER</td></tr><tr><td class='nm'>Jacoby Brissett<span class='pos'>ARI</span></td><td>PASS YDS†</td><td>14</td><td>256.3</td><td>222.5</td><td>225.5</td><td>—</td><td>224.0</td><td class='eo'>+32.3 OVER</td></tr><tr><td class='nm'>Jordan Love<span class='pos'>GB</span></td><td>PASS YDS†</td><td>15</td><td>209.7</td><td>239.5</td><td>238.5</td><td>—</td><td>239.0</td><td class='eu'>-29.3 UNDER</td></tr><tr><td class='nm'>James Cook<span class='pos'>BUF</span></td><td>RUSH YDS</td><td>17</td><td>100.2</td><td>74.5</td><td>72.5</td><td>—</td><td>73.5</td><td class='eo'>+26.7 OVER</td></tr><tr><td class='nm'>Chris Rodriguez Jr.<span class='pos'>JAX</span></td><td>RUSH YDS</td><td>12</td><td>57.0</td><td>35.5</td><td>34.5</td><td>—</td><td>35.0</td><td class='eo'>+22.0 OVER</td></tr><tr><td class='nm'>Terry McLaurin<span class='pos'>WAS</span></td><td>REC YDS</td><td>10</td><td>29.0</td><td>49.5</td><td>51.5</td><td>—</td><td>50.5</td><td class='eu'>-21.5 UNDER</td></tr><tr><td class='nm'>Derrick Henry<span class='pos'>BAL</span></td><td>RUSH YDS</td><td>17</td><td>100.2</td><td>79.5</td><td>78.5</td><td>—</td><td>79.0</td><td class='eo'>+21.2 OVER</td></tr><tr><td class='nm'>Justin Jefferson<span class='pos'>MIN</span></td><td>REC YDS</td><td>17</td><td>53.8</td><td>75.5</td><td>72.5</td><td>—</td><td>74.0</td><td class='eu'>-20.2 UNDER</td></tr><tr><td class='nm'>Luther Burden III<span class='pos'>CHI</span></td><td>REC YDS</td><td>15</td><td>35.9</td><td>55.5</td><td>—</td><td>—</td><td>55.5</td><td class='eu'>-19.6 UNDER</td></tr><tr><td class='nm'>Bijan Robinson<span class='pos'>ATL</span></td><td>RUSH YDS</td><td>17</td><td>94.3</td><td>74.5</td><td>75.5</td><td>—</td><td>75.0</td><td class='eo'>+19.3 OVER</td></tr><tr><td class='nm'>Daniel Jones<span class='pos'>IND</span></td><td>PASS YDS†</td><td>13</td><td>249.0</td><td>230.5</td><td>232.5</td><td>—</td><td>231.5</td><td class='eo'>+17.5 OVER</td></tr><tr><td class='nm'>Dontayvion Wicks<span class='pos'>PHI</span></td><td>REC YDS</td><td>13</td><td>11.3</td><td>28.5</td><td>28.5</td><td>—</td><td>28.5</td><td class='eu'>-17.2 UNDER</td></tr><tr><td class='nm'>Lamar Jackson<span class='pos'>BAL</span></td><td>PASS YDS†</td><td>13</td><td>199.4</td><td>219.5</td><td>213.5</td><td>—</td><td>216.5</td><td class='eu'>-17.1 UNDER</td></tr><tr><td class='nm'>Brian Thomas Jr.<span class='pos'>JAX</span></td><td>REC YDS</td><td>14</td><td>53.1</td><td>36.5</td><td>—</td><td>—</td><td>36.5</td><td class='eo'>+16.6 OVER</td></tr></tbody></table></div>
 
   <div class="grid" id="gamegrid">
-<div class="card" data-teams="NE SEA" onclick="openGame('2026_01_NE_SEA')">
+<div class="card play" data-teams="NE SEA" onclick="openGame('2026_01_NE_SEA')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/ne.png" alt="">
       NE @ SEA
@@ -207,7 +511,7 @@ body.light .newsitem img{filter:none}
   <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
   <tbody><tr data-player="Christian McCaffrey · SF RB"><td class='tm'>SF</td><td class='nm'>Christian McCaffrey<span class='pos'>RB</span></td><td>4.4</td><td>32.0</td><td>69.8</td></tr><tr data-player="Kaelon Black · SF RB"><td class='tm'>SF</td><td class='nm'>Kaelon Black<span class='pos'>RB</span></td><td>—</td><td>—</td><td>28.0</td></tr><tr data-player="Mike Evans · SF WR"><td class='tm'>SF</td><td class='nm'>Mike Evans<span class='pos'>WR</span></td><td>3.7</td><td>43.3</td><td>—</td></tr><tr data-player="Deebo Samuel Sr. · SF WR"><td class='tm'>SF</td><td class='nm'>Deebo Samuel Sr.<span class='pos'>WR</span></td><td>2.9</td><td>29.9</td><td>—</td></tr><tr data-player="Kyren Williams · LA RB"><td class='tm'>LA</td><td class='nm'>Kyren Williams<span class='pos'>RB</span></td><td>1.6</td><td>11.5</td><td>67.9</td></tr><tr data-player="Puka Nacua · LA WR"><td class='tm'>LA</td><td class='nm'>Puka Nacua<span class='pos'>WR</span></td><td>8.2</td><td>102.5</td><td>—</td></tr><tr data-player="Blake Corum · LA RB"><td class='tm'>LA</td><td class='nm'>Blake Corum<span class='pos'>RB</span></td><td>—</td><td>—</td><td>45.1</td></tr><tr data-player="Davante Adams · LA WR"><td class='tm'>LA</td><td class='nm'>Davante Adams<span class='pos'>WR</span></td><td>4.6</td><td>53.0</td><td>—</td></tr></tbody></table>
 </div>
-<div class="card" data-teams="CHI CAR" onclick="openGame('2026_01_CHI_CAR')">
+<div class="card play" data-teams="CHI CAR" onclick="openGame('2026_01_CHI_CAR')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/chi.png" alt="">
       CHI @ CAR
@@ -217,7 +521,7 @@ body.light .newsitem img{filter:none}
   <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
   <tbody><tr data-player="D&#x27;Andre Swift · CHI RB"><td class='tm'>CHI</td><td class='nm'>D&#x27;Andre Swift<span class='pos'>RB</span></td><td>2.0</td><td>9.0</td><td>76.0</td></tr><tr data-player="Kyle Monangai · CHI RB"><td class='tm'>CHI</td><td class='nm'>Kyle Monangai<span class='pos'>RB</span></td><td>1.5</td><td>11.6</td><td>44.0</td></tr><tr data-player="Rome Odunze · CHI WR"><td class='tm'>CHI</td><td class='nm'>Rome Odunze<span class='pos'>WR</span></td><td>4.8</td><td>57.6</td><td>—</td></tr><tr data-player="Colston Loveland · CHI TE"><td class='tm'>CHI</td><td class='nm'>Colston Loveland<span class='pos'>TE</span></td><td>4.2</td><td>41.0</td><td>—</td></tr><tr data-player="Chuba Hubbard · CAR RB"><td class='tm'>CAR</td><td class='nm'>Chuba Hubbard<span class='pos'>RB</span></td><td>2.8</td><td>13.0</td><td>42.3</td></tr><tr data-player="Jonathon Brooks · CAR RB"><td class='tm'>CAR</td><td class='nm'>Jonathon Brooks<span class='pos'>RB</span></td><td>—</td><td>—</td><td>36.3</td></tr><tr data-player="Tetairoa McMillan · CAR WR"><td class='tm'>CAR</td><td class='nm'>Tetairoa McMillan<span class='pos'>WR</span></td><td>5.2</td><td>65.7</td><td>—</td></tr><tr data-player="Jalen Coker · CAR WR"><td class='tm'>CAR</td><td class='nm'>Jalen Coker<span class='pos'>WR</span></td><td>3.0</td><td>31.0</td><td>—</td></tr></tbody></table>
 </div>
-<div class="card" data-teams="TB CIN" onclick="openGame('2026_01_TB_CIN')">
+<div class="card play" data-teams="TB CIN" onclick="openGame('2026_01_TB_CIN')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/tb.png" alt="">
       TB @ CIN
@@ -237,7 +541,7 @@ body.light .newsitem img{filter:none}
   <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
   <tbody><tr data-player="Travis Etienne · NO RB"><td class='tm'>NO</td><td class='nm'>Travis Etienne<span class='pos'>RB</span></td><td>3.0</td><td>18.9</td><td>63.8</td></tr><tr data-player="Chris Olave · NO WR"><td class='tm'>NO</td><td class='nm'>Chris Olave<span class='pos'>WR</span></td><td>5.9</td><td>72.0</td><td>—</td></tr><tr data-player="Devaughn Vele · NO WR"><td class='tm'>NO</td><td class='nm'>Devaughn Vele<span class='pos'>WR</span></td><td>3.7</td><td>43.7</td><td>—</td></tr><tr data-player="Kendre Miller · NO RB"><td class='tm'>NO</td><td class='nm'>Kendre Miller<span class='pos'>RB</span></td><td>—</td><td>—</td><td>22.4</td></tr><tr data-player="Jahmyr Gibbs · DET RB"><td class='tm'>DET</td><td class='nm'>Jahmyr Gibbs<span class='pos'>RB</span></td><td>3.3</td><td>20.0</td><td>83.6</td></tr><tr data-player="Amon-Ra St. Brown · DET WR"><td class='tm'>DET</td><td class='nm'>Amon-Ra St. Brown<span class='pos'>WR</span></td><td>6.7</td><td>77.6</td><td>—</td></tr><tr data-player="Jameson Williams · DET WR"><td class='tm'>DET</td><td class='nm'>Jameson Williams<span class='pos'>WR</span></td><td>4.2</td><td>56.1</td><td>—</td></tr><tr data-player="Sam LaPorta · DET TE"><td class='tm'>DET</td><td class='nm'>Sam LaPorta<span class='pos'>TE</span></td><td>3.8</td><td>35.7</td><td>—</td></tr></tbody></table>
 </div>
-<div class="card" data-teams="BUF HOU" onclick="openGame('2026_01_BUF_HOU')">
+<div class="card play" data-teams="BUF HOU" onclick="openGame('2026_01_BUF_HOU')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/buf.png" alt="">
       BUF @ HOU
@@ -247,7 +551,7 @@ body.light .newsitem img{filter:none}
   <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
   <tbody><tr data-player="James Cook · BUF RB"><td class='tm'>BUF</td><td class='nm'>James Cook<span class='pos'>RB</span></td><td>2.4</td><td>13.0</td><td>100.2</td></tr><tr data-player="Josh Allen · BUF QB"><td class='tm'>BUF</td><td class='nm'>Josh Allen<span class='pos'>QB</span></td><td>—</td><td>—</td><td>30.0</td></tr><tr data-player="DJ Moore · BUF WR"><td class='tm'>BUF</td><td class='nm'>DJ Moore<span class='pos'>WR</span></td><td>3.6</td><td>44.0</td><td>—</td></tr><tr data-player="Dalton Kincaid · BUF TE"><td class='tm'>BUF</td><td class='nm'>Dalton Kincaid<span class='pos'>TE</span></td><td>3.5</td><td>38.0</td><td>—</td></tr><tr data-player="David Montgomery · HOU RB"><td class='tm'>HOU</td><td class='nm'>David Montgomery<span class='pos'>RB</span></td><td>1.6</td><td>10.9</td><td>53.5</td></tr><tr data-player="Woody Marks · HOU RB"><td class='tm'>HOU</td><td class='nm'>Woody Marks<span class='pos'>RB</span></td><td>—</td><td>—</td><td>37.0</td></tr><tr data-player="Nico Collins · HOU WR"><td class='tm'>HOU</td><td class='nm'>Nico Collins<span class='pos'>WR</span></td><td>5.5</td><td>72.0</td><td>—</td></tr><tr data-player="Dalton Schultz · HOU TE"><td class='tm'>HOU</td><td class='nm'>Dalton Schultz<span class='pos'>TE</span></td><td>4.7</td><td>38.7</td><td>—</td></tr></tbody></table>
 </div>
-<div class="card" data-teams="BAL IND" onclick="openGame('2026_01_BAL_IND')">
+<div class="card play" data-teams="BAL IND" onclick="openGame('2026_01_BAL_IND')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/bal.png" alt="">
       BAL @ IND
@@ -257,7 +561,7 @@ body.light .newsitem img{filter:none}
   <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
   <tbody><tr data-player="Derrick Henry · BAL RB"><td class='tm'>BAL</td><td class='nm'>Derrick Henry<span class='pos'>RB</span></td><td>—</td><td>—</td><td>100.2</td></tr><tr data-player="Lamar Jackson · BAL QB"><td class='tm'>BAL</td><td class='nm'>Lamar Jackson<span class='pos'>QB</span></td><td>—</td><td>—</td><td>24.9</td></tr><tr data-player="Zay Flowers · BAL WR"><td class='tm'>BAL</td><td class='nm'>Zay Flowers<span class='pos'>WR</span></td><td>4.4</td><td>58.9</td><td>—</td></tr><tr data-player="Ja&#x27;Kobi Lane · BAL WR"><td class='tm'>BAL</td><td class='nm'>Ja&#x27;Kobi Lane<span class='pos'>WR</span></td><td>2.5</td><td>32.6</td><td>—</td></tr><tr data-player="Jonathan Taylor · IND RB"><td class='tm'>IND</td><td class='nm'>Jonathan Taylor<span class='pos'>RB</span></td><td>2.6</td><td>14.0</td><td>60.0</td></tr><tr data-player="Seth McGowan · IND RB"><td class='tm'>IND</td><td class='nm'>Seth McGowan<span class='pos'>RB</span></td><td>—</td><td>—</td><td>20.0</td></tr><tr data-player="Tyler Warren · IND TE"><td class='tm'>IND</td><td class='nm'>Tyler Warren<span class='pos'>TE</span></td><td>4.5</td><td>45.0</td><td>—</td></tr><tr data-player="Josh Downs · IND WR"><td class='tm'>IND</td><td class='nm'>Josh Downs<span class='pos'>WR</span></td><td>4.0</td><td>44.0</td><td>—</td></tr></tbody></table>
 </div>
-<div class="card" data-teams="CLE JAX" onclick="openGame('2026_01_CLE_JAX')">
+<div class="card play" data-teams="CLE JAX" onclick="openGame('2026_01_CLE_JAX')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/cle.png" alt="">
       CLE @ JAX
@@ -307,7 +611,7 @@ body.light .newsitem img{filter:none}
   <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
   <tbody><tr data-player="De&#x27;Von Achane · MIA RB"><td class='tm'>MIA</td><td class='nm'>De&#x27;Von Achane<span class='pos'>RB</span></td><td>3.7</td><td>23.0</td><td>58.3</td></tr><tr data-player="Jaylen Wright · MIA RB"><td class='tm'>MIA</td><td class='nm'>Jaylen Wright<span class='pos'>RB</span></td><td>—</td><td>—</td><td>16.3</td></tr><tr data-player="Malik Washington · MIA WR"><td class='tm'>MIA</td><td class='nm'>Malik Washington<span class='pos'>WR</span></td><td>2.9</td><td>26.0</td><td>—</td></tr><tr data-player="Malik Willis · MIA QB"><td class='tm'>MIA</td><td class='nm'>Malik Willis<span class='pos'>QB</span></td><td>—</td><td>—</td><td>21.8</td></tr><tr data-player="Ashton Jeanty · LV RB"><td class='tm'>LV</td><td class='nm'>Ashton Jeanty<span class='pos'>RB</span></td><td>3.5</td><td>19.1</td><td>76.0</td></tr><tr data-player="Brock Bowers · LV TE"><td class='tm'>LV</td><td class='nm'>Brock Bowers<span class='pos'>TE</span></td><td>5.7</td><td>56.1</td><td>—</td></tr><tr data-player="Tre Tucker · LV WR"><td class='tm'>LV</td><td class='nm'>Tre Tucker<span class='pos'>WR</span></td><td>3.6</td><td>41.0</td><td>—</td></tr><tr data-player="Michael Mayer · LV TE"><td class='tm'>LV</td><td class='nm'>Michael Mayer<span class='pos'>TE</span></td><td>3.2</td><td>26.3</td><td>—</td></tr></tbody></table>
 </div>
-<div class="card" data-teams="GB MIN" onclick="openGame('2026_01_GB_MIN')">
+<div class="card play" data-teams="GB MIN" onclick="openGame('2026_01_GB_MIN')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/gb.png" alt="">
       GB @ MIN
@@ -317,7 +621,7 @@ body.light .newsitem img{filter:none}
   <table><thead><tr><th></th><th>PLAYER</th><th>REC</th><th>REC YDS</th><th>RUSH YDS</th></tr></thead>
   <tbody><tr data-player="MarShawn Lloyd · GB RB"><td class='tm'>GB</td><td class='nm'>MarShawn Lloyd<span class='pos'>RB</span></td><td>1.9</td><td>6.8</td><td>60.0</td></tr><tr data-player="Christian Watson · GB WR"><td class='tm'>GB</td><td class='nm'>Christian Watson<span class='pos'>WR</span></td><td>3.7</td><td>49.8</td><td>—</td></tr><tr data-player="Tucker Kraft · GB TE"><td class='tm'>GB</td><td class='nm'>Tucker Kraft<span class='pos'>TE</span></td><td>3.2</td><td>33.0</td><td>—</td></tr><tr data-player="Jayden Reed · GB WR"><td class='tm'>GB</td><td class='nm'>Jayden Reed<span class='pos'>WR</span></td><td>2.9</td><td>33.0</td><td>—</td></tr><tr data-player="Aaron Jones · MIN RB"><td class='tm'>MIN</td><td class='nm'>Aaron Jones<span class='pos'>RB</span></td><td>2.8</td><td>11.0</td><td>34.0</td></tr><tr data-player="Jordan Mason · MIN RB"><td class='tm'>MIN</td><td class='nm'>Jordan Mason<span class='pos'>RB</span></td><td>—</td><td>—</td><td>41.2</td></tr><tr data-player="Justin Jefferson · MIN WR"><td class='tm'>MIN</td><td class='nm'>Justin Jefferson<span class='pos'>WR</span></td><td>5.1</td><td>53.8</td><td>—</td></tr><tr data-player="Jordan Addison · MIN WR"><td class='tm'>MIN</td><td class='nm'>Jordan Addison<span class='pos'>WR</span></td><td>3.1</td><td>33.0</td><td>—</td></tr></tbody></table>
 </div>
-<div class="card" data-teams="WAS PHI" onclick="openGame('2026_01_WAS_PHI')">
+<div class="card play" data-teams="WAS PHI" onclick="openGame('2026_01_WAS_PHI')">
   <div class="ch">
     <span class="matchup"><img class="tlogo" src="https://a.espncdn.com/i/teamlogos/nfl/500/wsh.png" alt="">
       WAS @ PHI
@@ -350,6 +654,14 @@ body.light .newsitem img{filter:none}
 
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
 
+  <div class="duo">
+    <div class="sect" id="standings" style="display:none"><h2>THE STANDINGS</h2><div id="st-body"></div></div>
+    <div class="sect"><h2>WEEK 1 LEADERS · OUR NUMBERS</h2><div style='margin-bottom:10px'><div class='ldr' style='color:var(--phos-dim);font-family:Bebas Neue,sans-serif;letter-spacing:.2em'>REC</div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4362628.png' onerror="this.style.visibility='hidden'"><div><div>Ja&#x27;Marr Chase</div><div style='font-size:12px;color:var(--mut)'>CIN WR</div></div><span class='v'>8.8</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4426515.png' onerror="this.style.visibility='hidden'"><div><div>Puka Nacua</div><div style='font-size:12px;color:var(--mut)'>LA WR</div></div><span class='v'>8.2</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4361307.png' onerror="this.style.visibility='hidden'"><div><div>Trey McBride</div><div style='font-size:12px;color:var(--mut)'>ARI TE</div></div><span class='v'>6.9</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4374302.png' onerror="this.style.visibility='hidden'"><div><div>Amon-Ra St. Brown</div><div style='font-size:12px;color:var(--mut)'>DET WR</div></div><span class='v'>6.7</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png' onerror="this.style.visibility='hidden'"><div><div>Jaxon Smith-Njigba</div><div style='font-size:12px;color:var(--mut)'>SEA WR</div></div><span class='v'>6.5</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4241389.png' onerror="this.style.visibility='hidden'"><div><div>CeeDee Lamb</div><div style='font-size:12px;color:var(--mut)'>DAL WR</div></div><span class='v'>6.5</span></div></div><div style='margin-bottom:10px'><div class='ldr' style='color:var(--phos-dim);font-family:Bebas Neue,sans-serif;letter-spacing:.2em'>REC YDS</div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4362628.png' onerror="this.style.visibility='hidden'"><div><div>Ja&#x27;Marr Chase</div><div style='font-size:12px;color:var(--mut)'>CIN WR</div></div><span class='v'>120</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4426515.png' onerror="this.style.visibility='hidden'"><div><div>Puka Nacua</div><div style='font-size:12px;color:var(--mut)'>LA WR</div></div><span class='v'>102</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4430878.png' onerror="this.style.visibility='hidden'"><div><div>Jaxon Smith-Njigba</div><div style='font-size:12px;color:var(--mut)'>SEA WR</div></div><span class='v'>91</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4241389.png' onerror="this.style.visibility='hidden'"><div><div>CeeDee Lamb</div><div style='font-size:12px;color:var(--mut)'>DAL WR</div></div><span class='v'>82</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4374302.png' onerror="this.style.visibility='hidden'"><div><div>Amon-Ra St. Brown</div><div style='font-size:12px;color:var(--mut)'>DET WR</div></div><span class='v'>78</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4258173.png' onerror="this.style.visibility='hidden'"><div><div>Nico Collins</div><div style='font-size:12px;color:var(--mut)'>HOU WR</div></div><span class='v'>72</span></div></div><div style='margin-bottom:10px'><div class='ldr' style='color:var(--phos-dim);font-family:Bebas Neue,sans-serif;letter-spacing:.2em'>RUSH YDS</div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/3043078.png' onerror="this.style.visibility='hidden'"><div><div>Derrick Henry</div><div style='font-size:12px;color:var(--mut)'>BAL RB</div></div><span class='v'>100</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4379399.png' onerror="this.style.visibility='hidden'"><div><div>James Cook</div><div style='font-size:12px;color:var(--mut)'>BUF RB</div></div><span class='v'>100</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4430807.png' onerror="this.style.visibility='hidden'"><div><div>Bijan Robinson</div><div style='font-size:12px;color:var(--mut)'>ATL RB</div></div><span class='v'>94</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4429795.png' onerror="this.style.visibility='hidden'"><div><div>Jahmyr Gibbs</div><div style='font-size:12px;color:var(--mut)'>DET RB</div></div><span class='v'>84</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/4361579.png' onerror="this.style.visibility='hidden'"><div><div>Javonte Williams</div><div style='font-size:12px;color:var(--mut)'>DAL RB</div></div><span class='v'>78</span></div><div class='ldr'><img src='https://a.espncdn.com/i/headshots/nfl/players/full/3929630.png' onerror="this.style.visibility='hidden'"><div><div>Saquon Barkley</div><div style='font-size:12px;color:var(--mut)'>PHI RB</div></div><span class='v'>76</span></div></div></div>
+  </div>
+
+  <div class='ledger' id='ledger'><h2>THE LEDGER · SHADOW PICKS BY MARKET</h2><div class='lg-grid'><div class='lg-box'><h3>RECORD BY MARKET</h3><table class='lg-table'><thead><tr><th>MARKET</th><th>W-L</th><th>WIN%</th></tr></thead><tbody><tr><td>REC</td><td>0-0</td><td>—</td></tr><tr><td>REC YDS</td><td>0-0</td><td>—</td></tr><tr><td>RUSH YDS</td><td>0-0</td><td>—</td></tr><tr><td>PASS ATTS</td><td>0-0</td><td>—</td></tr><tr><td>COMP</td><td>0-0</td><td>—</td></tr></tbody></table></div><div class='lg-box' style='grid-column:1/-1'><h3>PICK HISTORY</h3><p class='hintline' style='margin-top:8px'>No picks graded yet. Every locked pick lands here with its line, our number, the actual, and where the line closed.</p></div></div></div>
+
+  <div class="duo">
   <div class="sect">
     <h2>THE ENGINE</h2>
     <p>Usage first: how many plays a team runs and who gets the targets and carries, blended
@@ -371,7 +683,13 @@ body.light .newsitem img{filter:none}
     </ul>
   </div>
 
-  <div class="sect"><h2>MODEL UPDATES</h2><div class='logrow'><span class='ld'>2026-09-09</span><span class='lt'>OPENER PREP: FOUR FIXES BEFORE NE-SEA, AND AN HONEST NO-PLAY</span><p>Tonight&#x27;s opener got the full pre-game treatment - both teams&#x27; depth charts as of this morning, the official injury report, and lines from two books - and the scrutiny found four things worth fixing before kickoff. A receiver listed in two depth-chart slots was being counted twice in his team&#x27;s target pool. When a player is ruled out, his targets were flowing mostly to the wrong positions; they now go 70 percent to his own position group and 30 percent elsewhere, exactly as the original engine was designed. The workload ceiling that stops a back from absorbing an entire departed teammate&#x27;s role now relaxes when that teammate is ruled OUT for the game rather than gone for good - an injury replacement really does carry more. And rookies are capped at what their depth slot normally produces instead of whatever the share math hands them. After all of it, every projection for New England at Seattle sits within a point or two of the posted lines. That means no paper pick tonight - and that is the system working, not failing. A model that finds an edge in every game is lying about half of them.</p></div><div class='logrow'><span class='ld'>2026-09-08</span><span class='lt'>INJURY ODDS ON EVERY PROJECTION - AND MYLES&#x27;S DEPTH-CHART READS</span><p>The board now prices injuries the way the games actually happen: probabilistically. Every skill player with an injury designation carries a judged chance of missing the game - 25, 50, 75 or 100 percent - drawn from the live injury wire and adjusted by what the reports actually say (a full practice reads very differently from a walking boot). Each team is then projected across every combination of who plays and who sits, weighted by those odds, and the board shows the blended result: when a number-two receiver is a coin flip to play, most of his targets flow to the number one in the half of the world where he sits, the rest cascade down the depth chart, and the number one&#x27;s projection rises to match. A flagged player&#x27;s own number is his line if he plays, since his prop is void if he doesn&#x27;t. Fifty-eight players start the week as coin flips or worse; their cards say so in red, and no paper pick is ever made ON a player with real miss risk - only on the teammates whose numbers already carry the math. Two more things landed with it. Players stepping into new roles - promoted on the depth chart since last season - now have their old-role history half-weighted, so a receiver bumped to number two reads like one. And a hand-override file lets Myles&#x27;s read of a depth chart beat the morning snapshot, which is how Matthew Golden went on the board as Green Bay&#x27;s WR2 tonight. Two of the automatic judgments were caught and corrected before publishing: one quarterback flagged off a teammate&#x27;s injury note, one receiver flagged because tests had ruled a concussion OUT - good news the machine read as bad.</p></div><div class='logrow'><span class='ld'>2026-09-08</span><span class='lt'>PASSING PROPS RETURN - VOLUME ONLY, AND THE GATE CAUGHT A FAKE</span><p>Passing markets are back on the board, on new evidence and with one hard lesson attached. Passing attempts and completions - how many throws, how many connect - are volume questions, the thing this engine does best, and on seventeen unseen weeks of last season it beat the simple baseline on both. They join the pick pool with thresholds set at the same depth as the proven markets. Passing YARDS stays display-only: it failed last season&#x27;s real-line test four separate ways, and no amount of beating a practice baseline erases a losing record against actual books. One catch worth confessing because it nearly went out the door: the first draft projected every quarterback in the league at about 23 attempts - a calibration layer stretching numbers against a stale yardstick - and five fake unders qualified as picks before the preview step caught the uniformity. The fix: passing volume displays as the engine&#x27;s raw numbers, no stretching. Tonight those raw numbers sit just under the books everywhere - close enough to respect, not far enough to bet, which is exactly what an honest no-pick looks like.</p></div><div class='logrow'><span class='ld'>2026-09-08</span><span class='lt'>MYLES CALLED THE LINES OUT - HE WAS RIGHT</span><p>The board&#x27;s numbers looked wrong to the one person who reads them hardest, and the audit proved him right: star players were projecting 30 to 40 percent below what any sportsbook would post. Two causes, both fixed the same night. First, the engine hedges - every layer of caution it applies (pulling efficiency toward averages, blending in last season, tempering hot streaks) is individually correct, but stacked together they squeezed the top of the league into the middle. The elite projection was literally rarer in our numbers than elite games are in real life. The fix maps every projection onto the scale of what players of that rank actually average, so the number on the card now reads like a fair line - a top receiver shows 90 receiving yards, not 48 - while everyone keeps their order. An early draft of that fix had its own bug worth confessing: it briefly assigned one star negative receiving yards, because it was matching against single games instead of season averages, and every great player has one disaster game. Second, projections were splitting volume among more backups than ever share a real field at once, quietly taxing the stars; tightening that also measured out as slightly more accurate on four unseen months of last season. One honest note stands: a few big names still project below their reputation because their actual recent usage says so - the board trusts data over jersey sales, and the paper season will tell us which one of us is right.</p></div><div class='logrow'><span class='ld'>2026-09-08</span><span class='lt'>WEEK 1 RE-RUN: FINAL ROSTERS, SNAP-SHARE ALLOCATION, ROOKIES ON THE BOARD</span><p>Every projection re-run the day before kickoff with the September 8 reality: final 53-man rosters only (cuts, injured reserve and practice squads are off the board), starting quarterbacks taken from each team&#x27;s actual depth chart rather than career stats - which matters when a returning veteran has more career throws than the announced starter - and a smarter answer to the question of who gets the ball. Volume is now allocated the way the engine was designed to think: how much of the game is this player actually on the field for, times what he does when he is out there. A player&#x27;s expected snap share blends his own history with what his current depth-chart slot typically earns, so a promoted player rises and a demoted one falls before a single 2026 snap is played. That change also opens the door the old method could not: 23 depth-chart rookies are projected for the first time, marked with an R and carrying the widest error bars on the board - their playing time comes from their depth slot, their efficiency from position averages until they show their own. Workhorse backs came up noticeably: splitting usage by snaps instead of raw per-game averages stops punishing stars for the games they left early.</p></div><div class='logrow'><span class='ld'>2026-08-06</span><span class='lt'>THE NFL BOARD IS LIVE - WEEK 1 PROJECTIONS UP</span><p>The board has a football page. Week 1 projections for all 16 games are posted - receptions, receiving yards and rushing yards for every meaningful skill player, built from last season&#x27;s usage mapped onto this season&#x27;s rosters, so trades and signings land where they should. Read the banner before anything else: this is PAPER MODE. These are projections, not picks; there is no bet window yet, and the whole first season is a public tryout - every eventual paper pick logged, graded and published, the same apprenticeship the baseball model served before its first real dollar. Two honest warnings on the page itself: rookies have no NFL history and are not projected yet, and week one runs entirely on last season&#x27;s data, so the error bars are the widest they will be all year.</p></div></div>
+  <div class="sect"><h2>MODEL UPDATES</h2><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-09-09</span><span class='ut'>OPENER PREP: FOUR FIXES BEFORE NE-SEA, AND AN HONEST NO-PLAY</span><div class='ux'>Tonight&#x27;s opener got the full pre-game treatment - both teams&#x27; depth charts as of this morning, the official injury report, and lines from two books - and the scrutiny found four things worth fixing before kickoff. A receiver listed in two depth-chart slots was being counted twice in his team&#x27;s target pool. When a player is ruled out, his targets were flowing mostly to the wrong positions; they now go 70 percent to his own position group and 30 percent elsewhere, exactly as the original engine was designed. The workload ceiling that stops a back from absorbing an entire departed teammate&#x27;s role now relaxes when that teammate is ruled OUT for the game rather than gone for good - an injury replacement really does carry more. And rookies are capped at what their depth slot normally produces instead of whatever the share math hands them. After all of it, every projection for New England at Seattle sits within a point or two of the posted lines. That means no paper pick tonight - and that is the system working, not failing. A model that finds an edge in every game is lying about half of them.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-09-08</span><span class='ut'>INJURY ODDS ON EVERY PROJECTION - AND MYLES&#x27;S DEPTH-CHART READS</span><div class='ux'>The board now prices injuries the way the games actually happen: probabilistically. Every skill player with an injury designation carries a judged chance of missing the game - 25, 50, 75 or 100 percent - drawn from the live injury wire and adjusted by what the reports actually say (a full practice reads very differently from a walking boot). Each team is then projected across every combination of who plays and who sits, weighted by those odds, and the board shows the blended result: when a number-two receiver is a coin flip to play, most of his targets flow to the number one in the half of the world where he sits, the rest cascade down the depth chart, and the number one&#x27;s projection rises to match. A flagged player&#x27;s own number is his line if he plays, since his prop is void if he doesn&#x27;t. Fifty-eight players start the week as coin flips or worse; their cards say so in red, and no paper pick is ever made ON a player with real miss risk - only on the teammates whose numbers already carry the math. Two more things landed with it. Players stepping into new roles - promoted on the depth chart since last season - now have their old-role history half-weighted, so a receiver bumped to number two reads like one. And a hand-override file lets Myles&#x27;s read of a depth chart beat the morning snapshot, which is how Matthew Golden went on the board as Green Bay&#x27;s WR2 tonight. Two of the automatic judgments were caught and corrected before publishing: one quarterback flagged off a teammate&#x27;s injury note, one receiver flagged because tests had ruled a concussion OUT - good news the machine read as bad.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-09-08</span><span class='ut'>PASSING PROPS RETURN - VOLUME ONLY, AND THE GATE CAUGHT A FAKE</span><div class='ux'>Passing markets are back on the board, on new evidence and with one hard lesson attached. Passing attempts and completions - how many throws, how many connect - are volume questions, the thing this engine does best, and on seventeen unseen weeks of last season it beat the simple baseline on both. They join the pick pool with thresholds set at the same depth as the proven markets. Passing YARDS stays display-only: it failed last season&#x27;s real-line test four separate ways, and no amount of beating a practice baseline erases a losing record against actual books. One catch worth confessing because it nearly went out the door: the first draft projected every quarterback in the league at about 23 attempts - a calibration layer stretching numbers against a stale yardstick - and five fake unders qualified as picks before the preview step caught the uniformity. The fix: passing volume displays as the engine&#x27;s raw numbers, no stretching. Tonight those raw numbers sit just under the books everywhere - close enough to respect, not far enough to bet, which is exactly what an honest no-pick looks like.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-09-08</span><span class='ut'>MYLES CALLED THE LINES OUT - HE WAS RIGHT</span><div class='ux'>The board&#x27;s numbers looked wrong to the one person who reads them hardest, and the audit proved him right: star players were projecting 30 to 40 percent below what any sportsbook would post. Two causes, both fixed the same night. First, the engine hedges - every layer of caution it applies (pulling efficiency toward averages, blending in last season, tempering hot streaks) is individually correct, but stacked together they squeezed the top of the league into the middle. The elite projection was literally rarer in our numbers than elite games are in real life. The fix maps every projection onto the scale of what players of that rank actually average, so the number on the card now reads like a fair line - a top receiver shows 90 receiving yards, not 48 - while everyone keeps their order. An early draft of that fix had its own bug worth confessing: it briefly assigned one star negative receiving yards, because it was matching against single games instead of season averages, and every great player has one disaster game. Second, projections were splitting volume among more backups than ever share a real field at once, quietly taxing the stars; tightening that also measured out as slightly more accurate on four unseen months of last season. One honest note stands: a few big names still project below their reputation because their actual recent usage says so - the board trusts data over jersey sales, and the paper season will tell us which one of us is right.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-09-08</span><span class='ut'>WEEK 1 RE-RUN: FINAL ROSTERS, SNAP-SHARE ALLOCATION, ROOKIES ON THE BOARD</span><div class='ux'>Every projection re-run the day before kickoff with the September 8 reality: final 53-man rosters only (cuts, injured reserve and practice squads are off the board), starting quarterbacks taken from each team&#x27;s actual depth chart rather than career stats - which matters when a returning veteran has more career throws than the announced starter - and a smarter answer to the question of who gets the ball. Volume is now allocated the way the engine was designed to think: how much of the game is this player actually on the field for, times what he does when he is out there. A player&#x27;s expected snap share blends his own history with what his current depth-chart slot typically earns, so a promoted player rises and a demoted one falls before a single 2026 snap is played. That change also opens the door the old method could not: 23 depth-chart rookies are projected for the first time, marked with an R and carrying the widest error bars on the board - their playing time comes from their depth slot, their efficiency from position averages until they show their own. Workhorse backs came up noticeably: splitting usage by snaps instead of raw per-game averages stops punishing stars for the games they left early.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-06</span><span class='ut'>THE NFL BOARD IS LIVE - WEEK 1 PROJECTIONS UP</span><div class='ux'>The board has a football page. Week 1 projections for all 16 games are posted - receptions, receiving yards and rushing yards for every meaningful skill player, built from last season&#x27;s usage mapped onto this season&#x27;s rosters, so trades and signings land where they should. Read the banner before anything else: this is PAPER MODE. These are projections, not picks; there is no bet window yet, and the whole first season is a public tryout - every eventual paper pick logged, graded and published, the same apprenticeship the baseball model served before its first real dollar. Two honest warnings on the page itself: rookies have no NFL history and are not projected yet, and week one runs entirely on last season&#x27;s data, so the error bars are the widest they will be all year.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-06</span><span class='ut'>THE OPENING-LINE TEST: THE MARKET DRIFTS TOWARD OUR NUMBER</span><div class='ux'>A subscriber-grade question from Myles: if the picks break even against the final line, they should be ahead of the early line - so test it. The same four weeks of prop lines were pulled again, this time as they stood three days before kickoff, and the same picks were graded against both. He was right about the direction: identical picks score about a point better against the early line than the late one. The finding that matters more, though, is which way the lines MOVED. When a receptions line changed between Tuesday and kickoff, it moved toward our projection 21 times out of 27 - and rushing lines followed us 58% of the time. In this business that is the tell: the market spending all week correcting toward your number means your number was ahead of it. Passing yards showed the mirror image - the market moved away from us, its final verdict on that market, which is now dropped for good. The plan is unchanged in discipline and sharpened in focus: a full paper season on receptions, receiving yards and rushing yards, with picks made early in the week when the value exists, every one logged and graded, no money until half a season proves it.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-06</span><span class='ut'>WORKHORSE-BACK FIX + FIRST TEST AGAINST REAL PROP LINES</span><div class='ux'>Two updates in one day. First, the running back lowball was diagnosed and fixed: the engine was splitting carries across four backs even in weeks when two of them were in street clothes. Inactive lists are public before kickoff, so the projector now removes ruled-out players and hands their work to whoever remains - the average error on workhorse backs dropped from 15 yards to essentially zero. Second, the real test: projections for four Sunday slates of last season were compared against the actual prop lines posted two minutes before kickoff, nearly a thousand player lines across receptions, receiving yards, rushing yards and passing yards. The verdict is a perfect coin flip: 490 wins, 446 losses, 52.35% where 52.38% is breakeven after the book&#x27;s cut. Inside that flat number there is one live lead - receptions picks hit 53.8%, and the engine&#x27;s bigger disagreements with the line won 58% of the time, which is the shape a real edge takes - and one confirmed casualty: passing-yard picks lost outright and are dropped from consideration. Next step is the same discipline the baseball model earned its record with: a full paper season on receiving props only, every pick logged and graded in public, not a dollar at stake until the numbers prove out.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-06</span><span class='ut'>PIVOT: PLAYER PROPS ARE NOW THE PRODUCT</span><div class='ux'>The football project has a new primary target: player props - receptions, receiving yards, rushing yards - instead of game spreads. The reasoning is the record itself: four seasons of honest testing showed the point-spread market gives up nothing, while props are a famously softer market with hundreds of lines a week and books that limit winners, which tells you who usually wins there. The engine is a usage-first projector built by hand: how many plays a team runs, who gets the targets and carries, everyone&#x27;s efficiency pulled toward position averages, adjusted for the defense across the field, with every player&#x27;s numbers forced to add up to the team&#x27;s totals. It was immediately put through the same discipline as everything else - project every week of last season using only what was knowable at the time, then compare against what actually happened. First honest results: the engine beats a simple per-game average on receptions and receiving yards, loses slightly on rushing and passing yards, and has a known flaw to fix - it lowballs workhorse running backs by about 15 yards a game. Nothing is bet, nothing is texted; next milestone is testing projections against real posted prop lines.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-01</span><span class='ut'>THE SPREAD IS NOW OFFICIALLY THE PRODUCT</span><div class='ux'>Clarified the football model&#x27;s job description: it is a point-spread model. It builds its own number for every game, compares that to the posted spread, and speaks in the spread market&#x27;s language - how likely each side is to cover, how likely the game lands exactly on the number, and the edge after the book&#x27;s cut. Building this the honest way immediately taught two lessons. One: games really do land on the famous numbers - at spreads of 3 or 7 about one game in ten pushes, and the first version of the math expected a third of that; it now carries a per-number push table learned from a decade of history. Two, and more important: when the model&#x27;s cover confidence was tested against reality, its boldest opinions were worthless - so a calibration layer now converts raw disagreement into how often disagreements of that size have actually won. The calibrated answer is humbling and correct: roughly 48 to 50 percent on essentially every game, which is the model telling us it has no spread edge yet. A model that admits that is worth more than one that lies, because the same machinery will report honestly the day something real shows up. Win-odds numbers still exist as a byproduct, but the spread is the deliverable.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-01</span><span class='ut'>FEATURE REBUILD + MODEL TOURNAMENT: LINEAR WINS, MARKET STILL UNDEFEATED</span><div class='ux'>The football model was rebuilt with a wider set of ingredients - drive efficiency, success rate, turnover tendencies, scoring form, and for the first time quarterback continuity, which proved the old football adage: teams starting a new quarterback lose by 1.5 on average while stable ones win by 2.2. Every ingredient then had to earn its spot on unseen games, and most did not: turnovers and scoring form add nothing once efficiency is known, and the final model keeps just three team signals. Four different types of prediction engine were also raced head to head on four unseen seasons; the simplest one won, and the fancier tree-based engines lost outright - same lesson the baseball model taught. Bottom line: our standalone rating improved from 9.94 to 9.85 points of average error, the closing line sits at 9.49, and nothing we have built adds information the market lacks. No edge is claimed. One tree model did post a flashy 53.7% against the spread; it is flagged in the report as almost certainly luck, and will be re-tested rather than believed.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-01</span><span class='ut'>CLOSING LINES VERIFIED AGAINST THE REAL MARKET</span><div class='ux'>Before trusting any backtest, the record of closing spreads the football model tests against was checked the hard way: 159 games from 2023-2025 were compared against snapshots of the actual betting market taken two minutes before each kickoff, across roughly a dozen sportsbooks. Result: 94% of the recorded lines sit within half a point of the true pre-kickoff market and the average gap is a fifth of a point. The baseball model once lost months to a fake closing-line source, so this box does not get checked by assumption anymore. Verdict: the football backtests stand on real lines.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-01</span><span class='ut'>SELF-AUDIT CAUGHT TWO BUGS THE SAME DAY</span><div class='ux'>A review pass over the brand-new football code found two real defects, both fixed before anything was published. First and worse: every team-strength rating had the defensive half pointing backwards, so facing a terrible defense was being scored as a disadvantage. Second: the model was being fed the same efficiency information three different ways, which scrambled its internal weights. Fixing the first cut the model&#x27;s average error from 10.55 points a game to 9.94 and brought its ratings into line with the betting market for the first time. The honest verdict did not change - still no edge over the closing spread - but the model underneath it is a genuinely different and better one. Full detail in the leaks log. Worth knowing: the buggy version produced a 57.5% 2024 season, the best-looking number this project has generated, and it was an artifact. The corrected seasons read 50.6, 47.7, 53.4, 51.7.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-01</span><span class='ut'>FIRST HONEST BASELINE: NO EDGE YET</span><div class='ux'>The first football model - team EPA efficiency, rest, divisional and neutral-site adjustments - was tested on four seasons it had never seen (2022-2025, 1,058 graded games). Result against the closing spread: 50.9%, where 52.38% is breakeven. The margin of error on four seasons is plus or minus three points, so the honest translation is &#x27;no edge proven, and none claimed.&#x27; The NFL side market is the toughest one there is, and the baseball model&#x27;s opening baseline did not beat its market either. Reporting this as-is rather than hunting for a flattering subset.</div></div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-08-01</span><span class='ut'>NFL PROJECT OPENED - PHASE 0</span><div class='ux'>Started the football model as a sister project to the baseball model. Nothing is bet and nothing is texted; this phase is data and plumbing only. Pulled eleven seasons of play-by-play (2015-2025, 532,376 plays) plus every game result and closing line, and built the walk-forward test harness FIRST - the model is trained only on games that finished before the game it is predicting, week by week, exactly as it would run live. The baseball model spent months believing a 62-65% number that was really 58.7% because it graded itself on games it had already seen; the football model is being built so that mistake is structurally impossible.</div></div></div>
+  </div>
+
+  <div class="duo">
+    <div class="sect"><h2>PATCHED LEAKS · EVERY HOLE WE FOUND & PLUGGED</h2><div class='leak' onclick="this.classList.toggle('open')"><span class='ld'>2026-08-01</span><span class='ln2'>THE SAME INPUT THREE TIMES</span><div class='lx'><span class='tag t-leak'>THE LEAK</span>The model was fed overall efficiency, passing efficiency and rushing efficiency as three separate inputs, but overall efficiency is just a blend of the other two - 98% the same information. The model had no way to tell them apart and split one signal across three wildly unstable settings.<span class='tag t-ev'>THE EVIDENCE</span>The giveaway was the model&#x27;s own weights: overall efficiency at -11.5 while passing sat at +5.1 and rushing at +9.9. Numbers that large with flipped signs mean the model is playing the inputs against each other rather than learning anything. Six versions were then tested on unseen games and all landed within 0.03 points of each other, which confirmed the redundancy was scrambling the weights without actually helping or hurting the predictions.<span class='tag t-fix'>THE FIX</span>Cut to a single efficiency input. The weights are now readable - the betting line at 1.03 and efficiency at 0.55 points of margin per unit - and mean something a person can check. Fewer inputs, honest model.</div></div><div class='leak' onclick="this.classList.toggle('open')"><span class='ld'>2026-08-01</span><span class='ln2'>THE BACKWARDS DEFENSE LEAK</span><div class='lx'><span class='tag t-leak'>THE LEAK</span>Every team-strength rating had the defensive half pointing the wrong way. A defense&#x27;s rating measures how much it ALLOWS, so a high number means a bad defense - and the model was subtracting the opponent&#x27;s defensive rating where it needed to add it. In plain terms: facing a terrible defense was being scored as a disadvantage.<span class='tag t-ev'>THE EVIDENCE</span>Caught in a review pass, not by the results, which is the worrying part. The broken feature still pointed the right way overall (it correlated +0.15 with the final margin), and a weak signal against a sharp market is exactly what you expect to see anyway, so nothing looked wrong. The giveaway was the comparison to the betting line: a real team-strength rating should track the closing line closely, and this one sat at 0.28 instead of 0.84. After the fix, the model&#x27;s average error per game dropped from 10.55 points to 9.94 and its probability score improved from .243 to .223.<span class='tag t-fix'>THE FIX</span>Defensive ratings are now added to the opposing offense, with the sign convention written into the code as a comment that says do not simplify this. Ten automated tests now check the direction of every relationship - a bad defense must predict a worse result for its own team, a good offense a better one - so a future sign flip fails loudly instead of silently halving the model. Worth stating plainly: the broken version produced a 57.5% season in 2024, easily the most exciting number this project has produced, and it was noise from a bug. The corrected model&#x27;s seasons are 50.6, 47.7, 53.4, 51.7 - boring, stable, and real.</div></div><div class='leak' onclick="this.classList.toggle('open')"><span class='ld'>2026-08-01</span><span class='ln2'>THE COLD-START ANCHOR LEAK</span><div class='lx'><span class='tag t-leak'>THE LEAK</span>The value assigned to a team before it had played any games was the league average calculated across all eleven seasons - including seasons that had not happened yet at the time of the game being rated.<span class='tag t-ev'>THE EVIDENCE</span>Found by writing the leakage tests before trusting any result. The all-seasons average differed from a 2015-only average by up to 0.04 EPA per play. Small, and it mostly cancels because every feature is a home-minus-away difference, but it is still future information touching a past prediction.<span class='tag t-fix'>THE FIX</span>The cold-start value is now the fixed constant zero, so no data of any kind enters a team&#x27;s rating before it has played. Four automated leakage tests now run on demand, the strongest being a truncation check: ratings for 2015-2022 games must come out bit-for-bit identical whether or not the 2023-2025 seasons exist in the input. They do.</div></div><div class='leak' onclick="this.classList.toggle('open')"><span class='ld'>2026-08-01</span><span class='ln2'>THE DEPENDENCY DOWNGRADE</span><div class='lx'><span class='tag t-leak'>THE LEAK</span>Installing the standard NFL data library quietly downgraded shared math libraries on the same Python the live baseball model runs on, which could have broken the nightly baseball jobs without any visible error.<span class='tag t-ev'>THE EVIDENCE</span>The library pins an old version of pandas and numpy. Installing it uninstalled pandas 3.0.2 and numpy 2.4.4 and replaced them with 1.5.3 and 1.26.4 - the exact versions the live baseball scheduled tasks depend on. The image library the baseball model uses also declares it needs the newer numpy, so it was left in a broken state.<span class='tag t-fix'>THE FIX</span>Restored the shared Python immediately and verified every baseball dependency imports cleanly. The football project now runs in its own isolated environment, and the NFL data library was dropped entirely - it is only a thin wrapper around public data files the project now downloads directly. No shared interpreter is ever touched again.</div></div></div>
+    <div class="sect"><h2>THE ARCHIVE · REPORTS</h2><a class='arch' href='nfl_reports/W01_INJURY_REVIEW_2026-09-08.md' target='_blank'><span>W01 INJURY REVIEW</span><span>2026-09-08</span></a><a class='arch' href='nfl_reports/PROPS_PIVOT_2026-08-06.md' target='_blank'><span>PROPS PIVOT</span><span>2026-08-06</span></a><a class='arch' href='nfl_reports/PROPS_PILOT_2026-08-06.md' target='_blank'><span>PROPS PILOT</span><span>2026-08-06</span></a><a class='arch' href='nfl_reports/PHASE1_REPORT_2026-08-01.md' target='_blank'><span>PHASE1 REPORT</span><span>2026-08-01</span></a><a class='arch' href='nfl_reports/PHASE0_REPORT_2026-08-01.md' target='_blank'><span>PHASE0 REPORT</span><span>2026-08-01</span></a></div>
+  </div>
 
   <div class="foot">Generated 2026-09-09 · football-model · paper season</div>
 </div>
@@ -597,6 +915,49 @@ function filterTeam(v){
     c.style.display=(v==="ALL"||c.getAttribute("data-teams").split(" ").indexOf(v)!==-1)?"":"none";
   });
 }
+
+/* live scores on the game cards + standings, refreshed every 60s (MLB parity) */
+var ESPN2US={WSH:'WAS',LAR:'LA',JAC:'JAX'};
+function usAbbr(a){return ESPN2US[a]||a;}
+async function refreshScores(){
+  try{
+    const j=await(await fetch("https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard")).json();
+    (j.events||[]).forEach(function(ev){
+      const c=ev.competitions&&ev.competitions[0]; if(!c)return;
+      const home=c.competitors.find(x=>x.homeAway==='home'), away=c.competitors.find(x=>x.homeAway==='away');
+      if(!home||!away)return;
+      const key=usAbbr(away.team.abbreviation)+' '+usAbbr(home.team.abbreviation);
+      const card=document.querySelector('#gamegrid .card[data-teams="'+key+'"]'); if(!card)return;
+      const st=c.status&&c.status.type||{}; var txt='';
+      if(st.state==='in') txt='<span class="live">LIVE '+(st.shortDetail||'')+' · '+away.score+'-'+home.score+'</span>';
+      else if(st.state==='post') txt='<span class="final">FINAL '+away.score+'-'+home.score+'</span>';
+      var slot=card.querySelector('.score'); if(!slot){slot=document.createElement('span');slot.className='score';card.querySelector('.ch').appendChild(slot);}
+      slot.innerHTML=txt;
+    });
+    document.getElementById('sl-upd').textContent=new Date().toLocaleTimeString();
+  }catch(e){}
+}
+async function loadStandings(){
+  try{
+    const j=await(await fetch("https://site.api.espn.com/apis/v2/sports/football/nfl/standings")).json();
+    var rows=[];
+    (j.children||[]).forEach(function(conf){
+      // ESPN nests divisions in-season; early season it returns conference-level entries
+      var groups=(conf.children&&conf.children.length)?conf.children:[conf];
+      groups.forEach(function(div){
+        rows.push("<div class='strow' style='color:var(--phos-dim);font-family:Bebas Neue,sans-serif;letter-spacing:.15em;font-size:13px'>"+(div.abbreviation||div.name)+"</div>");
+        var ents=(div.standings&&div.standings.entries)||[];
+        ents.slice().sort(function(a,b){var ga=a.stats.find(x=>x.name==='winPercent'),gb=b.stats.find(x=>x.name==='winPercent');return (gb?+gb.value:0)-(ga?+ga.value:0);}).forEach(function(en){
+          const t=en.team; const s={}; (en.stats||[]).forEach(function(x){s[x.name]=x.displayValue;});
+          rows.push("<div class='strow'><img src='"+(t.logos&&t.logos[0]?t.logos[0].href:'')+"'><span class='tn'>"+usAbbr(t.abbreviation)+"</span><span class='wl'>"+(s.wins||0)+"-"+(s.losses||0)+(s.ties&&s.ties!=='0'?'-'+s.ties:'')+"</span><span class='stk'>"+(s.streak||'')+"</span></div>");
+        });
+      });
+    });
+    if(rows.length){document.getElementById('st-body').innerHTML=rows.join('');document.getElementById('standings').style.display='';}
+  }catch(e){}
+}
+refreshScores(); loadStandings(); setInterval(refreshScores,60000);
+
 document.addEventListener("keydown",function(e){
   if(e.key!=="Escape") return;
   if(document.getElementById("pov").classList.contains("open")) closePlayer();
