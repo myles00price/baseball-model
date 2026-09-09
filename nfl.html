@@ -25,6 +25,30 @@ body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.
 .teambar label{font-family:'VT323',monospace;font-size:13px;color:var(--mut);letter-spacing:.1em}
 .teambar select{background:#050505;border:1px solid #222;color:var(--phos);font-family:'VT323',monospace;font-size:16px;padding:5px 10px;outline:none}
 .hintline{font-family:'VT323',monospace;font-size:12.5px;color:var(--mut);line-height:1.5}
+/* ---- game research panel ---- */
+.rsh{display:grid;grid-template-columns:repeat(auto-fit,minmax(520px,1fr));gap:12px;margin-bottom:14px}
+.rsh-team{background:#0a0a0a;border:1px solid var(--line)}
+.rsh-head{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.rsh-head img{width:40px;height:40px}
+.rsh-head .tn{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.15em}
+.rsh-head .sub{font-family:'VT323',monospace;font-size:13px;color:var(--mut);margin-left:auto}
+.rsh table{width:100%;border-collapse:collapse}
+.rsh th{font-family:'VT323',monospace;font-size:11px;color:var(--mut);padding:4px 6px;border-bottom:1px solid var(--line);font-weight:400;text-align:right;letter-spacing:.05em}
+.rsh th.l{text-align:left}
+.rsh td{font-family:'VT323',monospace;font-size:14px;padding:4px 6px;border-bottom:1px solid #111;text-align:right;white-space:nowrap}
+.rsh td.pl{text-align:left;font-family:'Oswald',sans-serif;font-size:13px;cursor:pointer}
+.rsh td.pl:hover{color:var(--amber)}
+.rsh td.pl img{width:26px;height:26px;border-radius:50%;background:#111;object-fit:cover;vertical-align:middle;margin-right:6px}
+.rsh td.pl .pos{color:var(--mut);font-size:11px;margin-left:5px}
+.rsh td.ours{color:var(--phos)}
+.rsh td.bk{color:#c9c9c9}
+.rsh td.mut{color:#2a2a2a}
+.rsh td .edg{font-size:11px;margin-left:4px}
+.rsh td .edg.o{color:var(--chart-o)} .rsh td .edg.u{color:var(--chart-u)}
+.rsh .mkgrp{border-left:1px solid #161616}
+.rsh .bookonly td.pl{color:#8f8f8f}
+body.light .rsh-team{background:#f7f4ec;border-color:var(--line)}
+body.light .rsh td{border-color:#eee9dd} body.light .rsh td.bk{color:#3a3a3a} body.light .rsh td.mut{color:#ddd6c6}
 .edgetbl td,.edgetbl th{font-size:14px}
 .edgetbl td.eo{color:var(--chart-o);font-weight:600}
 .edgetbl td.eu{color:var(--chart-u);font-weight:600}
@@ -320,7 +344,7 @@ body.light .newsitem img{filter:none}
   <script src="shell.js"></script>
 
   <div class='stats' id='stats'><div class='stat'><div class='v'>0-0</div><div class='k'>SHADOW RECORD</div></div><div class='stat'><div class='v'>—</div><div class='k'>WIN RATE</div></div><div class='stat'><div class='v'>—</div><div class='k'>CLV · LINES OUR WAY</div></div><div class='stat'><div class='v'>0/100</div><div class='k'>PAPER GATE</div></div><div class='stat'><div class='v'>0-0</div><div class='k'>REC</div></div><div class='stat'><div class='v'>0-0</div><div class='k'>REC YDS</div></div><div class='stat'><div class='v'>0-0</div><div class='k'>RUSH YDS</div></div></div>
-  <div class='statusline'><span id='sl-date'>WEEK 1 · 2026-09-09</span><span>BUILT <span class='lit'>12:34 PM</span> · SCORES <span class='lit' id='sl-upd'>—</span> · AUTO 60s</span></div>
+  <div class='statusline'><span id='sl-date'>WEEK 1 · 2026-09-09</span><span>BUILT <span class='lit'>12:41 PM</span> · SCORES <span class='lit' id='sl-upd'>—</span> · AUTO 60s</span></div>
   <div class="paper">■ PAPER MODE — shadow season. Picks are locked and texted, then graded at the locked
   line; not a dollar is at stake until 100 graded picks clear 52.4% with positive CLV. 2025 pilot:
   receptions 53.8% vs close, lines moved toward the engine 21/27; pass yards dropped.</div>
@@ -482,11 +506,12 @@ body.light .newsitem img{filter:none}
   <div class='sc-why'><h4>WHY THE MODEL LIKES IT</h4><p>Our number is 23.7 against the DK line of 40.5 — 16.8 yds of daylight on the UNDER, 2.9x the tested threshold for this market. He's in a new role on the depth chart, so his old usage is only half-weighted. 14 games of 2025 data behind the number. Paper pick, flat stake, graded at this line no matter where it closes.</p></div>
 </div></div></div>
 
-  <div class="teambar"><label>TEAM</label>
-    <select id="teamsel" onchange="filterTeam(this.value)">
-      <option value="ALL">ALL TEAMS</option><option>ARI</option><option>ATL</option><option>BAL</option><option>BUF</option><option>CAR</option><option>CHI</option><option>CIN</option><option>CLE</option><option>DAL</option><option>DEN</option><option>DET</option><option>GB</option><option>HOU</option><option>IND</option><option>JAX</option><option>KC</option><option>LA</option><option>LAC</option><option>LV</option><option>MIA</option><option>MIN</option><option>NE</option><option>NO</option><option>NYG</option><option>NYJ</option><option>PHI</option><option>PIT</option><option>SEA</option><option>SF</option><option>TB</option><option>TEN</option><option>WAS</option></select>
-    <span class="hintline">book lines shown where DK / MGM / CZR have posted · solid blue
-    line on charts = 3-book median</span></div>
+  <div class="teambar"><label>GAME</label>
+    <select id="gamesel" onchange="filterGame(this.value)">
+      <option value="ALL">ALL GAMES</option><option value='2026_01_NE_SEA'>NE @ SEA · 2026-09-09</option><option value='2026_01_SF_LA'>SF @ LA · 2026-09-10</option><option value='2026_01_CHI_CAR'>CHI @ CAR · 2026-09-13</option><option value='2026_01_TB_CIN'>TB @ CIN · 2026-09-13</option><option value='2026_01_NO_DET'>NO @ DET · 2026-09-13</option><option value='2026_01_BUF_HOU'>BUF @ HOU · 2026-09-13</option><option value='2026_01_BAL_IND'>BAL @ IND · 2026-09-13</option><option value='2026_01_CLE_JAX'>CLE @ JAX · 2026-09-13</option><option value='2026_01_ATL_PIT'>ATL @ PIT · 2026-09-13</option><option value='2026_01_NYJ_TEN'>NYJ @ TEN · 2026-09-13</option><option value='2026_01_ARI_LAC'>ARI @ LAC · 2026-09-13</option><option value='2026_01_MIA_LV'>MIA @ LV · 2026-09-13</option><option value='2026_01_GB_MIN'>GB @ MIN · 2026-09-13</option><option value='2026_01_WAS_PHI'>WAS @ PHI · 2026-09-13</option><option value='2026_01_DAL_NYG'>DAL @ NYG · 2026-09-13</option><option value='2026_01_DEN_KC'>DEN @ KC · 2026-09-14</option></select>
+    <span class="hintline">pick a game to open the research panel: every player, every posted
+    DK / MGM / CZR line next to ours · click a name for the full card</span></div>
+  <div id="research"></div>
 
   <div class='sect'><h2>EDGE SCANNER — OURS vs DK / MGM / CZR</h2><p class='hintline'>Points gap between our fair-line number and the posted-book median. INFORMATIONAL, PAPER — not picks. ★ receptions is the only market where big disagreements carried historical signal (58% on the larger half, 2025 pilot); yardage edges are unproven. Books shade lines for a reason; assume they know something we don't until the shadow record says otherwise. † PASS YDS is display-only, never a pick: it failed the 2025 line test four ways (43.6% record, market moved against us) — shown for context since pass attempts/completions rejoined the pool on new backtest evidence. Dimmed THIN rows = under 8 games of 2025 data behind OUR number — the baseball model went 11-22 trusting its own thin samples; those rows are data warnings, not edges, and sort below solid-sample rows.</p><table class='edgetbl'><thead><tr><th>PLAYER</th><th>MKT</th><th>G</th><th>OURS</th><th>DK</th><th>MGM</th><th>CZR</th><th>MED</th><th>EDGE</th></tr></thead><tbody><tr><td class='nm'>Ja&#x27;Marr Chase<span class='pos'>CIN</span></td><td>REC YDS</td><td>16</td><td>119.6</td><td>86.5</td><td>85.5</td><td>—</td><td>86.0</td><td class='eo'>+33.6 OVER</td></tr><tr><td class='nm'>Jacoby Brissett<span class='pos'>ARI</span></td><td>PASS YDS†</td><td>14</td><td>256.3</td><td>222.5</td><td>225.5</td><td>—</td><td>224.0</td><td class='eo'>+32.3 OVER</td></tr><tr><td class='nm'>Jordan Love<span class='pos'>GB</span></td><td>PASS YDS†</td><td>15</td><td>209.7</td><td>239.5</td><td>238.5</td><td>—</td><td>239.0</td><td class='eu'>-29.3 UNDER</td></tr><tr><td class='nm'>James Cook<span class='pos'>BUF</span></td><td>RUSH YDS</td><td>17</td><td>100.2</td><td>74.5</td><td>72.5</td><td>—</td><td>73.5</td><td class='eo'>+26.7 OVER</td></tr><tr><td class='nm'>Chris Rodriguez Jr.<span class='pos'>JAX</span></td><td>RUSH YDS</td><td>12</td><td>57.0</td><td>35.5</td><td>34.5</td><td>—</td><td>35.0</td><td class='eo'>+22.0 OVER</td></tr><tr><td class='nm'>Terry McLaurin<span class='pos'>WAS</span></td><td>REC YDS</td><td>10</td><td>29.0</td><td>49.5</td><td>51.5</td><td>—</td><td>50.5</td><td class='eu'>-21.5 UNDER</td></tr><tr><td class='nm'>Derrick Henry<span class='pos'>BAL</span></td><td>RUSH YDS</td><td>17</td><td>100.2</td><td>79.5</td><td>78.5</td><td>—</td><td>79.0</td><td class='eo'>+21.2 OVER</td></tr><tr><td class='nm'>Justin Jefferson<span class='pos'>MIN</span></td><td>REC YDS</td><td>17</td><td>53.8</td><td>75.5</td><td>72.5</td><td>—</td><td>74.0</td><td class='eu'>-20.2 UNDER</td></tr><tr><td class='nm'>Luther Burden III<span class='pos'>CHI</span></td><td>REC YDS</td><td>15</td><td>35.9</td><td>55.5</td><td>—</td><td>—</td><td>55.5</td><td class='eu'>-19.6 UNDER</td></tr><tr><td class='nm'>Bijan Robinson<span class='pos'>ATL</span></td><td>RUSH YDS</td><td>17</td><td>94.3</td><td>74.5</td><td>75.5</td><td>—</td><td>75.0</td><td class='eo'>+19.3 OVER</td></tr><tr><td class='nm'>Daniel Jones<span class='pos'>IND</span></td><td>PASS YDS†</td><td>13</td><td>249.0</td><td>230.5</td><td>232.5</td><td>—</td><td>231.5</td><td class='eo'>+17.5 OVER</td></tr><tr><td class='nm'>Dontayvion Wicks<span class='pos'>PHI</span></td><td>REC YDS</td><td>13</td><td>11.3</td><td>28.5</td><td>28.5</td><td>—</td><td>28.5</td><td class='eu'>-17.2 UNDER</td></tr><tr><td class='nm'>Lamar Jackson<span class='pos'>BAL</span></td><td>PASS YDS†</td><td>13</td><td>199.4</td><td>219.5</td><td>213.5</td><td>—</td><td>216.5</td><td class='eu'>-17.1 UNDER</td></tr><tr><td class='nm'>Brian Thomas Jr.<span class='pos'>JAX</span></td><td>REC YDS</td><td>14</td><td>53.1</td><td>36.5</td><td>—</td><td>—</td><td>36.5</td><td class='eo'>+16.6 OVER</td></tr></tbody></table></div>
 
@@ -910,10 +935,57 @@ function closeGame(){
   document.getElementById("ov").classList.remove("open");
   document.body.style.overflow="";
 }
-function filterTeam(v){
-  document.querySelectorAll("#gamegrid .card").forEach(function(c){
-    c.style.display=(v==="ALL"||c.getAttribute("data-teams").split(" ").indexOf(v)!==-1)?"":"none";
+var EXTRA={"SEA": [{"n": "George Holani", "p": "RB", "e": "4429835", "ln": {"ry": {"dk": [10.5, -119.0, -105.0], "mgm": [11.5, -115.0, -115.0], "m": 11.0}, "rec": {"dk": [1.5, -158.0, 123.0], "mgm": [1.5, -165.0, 125.0], "m": 1.5}, "ruy": {"dk": [19.5, -111.0, -113.0], "mgm": [20.5, -120.0, -110.0], "m": 20.0}}}], "LA": [{"n": "Terrance Ferguson", "p": "TE", "e": "4570037", "ln": {"ry": {"dk": [24.5, -112.0, -112.0], "mgm": [24.5, -111.0, -120.0], "m": 24.5}, "rec": {"dk": [1.5, -165.0, 129.0], "mgm": [1.5, -165.0, 125.0], "m": 1.5}}}], "CIN": [{"n": "Tee Higgins", "p": "WR", "e": "4239993", "ln": {"ry": {"dk": [64.5, -110.0, -114.0], "mgm": [65.5, -115.0, -115.0], "m": 65.0}, "rec": {"dk": [4.5, -148.0, 116.0], "mgm": [4.5, -160.0, 120.0], "m": 4.5}}}], "LAC": [{"n": "Charlie Kolar", "p": "TE", "e": "4241263", "ln": {"ry": {"dk": [16.5, -115.0, -109.0], "mgm": [17.5, -115.0, -115.0], "m": 17.0}, "rec": {"dk": [1.5, -159.0, 125.0], "m": 1.5}}}], "NYG": [{"n": "Odell Beckham Jr.", "p": "WR", "e": "16733", "ln": {"ry": {"dk": [11.5, -112.0, -112.0], "m": 11.5}, "rec": {"dk": [1.5, 107.0, -136.0], "m": 1.5}}}]};
+var RS_MK=[["rec","REC","pr"],["ry","REC YDS","pry"],["ruy","RUSH YDS","pruy"]];
+var RS_QB=[["pa","ATTS","ppa"],["pc","COMP","ppc"],["py","PASS YDS","pp"]];
+function rsCell(ours, ln){
+  // OURS | DK | MGM | CZR with an edge chip vs the posted median
+  var med=(ln&&ln.m!=null)?ln.m:null;
+  var o=(ours!=null&&ours>0.05)? ours.toFixed(1) : "";
+  var edge="";
+  if(med!=null&&o){var e=ours-med; edge="<span class='edg "+(e>0?"o":"u")+"'>"+(e>0?"+":"")+e.toFixed(1)+"</span>";}
+  function b(k){return (ln&&ln[k])? "<td class='bk' title='"+(ln[k][1]!=null?("o "+ln[k][1]+" / u "+ln[k][2]):"")+"'>"+ln[k][0].toFixed(1)+"</td>" : "<td class='mut'>—</td>";}
+  return "<td class='ours mkgrp'>"+(o||"<span class='mut'>—</span>")+edge+"</td>"+b("dk")+b("mgm")+b("czr");
+}
+function rsTeam(team, gameId){
+  var rows=[]; var qbs=[];
+  Object.keys(PLAYERS).forEach(function(pid){
+    var p=PLAYERS[pid]; if(p.t!==team) return;
+    var hasLine=p.ln&&Object.keys(p.ln).length;
+    var vol=(p.pt||0)+(p.pra||0)+(p.ppa||0);
+    if(!hasLine && vol<1) return;
+    var cell="<td class='pl' onclick=\"openPlayer('"+pid+"')\">"+
+      (p.e? "<img loading='lazy' src='https://a.espncdn.com/i/headshots/nfl/players/full/"+p.e+".png' onerror=\"this.style.visibility='hidden'\">":"")+
+      p.n+rkBadge(p)+"<span class='pos'>"+p.p+"</span></td>";
+    if(p.p==="QB" && (p.ppa||0)>=5){
+      qbs.push("<tr>"+cell+RS_QB.map(function(m){return rsCell(p[m[2]], p.ln&&p.ln[m[0]]);}).join("")+"</tr>");
+    }
+    rows.push({sort:-vol, html:"<tr>"+cell+RS_MK.map(function(m){return rsCell(p[m[2]], p.ln&&p.ln[m[0]]);}).join("")+"</tr>"});
   });
+  (EXTRA[team]||[]).forEach(function(x){
+    var cell="<td class='pl'>"+(x.e?"<img loading='lazy' src='https://a.espncdn.com/i/headshots/nfl/players/full/"+x.e+".png' onerror=\"this.style.visibility='hidden'\">":"")+x.n+
+      "<span class='pos'>"+x.p+" · not projected</span></td>";
+    var isQB=x.ln&&(x.ln.pa||x.ln.py||x.ln.pc);
+    if(isQB) qbs.push("<tr class='bookonly'>"+cell+RS_QB.map(function(m){return rsCell(null, x.ln[m[0]]);}).join("")+"</tr>");
+    else rows.push({sort:1, html:"<tr class='bookonly'>"+cell+RS_MK.map(function(m){return rsCell(null, x.ln[m[0]]);}).join("")+"</tr>"});
+  });
+  rows.sort(function(a,b){return a.sort-b.sort;});
+  var head=function(mk){return "<tr><th class='l'>PLAYER</th>"+mk.map(function(m){return "<th class='mkgrp'>"+m[1]+" OURS</th><th>DK</th><th>MGM</th><th>CZR</th>";}).join("")+"</tr>";};
+  var html="<div class='rsh-team'><div class='rsh-head'><img src='"+logo(team)+"'><span class='tn'>"+team+"</span>"+
+    "<span class='sub'>"+rows.length+" players · lines from posted books · edge = ours − median</span></div>";
+  if(qbs.length) html+="<table><thead>"+head(RS_QB)+"</thead><tbody>"+qbs.join("")+"</tbody></table>";
+  html+="<table><thead>"+head(RS_MK)+"</thead><tbody>"+rows.map(function(r){return r.html;}).join("")+"</tbody></table></div>";
+  return html;
+}
+function filterGame(gid){
+  var box=document.getElementById("research");
+  document.querySelectorAll("#gamegrid .card").forEach(function(c){
+    c.style.display=(gid==="ALL"||c.getAttribute("onclick").indexOf(gid)!==-1)?"":"none";
+  });
+  if(gid==="ALL"){box.innerHTML=""; return;}
+  var g=GAMES.find(function(x){return x.id===gid;}); if(!g){box.innerHTML="";return;}
+  box.innerHTML="<div class='rsh'>"+rsTeam(g.a,gid)+rsTeam(g.h,gid)+"</div>";
+  box.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 /* live scores on the game cards + standings, refreshed every 60s (MLB parity) */
