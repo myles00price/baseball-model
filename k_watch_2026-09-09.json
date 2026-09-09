@@ -1,0 +1,4445 @@
+{
+ "date": "2026-09-09",
+ "generated": "2026-09-09T04:58:22Z",
+ "pitchers": [
+  {
+   "id": 668678,
+   "name": "Zac Gallen",
+   "team": "Arizona Diamondbacks",
+   "opp": "Kansas City Royals",
+   "home": false,
+   "pk": 824064,
+   "hand": "R",
+   "so": 61,
+   "bf": 440,
+   "gs": 19,
+   "ip": 98.0,
+   "f_pit": 0.7372669996084464,
+   "bf_l5": 25.0,
+   "exp_bf": 24.54,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9111819800636562,
+   "pk_pa": 0.1475,
+   "exp_k": 3.65,
+   "dist": {
+    "2.5": 0.6987,
+    "3.5": 0.4956,
+    "4.5": 0.3092,
+    "5.5": 0.1702,
+    "6.5": 0.0833,
+    "7.5": 0.0365,
+    "8.5": 0.0144,
+    "9.5": 0.0052
+   },
+   "books": {
+    "dk": {
+     "line": 2.5,
+     "over": 143,
+     "under": -183,
+     "alts": {
+      "0.5": [
+       -1200,
+       null
+      ],
+      "1.5": [
+       -220,
+       null
+      ],
+      "2.5": [
+       143,
+       null
+      ],
+      "3.5": [
+       411,
+       null
+      ],
+      "4.5": [
+       1100,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 2.5,
+   "p_over_cons": 0.6987,
+   "fair_over": "-232",
+   "fair_under": "+232",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 2.5,
+    "price": 143,
+    "p_model": 0.6987,
+    "implied": 0.3889,
+    "edge": 0.3098,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 2.5,
+      "price": 143,
+      "p_model": 0.6987,
+      "implied": 0.3889,
+      "edge": 0.3098,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 2.5,
+      "price": -183,
+      "p_model": 0.3013,
+      "implied": 0.6111,
+      "edge": -0.3098,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 13.9,
+   "k9": 5.6
+  },
+  {
+   "id": 669467,
+   "name": "Andre Pallante",
+   "team": "St. Louis Cardinals",
+   "opp": "San Francisco Giants",
+   "home": false,
+   "pk": 823172,
+   "hand": "R",
+   "so": 98,
+   "bf": 584,
+   "gs": 25,
+   "ip": 141.0,
+   "f_pit": 0.7614138495386451,
+   "bf_l5": 23.75,
+   "exp_bf": 23.66,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.084759224200916,
+   "pk_pa": 0.1836,
+   "exp_k": 4.36,
+   "dist": {
+    "2.5": 0.8024,
+    "3.5": 0.6324,
+    "4.5": 0.446,
+    "5.5": 0.2805,
+    "6.5": 0.1576,
+    "7.5": 0.0794,
+    "8.5": 0.0361,
+    "9.5": 0.0149
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": 100,
+     "under": -128,
+     "alts": {
+      "2.5": [
+       -295,
+       null
+      ],
+      "3.5": [
+       100,
+       null
+      ],
+      "4.5": [
+       220,
+       null
+      ],
+      "5.5": [
+       520,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -1450,
+       null
+      ],
+      "2.5": [
+       -250,
+       null
+      ],
+      "3.5": [
+       111,
+       null
+      ],
+      "4.5": [
+       235,
+       null
+      ],
+      "5.5": [
+       550,
+       null
+      ],
+      "6.5": [
+       1300,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 3.5,
+     "over": 128,
+     "under": -163,
+     "alts": {
+      "1.5": [
+       -680,
+       null
+      ],
+      "2.5": [
+       -202,
+       null
+      ],
+      "3.5": [
+       128,
+       null
+      ],
+      "4.5": [
+       307,
+       null
+      ],
+      "5.5": [
+       740,
+       null
+      ],
+      "6.5": [
+       1720,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.6324,
+   "fair_over": "-172",
+   "fair_under": "+172",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 3.5,
+    "price": 128,
+    "p_model": 0.6324,
+    "implied": 0.4144,
+    "edge": 0.218,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": 100,
+      "p_model": 0.6324,
+      "implied": 0.4711,
+      "edge": 0.1614,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -128,
+      "p_model": 0.3676,
+      "implied": 0.5289,
+      "edge": -0.1614,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": 128,
+      "p_model": 0.6324,
+      "implied": 0.4144,
+      "edge": 0.218,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -163,
+      "p_model": 0.3676,
+      "implied": 0.5856,
+      "edge": -0.218,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 16.8,
+   "k9": 6.26
+  },
+  {
+   "id": 687562,
+   "name": "Jake Bennett",
+   "team": "Boston Red Sox",
+   "opp": "Los Angeles Angels",
+   "home": true,
+   "pk": 824713,
+   "hand": "L",
+   "so": 81,
+   "bf": 395,
+   "gs": 17,
+   "ip": 99.7,
+   "f_pit": 0.9521380979799998,
+   "bf_l5": 24.38,
+   "exp_bf": 24.08,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.163854644076097,
+   "pk_pa": 0.2454,
+   "exp_k": 5.83,
+   "dist": {
+    "2.5": 0.9217,
+    "3.5": 0.8289,
+    "4.5": 0.6945,
+    "5.5": 0.5345,
+    "6.5": 0.3749,
+    "7.5": 0.239,
+    "8.5": 0.1385,
+    "9.5": 0.073
+   },
+   "books": {
+    "fd": {
+     "line": 4.5,
+     "over": -142,
+     "under": 112,
+     "alts": {
+      "2.5": [
+       -1400,
+       null
+      ],
+      "3.5": [
+       -400,
+       null
+      ],
+      "4.5": [
+       -142,
+       null
+      ],
+      "5.5": [
+       144,
+       null
+      ],
+      "6.5": [
+       310,
+       null
+      ],
+      "7.5": [
+       630,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 5.5,
+     "over": 110,
+     "under": -140,
+     "alts": {
+      "2.5": [
+       -1740,
+       null
+      ],
+      "3.5": [
+       -506,
+       null
+      ],
+      "4.5": [
+       -205,
+       null
+      ],
+      "5.5": [
+       110,
+       null
+      ],
+      "6.5": [
+       233,
+       null
+      ],
+      "7.5": [
+       487,
+       null
+      ],
+      "8.5": [
+       1000,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -440,
+       null
+      ],
+      "4.5": [
+       -143,
+       null
+      ],
+      "5.5": [
+       127,
+       null
+      ],
+      "6.5": [
+       250,
+       null
+      ],
+      "7.5": [
+       525,
+       null
+      ],
+      "8.5": [
+       1000,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.6945,
+   "fair_over": "-227",
+   "fair_under": "+227",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 4.5,
+    "price": -142,
+    "p_model": 0.6945,
+    "implied": 0.5544,
+    "edge": 0.1401,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": -142,
+      "p_model": 0.6945,
+      "implied": 0.5544,
+      "edge": 0.1401,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": 112,
+      "p_model": 0.3055,
+      "implied": 0.4456,
+      "edge": -0.1401,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": 110,
+      "p_model": 0.5345,
+      "implied": 0.4494,
+      "edge": 0.085,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -140,
+      "p_model": 0.4655,
+      "implied": 0.5506,
+      "edge": -0.085,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 20.5,
+   "k9": 7.31
+  },
+  {
+   "id": 701656,
+   "name": "Logan Henderson",
+   "team": "Milwaukee Brewers",
+   "opp": "Chicago Cubs",
+   "home": true,
+   "pk": 823739,
+   "hand": "R",
+   "so": 93,
+   "bf": 310,
+   "gs": 15,
+   "ip": 83.3,
+   "f_pit": 1.2833003617021415,
+   "bf_l5": 21.75,
+   "exp_bf": 21.46,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9330341135220052,
+   "pk_pa": 0.266,
+   "exp_k": 5.52,
+   "dist": {
+    "2.5": 0.9029,
+    "3.5": 0.7988,
+    "4.5": 0.6527,
+    "5.5": 0.4859,
+    "6.5": 0.3273,
+    "7.5": 0.1991,
+    "8.5": 0.1094,
+    "9.5": 0.0544
+   },
+   "books": {
+    "fd": {
+     "line": 6.5,
+     "over": 104,
+     "under": -132,
+     "alts": {
+      "3.5": [
+       -1600,
+       null
+      ],
+      "4.5": [
+       -500,
+       null
+      ],
+      "5.5": [
+       -215,
+       null
+      ],
+      "6.5": [
+       104,
+       null
+      ],
+      "7.5": [
+       200,
+       null
+      ],
+      "8.5": [
+       400,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 6.5,
+     "over": 103,
+     "under": -132,
+     "alts": {
+      "3.5": [
+       -1440,
+       null
+      ],
+      "4.5": [
+       -480,
+       null
+      ],
+      "5.5": [
+       -203,
+       null
+      ],
+      "6.5": [
+       103,
+       null
+      ],
+      "7.5": [
+       206,
+       null
+      ],
+      "8.5": [
+       425,
+       null
+      ],
+      "9.5": [
+       850,
+       null
+      ],
+      "10.5": [
+       1620,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       625,
+       null
+      ],
+      "4.5": [
+       -480,
+       null
+      ],
+      "5.5": [
+       -205,
+       null
+      ],
+      "6.5": [
+       105,
+       null
+      ],
+      "7.5": [
+       184,
+       null
+      ],
+      "8.5": [
+       340,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 6.5,
+   "p_over_cons": 0.3273,
+   "fair_over": "+206",
+   "fair_under": "-206",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 6.5,
+    "price": -132,
+    "p_model": 0.6727,
+    "implied": 0.536,
+    "edge": 0.1367,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 6.5,
+      "price": 104,
+      "p_model": 0.3273,
+      "implied": 0.4628,
+      "edge": -0.1355,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 6.5,
+      "price": -132,
+      "p_model": 0.6727,
+      "implied": 0.5372,
+      "edge": 0.1355,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 6.5,
+      "price": 103,
+      "p_model": 0.3273,
+      "implied": 0.464,
+      "edge": -0.1367,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 6.5,
+      "price": -132,
+      "p_model": 0.6727,
+      "implied": 0.536,
+      "edge": 0.1367,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 30.0,
+   "k9": 10.05
+  },
+  {
+   "id": 663738,
+   "name": "Daniel Lynch IV",
+   "team": "Kansas City Royals",
+   "opp": "Arizona Diamondbacks",
+   "home": true,
+   "pk": 824064,
+   "hand": "L",
+   "so": 46,
+   "bf": 274,
+   "gs": 6,
+   "ip": 66.7,
+   "f_pit": 0.7874041097924382,
+   "bf_l5": 13.0,
+   "exp_bf": 13.94,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8384246064161386,
+   "pk_pa": 0.1445,
+   "exp_k": 2.0,
+   "dist": {
+    "2.5": 0.3294,
+    "3.5": 0.1514,
+    "4.5": 0.0583,
+    "5.5": 0.0192,
+    "6.5": 0.0055,
+    "7.5": 0.0014,
+    "8.5": 0.0003,
+    "9.5": 0.0001
+   },
+   "books": {
+    "dk": {
+     "line": 2.5,
+     "over": 106,
+     "under": -136,
+     "alts": {
+      "0.5": [
+       -1820,
+       null
+      ],
+      "1.5": [
+       -299,
+       null
+      ],
+      "2.5": [
+       106,
+       null
+      ],
+      "3.5": [
+       285,
+       null
+      ],
+      "4.5": [
+       750,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 2.5,
+   "p_over_cons": 0.3294,
+   "fair_over": "+204",
+   "fair_under": "-204",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 2.5,
+    "price": -136,
+    "p_model": 0.6706,
+    "implied": 0.5428,
+    "edge": 0.1278,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 2.5,
+      "price": 106,
+      "p_model": 0.3294,
+      "implied": 0.4572,
+      "edge": -0.1278,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 2.5,
+      "price": -136,
+      "p_model": 0.6706,
+      "implied": 0.5428,
+      "edge": 0.1278,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 16.8,
+   "k9": 6.21
+  },
+  {
+   "id": 643377,
+   "name": "Griffin Jax",
+   "team": "Tampa Bay Rays",
+   "opp": "Atlanta Braves",
+   "home": false,
+   "pk": 824871,
+   "hand": "R",
+   "so": 101,
+   "bf": 396,
+   "gs": 19,
+   "ip": 94.3,
+   "f_pit": 1.2170011164405679,
+   "bf_l5": 22.12,
+   "exp_bf": 21.36,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9891050968217493,
+   "pk_pa": 0.2662,
+   "exp_k": 5.53,
+   "dist": {
+    "2.5": 0.9031,
+    "3.5": 0.7991,
+    "4.5": 0.6532,
+    "5.5": 0.4865,
+    "6.5": 0.3278,
+    "7.5": 0.1995,
+    "8.5": 0.1097,
+    "9.5": 0.0546
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": -127,
+     "under": -101,
+     "alts": {
+      "1.5": [
+       -3300,
+       null
+      ],
+      "2.5": [
+       -780,
+       null
+      ],
+      "3.5": [
+       -294,
+       null
+      ],
+      "4.5": [
+       -127,
+       null
+      ],
+      "5.5": [
+       172,
+       null
+      ],
+      "6.5": [
+       376,
+       null
+      ],
+      "7.5": [
+       800,
+       null
+      ],
+      "8.5": [
+       1720,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -1450,
+       null
+      ],
+      "3.5": [
+       -335,
+       null
+      ],
+      "4.5": [
+       -125,
+       null
+      ],
+      "5.5": [
+       153,
+       null
+      ],
+      "6.5": [
+       305,
+       null
+      ],
+      "7.5": [
+       625,
+       null
+      ],
+      "8.5": [
+       1300,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.6532,
+   "fair_over": "-188",
+   "fair_under": "+188",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 4.5,
+    "price": -127,
+    "p_model": 0.6532,
+    "implied": 0.5268,
+    "edge": 0.1264,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -127,
+      "p_model": 0.6532,
+      "implied": 0.5268,
+      "edge": 0.1264,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -101,
+      "p_model": 0.3468,
+      "implied": 0.4732,
+      "edge": -0.1264,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 25.5,
+   "k9": 9.64
+  },
+  {
+   "id": 805673,
+   "name": "Zebby Matthews",
+   "team": "Minnesota Twins",
+   "opp": "Detroit Tigers",
+   "home": false,
+   "pk": 824226,
+   "hand": "R",
+   "so": 97,
+   "bf": 487,
+   "gs": 20,
+   "ip": 117.0,
+   "f_pit": 0.953241887962337,
+   "bf_l5": 23.5,
+   "exp_bf": 23.6,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9816388863448249,
+   "pk_pa": 0.2067,
+   "exp_k": 4.91,
+   "dist": {
+    "2.5": 0.8596,
+    "3.5": 0.7199,
+    "4.5": 0.5478,
+    "5.5": 0.3755,
+    "6.5": 0.2315,
+    "7.5": 0.1286,
+    "8.5": 0.0645,
+    "9.5": 0.0294
+   },
+   "books": {
+    "fd": {
+     "line": 4.5,
+     "over": 124,
+     "under": -158,
+     "alts": {
+      "2.5": [
+       -590,
+       null
+      ],
+      "3.5": [
+       -215,
+       null
+      ],
+      "4.5": [
+       124,
+       null
+      ],
+      "5.5": [
+       255,
+       null
+      ],
+      "6.5": [
+       560,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 4.5,
+     "over": 120,
+     "under": -153,
+     "alts": {
+      "1.5": [
+       -2500,
+       null
+      ],
+      "2.5": [
+       -531,
+       null
+      ],
+      "3.5": [
+       -192,
+       null
+      ],
+      "4.5": [
+       120,
+       null
+      ],
+      "5.5": [
+       260,
+       null
+      ],
+      "6.5": [
+       574,
+       null
+      ],
+      "7.5": [
+       1240,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -625,
+       null
+      ],
+      "3.5": [
+       -200,
+       null
+      ],
+      "4.5": [
+       122,
+       null
+      ],
+      "5.5": [
+       245,
+       null
+      ],
+      "6.5": [
+       500,
+       null
+      ],
+      "7.5": [
+       1100,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.5478,
+   "fair_over": "-121",
+   "fair_under": "+121",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 4.5,
+    "price": 124,
+    "p_model": 0.5478,
+    "implied": 0.4216,
+    "edge": 0.1261,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": 124,
+      "p_model": 0.5478,
+      "implied": 0.4216,
+      "edge": 0.1261,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -158,
+      "p_model": 0.4522,
+      "implied": 0.5784,
+      "edge": -0.1261,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": 120,
+      "p_model": 0.5478,
+      "implied": 0.4291,
+      "edge": 0.1186,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -153,
+      "p_model": 0.4522,
+      "implied": 0.5709,
+      "edge": -0.1186,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 19.9,
+   "k9": 7.46
+  },
+  {
+   "id": 807739,
+   "name": "Kade Anderson",
+   "team": "Seattle Mariners",
+   "opp": "Texas Rangers",
+   "home": true,
+   "pk": 823090,
+   "hand": "L",
+   "so": 11,
+   "bf": 63,
+   "gs": 3,
+   "ip": 15.0,
+   "f_pit": 0.9497133667220157,
+   "bf_l5": 22.0,
+   "exp_bf": 21.96,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.0238993319098426,
+   "pk_pa": 0.215,
+   "exp_k": 4.68,
+   "dist": {
+    "2.5": 0.8374,
+    "3.5": 0.6864,
+    "4.5": 0.5074,
+    "5.5": 0.3358,
+    "6.5": 0.1988,
+    "7.5": 0.1055,
+    "8.5": 0.0504,
+    "9.5": 0.0218
+   },
+   "books": {
+    "fd": {
+     "line": 5.5,
+     "over": 106,
+     "under": -136,
+     "alts": {
+      "2.5": [
+       -2200,
+       null
+      ],
+      "3.5": [
+       -590,
+       null
+      ],
+      "4.5": [
+       -235,
+       null
+      ],
+      "5.5": [
+       106,
+       null
+      ],
+      "6.5": [
+       210,
+       null
+      ],
+      "7.5": [
+       430,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.3358,
+   "fair_over": "+198",
+   "fair_under": "-198",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 5.5,
+    "price": -136,
+    "p_model": 0.6642,
+    "implied": 0.5428,
+    "edge": 0.1214,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 106,
+      "p_model": 0.3358,
+      "implied": 0.4572,
+      "edge": -0.1214,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -136,
+      "p_model": 0.6642,
+      "implied": 0.5428,
+      "edge": 0.1214,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 17.5,
+   "k9": 6.6
+  },
+  {
+   "id": 696270,
+   "name": "Ryan Johnson",
+   "team": "Los Angeles Angels",
+   "opp": "Boston Red Sox",
+   "home": false,
+   "pk": 824713,
+   "hand": "R",
+   "so": 58,
+   "bf": 339,
+   "gs": 15,
+   "ip": 78.3,
+   "f_pit": 0.858518884458223,
+   "bf_l5": 20.5,
+   "exp_bf": 20.6,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.0094807406553523,
+   "pk_pa": 0.1916,
+   "exp_k": 3.98,
+   "dist": {
+    "2.5": 0.7524,
+    "3.5": 0.5645,
+    "4.5": 0.3742,
+    "5.5": 0.2189,
+    "6.5": 0.1135,
+    "7.5": 0.0525,
+    "8.5": 0.0218,
+    "9.5": 0.0081
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": 100,
+     "under": -128,
+     "alts": {
+      "2.5": [
+       -295,
+       null
+      ],
+      "3.5": [
+       100,
+       null
+      ],
+      "4.5": [
+       220,
+       null
+      ],
+      "5.5": [
+       500,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 3.5,
+     "over": -118,
+     "under": -108,
+     "alts": {
+      "1.5": [
+       -1040,
+       null
+      ],
+      "2.5": [
+       -309,
+       null
+      ],
+      "3.5": [
+       -118,
+       null
+      ],
+      "4.5": [
+       199,
+       null
+      ],
+      "5.5": [
+       454,
+       null
+      ],
+      "6.5": [
+       1020,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -1700,
+       null
+      ],
+      "2.5": [
+       -310,
+       null
+      ],
+      "3.5": [
+       101,
+       null
+      ],
+      "4.5": [
+       215,
+       null
+      ],
+      "5.5": [
+       475,
+       null
+      ],
+      "6.5": [
+       1000,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.5645,
+   "fair_over": "-130",
+   "fair_under": "+130",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 3.5,
+    "price": 100,
+    "p_model": 0.5645,
+    "implied": 0.4711,
+    "edge": 0.0934,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": 100,
+      "p_model": 0.5645,
+      "implied": 0.4711,
+      "edge": 0.0934,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -128,
+      "p_model": 0.4355,
+      "implied": 0.5289,
+      "edge": -0.0934,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -118,
+      "p_model": 0.5645,
+      "implied": 0.5104,
+      "edge": 0.0541,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -108,
+      "p_model": 0.4355,
+      "implied": 0.4896,
+      "edge": -0.0541,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 17.1,
+   "k9": 6.67
+  },
+  {
+   "id": 476594,
+   "name": "Robert Stock",
+   "team": "New York Mets",
+   "opp": "Miami Marlins",
+   "home": false,
+   "pk": 823818,
+   "hand": "R",
+   "so": 25,
+   "bf": 127,
+   "gs": 6,
+   "ip": 26.3,
+   "f_pit": 0.9277673010738761,
+   "bf_l5": 20.8,
+   "exp_bf": 20.89,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9447914331834328,
+   "pk_pa": 0.1935,
+   "exp_k": 4.02,
+   "dist": {
+    "2.5": 0.758,
+    "3.5": 0.5721,
+    "4.5": 0.3819,
+    "5.5": 0.2251,
+    "6.5": 0.1177,
+    "7.5": 0.0549,
+    "8.5": 0.0229,
+    "9.5": 0.0087
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": 100,
+     "under": -128,
+     "alts": {
+      "1.5": [
+       -2400,
+       null
+      ],
+      "2.5": [
+       -585,
+       null
+      ],
+      "3.5": [
+       -224,
+       null
+      ],
+      "4.5": [
+       100,
+       null
+      ],
+      "5.5": [
+       216,
+       null
+      ],
+      "6.5": [
+       456,
+       null
+      ],
+      "7.5": [
+       950,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -850,
+       null
+      ],
+      "3.5": [
+       -240,
+       null
+      ],
+      "4.5": [
+       105,
+       null
+      ],
+      "5.5": [
+       205,
+       null
+      ],
+      "6.5": [
+       425,
+       null
+      ],
+      "7.5": [
+       900,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.3819,
+   "fair_over": "+162",
+   "fair_under": "-162",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 4.5,
+    "price": -128,
+    "p_model": 0.6181,
+    "implied": 0.5289,
+    "edge": 0.0892,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": 100,
+      "p_model": 0.3819,
+      "implied": 0.4711,
+      "edge": -0.0892,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -128,
+      "p_model": 0.6181,
+      "implied": 0.5289,
+      "edge": 0.0892,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 19.7,
+   "k9": 8.56
+  },
+  {
+   "id": 694918,
+   "name": "Blade Tidwell",
+   "team": "San Francisco Giants",
+   "opp": "St. Louis Cardinals",
+   "home": true,
+   "pk": 823172,
+   "hand": "R",
+   "so": 36,
+   "bf": 176,
+   "gs": 6,
+   "ip": 42.7,
+   "f_pit": 0.9024929225559958,
+   "bf_l5": 21.0,
+   "exp_bf": 21.08,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9837252828310069,
+   "pk_pa": 0.1961,
+   "exp_k": 4.07,
+   "dist": {
+    "2.5": 0.7657,
+    "3.5": 0.5825,
+    "4.5": 0.3925,
+    "5.5": 0.2338,
+    "6.5": 0.1236,
+    "7.5": 0.0583,
+    "8.5": 0.0246,
+    "9.5": 0.0094
+   },
+   "books": {
+    "fd": {
+     "line": 4.5,
+     "over": 102,
+     "under": -130,
+     "alts": {
+      "2.5": [
+       -750,
+       null
+      ],
+      "3.5": [
+       -260,
+       null
+      ],
+      "4.5": [
+       102,
+       null
+      ],
+      "5.5": [
+       220,
+       null
+      ],
+      "6.5": [
+       450,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 4.5,
+     "over": -104,
+     "under": -122,
+     "alts": {
+      "1.5": [
+       -2800,
+       null
+      ],
+      "2.5": [
+       -640,
+       null
+      ],
+      "3.5": [
+       -235,
+       null
+      ],
+      "4.5": [
+       -105,
+       null
+      ],
+      "5.5": [
+       209,
+       null
+      ],
+      "6.5": [
+       445,
+       null
+      ],
+      "7.5": [
+       960,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.3925,
+   "fair_over": "+155",
+   "fair_under": "-155",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 4.5,
+    "price": -122,
+    "p_model": 0.6075,
+    "implied": 0.5188,
+    "edge": 0.0888,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": 102,
+      "p_model": 0.3925,
+      "implied": 0.4669,
+      "edge": -0.0744,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -130,
+      "p_model": 0.6075,
+      "implied": 0.5331,
+      "edge": 0.0744,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -104,
+      "p_model": 0.3925,
+      "implied": 0.4812,
+      "edge": -0.0888,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -122,
+      "p_model": 0.6075,
+      "implied": 0.5188,
+      "edge": 0.0888,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 20.5,
+   "k9": 7.59
+  },
+  {
+   "id": 669199,
+   "name": "Lake Bachar",
+   "team": "Pittsburgh Pirates",
+   "opp": "Chicago White Sox",
+   "home": false,
+   "pk": 824549,
+   "hand": "R",
+   "so": 80,
+   "bf": 317,
+   "gs": 8,
+   "ip": 77.7,
+   "f_pit": 1.1208627956979669,
+   "bf_l5": 9.33,
+   "exp_bf": 10.37,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.0584805718610244,
+   "pk_pa": 0.2617,
+   "exp_k": 2.61,
+   "dist": {
+    "2.5": 0.4874,
+    "3.5": 0.2792,
+    "4.5": 0.1358,
+    "5.5": 0.0567,
+    "6.5": 0.0206,
+    "7.5": 0.0066,
+    "8.5": 0.0019,
+    "9.5": 0.0005
+   },
+   "books": {
+    "dk": {
+     "line": 2.5,
+     "over": 134,
+     "under": -171,
+     "alts": {
+      "0.5": [
+       -1320,
+       null
+      ],
+      "1.5": [
+       -225,
+       null
+      ],
+      "2.5": [
+       134,
+       null
+      ],
+      "3.5": [
+       331,
+       null
+      ],
+      "4.5": [
+       780,
+       null
+      ],
+      "5.5": [
+       1680,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 2.5,
+   "p_over_cons": 0.4874,
+   "fair_over": "+105",
+   "fair_under": "-105",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 2.5,
+    "price": 134,
+    "p_model": 0.4874,
+    "implied": 0.4038,
+    "edge": 0.0836,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 2.5,
+      "price": 134,
+      "p_model": 0.4874,
+      "implied": 0.4038,
+      "edge": 0.0836,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 2.5,
+      "price": -171,
+      "p_model": 0.5126,
+      "implied": 0.5962,
+      "edge": -0.0836,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 25.2,
+   "k9": 9.27
+  },
+  {
+   "id": 800600,
+   "name": "Jackson Kent",
+   "team": "Washington Nationals",
+   "opp": "San Diego Padres",
+   "home": false,
+   "pk": 823251,
+   "hand": "L",
+   "so": 21,
+   "bf": 112,
+   "gs": 5,
+   "ip": 24.3,
+   "f_pit": 0.9455905956893043,
+   "bf_l5": 20.33,
+   "exp_bf": 20.51,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9420741602795493,
+   "pk_pa": 0.1967,
+   "exp_k": 4.08,
+   "dist": {
+    "2.5": 0.7673,
+    "3.5": 0.5847,
+    "4.5": 0.3948,
+    "5.5": 0.2358,
+    "6.5": 0.1249,
+    "7.5": 0.059,
+    "8.5": 0.025,
+    "9.5": 0.0096
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": -136,
+     "under": 106,
+     "alts": {
+      "2.5": [
+       -350,
+       null
+      ],
+      "3.5": [
+       -122,
+       null
+      ],
+      "4.5": [
+       180,
+       null
+      ],
+      "5.5": [
+       420,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 3.5,
+     "over": -116,
+     "under": -110,
+     "alts": {
+      "1.5": [
+       -970,
+       null
+      ],
+      "2.5": [
+       -293,
+       null
+      ],
+      "3.5": [
+       -116,
+       null
+      ],
+      "4.5": [
+       196,
+       null
+      ],
+      "5.5": [
+       434,
+       null
+      ],
+      "6.5": [
+       940,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -440,
+       null
+      ],
+      "3.5": [
+       -137,
+       null
+      ],
+      "4.5": [
+       157,
+       null
+      ],
+      "5.5": [
+       325,
+       null
+      ],
+      "6.5": [
+       700,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.5847,
+   "fair_over": "-141",
+   "fair_under": "+141",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 3.5,
+    "price": -116,
+    "p_model": 0.5847,
+    "implied": 0.5062,
+    "edge": 0.0785,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -136,
+      "p_model": 0.5847,
+      "implied": 0.5428,
+      "edge": 0.042,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": 106,
+      "p_model": 0.4153,
+      "implied": 0.4572,
+      "edge": -0.042,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -116,
+      "p_model": 0.5847,
+      "implied": 0.5062,
+      "edge": 0.0785,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -110,
+      "p_model": 0.4153,
+      "implied": 0.4938,
+      "edge": -0.0785,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 18.8,
+   "k9": 7.78
+  },
+  {
+   "id": 672456,
+   "name": "Keider Montero",
+   "team": "Detroit Tigers",
+   "opp": "Minnesota Twins",
+   "home": true,
+   "pk": 824226,
+   "hand": "R",
+   "so": 96,
+   "bf": 577,
+   "gs": 23,
+   "ip": 143.0,
+   "f_pit": 0.7888490184673692,
+   "bf_l5": 23.62,
+   "exp_bf": 23.37,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8904303583534152,
+   "pk_pa": 0.1542,
+   "exp_k": 3.51,
+   "dist": {
+    "2.5": 0.6748,
+    "3.5": 0.4674,
+    "4.5": 0.2831,
+    "5.5": 0.1506,
+    "6.5": 0.071,
+    "7.5": 0.0298,
+    "8.5": 0.0113,
+    "9.5": 0.0039
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": 138,
+     "under": -178,
+     "alts": {
+      "2.5": [
+       -225,
+       null
+      ],
+      "3.5": [
+       138,
+       null
+      ],
+      "4.5": [
+       310,
+       null
+      ],
+      "5.5": [
+       750,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 3.5,
+     "over": 109,
+     "under": -139,
+     "alts": {
+      "1.5": [
+       -910,
+       null
+      ],
+      "2.5": [
+       -245,
+       null
+      ],
+      "3.5": [
+       109,
+       null
+      ],
+      "4.5": [
+       260,
+       null
+      ],
+      "5.5": [
+       620,
+       null
+      ],
+      "6.5": [
+       1420,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -950,
+       null
+      ],
+      "2.5": [
+       -209,
+       null
+      ],
+      "3.5": [
+       133,
+       null
+      ],
+      "4.5": [
+       295,
+       null
+      ],
+      "5.5": [
+       700,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.4674,
+   "fair_over": "+114",
+   "fair_under": "-114",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 3.5,
+    "price": 138,
+    "p_model": 0.4674,
+    "implied": 0.3962,
+    "edge": 0.0712,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": 138,
+      "p_model": 0.4674,
+      "implied": 0.3962,
+      "edge": 0.0712,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -178,
+      "p_model": 0.5326,
+      "implied": 0.6038,
+      "edge": -0.0712,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": 109,
+      "p_model": 0.4674,
+      "implied": 0.4514,
+      "edge": 0.0161,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -139,
+      "p_model": 0.5326,
+      "implied": 0.5486,
+      "edge": -0.0161,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 16.6,
+   "k9": 6.04
+  },
+  {
+   "id": 701542,
+   "name": "Will Warren",
+   "team": "New York Yankees",
+   "opp": "Colorado Rockies",
+   "home": true,
+   "pk": 823497,
+   "hand": "R",
+   "so": 133,
+   "bf": 594,
+   "gs": 26,
+   "ip": 136.3,
+   "f_pit": 1.0272047817757206,
+   "bf_l5": 20.75,
+   "exp_bf": 21.13,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.0218028560138008,
+   "pk_pa": 0.2319,
+   "exp_k": 4.82,
+   "dist": {
+    "2.5": 0.8505,
+    "3.5": 0.7082,
+    "4.5": 0.5337,
+    "5.5": 0.3608,
+    "6.5": 0.2183,
+    "7.5": 0.1185,
+    "8.5": 0.0578,
+    "9.5": 0.0255
+   },
+   "books": {
+    "fd": {
+     "line": 5.5,
+     "over": 124,
+     "under": -158,
+     "alts": {
+      "2.5": [
+       -1600,
+       null
+      ],
+      "3.5": [
+       -440,
+       null
+      ],
+      "4.5": [
+       -184,
+       null
+      ],
+      "5.5": [
+       124,
+       null
+      ],
+      "6.5": [
+       260,
+       null
+      ],
+      "7.5": [
+       540,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -480,
+       null
+      ],
+      "4.5": [
+       -182,
+       null
+      ],
+      "5.5": [
+       122,
+       null
+      ],
+      "6.5": [
+       225,
+       null
+      ],
+      "7.5": [
+       450,
+       null
+      ],
+      "8.5": [
+       900,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.3608,
+   "fair_over": "+177",
+   "fair_under": "-177",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 5.5,
+    "price": -158,
+    "p_model": 0.6392,
+    "implied": 0.5784,
+    "edge": 0.0609,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 124,
+      "p_model": 0.3608,
+      "implied": 0.4216,
+      "edge": -0.0609,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -158,
+      "p_model": 0.6392,
+      "implied": 0.5784,
+      "edge": 0.0609,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 22.4,
+   "k9": 8.78
+  },
+  {
+   "id": 650911,
+   "name": "Cristopher S\u00e1nchez",
+   "team": "Philadelphia Phillies",
+   "opp": "Houston Astros",
+   "home": true,
+   "pk": 823416,
+   "hand": "L",
+   "so": 207,
+   "bf": 752,
+   "gs": 29,
+   "ip": 181.3,
+   "f_pit": 1.2257505815373162,
+   "bf_l5": 23.0,
+   "exp_bf": 23.53,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9381565178205271,
+   "pk_pa": 0.2551,
+   "exp_k": 6.06,
+   "dist": {
+    "2.5": 0.9323,
+    "3.5": 0.8496,
+    "4.5": 0.7255,
+    "5.5": 0.572,
+    "6.5": 0.4126,
+    "7.5": 0.2712,
+    "8.5": 0.1622,
+    "9.5": 0.0884
+   },
+   "books": {
+    "fd": {
+     "line": 6.5,
+     "over": 102,
+     "under": -130,
+     "alts": {
+      "3.5": [
+       -1800,
+       null
+      ],
+      "4.5": [
+       -520,
+       null
+      ],
+      "5.5": [
+       -230,
+       null
+      ],
+      "6.5": [
+       102,
+       null
+      ],
+      "7.5": [
+       200,
+       null
+      ],
+      "8.5": [
+       370,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 6.5,
+     "over": 102,
+     "under": -130,
+     "alts": {
+      "2.5": [
+       -2900,
+       null
+      ],
+      "3.5": [
+       -910,
+       null
+      ],
+      "4.5": [
+       -386,
+       null
+      ],
+      "5.5": [
+       -191,
+       null
+      ],
+      "6.5": [
+       102,
+       null
+      ],
+      "7.5": [
+       189,
+       null
+      ],
+      "8.5": [
+       350,
+       null
+      ],
+      "9.5": [
+       660,
+       null
+      ],
+      "10.5": [
+       1280,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       600,
+       null
+      ],
+      "4.5": [
+       -500,
+       null
+      ],
+      "5.5": [
+       -213,
+       null
+      ],
+      "6.5": [
+       102,
+       null
+      ],
+      "7.5": [
+       178,
+       null
+      ],
+      "8.5": [
+       325,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 6.5,
+   "p_over_cons": 0.4126,
+   "fair_over": "+142",
+   "fair_under": "-142",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 6.5,
+    "price": -130,
+    "p_model": 0.5874,
+    "implied": 0.5331,
+    "edge": 0.0543,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 6.5,
+      "price": 102,
+      "p_model": 0.4126,
+      "implied": 0.4669,
+      "edge": -0.0543,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 6.5,
+      "price": -130,
+      "p_model": 0.5874,
+      "implied": 0.5331,
+      "edge": 0.0543,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 6.5,
+      "price": 102,
+      "p_model": 0.4126,
+      "implied": 0.4669,
+      "edge": -0.0543,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 6.5,
+      "price": -130,
+      "p_model": 0.5874,
+      "implied": 0.5331,
+      "edge": 0.0543,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 27.5,
+   "k9": 10.28
+  },
+  {
+   "id": 608372,
+   "name": "Tomoyuki Sugano",
+   "team": "Colorado Rockies",
+   "opp": "New York Yankees",
+   "home": false,
+   "pk": 823497,
+   "hand": "R",
+   "so": 79,
+   "bf": 566,
+   "gs": 25,
+   "ip": 131.7,
+   "f_pit": 0.6694777580049065,
+   "bf_l5": 22.62,
+   "exp_bf": 22.6,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.1368313831508872,
+   "pk_pa": 0.1704,
+   "exp_k": 3.88,
+   "dist": {
+    "2.5": 0.7365,
+    "3.5": 0.543,
+    "4.5": 0.3533,
+    "5.5": 0.2031,
+    "6.5": 0.1037,
+    "7.5": 0.0473,
+    "8.5": 0.0194,
+    "9.5": 0.0072
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": -111,
+     "under": -115,
+     "alts": {
+      "2.5": [
+       -295,
+       null
+      ],
+      "3.5": [
+       -111,
+       null
+      ],
+      "4.5": [
+       230,
+       null
+      ],
+      "5.5": [
+       520,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -2000,
+       null
+      ],
+      "2.5": [
+       -325,
+       null
+      ],
+      "3.5": [
+       -110,
+       null
+      ],
+      "4.5": [
+       193,
+       null
+      ],
+      "5.5": [
+       425,
+       null
+      ],
+      "6.5": [
+       950,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.543,
+   "fair_over": "-119",
+   "fair_under": "+119",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 4.5,
+    "price": 230,
+    "p_model": 0.3533,
+    "implied": 0.303,
+    "edge": 0.0503,
+    "main": false
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -111,
+      "p_model": 0.543,
+      "implied": 0.4958,
+      "edge": 0.0472,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -115,
+      "p_model": 0.457,
+      "implied": 0.5042,
+      "edge": -0.0472,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 14.0,
+   "k9": 5.4
+  },
+  {
+   "id": 674003,
+   "name": "Cody Bradford",
+   "team": "Texas Rangers",
+   "opp": "Seattle Mariners",
+   "home": false,
+   "pk": 823090,
+   "hand": "L",
+   "so": 16,
+   "bf": 134,
+   "gs": 6,
+   "ip": 30.3,
+   "f_pit": 0.815567187579271,
+   "bf_l5": 21.75,
+   "exp_bf": 21.75,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.0109356262242208,
+   "pk_pa": 0.1823,
+   "exp_k": 3.97,
+   "dist": {
+    "2.5": 0.7504,
+    "3.5": 0.5614,
+    "4.5": 0.3713,
+    "5.5": 0.217,
+    "6.5": 0.1125,
+    "7.5": 0.0521,
+    "8.5": 0.0217,
+    "9.5": 0.0081
+   },
+   "books": {
+    "fd": {
+     "line": 4.5,
+     "over": 124,
+     "under": -160,
+     "alts": {
+      "2.5": [
+       -620,
+       null
+      ],
+      "3.5": [
+       -210,
+       null
+      ],
+      "4.5": [
+       124,
+       null
+      ],
+      "5.5": [
+       255,
+       null
+      ],
+      "6.5": [
+       560,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.3713,
+   "fair_over": "+169",
+   "fair_under": "-169",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 4.5,
+    "price": -160,
+    "p_model": 0.6287,
+    "implied": 0.5796,
+    "edge": 0.0491,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": 124,
+      "p_model": 0.3713,
+      "implied": 0.4204,
+      "edge": -0.0491,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -160,
+      "p_model": 0.6287,
+      "implied": 0.5796,
+      "edge": 0.0491,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 11.9,
+   "k9": 4.75
+  },
+  {
+   "id": 592332,
+   "name": "Kevin Gausman",
+   "team": "Chicago Cubs",
+   "opp": "Milwaukee Brewers",
+   "home": false,
+   "pk": 823739,
+   "hand": "R",
+   "so": 165,
+   "bf": 683,
+   "gs": 29,
+   "ip": 162.3,
+   "f_pit": 1.0906843563196633,
+   "bf_l5": 23.5,
+   "exp_bf": 23.48,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9523975351743426,
+   "pk_pa": 0.2298,
+   "exp_k": 5.23,
+   "dist": {
+    "2.5": 0.885,
+    "3.5": 0.7635,
+    "4.5": 0.6036,
+    "5.5": 0.4325,
+    "6.5": 0.2797,
+    "7.5": 0.1631,
+    "8.5": 0.086,
+    "9.5": 0.0411
+   },
+   "books": {
+    "fd": {
+     "line": 5.5,
+     "over": -104,
+     "under": -122,
+     "alts": {
+      "2.5": [
+       -2500,
+       null
+      ],
+      "3.5": [
+       -620,
+       null
+      ],
+      "4.5": [
+       -260,
+       null
+      ],
+      "5.5": [
+       -104,
+       null
+      ],
+      "6.5": [
+       186,
+       null
+      ],
+      "7.5": [
+       390,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 5.5,
+     "over": -104,
+     "under": -122,
+     "alts": {
+      "2.5": [
+       -1660,
+       null
+      ],
+      "3.5": [
+       -530,
+       null
+      ],
+      "4.5": [
+       -222,
+       null
+      ],
+      "5.5": [
+       -104,
+       null
+      ],
+      "6.5": [
+       198,
+       null
+      ],
+      "7.5": [
+       400,
+       null
+      ],
+      "8.5": [
+       830,
+       null
+      ],
+      "9.5": [
+       1620,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       1300,
+       null
+      ],
+      "3.5": [
+       -675,
+       null
+      ],
+      "4.5": [
+       -245,
+       null
+      ],
+      "5.5": [
+       -105,
+       null
+      ],
+      "6.5": [
+       175,
+       null
+      ],
+      "7.5": [
+       330,
+       null
+      ],
+      "8.5": [
+       650,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.4325,
+   "fair_over": "+131",
+   "fair_under": "-131",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 5.5,
+    "price": -122,
+    "p_model": 0.5675,
+    "implied": 0.5188,
+    "edge": 0.0487,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -104,
+      "p_model": 0.4325,
+      "implied": 0.4812,
+      "edge": -0.0487,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -122,
+      "p_model": 0.5675,
+      "implied": 0.5188,
+      "edge": 0.0487,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -104,
+      "p_model": 0.4325,
+      "implied": 0.4812,
+      "edge": -0.0487,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -122,
+      "p_model": 0.5675,
+      "implied": 0.5188,
+      "edge": 0.0487,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 24.2,
+   "k9": 9.15
+  },
+  {
+   "id": 656492,
+   "name": "Foster Griffin",
+   "team": "Cleveland Guardians",
+   "opp": "Baltimore Orioles",
+   "home": false,
+   "pk": 824791,
+   "hand": "L",
+   "so": 142,
+   "bf": 657,
+   "gs": 28,
+   "ip": 160.3,
+   "f_pit": 0.9831330639228169,
+   "bf_l5": 23.88,
+   "exp_bf": 23.76,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.137169252829697,
+   "pk_pa": 0.2472,
+   "exp_k": 5.88,
+   "dist": {
+    "2.5": 0.9237,
+    "3.5": 0.8329,
+    "4.5": 0.7004,
+    "5.5": 0.5415,
+    "6.5": 0.3819,
+    "7.5": 0.2448,
+    "8.5": 0.1427,
+    "9.5": 0.0757
+   },
+   "books": {
+    "fd": {
+     "line": 5.5,
+     "over": -115,
+     "under": -111,
+     "alts": {
+      "2.5": [
+       -3000,
+       null
+      ],
+      "3.5": [
+       -720,
+       null
+      ],
+      "4.5": [
+       -290,
+       null
+      ],
+      "5.5": [
+       -115,
+       null
+      ],
+      "6.5": [
+       176,
+       null
+      ],
+      "7.5": [
+       350,
+       null
+      ],
+      "8.5": [
+       700,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 5.5,
+     "over": -123,
+     "under": -104,
+     "alts": {
+      "2.5": [
+       -2300,
+       null
+      ],
+      "3.5": [
+       -670,
+       null
+      ],
+      "4.5": [
+       -267,
+       null
+      ],
+      "5.5": [
+       -123,
+       null
+      ],
+      "6.5": [
+       167,
+       null
+      ],
+      "7.5": [
+       325,
+       null
+      ],
+      "8.5": [
+       670,
+       null
+      ],
+      "9.5": [
+       1360,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       1100,
+       null
+      ],
+      "3.5": [
+       -850,
+       null
+      ],
+      "4.5": [
+       -275,
+       null
+      ],
+      "5.5": [
+       -114,
+       null
+      ],
+      "6.5": [
+       158,
+       null
+      ],
+      "7.5": [
+       300,
+       null
+      ],
+      "8.5": [
+       575,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.5415,
+   "fair_over": "-118",
+   "fair_under": "+118",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 5.5,
+    "price": -115,
+    "p_model": 0.5415,
+    "implied": 0.5042,
+    "edge": 0.0373,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -115,
+      "p_model": 0.5415,
+      "implied": 0.5042,
+      "edge": 0.0373,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -111,
+      "p_model": 0.4585,
+      "implied": 0.4958,
+      "edge": -0.0373,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -123,
+      "p_model": 0.5415,
+      "implied": 0.5197,
+      "edge": 0.0218,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -104,
+      "p_model": 0.4585,
+      "implied": 0.4803,
+      "edge": -0.0218,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 21.6,
+   "k9": 7.97
+  },
+  {
+   "id": 676083,
+   "name": "Janson Junk",
+   "team": "Miami Marlins",
+   "opp": "New York Mets",
+   "home": true,
+   "pk": 823818,
+   "hand": "R",
+   "so": 74,
+   "bf": 453,
+   "gs": 21,
+   "ip": 108.0,
+   "f_pit": 0.7723968980321669,
+   "bf_l5": 19.88,
+   "exp_bf": 20.39,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9723400304345047,
+   "pk_pa": 0.1657,
+   "exp_k": 3.27,
+   "dist": {
+    "2.5": 0.6321,
+    "3.5": 0.4191,
+    "4.5": 0.2407,
+    "5.5": 0.1206,
+    "6.5": 0.0531,
+    "7.5": 0.0208,
+    "8.5": 0.0073,
+    "9.5": 0.0023
+   },
+   "books": {
+    "dk": {
+     "line": 3.5,
+     "over": 108,
+     "under": -137,
+     "alts": {
+      "1.5": [
+       -740,
+       null
+      ],
+      "2.5": [
+       -227,
+       null
+      ],
+      "3.5": [
+       108,
+       null
+      ],
+      "4.5": [
+       249,
+       null
+      ],
+      "5.5": [
+       555,
+       null
+      ],
+      "6.5": [
+       1200,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -1450,
+       null
+      ],
+      "2.5": [
+       -280,
+       null
+      ],
+      "3.5": [
+       108,
+       null
+      ],
+      "4.5": [
+       230,
+       null
+      ],
+      "5.5": [
+       500,
+       null
+      ],
+      "6.5": [
+       1100,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.4191,
+   "fair_over": "+139",
+   "fair_under": "-139",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 3.5,
+    "price": -137,
+    "p_model": 0.5809,
+    "implied": 0.5459,
+    "edge": 0.035,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": 108,
+      "p_model": 0.4191,
+      "implied": 0.4541,
+      "edge": -0.035,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -137,
+      "p_model": 0.5809,
+      "implied": 0.5459,
+      "edge": 0.035,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 16.3,
+   "k9": 6.17
+  },
+  {
+   "id": 663436,
+   "name": "Davis Martin",
+   "team": "Chicago White Sox",
+   "opp": "Pittsburgh Pirates",
+   "home": true,
+   "pk": 824549,
+   "hand": "R",
+   "so": 114,
+   "bf": 553,
+   "gs": 25,
+   "ip": 130.7,
+   "f_pit": 0.9074180690056709,
+   "bf_l5": 19.0,
+   "exp_bf": 19.77,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.121958872039321,
+   "pk_pa": 0.2257,
+   "exp_k": 4.46,
+   "dist": {
+    "2.5": 0.8146,
+    "3.5": 0.6532,
+    "4.5": 0.4689,
+    "5.5": 0.2995,
+    "6.5": 0.1703,
+    "7.5": 0.0864,
+    "8.5": 0.0394,
+    "9.5": 0.0162
+   },
+   "books": {
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -750,
+       null
+      ],
+      "3.5": [
+       -213,
+       null
+      ],
+      "4.5": [
+       115,
+       null
+      ],
+      "5.5": [
+       225,
+       null
+      ],
+      "6.5": [
+       450,
+       null
+      ],
+      "7.5": [
+       1000,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 4.5,
+     "over": 112,
+     "under": -143,
+     "alts": {
+      "1.5": [
+       -2400,
+       null
+      ],
+      "2.5": [
+       -556,
+       null
+      ],
+      "3.5": [
+       -206,
+       null
+      ],
+      "4.5": [
+       112,
+       null
+      ],
+      "5.5": [
+       250,
+       null
+      ],
+      "6.5": [
+       557,
+       null
+      ],
+      "7.5": [
+       1180,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.4689,
+   "fair_over": "+113",
+   "fair_under": "-113",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 4.5,
+    "price": 112,
+    "p_model": 0.4689,
+    "implied": 0.4449,
+    "edge": 0.0239,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": 112,
+      "p_model": 0.4689,
+      "implied": 0.4449,
+      "edge": 0.0239,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -143,
+      "p_model": 0.5311,
+      "implied": 0.5551,
+      "edge": -0.0239,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 20.6,
+   "k9": 7.85
+  },
+  {
+   "id": 621111,
+   "name": "Walker Buehler",
+   "team": "San Diego Padres",
+   "opp": "Washington Nationals",
+   "home": true,
+   "pk": 823251,
+   "hand": "R",
+   "so": 117,
+   "bf": 576,
+   "gs": 28,
+   "ip": 136.3,
+   "f_pit": 0.8898766132986294,
+   "bf_l5": 20.38,
+   "exp_bf": 20.5,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.0561623848384565,
+   "pk_pa": 0.2081,
+   "exp_k": 4.11,
+   "dist": {
+    "2.5": 0.7716,
+    "3.5": 0.5912,
+    "4.5": 0.4013,
+    "5.5": 0.2408,
+    "6.5": 0.1281,
+    "7.5": 0.0607,
+    "8.5": 0.0258,
+    "9.5": 0.0099
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": -178,
+     "under": 138,
+     "alts": {
+      "2.5": [
+       -520,
+       null
+      ],
+      "3.5": [
+       -162,
+       null
+      ],
+      "4.5": [
+       136,
+       null
+      ],
+      "5.5": [
+       310,
+       null
+      ],
+      "6.5": [
+       680,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 4.5,
+     "over": 124,
+     "under": -158,
+     "alts": {
+      "1.5": [
+       -2400,
+       null
+      ],
+      "2.5": [
+       -526,
+       null
+      ],
+      "3.5": [
+       -190,
+       null
+      ],
+      "4.5": [
+       124,
+       null
+      ],
+      "5.5": [
+       280,
+       null
+      ],
+      "6.5": [
+       630,
+       null
+      ],
+      "7.5": [
+       1420,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -675,
+       null
+      ],
+      "3.5": [
+       -176,
+       null
+      ],
+      "4.5": [
+       122,
+       null
+      ],
+      "5.5": [
+       240,
+       null
+      ],
+      "6.5": [
+       500,
+       null
+      ],
+      "7.5": [
+       1100,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.5912,
+   "fair_over": "-145",
+   "fair_under": "+145",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 4.5,
+    "price": -158,
+    "p_model": 0.5987,
+    "implied": 0.5784,
+    "edge": 0.0203,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -178,
+      "p_model": 0.5912,
+      "implied": 0.6038,
+      "edge": -0.0126,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": 138,
+      "p_model": 0.4088,
+      "implied": 0.3962,
+      "edge": 0.0126,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": 124,
+      "p_model": 0.4013,
+      "implied": 0.4216,
+      "edge": -0.0203,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -158,
+      "p_model": 0.5987,
+      "implied": 0.5784,
+      "edge": 0.0203,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 20.3,
+   "k9": 7.73
+  },
+  {
+   "id": 669358,
+   "name": "Shane Baz",
+   "team": "Baltimore Orioles",
+   "opp": "Cleveland Guardians",
+   "home": true,
+   "pk": 824791,
+   "hand": "R",
+   "so": 145,
+   "bf": 695,
+   "gs": 28,
+   "ip": 163.3,
+   "f_pit": 0.977505260333721,
+   "bf_l5": 23.12,
+   "exp_bf": 23.5,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.85824717811913,
+   "pk_pa": 0.1852,
+   "exp_k": 4.4,
+   "dist": {
+    "2.5": 0.8071,
+    "3.5": 0.6392,
+    "4.5": 0.4535,
+    "5.5": 0.2871,
+    "6.5": 0.1624,
+    "7.5": 0.0824,
+    "8.5": 0.0377,
+    "9.5": 0.0157
+   },
+   "books": {
+    "fd": {
+     "line": 4.5,
+     "over": 102,
+     "under": -130,
+     "alts": {
+      "2.5": [
+       -770,
+       null
+      ],
+      "3.5": [
+       -265,
+       null
+      ],
+      "4.5": [
+       102,
+       null
+      ],
+      "5.5": [
+       210,
+       null
+      ],
+      "6.5": [
+       430,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 4.5,
+     "over": -101,
+     "under": -127,
+     "alts": {
+      "1.5": [
+       -3000,
+       null
+      ],
+      "2.5": [
+       -620,
+       null
+      ],
+      "3.5": [
+       -238,
+       null
+      ],
+      "4.5": [
+       100,
+       null
+      ],
+      "5.5": [
+       220,
+       null
+      ],
+      "6.5": [
+       477,
+       null
+      ],
+      "7.5": [
+       1000,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -850,
+       null
+      ],
+      "3.5": [
+       -245,
+       null
+      ],
+      "4.5": [
+       103,
+       null
+      ],
+      "5.5": [
+       200,
+       null
+      ],
+      "6.5": [
+       400,
+       null
+      ],
+      "7.5": [
+       850,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.4535,
+   "fair_over": "+121",
+   "fair_under": "-121",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 4.5,
+    "price": -127,
+    "p_model": 0.5465,
+    "implied": 0.5268,
+    "edge": 0.0197,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": 102,
+      "p_model": 0.4535,
+      "implied": 0.4669,
+      "edge": -0.0134,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -130,
+      "p_model": 0.5465,
+      "implied": 0.5331,
+      "edge": 0.0134,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -101,
+      "p_model": 0.4535,
+      "implied": 0.4732,
+      "edge": -0.0197,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -127,
+      "p_model": 0.5465,
+      "implied": 0.5268,
+      "edge": 0.0197,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 20.9,
+   "k9": 7.99
+  },
+  {
+   "id": 808967,
+   "name": "Yoshinobu Yamamoto",
+   "team": "Los Angeles Dodgers",
+   "opp": "Cincinnati Reds",
+   "home": true,
+   "pk": 823900,
+   "hand": "R",
+   "so": 161,
+   "bf": 634,
+   "gs": 25,
+   "ip": 165.0,
+   "f_pit": 1.1745102367317204,
+   "bf_l5": 26.25,
+   "exp_bf": 25.96,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.127975911864001,
+   "pk_pa": 0.2909,
+   "exp_k": 7.5,
+   "dist": {
+    "2.5": 0.9733,
+    "3.5": 0.9343,
+    "4.5": 0.8656,
+    "5.5": 0.7626,
+    "6.5": 0.6307,
+    "7.5": 0.4851,
+    "8.5": 0.3449,
+    "9.5": 0.226
+   },
+   "books": {
+    "fd": {
+     "line": 7.5,
+     "over": 100,
+     "under": -128,
+     "alts": {
+      "3.5": [
+       -4500,
+       null
+      ],
+      "4.5": [
+       -1400,
+       null
+      ],
+      "5.5": [
+       -520,
+       null
+      ],
+      "6.5": [
+       -235,
+       null
+      ],
+      "7.5": [
+       100,
+       null
+      ],
+      "8.5": [
+       182,
+       null
+      ],
+      "9.5": [
+       350,
+       null
+      ],
+      "10.5": [
+       700,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 7.5,
+     "over": -102,
+     "under": -125,
+     "alts": {
+      "4.5": [
+       -1080,
+       null
+      ],
+      "5.5": [
+       -434,
+       null
+      ],
+      "6.5": [
+       -207,
+       null
+      ],
+      "7.5": [
+       -102,
+       null
+      ],
+      "8.5": [
+       193,
+       null
+      ],
+      "9.5": [
+       376,
+       null
+      ],
+      "10.5": [
+       730,
+       null
+      ],
+      "11.5": [
+       1440,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       295,
+       null
+      ],
+      "4.5": [
+       -1700,
+       null
+      ],
+      "5.5": [
+       -460,
+       null
+      ],
+      "6.5": [
+       -205,
+       null
+      ],
+      "7.5": [
+       -103,
+       null
+      ],
+      "8.5": [
+       162,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 7.5,
+   "p_over_cons": 0.4851,
+   "fair_over": "+106",
+   "fair_under": "-106",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 9.5,
+    "price": 376,
+    "p_model": 0.226,
+    "implied": 0.2101,
+    "edge": 0.016,
+    "main": false
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 7.5,
+      "price": 100,
+      "p_model": 0.4851,
+      "implied": 0.4711,
+      "edge": 0.014,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 7.5,
+      "price": -128,
+      "p_model": 0.5149,
+      "implied": 0.5289,
+      "edge": -0.014,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 7.5,
+      "price": -102,
+      "p_model": 0.4851,
+      "implied": 0.4761,
+      "edge": 0.0089,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 7.5,
+      "price": -125,
+      "p_model": 0.5149,
+      "implied": 0.5239,
+      "edge": -0.0089,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 25.4,
+   "k9": 8.78
+  },
+  {
+   "id": 695076,
+   "name": "Rhett Lowder",
+   "team": "Cincinnati Reds",
+   "opp": "Los Angeles Dodgers",
+   "home": false,
+   "pk": 823900,
+   "hand": "R",
+   "so": 90,
+   "bf": 522,
+   "gs": 22,
+   "ip": 116.0,
+   "f_pit": 0.8410621241891348,
+   "bf_l5": 23.38,
+   "exp_bf": 23.11,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8824842822078747,
+   "pk_pa": 0.1632,
+   "exp_k": 3.71,
+   "dist": {
+    "2.5": 0.7102,
+    "3.5": 0.5099,
+    "4.5": 0.3217,
+    "5.5": 0.1788,
+    "6.5": 0.0881,
+    "7.5": 0.0388,
+    "8.5": 0.0154,
+    "9.5": 0.0055
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": -115,
+     "under": -111,
+     "alts": {
+      "2.5": [
+       -330,
+       null
+      ],
+      "3.5": [
+       -115,
+       null
+      ],
+      "4.5": [
+       190,
+       null
+      ],
+      "5.5": [
+       430,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 3.5,
+     "over": -122,
+     "under": -104,
+     "alts": {
+      "1.5": [
+       -1120,
+       null
+      ],
+      "2.5": [
+       -315,
+       null
+      ],
+      "3.5": [
+       -123,
+       null
+      ],
+      "4.5": [
+       188,
+       null
+      ],
+      "5.5": [
+       415,
+       null
+      ],
+      "6.5": [
+       910,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -345,
+       null
+      ],
+      "3.5": [
+       -115,
+       null
+      ],
+      "4.5": [
+       184,
+       null
+      ],
+      "5.5": [
+       400,
+       null
+      ],
+      "6.5": [
+       900,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.5099,
+   "fair_over": "-104",
+   "fair_under": "+104",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 3.5,
+    "price": -104,
+    "p_model": 0.4901,
+    "implied": 0.4812,
+    "edge": 0.0089,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -115,
+      "p_model": 0.5099,
+      "implied": 0.5042,
+      "edge": 0.0057,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -111,
+      "p_model": 0.4901,
+      "implied": 0.4958,
+      "edge": -0.0057,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -122,
+      "p_model": 0.5099,
+      "implied": 0.5188,
+      "edge": -0.0089,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -104,
+      "p_model": 0.4901,
+      "implied": 0.4812,
+      "edge": 0.0089,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 17.2,
+   "k9": 6.98
+  },
+  {
+   "id": 686613,
+   "name": "Hunter Brown",
+   "team": "Houston Astros",
+   "opp": "Philadelphia Phillies",
+   "home": false,
+   "pk": 823416,
+   "hand": "R",
+   "so": 93,
+   "bf": 365,
+   "gs": 16,
+   "ip": 87.0,
+   "f_pit": 1.1762042434064663,
+   "bf_l5": 23.38,
+   "exp_bf": 23.15,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8361052720281092,
+   "pk_pa": 0.2191,
+   "exp_k": 4.99,
+   "dist": {
+    "2.5": 0.866,
+    "3.5": 0.7313,
+    "4.5": 0.562,
+    "5.5": 0.3895,
+    "6.5": 0.2428,
+    "7.5": 0.1362,
+    "8.5": 0.069,
+    "9.5": 0.0317
+   },
+   "books": {
+    "fd": {
+     "line": 4.5,
+     "over": -146,
+     "under": 114,
+     "alts": {
+      "2.5": [
+       -1200,
+       null
+      ],
+      "3.5": [
+       -400,
+       null
+      ],
+      "4.5": [
+       -146,
+       null
+      ],
+      "5.5": [
+       136,
+       null
+      ],
+      "6.5": [
+       290,
+       null
+      ],
+      "7.5": [
+       600,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 4.5,
+     "over": -145,
+     "under": 114,
+     "alts": {
+      "2.5": [
+       -930,
+       null
+      ],
+      "3.5": [
+       -330,
+       null
+      ],
+      "4.5": [
+       -146,
+       null
+      ],
+      "5.5": [
+       145,
+       null
+      ],
+      "6.5": [
+       311,
+       null
+      ],
+      "7.5": [
+       650,
+       null
+      ],
+      "8.5": [
+       1340,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -420,
+       null
+      ],
+      "4.5": [
+       -148,
+       null
+      ],
+      "5.5": [
+       128,
+       null
+      ],
+      "6.5": [
+       255,
+       null
+      ],
+      "7.5": [
+       500,
+       null
+      ],
+      "8.5": [
+       1000,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.562,
+   "fair_over": "-128",
+   "fair_under": "+128",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 4.5,
+    "price": -145,
+    "p_model": 0.562,
+    "implied": 0.5588,
+    "edge": 0.0032,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": -146,
+      "p_model": 0.562,
+      "implied": 0.5595,
+      "edge": 0.0026,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": 114,
+      "p_model": 0.438,
+      "implied": 0.4405,
+      "edge": -0.0026,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -145,
+      "p_model": 0.562,
+      "implied": 0.5588,
+      "edge": 0.0032,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": 114,
+      "p_model": 0.438,
+      "implied": 0.4412,
+      "edge": -0.0032,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 25.5,
+   "k9": 9.62
+  },
+  {
+   "id": 680755,
+   "name": "Braydon Fisher",
+   "team": "Toronto Blue Jays",
+   "opp": "Athletics",
+   "home": false,
+   "pk": 824956,
+   "hand": "R",
+   "so": 68,
+   "bf": 286,
+   "gs": 8,
+   "ip": 70.3,
+   "f_pit": 1.1250537992032734,
+   "bf_l5": 4.62,
+   "exp_bf": 5.79,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9118166816717228,
+   "pk_pa": 0.2274,
+   "exp_k": 1.41,
+   "dist": {
+    "2.5": 0.1839,
+    "3.5": 0.0684,
+    "4.5": 0.0214,
+    "5.5": 0.0057,
+    "6.5": 0.0013,
+    "7.5": 0.0003,
+    "8.5": 0.0,
+    "9.5": 0.0
+   },
+   "books": {},
+   "cons_line": null,
+   "p_over_cons": null,
+   "fair_over": null,
+   "fair_under": null,
+   "best": null,
+   "edges": {},
+   "state": "Preview",
+   "kpct": 23.8,
+   "k9": 8.71
+  },
+  {
+   "id": 669620,
+   "name": "Brady Basso",
+   "team": "Athletics",
+   "opp": "Toronto Blue Jays",
+   "home": true,
+   "pk": 824956,
+   "hand": "L",
+   "so": 24,
+   "bf": 145,
+   "gs": 4,
+   "ip": 33.3,
+   "f_pit": 0.849652731831008,
+   "bf_l5": 8.67,
+   "exp_bf": 10.3,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8159356678316848,
+   "pk_pa": 0.152,
+   "exp_k": 1.51,
+   "dist": {
+    "2.5": 0.204,
+    "3.5": 0.0755,
+    "4.5": 0.0232,
+    "5.5": 0.0061,
+    "6.5": 0.0014,
+    "7.5": 0.0003,
+    "8.5": 0.0,
+    "9.5": 0.0
+   },
+   "books": {},
+   "cons_line": null,
+   "p_over_cons": null,
+   "fair_over": null,
+   "fair_under": null,
+   "best": null,
+   "edges": {},
+   "state": "Preview",
+   "kpct": 16.6,
+   "k9": 6.49
+  }
+ ],
+ "league_k_pa": 0.221,
+ "lineups_confirmed": 0,
+ "odds_at": "2026-09-09T04:58:22Z"
+}
