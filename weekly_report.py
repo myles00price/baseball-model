@@ -82,6 +82,32 @@ def gather():
                 except Exception:
                     g["bet_profit"] = 100.0 if g["bet_won"] else -100.0
             games.append(g)
+    # OWNER DECISION 2026-09-08: the dark-period reconstructed plays count in
+    # the real record ("no real subs, just me and my friends"). The 6 offline
+    # plays with real frozen lock prices enter via their notified files above;
+    # the 23 from days the pipeline never ran come from the reconstruction
+    # ledger, marked so the board can disclose them. See changelog 9/8.
+    try:
+        gap = json.load(open("gap_paper_backfill.json"))
+        have = {(g["date"], f"{g['away']}@{g['home']}") for g in games}
+        for pl in gap.get("plays", []):
+            if str(pl.get("source", "")).startswith("frozen-csv"):
+                continue  # already counted via its real picks CSV
+            key_nogame = pl["key"].split("#")[0]
+            if (pl["date"], key_nogame) in have:
+                continue
+            a, h = key_nogame.split("@")
+            bt = pl["flag"]
+            winner = bt if pl["result"] == "W" else (h if bt == a else a)
+            pick = h if pl.get("prob_home", 50) >= 50 else a
+            games.append({"date": pl["date"], "away": a, "home": h,
+                          "winner": winner, "pick": pick,
+                          "pick_won": pick == winner, "bet_team": bt,
+                          "bet_won": pl["result"] == "W",
+                          "bet_profit": float(pl["pnl"]), "official": True,
+                          "reconstructed": True})
+    except (OSError, ValueError):
+        pass
     return games
 
 

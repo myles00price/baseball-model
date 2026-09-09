@@ -1,6 +1,6 @@
 {
  "built": "2026-09-08",
- "method": "walk-forward reconstruction, PAPER ONLY",
+ "method": "OWNER DECISION 2026-09-08: these offline plays COUNT in the official record (see changelog). 6 at real frozen lock prices, 23 walk-forward reconstructed.",
  "dates": [
   "2026-08-28",
   "2026-08-29",
@@ -14,6 +14,24 @@
  ],
  "games_scored": 124,
  "plays": [
+  {
+   "date": "2026-08-27",
+   "key": "Kansas City Royals@Toronto Blue Jays",
+   "flag": "Kansas City Royals",
+   "odds": -105,
+   "result": "W",
+   "pnl": 95,
+   "source": "frozen-csv (real lock price, never texted)"
+  },
+  {
+   "date": "2026-08-27",
+   "key": "Los Angeles Dodgers@Atlanta Braves",
+   "flag": "Los Angeles Dodgers",
+   "odds": 111,
+   "result": "L",
+   "pnl": -100,
+   "source": "frozen-csv (real lock price, never texted)"
+  },
   {
    "date": "2026-08-28",
    "key": "Cincinnati Reds@Chicago Cubs",
@@ -39,58 +57,6 @@
    "edge": 5.0,
    "result": "W",
    "pnl": 179
-  },
-  {
-   "date": "2026-08-28",
-   "key": "Los Angeles Dodgers@Detroit Tigers",
-   "away": "Los Angeles Dodgers",
-   "home": "Detroit Tigers",
-   "prob_home": 44.2,
-   "score": "2-1",
-   "rel": [
-    60.3,
-    40.7
-   ],
-   "dk": {
-    "Detroit Tigers": 168,
-    "Los Angeles Dodgers": -180
-   },
-   "mgm": {
-    "Detroit Tigers": 154,
-    "Los Angeles Dodgers": -190
-   },
-   "flag": "Detroit Tigers",
-   "book": "betmgm",
-   "odds": 154,
-   "edge": 4.8,
-   "result": "L",
-   "pnl": -100
-  },
-  {
-   "date": "2026-08-28",
-   "key": "Kansas City Royals@Cleveland Guardians",
-   "away": "Kansas City Royals",
-   "home": "Cleveland Guardians",
-   "prob_home": 49.3,
-   "score": "3-0",
-   "rel": [
-    81.3,
-    78.2
-   ],
-   "dk": {
-    "Cleveland Guardians": -129,
-    "Kansas City Royals": 120
-   },
-   "mgm": {
-    "Cleveland Guardians": -140,
-    "Kansas City Royals": 115
-   },
-   "flag": "Kansas City Royals",
-   "book": "draftkings",
-   "odds": 120,
-   "edge": 5.2,
-   "result": "W",
-   "pnl": 120
   },
   {
    "date": "2026-08-28",
@@ -120,29 +86,55 @@
   },
   {
    "date": "2026-08-28",
-   "key": "San Diego Padres@Tampa Bay Rays",
-   "away": "San Diego Padres",
-   "home": "Tampa Bay Rays",
-   "prob_home": 62.5,
-   "score": "4-9",
+   "key": "Kansas City Royals@Cleveland Guardians",
+   "away": "Kansas City Royals",
+   "home": "Cleveland Guardians",
+   "prob_home": 49.3,
+   "score": "3-0",
    "rel": [
-    52.3,
-    53.7
+    81.3,
+    78.2
    ],
    "dk": {
-    "San Diego Padres": 114,
-    "Tampa Bay Rays": -123
+    "Cleveland Guardians": -129,
+    "Kansas City Royals": 120
    },
    "mgm": {
-    "San Diego Padres": 105,
-    "Tampa Bay Rays": -130
+    "Cleveland Guardians": -140,
+    "Kansas City Royals": 115
    },
-   "flag": "Tampa Bay Rays",
-   "book": "betmgm",
-   "odds": -130,
-   "edge": 6.0,
+   "flag": "Kansas City Royals",
+   "book": "draftkings",
+   "odds": 120,
+   "edge": 5.2,
    "result": "W",
-   "pnl": 77
+   "pnl": 120
+  },
+  {
+   "date": "2026-08-28",
+   "key": "Los Angeles Dodgers@Detroit Tigers",
+   "away": "Los Angeles Dodgers",
+   "home": "Detroit Tigers",
+   "prob_home": 44.2,
+   "score": "2-1",
+   "rel": [
+    60.3,
+    40.7
+   ],
+   "dk": {
+    "Detroit Tigers": 168,
+    "Los Angeles Dodgers": -180
+   },
+   "mgm": {
+    "Detroit Tigers": 154,
+    "Los Angeles Dodgers": -190
+   },
+   "flag": "Detroit Tigers",
+   "book": "betmgm",
+   "odds": 154,
+   "edge": 4.8,
+   "result": "L",
+   "pnl": -100
   },
   {
    "date": "2026-08-28",
@@ -169,6 +161,32 @@
    "edge": 3.3,
    "result": "L",
    "pnl": -100
+  },
+  {
+   "date": "2026-08-28",
+   "key": "San Diego Padres@Tampa Bay Rays",
+   "away": "San Diego Padres",
+   "home": "Tampa Bay Rays",
+   "prob_home": 62.5,
+   "score": "4-9",
+   "rel": [
+    52.3,
+    53.7
+   ],
+   "dk": {
+    "San Diego Padres": 114,
+    "Tampa Bay Rays": -123
+   },
+   "mgm": {
+    "San Diego Padres": 105,
+    "Tampa Bay Rays": -130
+   },
+   "flag": "Tampa Bay Rays",
+   "book": "betmgm",
+   "odds": -130,
+   "edge": 6.0,
+   "result": "W",
+   "pnl": 77
   },
   {
    "date": "2026-08-29",
@@ -276,6 +294,32 @@
   },
   {
    "date": "2026-08-29",
+   "key": "Philadelphia Phillies@Los Angeles Angels",
+   "away": "Philadelphia Phillies",
+   "home": "Los Angeles Angels",
+   "prob_home": 27.5,
+   "score": "4-2",
+   "rel": [
+    84.2,
+    33.7
+   ],
+   "dk": {
+    "Los Angeles Angels": 205,
+    "Philadelphia Phillies": -222
+   },
+   "mgm": {
+    "Los Angeles Angels": 195,
+    "Philadelphia Phillies": -235
+   },
+   "flag": "Philadelphia Phillies",
+   "book": "draftkings",
+   "odds": -222,
+   "edge": 3.6,
+   "result": "W",
+   "pnl": 45
+  },
+  {
+   "date": "2026-08-29",
    "key": "San Diego Padres@Tampa Bay Rays",
    "away": "San Diego Padres",
    "home": "Tampa Bay Rays",
@@ -325,110 +369,6 @@
    "edge": 5.6,
    "result": "L",
    "pnl": -100
-  },
-  {
-   "date": "2026-08-29",
-   "key": "Philadelphia Phillies@Los Angeles Angels",
-   "away": "Philadelphia Phillies",
-   "home": "Los Angeles Angels",
-   "prob_home": 27.5,
-   "score": "4-2",
-   "rel": [
-    84.2,
-    33.7
-   ],
-   "dk": {
-    "Los Angeles Angels": 205,
-    "Philadelphia Phillies": -222
-   },
-   "mgm": {
-    "Los Angeles Angels": 195,
-    "Philadelphia Phillies": -235
-   },
-   "flag": "Philadelphia Phillies",
-   "book": "draftkings",
-   "odds": -222,
-   "edge": 3.6,
-   "result": "W",
-   "pnl": 45
-  },
-  {
-   "date": "2026-08-30",
-   "key": "Miami Marlins@Washington Nationals",
-   "away": "Miami Marlins",
-   "home": "Washington Nationals",
-   "prob_home": 60.3,
-   "score": "6-2",
-   "rel": [
-    49.2,
-    42.3
-   ],
-   "dk": {
-    "Miami Marlins": 106,
-    "Washington Nationals": -114
-   },
-   "mgm": {
-    "Miami Marlins": 100,
-    "Washington Nationals": -120
-   },
-   "flag": "Washington Nationals",
-   "book": "betmgm",
-   "odds": -120,
-   "edge": 5.8,
-   "result": "L",
-   "pnl": -100
-  },
-  {
-   "date": "2026-08-30",
-   "key": "Seattle Mariners@Toronto Blue Jays",
-   "away": "Seattle Mariners",
-   "home": "Toronto Blue Jays",
-   "prob_home": 50.6,
-   "score": "0-7",
-   "rel": [
-    77.7,
-    25.0
-   ],
-   "dk": {
-    "Seattle Mariners": -129,
-    "Toronto Blue Jays": 121
-   },
-   "mgm": {
-    "Seattle Mariners": -140,
-    "Toronto Blue Jays": 115
-   },
-   "flag": "Toronto Blue Jays",
-   "book": "draftkings",
-   "odds": 121,
-   "edge": 5.4,
-   "result": "W",
-   "pnl": 121
-  },
-  {
-   "date": "2026-08-30",
-   "key": "Pittsburgh Pirates@St. Louis Cardinals",
-   "away": "Pittsburgh Pirates",
-   "home": "St. Louis Cardinals",
-   "prob_home": 38.2,
-   "score": "5-4",
-   "rel": [
-    77.7,
-    64.5
-   ],
-   "dk": {
-    "Pittsburgh Pirates": -119,
-    "St. Louis Cardinals": 111
-   },
-   "mgm": {
-    "Pittsburgh Pirates": -130,
-    "St. Louis Cardinals": 105
-   },
-   "flag": "Pittsburgh Pirates",
-   "book": "betmgm",
-   "odds": -130,
-   "edge": 5.3,
-   "result": "W",
-   "pnl": 77
   },
   {
    "date": "2026-08-30",
@@ -481,6 +421,84 @@
    "edge": 3.2,
    "result": "W",
    "pnl": 140
+  },
+  {
+   "date": "2026-08-30",
+   "key": "Miami Marlins@Washington Nationals",
+   "away": "Miami Marlins",
+   "home": "Washington Nationals",
+   "prob_home": 60.3,
+   "score": "6-2",
+   "rel": [
+    49.2,
+    42.3
+   ],
+   "dk": {
+    "Miami Marlins": 106,
+    "Washington Nationals": -114
+   },
+   "mgm": {
+    "Miami Marlins": 100,
+    "Washington Nationals": -120
+   },
+   "flag": "Washington Nationals",
+   "book": "betmgm",
+   "odds": -120,
+   "edge": 5.8,
+   "result": "L",
+   "pnl": -100
+  },
+  {
+   "date": "2026-08-30",
+   "key": "Pittsburgh Pirates@St. Louis Cardinals",
+   "away": "Pittsburgh Pirates",
+   "home": "St. Louis Cardinals",
+   "prob_home": 38.2,
+   "score": "5-4",
+   "rel": [
+    77.7,
+    64.5
+   ],
+   "dk": {
+    "Pittsburgh Pirates": -119,
+    "St. Louis Cardinals": 111
+   },
+   "mgm": {
+    "Pittsburgh Pirates": -130,
+    "St. Louis Cardinals": 105
+   },
+   "flag": "Pittsburgh Pirates",
+   "book": "betmgm",
+   "odds": -130,
+   "edge": 5.3,
+   "result": "W",
+   "pnl": 77
+  },
+  {
+   "date": "2026-08-30",
+   "key": "Seattle Mariners@Toronto Blue Jays",
+   "away": "Seattle Mariners",
+   "home": "Toronto Blue Jays",
+   "prob_home": 50.6,
+   "score": "0-7",
+   "rel": [
+    77.7,
+    25.0
+   ],
+   "dk": {
+    "Seattle Mariners": -129,
+    "Toronto Blue Jays": 121
+   },
+   "mgm": {
+    "Seattle Mariners": -140,
+    "Toronto Blue Jays": 115
+   },
+   "flag": "Toronto Blue Jays",
+   "book": "draftkings",
+   "odds": 121,
+   "edge": 5.4,
+   "result": "W",
+   "pnl": 121
   },
   {
    "date": "2026-08-31",
@@ -611,10 +629,46 @@
    "edge": 3.5,
    "result": "L",
    "pnl": -100
+  },
+  {
+   "date": "2026-09-05",
+   "key": "Atlanta Braves@Philadelphia Phillies",
+   "flag": "Atlanta Braves",
+   "odds": 135,
+   "result": "L",
+   "pnl": -100,
+   "source": "frozen-csv (real lock price, never texted)"
+  },
+  {
+   "date": "2026-09-05",
+   "key": "Milwaukee Brewers@Cincinnati Reds",
+   "flag": "Cincinnati Reds",
+   "odds": 130,
+   "result": "W",
+   "pnl": 130,
+   "source": "frozen-csv (real lock price, never texted)"
+  },
+  {
+   "date": "2026-09-05",
+   "key": "Minnesota Twins@Chicago White Sox",
+   "flag": "Minnesota Twins",
+   "odds": 102,
+   "result": "W",
+   "pnl": 102,
+   "source": "frozen-csv (real lock price, never texted)"
+  },
+  {
+   "date": "2026-09-05",
+   "key": "Tampa Bay Rays@Texas Rangers",
+   "flag": "Tampa Bay Rays",
+   "odds": -110,
+   "result": "W",
+   "pnl": 91,
+   "source": "frozen-csv (real lock price, never texted)"
   }
  ],
- "record": "13-10",
- "pnl": 329,
+ "record": "17-12",
+ "pnl": 547,
  "caveats": [
   "actual starting lineups (post-hoc) with season OPS as-of date; no platoon splits",
   "career blend uses today's career totals",

@@ -66,6 +66,20 @@ def grade_day(date_str, results=None):
     return out
 
 
+def _offline_block():
+    """Disclosure for the board: how many record plays come from the offline
+    period (owner decision 9/8: they count; 6 real locks + 23 reconstructed)."""
+    import json as _json
+    try:
+        g = _json.load(open("gap_paper_backfill.json"))
+        w = sum(1 for p in g["plays"] if p["result"] == "W")
+        n = len(g["plays"])
+        return {"offline_w": w, "offline_l": n - w,
+                "offline_pnl": round(sum(p["pnl"] for p in g["plays"]))}
+    except Exception:
+        return {}
+
+
 def _flagged_clv():
     """Board tile CLV = BET-side (locked flagged price vs that side's true
     close). 2026-08-27: the log's pick-side clv is anti-correlated with our
@@ -112,6 +126,19 @@ def main():
             run_n += 1
             run_w += won
             run_pnl += payout(odds) if won else -100.0
+    # OWNER DECISION 2026-09-08: reconstructed offline plays count in the
+    # record (days with no picks CSV at all; the 6 frozen-csv offline plays
+    # already entered through their real CSVs + notified keys above).
+    try:
+        import json as _json
+        for pl in _json.load(open("gap_paper_backfill.json")).get("plays", []):
+            if str(pl.get("source", "")).startswith("frozen-csv"):
+                continue
+            run_n += 1
+            run_w += pl["result"] == "W"
+            run_pnl += float(pl["pnl"])
+    except (OSError, ValueError):
+        pass
 
     lines = []
     if not day:
@@ -139,6 +166,7 @@ def main():
             "gate": run_n, "gate_target": 150,
             # live from clv_log (was hardcoded 6.49/96 - stale since July, caught 8/27)
             **_flagged_clv(),
+            **_offline_block(),
             "today": [{"team": bt, "odds": odds,
                        "result": ("W" if won else "L") if won is not None else "pending",
                        "score": score} for bt, odds, won, score in day],
