@@ -95,7 +95,7 @@
  "Colorado Rockies@New York Yankees": {
   "away": "Colorado Rockies",
   "home": "New York Yankees",
-  "prob_home": 73.1,
+  "prob_home": 73.4,
   "odds": {
    "draftkings": {
     "Colorado Rockies": 220,
@@ -106,35 +106,35 @@
     "New York Yankees": -300
    },
    "fanduel": {
-    "Colorado Rockies": 245,
-    "New York Yankees": -325
+    "Colorado Rockies": 220,
+    "New York Yankees": -290
    },
    "betmgm": {
-    "Colorado Rockies": 230,
-    "New York Yankees": -300
+    "Colorado Rockies": 220,
+    "New York Yankees": -295
    }
   },
   "best_away": [
-   "fanduel",
-   245
+   "williamhill_us",
+   240
   ],
   "best_home": [
-   "draftkings",
-   -298
+   "fanduel",
+   -290
   ],
-  "dv_edge_away": -0.6,
-  "dv_edge_home": 2.5,
-  "flag": "",
-  "locked": false
+  "dv_edge_away": -1.6,
+  "dv_edge_home": 3.0,
+  "flag": "home",
+  "locked": true
  },
  "Pittsburgh Pirates@Chicago White Sox": {
   "away": "Pittsburgh Pirates",
   "home": "Chicago White Sox",
-  "prob_home": 73.0,
+  "prob_home": 74.0,
   "odds": {
    "fanduel": {
-    "Chicago White Sox": -114,
-    "Pittsburgh Pirates": -110
+    "Chicago White Sox": -108,
+    "Pittsburgh Pirates": -116
    },
    "draftkings": {
     "Chicago White Sox": -110,
@@ -145,20 +145,20 @@
     "Pittsburgh Pirates": -115
    },
    "betmgm": {
-    "Chicago White Sox": -105,
-    "Pittsburgh Pirates": -118
+    "Chicago White Sox": -110,
+    "Pittsburgh Pirates": -110
    }
   },
   "best_away": [
-   "fanduel",
+   "betmgm",
    -110
   ],
   "best_home": [
-   "betmgm",
-   -105
+   "fanduel",
+   -108
   ],
-  "dv_edge_away": -22.6,
-  "dv_edge_home": 24.4,
+  "dv_edge_away": -24.0,
+  "dv_edge_home": 25.0,
   "flag": "",
   "locked": false
  }
