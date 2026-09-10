@@ -984,10 +984,6 @@ const ENGINES={
       c:[["era","era gap",.494],["ops","lineup gap",.193],["whip","baserunners",.095],["kpct","contact gap",.014],["hfa","home field",.138,"g"]],
       note:"Same four inputs, retrained on the first-5-innings winner (ties out): walk-forward 62.5%/.2252 at launch (retrained weekly since). Note the biology shift - ERA and WHIP carry more, contact rate nearly vanishes: the first five are the starters' innings. PAPER ONLY until the ledger earns it in.",
       g:[["f5","PAPER LEDGER · NOT PLAYS","paper"],["f5lock","LOCKS WITH LINEUPS"],["f5win","FINDING ITS OWN WINDOW"],["f5","DECISION AT 50 FLAGS","paper"]]},
-  hr:{tab:"LONG BALL",formula:"P(HR) = 1 − (1 − bat·pitcher·park)^exp PA",unit:"influence",
-      c:[["hrbat","bat hr rate",.118],["hrpit","starter hr/bf",.090],["hrpark","park",.042],["hrbench","wind (benched)",.113,"b"],["hrbench","platoon (benched)",.100,"b"],["hrbench","arsenal (benched)",.077,"b"],["hrbench","temp (benched)",.027,"b"]],
-      note:"Multiplicative rate model through slot-based expected plate appearances. Backtested walk-forward on 21,000+ batter-games: bat rate does most of the work; pitcher and park add small real slivers. Platoon, arsenal, wind and temp all lost the holdout and were benched - still computed and logged nightly so the archive can re-litigate them.",
-      g:[["hrwatch","DISPLAY ONLY","paper"],["hrprior","300-PA BAT PRIOR"],["hrpa","EXP PA BY LINEUP SLOT"],["props","SELF-GRADED NIGHTLY"]]},
   hit:{tab:"HIT",formula:"P(hit) = 1 − (1 − bat·pitcher·park½)^n_eff",unit:"influence",
       c:[["hitbat","bat h/pa",.058],["hitpit","starter h/bf",.028],["hitpark","park (½ strength)",.023]],
       note:"Same anatomy as Long Ball on a far more common event, so every factor moves the number less. Backtested walk-forward on 22,000+ starter-games; the 2+ hits list is the same distribution read at two. Book prices here are de-vigged off DraftKings' two-sided line since 8/17.",
@@ -1071,6 +1067,7 @@ window.openReport=async name=>{
 /* ── long ball watch ── */
 let hrData=null,hrLive={};
 async function loadHRWatch(){
+  return;   /* home-run numbers are internal only (2026-09-10) -- never shown on the public board */
   if(!boardDate)return;
   const t=await tryFetch(`hr_watch_${boardDate}.json`)||await tryFetch(`${REPO}/hr_watch_${boardDate}.json`);
   if(!t)return;
@@ -1690,7 +1687,7 @@ async function loadProps(){
   const t=await tryFetch("props_analytics.json")||await tryFetch(`${REPO}/props_analytics.json`);
   if(!t)return;
   let P; try{P=JSON.parse(t)}catch{return}
-  if(!P.hr&&!P.hit&&!P.k)return;
+  if(!P.hit&&!P.k)return;
   const sub=lbl=>`<div style="border-bottom:1px solid #1c1c1c;color:var(--mut);font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:11px;padding-top:6px">${lbl}</div>`;
   const cls=(a,p)=>a>=p?"grn":"red";
   const pct=v=>v.toFixed(0)+"%";
@@ -1722,7 +1719,6 @@ async function loadProps(){
       h+=D.streaks.map(s=>`<div><span>${short(s.t)}</span><span class="grn">${s.s} STRAIGHT · THRU ${s.last}</span></div>`).join("");}
     boxes.push(`<div class="lg-box">${h}</div></div>`);
   };
-  batterBox(P.hr,"LONG BALL WATCH · REPORT CARD","HOMERS");
   batterBox(P.hit,"HIT WATCH · REPORT CARD","HITS");
   if(P.k){const D=P.k;
     let h=`<h3>K WATCH · REPORT CARD</h3><div class="lg-rows">`;
