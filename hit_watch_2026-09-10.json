@@ -1,6 +1,6 @@
 {
  "date": "2026-09-10",
- "generated": "2026-09-10T20:14:12Z",
+ "generated": "2026-09-10T20:58:59Z",
  "lineups_confirmed": 5,
  "players": [
   {
@@ -224,14 +224,13 @@
    "f_park": 0.99,
    "h_pa": 0.23419,
    "odds": {
-    "dk": -261,
-    "dku": 192,
-    "dk2": 214,
-    "czr2": 184,
-    "czr": -250,
+    "dk": -260,
+    "dk2": 210,
     "mgm": -250,
-    "mgmu": 180,
-    "mgm2": 210
+    "mgm2": 200,
+    "czr": -250,
+    "czr2": 184,
+    "dku": 191
    },
    "fair": "-192",
    "fair2": "+324"
@@ -283,14 +282,13 @@
    "f_park": 0.99,
    "h_pa": 0.22919,
    "odds": {
-    "dk": -263,
-    "dku": 193,
-    "dk2": 207,
-    "czr2": 178,
-    "czr": -260,
+    "dk": -275,
+    "dk2": 206,
     "mgm": -250,
-    "mgmu": 185,
-    "mgm2": 200
+    "mgm2": 200,
+    "czr": -250,
+    "czr2": 181,
+    "dku": 202
    },
    "fair": "-187",
    "fair2": "+329"
@@ -317,15 +315,48 @@
    "f_park": 0.99,
    "h_pa": 0.25844,
    "odds": {
-    "dk2": 201,
-    "dk": -281,
-    "czr2": 183,
+    "dk": -289,
+    "dk2": 187,
+    "mgm": -295,
+    "mgm2": 180,
     "czr": -295,
-    "mgm2": 185,
-    "mgm": -295
+    "czr2": 182
    },
    "fair": "-187",
    "fair2": "+346"
+  },
+  {
+   "id": 693304,
+   "name": "Nick Gonzales",
+   "team": "Pittsburgh Pirates",
+   "opp": "Chicago White Sox",
+   "home": false,
+   "pk": 824550,
+   "opp_sp": "Hagen Smith",
+   "opp_sp_id": 696146,
+   "p": 65.0,
+   "p2": 22.8,
+   "h": 155,
+   "pa": 560,
+   "g": 135,
+   "pa_g": 4.15,
+   "n_eff": 3.88,
+   "slot": 4,
+   "f_bat": 1.16,
+   "f_pit": 0.94,
+   "f_park": 1.0,
+   "h_pa": 0.23682,
+   "odds": {
+    "dk": -236,
+    "dk2": 234,
+    "mgm": -225,
+    "mgm2": 240,
+    "czr": -240,
+    "czr2": 195,
+    "dku": 174
+   },
+   "fair": "-186",
+   "fair2": "+339"
   },
   {
    "id": 643289,
@@ -401,39 +432,6 @@
    "odds": {},
    "fair": "-181",
    "fair2": "+344"
-  },
-  {
-   "id": 547180,
-   "name": "Bryce Harper",
-   "team": "Philadelphia Phillies",
-   "opp": "Houston Astros",
-   "home": true,
-   "pk": 823413,
-   "opp_sp": "Cristian Javier",
-   "opp_sp_id": 664299,
-   "p": 64.3,
-   "p2": 22.4,
-   "h": 139,
-   "pa": 623,
-   "g": 146,
-   "pa_g": 4.27,
-   "n_eff": 3.99,
-   "slot": 3,
-   "f_bat": 1.02,
-   "f_pit": 1.03,
-   "f_park": 1.0,
-   "h_pa": 0.22774,
-   "odds": {
-    "dk": -224,
-    "dk2": 257,
-    "mgm": -225,
-    "mgm2": 240,
-    "czr": -218,
-    "czr2": 215,
-    "dku": 166
-   },
-   "fair": "-180",
-   "fair2": "+346"
   }
  ],
  "players2": [
@@ -658,14 +656,13 @@
    "f_park": 0.99,
    "h_pa": 0.23419,
    "odds": {
-    "dk": -261,
-    "dku": 192,
-    "dk2": 214,
-    "czr2": 184,
-    "czr": -250,
+    "dk": -260,
+    "dk2": 210,
     "mgm": -250,
-    "mgmu": 180,
-    "mgm2": 210
+    "mgm2": 200,
+    "czr": -250,
+    "czr2": 184,
+    "dku": 191
    },
    "fair": "-192",
    "fair2": "+324"
@@ -717,17 +714,49 @@
    "f_park": 0.99,
    "h_pa": 0.22919,
    "odds": {
-    "dk": -263,
-    "dku": 193,
-    "dk2": 207,
-    "czr2": 178,
-    "czr": -260,
+    "dk": -275,
+    "dk2": 206,
     "mgm": -250,
-    "mgmu": 185,
-    "mgm2": 200
+    "mgm2": 200,
+    "czr": -250,
+    "czr2": 181,
+    "dku": 202
    },
    "fair": "-187",
    "fair2": "+329"
+  },
+  {
+   "id": 693304,
+   "name": "Nick Gonzales",
+   "team": "Pittsburgh Pirates",
+   "opp": "Chicago White Sox",
+   "home": false,
+   "pk": 824550,
+   "opp_sp": "Hagen Smith",
+   "opp_sp_id": 696146,
+   "p": 65.0,
+   "p2": 22.8,
+   "h": 155,
+   "pa": 560,
+   "g": 135,
+   "pa_g": 4.15,
+   "n_eff": 3.88,
+   "slot": 4,
+   "f_bat": 1.16,
+   "f_pit": 0.94,
+   "f_park": 1.0,
+   "h_pa": 0.23682,
+   "odds": {
+    "dk": -236,
+    "dk2": 234,
+    "mgm": -225,
+    "mgm2": 240,
+    "czr": -240,
+    "czr2": 195,
+    "dku": 174
+   },
+   "fair": "-186",
+   "fair2": "+339"
   },
   {
    "id": 660670,
@@ -801,12 +830,12 @@
    "f_park": 0.99,
    "h_pa": 0.25844,
    "odds": {
-    "dk2": 201,
-    "dk": -281,
-    "czr2": 183,
+    "dk": -289,
+    "dk2": 187,
+    "mgm": -295,
+    "mgm2": 180,
     "czr": -295,
-    "mgm2": 185,
-    "mgm": -295
+    "czr2": 182
    },
    "fair": "-187",
    "fair2": "+346"
@@ -840,39 +869,6 @@
     "czr": -218,
     "czr2": 215,
     "dku": 166
-   },
-   "fair": "-180",
-   "fair2": "+346"
-  },
-  {
-   "id": 665161,
-   "name": "Jeremy Pe\u00f1a",
-   "team": "Houston Astros",
-   "opp": "Philadelphia Phillies",
-   "home": false,
-   "pk": 823413,
-   "opp_sp": "Zack Wheeler",
-   "opp_sp_id": 554430,
-   "p": 64.3,
-   "p2": 22.4,
-   "h": 104,
-   "pa": 416,
-   "g": 96,
-   "pa_g": 4.33,
-   "n_eff": 4.07,
-   "slot": 1,
-   "f_bat": 1.08,
-   "f_pit": 0.96,
-   "f_park": 1.0,
-   "h_pa": 0.22348,
-   "odds": {
-    "dk": -198,
-    "dk2": 274,
-    "mgm": -200,
-    "mgm2": 250,
-    "czr": -205,
-    "czr2": 240,
-    "dku": 147
    },
    "fair": "-180",
    "fair2": "+346"
