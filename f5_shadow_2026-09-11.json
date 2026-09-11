@@ -114,8 +114,8 @@
     "Toronto Blue Jays": -140
    },
    "draftkings": {
-    "Baltimore Orioles": 105,
-    "Toronto Blue Jays": -135
+    "Baltimore Orioles": 110,
+    "Toronto Blue Jays": -140
    }
   },
   "best_away": [
@@ -123,12 +123,12 @@
    112
   ],
   "best_home": [
-   "draftkings",
-   -135
+   "fanduel",
+   -140
   ],
   "dv_edge_away": -2.4,
-  "dv_edge_home": 3.6,
-  "flag": "home",
+  "dv_edge_home": 2.6,
+  "flag": "",
   "locked": false
  },
  "Kansas City Royals@Boston Red Sox": {
@@ -239,15 +239,15 @@
  "Cincinnati Reds@Milwaukee Brewers": {
   "away": "Cincinnati Reds",
   "home": "Milwaukee Brewers",
-  "prob_home": 57.3,
+  "prob_home": 56.9,
   "odds": {
    "fanduel": {
-    "Cincinnati Reds": 150,
-    "Milwaukee Brewers": -190
+    "Cincinnati Reds": 152,
+    "Milwaukee Brewers": -192
    },
    "betmgm": {
-    "Cincinnati Reds": 155,
-    "Milwaukee Brewers": -200
+    "Cincinnati Reds": 150,
+    "Milwaukee Brewers": -190
    },
    "draftkings": {
     "Cincinnati Reds": 145,
@@ -266,19 +266,19 @@
    "draftkings",
    -188
   ],
-  "dv_edge_away": 6.6,
-  "dv_edge_home": -4.2,
+  "dv_edge_away": 7.0,
+  "dv_edge_home": -4.6,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Cleveland Guardians@Minnesota Twins": {
   "away": "Cleveland Guardians",
   "home": "Minnesota Twins",
-  "prob_home": 43.6,
+  "prob_home": 38.1,
   "odds": {
    "fanduel": {
-    "Cleveland Guardians": -128,
-    "Minnesota Twins": 102
+    "Cleveland Guardians": -124,
+    "Minnesota Twins": -102
    },
    "betmgm": {
     "Cleveland Guardians": -125,
@@ -294,17 +294,17 @@
    }
   },
   "best_away": [
-   "betmgm",
-   -125
+   "fanduel",
+   -124
   ],
   "best_home": [
    "draftkings",
    105
   ],
-  "dv_edge_away": 4.0,
-  "dv_edge_home": -2.3,
-  "flag": "away",
-  "locked": false
+  "dv_edge_away": 9.6,
+  "dv_edge_home": -7.8,
+  "flag": "",
+  "locked": true
  },
  "Chicago White Sox@St. Louis Cardinals": {
   "away": "Chicago White Sox",
@@ -445,5 +445,40 @@
   "dv_edge_home": -0.9,
   "flag": "",
   "locked": true
+ },
+ "Texas Rangers@Arizona Diamondbacks": {
+  "away": "Texas Rangers",
+  "home": "Arizona Diamondbacks",
+  "prob_home": 57.3,
+  "odds": {
+   "fanduel": {
+    "Arizona Diamondbacks": 100,
+    "Texas Rangers": -124
+   },
+   "draftkings": {
+    "Arizona Diamondbacks": -105,
+    "Texas Rangers": -125
+   },
+   "williamhill_us": {
+    "Arizona Diamondbacks": -115,
+    "Texas Rangers": -115
+   },
+   "betmgm": {
+    "Arizona Diamondbacks": -105,
+    "Texas Rangers": -120
+   }
+  },
+  "best_away": [
+   "williamhill_us",
+   -115
+  ],
+  "best_home": [
+   "fanduel",
+   100
+  ],
+  "dv_edge_away": -7.3,
+  "dv_edge_home": 9.8,
+  "flag": "",
+  "locked": false
  }
 }
