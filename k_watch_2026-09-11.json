@@ -1,6 +1,6 @@
 {
  "date": "2026-09-11",
- "generated": "2026-09-11T21:16:08Z",
+ "generated": "2026-09-11T21:30:56Z",
  "pitchers": [
   {
    "id": 696062,
@@ -893,6 +893,248 @@
    "k9": 8.75
   },
   {
+   "id": 453286,
+   "name": "Max Scherzer",
+   "team": "Toronto Blue Jays",
+   "opp": "Baltimore Orioles",
+   "home": true,
+   "pk": 822767,
+   "hand": "R",
+   "so": 48,
+   "bf": 272,
+   "gs": 14,
+   "ip": 62.7,
+   "f_pit": 0.894,
+   "bf_l5": 21.33,
+   "exp_bf": 20.25,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.1348886953881674,
+   "pk_pa": 0.2251,
+   "exp_k": 4.44,
+   "dist": {
+    "2.5": 0.8123,
+    "3.5": 0.6501,
+    "4.5": 0.4655,
+    "5.5": 0.2964,
+    "6.5": 0.168,
+    "7.5": 0.085,
+    "8.5": 0.0386,
+    "9.5": 0.0158
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": 115,
+     "under": -147,
+     "alts": {
+      "2.5": [
+       -1420,
+       null
+      ],
+      "3.5": [
+       -444,
+       null
+      ],
+      "4.5": [
+       -186,
+       null
+      ],
+      "5.5": [
+       115,
+       null
+      ],
+      "6.5": [
+       241,
+       null
+      ],
+      "7.5": [
+       490,
+       null
+      ],
+      "8.5": [
+       990,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": 122,
+     "under": -156,
+     "alts": {
+      "2.5": [
+       -1600,
+       null
+      ],
+      "3.5": [
+       -480,
+       null
+      ],
+      "4.5": [
+       -192,
+       null
+      ],
+      "5.5": [
+       122,
+       null
+      ],
+      "6.5": [
+       240,
+       null
+      ],
+      "7.5": [
+       500,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": 105,
+     "under": -140,
+     "alts": {
+      "3.5": [
+       -450,
+       null
+      ],
+      "5.5": [
+       105,
+       null
+      ],
+      "4.5": [
+       -190,
+       null
+      ],
+      "6.5": [
+       200,
+       null
+      ],
+      "7.5": [
+       400,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -500,
+       null
+      ],
+      "4.5": [
+       -197,
+       null
+      ],
+      "5.5": [
+       115,
+       null
+      ],
+      "6.5": [
+       215,
+       null
+      ],
+      "7.5": [
+       400,
+       null
+      ],
+      "8.5": [
+       800,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.2964,
+   "fair_over": "+237",
+   "fair_under": "-237",
+   "best": {
+    "side": "under",
+    "book": "mgm",
+    "line": 5.5,
+    "price": -140,
+    "p_model": 0.7036,
+    "implied": 0.5446,
+    "edge": 0.159,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": 115,
+      "p_model": 0.2964,
+      "implied": 0.4387,
+      "edge": -0.1422,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -147,
+      "p_model": 0.7036,
+      "implied": 0.5613,
+      "edge": 0.1422,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 122,
+      "p_model": 0.2964,
+      "implied": 0.425,
+      "edge": -0.1286,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -156,
+      "p_model": 0.7036,
+      "implied": 0.575,
+      "edge": 0.1286,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 105,
+      "p_model": 0.2964,
+      "implied": 0.4554,
+      "edge": -0.159,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -140,
+      "p_model": 0.7036,
+      "implied": 0.5446,
+      "edge": 0.159,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 17.6,
+   "k9": 6.89
+  },
+  {
    "id": 519242,
    "name": "Chris Sale",
    "team": "Atlanta Braves",
@@ -1387,248 +1629,6 @@
    "state": "Preview",
    "kpct": 19.9,
    "k9": 7.51
-  },
-  {
-   "id": 453286,
-   "name": "Max Scherzer",
-   "team": "Toronto Blue Jays",
-   "opp": "Baltimore Orioles",
-   "home": true,
-   "pk": 822767,
-   "hand": "R",
-   "so": 48,
-   "bf": 272,
-   "gs": 14,
-   "ip": 62.7,
-   "f_pit": 0.894,
-   "bf_l5": 21.33,
-   "exp_bf": 20.25,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.191,
-   "pk_pa": 0.2367,
-   "exp_k": 4.67,
-   "dist": {
-    "2.5": 0.8366,
-    "3.5": 0.6875,
-    "4.5": 0.5089,
-    "5.5": 0.3366,
-    "6.5": 0.1987,
-    "7.5": 0.1049,
-    "8.5": 0.0497,
-    "9.5": 0.0213
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": 115,
-     "under": -147,
-     "alts": {
-      "2.5": [
-       -1420,
-       null
-      ],
-      "3.5": [
-       -444,
-       null
-      ],
-      "4.5": [
-       -186,
-       null
-      ],
-      "5.5": [
-       115,
-       null
-      ],
-      "6.5": [
-       241,
-       null
-      ],
-      "7.5": [
-       490,
-       null
-      ],
-      "8.5": [
-       990,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": 122,
-     "under": -156,
-     "alts": {
-      "2.5": [
-       -1600,
-       null
-      ],
-      "3.5": [
-       -480,
-       null
-      ],
-      "4.5": [
-       -192,
-       null
-      ],
-      "5.5": [
-       122,
-       null
-      ],
-      "6.5": [
-       240,
-       null
-      ],
-      "7.5": [
-       500,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": 105,
-     "under": -140,
-     "alts": {
-      "3.5": [
-       -450,
-       null
-      ],
-      "5.5": [
-       105,
-       null
-      ],
-      "4.5": [
-       -190,
-       null
-      ],
-      "6.5": [
-       200,
-       null
-      ],
-      "7.5": [
-       400,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "3.5": [
-       -500,
-       null
-      ],
-      "4.5": [
-       -197,
-       null
-      ],
-      "5.5": [
-       115,
-       null
-      ],
-      "6.5": [
-       215,
-       null
-      ],
-      "7.5": [
-       400,
-       null
-      ],
-      "8.5": [
-       800,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.3366,
-   "fair_over": "+197",
-   "fair_under": "-197",
-   "best": {
-    "side": "under",
-    "book": "mgm",
-    "line": 5.5,
-    "price": -140,
-    "p_model": 0.6634,
-    "implied": 0.5446,
-    "edge": 0.1188,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": 115,
-      "p_model": 0.3366,
-      "implied": 0.4387,
-      "edge": -0.1021,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": -147,
-      "p_model": 0.6634,
-      "implied": 0.5613,
-      "edge": 0.1021,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": 122,
-      "p_model": 0.3366,
-      "implied": 0.425,
-      "edge": -0.0884,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": -156,
-      "p_model": 0.6634,
-      "implied": 0.575,
-      "edge": 0.0884,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": 105,
-      "p_model": 0.3366,
-      "implied": 0.4554,
-      "edge": -0.1188,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -140,
-      "p_model": 0.6634,
-      "implied": 0.5446,
-      "edge": 0.1188,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 17.6,
-   "k9": 6.89
   },
   {
    "id": 656876,
@@ -6310,7 +6310,7 @@
   }
  ],
  "league_k_pa": 0.221,
- "lineups_confirmed": 22,
+ "lineups_confirmed": 23,
  "odds_at": "2026-09-11T15:31:00Z",
- "locked": 22
+ "locked": 23
 }
