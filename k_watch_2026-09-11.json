@@ -1,6 +1,6 @@
 {
  "date": "2026-09-11",
- "generated": "2026-09-11T22:21:40Z",
+ "generated": "2026-09-11T22:30:17Z",
  "pitchers": [
   {
    "id": 696062,
@@ -4527,6 +4527,244 @@
    "k9": 9.32
   },
   {
+   "id": 605488,
+   "name": "Jeffrey Springs",
+   "team": "Athletics",
+   "opp": "Seattle Mariners",
+   "home": true,
+   "pk": 824954,
+   "hand": "L",
+   "so": 104,
+   "bf": 572,
+   "gs": 26,
+   "ip": 130.0,
+   "f_pit": 0.843,
+   "bf_l5": 22.67,
+   "exp_bf": 22.3,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9861069507648812,
+   "pk_pa": 0.1837,
+   "exp_k": 3.99,
+   "dist": {
+    "2.5": 0.754,
+    "3.5": 0.5665,
+    "4.5": 0.3764,
+    "5.5": 0.2211,
+    "6.5": 0.1153,
+    "7.5": 0.0536,
+    "8.5": 0.0224,
+    "9.5": 0.0085
+   },
+   "books": {
+    "dk": {
+     "line": 3.5,
+     "over": -169,
+     "under": 132,
+     "alts": {
+      "1.5": [
+       -1720,
+       null
+      ],
+      "2.5": [
+       -456,
+       null
+      ],
+      "3.5": [
+       -171,
+       null
+      ],
+      "4.5": [
+       134,
+       null
+      ],
+      "5.5": [
+       292,
+       null
+      ],
+      "6.5": [
+       620,
+       null
+      ],
+      "7.5": [
+       1320,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 3.5,
+     "over": -174,
+     "under": 136,
+     "alts": {
+      "2.5": [
+       -520,
+       null
+      ],
+      "3.5": [
+       -174,
+       null
+      ],
+      "4.5": [
+       124,
+       null
+      ],
+      "5.5": [
+       280,
+       null
+      ],
+      "6.5": [
+       560,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 3.5,
+     "over": -165,
+     "under": 125,
+     "alts": {
+      "2.5": [
+       -400,
+       null
+      ],
+      "4.5": [
+       125,
+       null
+      ],
+      "3.5": [
+       -165,
+       null
+      ],
+      "5.5": [
+       250,
+       null
+      ],
+      "6.5": [
+       450,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -560,
+       null
+      ],
+      "3.5": [
+       -170,
+       null
+      ],
+      "4.5": [
+       124,
+       null
+      ],
+      "5.5": [
+       255,
+       null
+      ],
+      "6.5": [
+       550,
+       null
+      ],
+      "7.5": [
+       1300,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.5665,
+   "fair_over": "-131",
+   "fair_under": "+131",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 3.5,
+    "price": 136,
+    "p_model": 0.4335,
+    "implied": 0.4002,
+    "edge": 0.0333,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -169,
+      "p_model": 0.5665,
+      "implied": 0.5931,
+      "edge": -0.0266,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": 132,
+      "p_model": 0.4335,
+      "implied": 0.4069,
+      "edge": 0.0266,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -174,
+      "p_model": 0.5665,
+      "implied": 0.5998,
+      "edge": -0.0333,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": 136,
+      "p_model": 0.4335,
+      "implied": 0.4002,
+      "edge": 0.0333,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -165,
+      "p_model": 0.5665,
+      "implied": 0.5835,
+      "edge": -0.017,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 3.5,
+      "price": 125,
+      "p_model": 0.4335,
+      "implied": 0.4165,
+      "edge": 0.017,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 18.2,
+   "k9": 7.2
+  },
+  {
    "id": 690279,
    "name": "Mason Adams",
    "team": "Colorado Rockies",
@@ -5716,244 +5954,6 @@
    "k9": 7.4
   },
   {
-   "id": 605488,
-   "name": "Jeffrey Springs",
-   "team": "Athletics",
-   "opp": "Seattle Mariners",
-   "home": true,
-   "pk": 824954,
-   "hand": "L",
-   "so": 104,
-   "bf": 572,
-   "gs": 26,
-   "ip": 130.0,
-   "f_pit": 0.843,
-   "bf_l5": 22.67,
-   "exp_bf": 22.3,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.014,
-   "pk_pa": 0.1891,
-   "exp_k": 4.11,
-   "dist": {
-    "2.5": 0.7705,
-    "3.5": 0.5887,
-    "4.5": 0.3992,
-    "5.5": 0.2397,
-    "6.5": 0.1279,
-    "7.5": 0.061,
-    "8.5": 0.0261,
-    "9.5": 0.0101
-   },
-   "books": {
-    "dk": {
-     "line": 3.5,
-     "over": -169,
-     "under": 132,
-     "alts": {
-      "1.5": [
-       -1720,
-       null
-      ],
-      "2.5": [
-       -456,
-       null
-      ],
-      "3.5": [
-       -171,
-       null
-      ],
-      "4.5": [
-       134,
-       null
-      ],
-      "5.5": [
-       292,
-       null
-      ],
-      "6.5": [
-       620,
-       null
-      ],
-      "7.5": [
-       1320,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 3.5,
-     "over": -174,
-     "under": 136,
-     "alts": {
-      "2.5": [
-       -520,
-       null
-      ],
-      "3.5": [
-       -174,
-       null
-      ],
-      "4.5": [
-       124,
-       null
-      ],
-      "5.5": [
-       280,
-       null
-      ],
-      "6.5": [
-       560,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 3.5,
-     "over": -165,
-     "under": 125,
-     "alts": {
-      "2.5": [
-       -400,
-       null
-      ],
-      "4.5": [
-       125,
-       null
-      ],
-      "3.5": [
-       -165,
-       null
-      ],
-      "5.5": [
-       250,
-       null
-      ],
-      "6.5": [
-       450,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -560,
-       null
-      ],
-      "3.5": [
-       -170,
-       null
-      ],
-      "4.5": [
-       124,
-       null
-      ],
-      "5.5": [
-       255,
-       null
-      ],
-      "6.5": [
-       550,
-       null
-      ],
-      "7.5": [
-       1300,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 3.5,
-   "p_over_cons": 0.5887,
-   "fair_over": "-143",
-   "fair_under": "+143",
-   "best": {
-    "side": "under",
-    "book": "fd",
-    "line": 3.5,
-    "price": 136,
-    "p_model": 0.4113,
-    "implied": 0.4002,
-    "edge": 0.0111,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 3.5,
-      "price": -169,
-      "p_model": 0.5887,
-      "implied": 0.5931,
-      "edge": -0.0044,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 3.5,
-      "price": 132,
-      "p_model": 0.4113,
-      "implied": 0.4069,
-      "edge": 0.0044,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 3.5,
-      "price": -174,
-      "p_model": 0.5887,
-      "implied": 0.5998,
-      "edge": -0.0111,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 3.5,
-      "price": 136,
-      "p_model": 0.4113,
-      "implied": 0.4002,
-      "edge": 0.0111,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 3.5,
-      "price": -165,
-      "p_model": 0.5887,
-      "implied": 0.5835,
-      "edge": 0.0052,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 3.5,
-      "price": 125,
-      "p_model": 0.4113,
-      "implied": 0.4165,
-      "edge": -0.0052,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 18.2,
-   "k9": 7.2
-  },
-  {
    "id": 683627,
    "name": "Anthony Molina",
    "team": "San Francisco Giants",
@@ -6352,7 +6352,7 @@
   }
  ],
  "league_k_pa": 0.221,
- "lineups_confirmed": 28,
+ "lineups_confirmed": 29,
  "odds_at": "2026-09-11T15:31:00Z",
- "locked": 28
+ "locked": 29
 }
