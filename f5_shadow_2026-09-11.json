@@ -344,7 +344,7 @@
  "Seattle Mariners@Athletics": {
   "away": "Seattle Mariners",
   "home": "Athletics",
-  "prob_home": 46.5,
+  "prob_home": 44.3,
   "odds": {
    "draftkings": {
     "Athletics": 140,
@@ -355,31 +355,31 @@
     "Seattle Mariners": -180
    },
    "fanduel": {
-    "Athletics": 144,
-    "Seattle Mariners": -182
+    "Athletics": 142,
+    "Seattle Mariners": -180
    },
    "betmgm": {
-    "Athletics": 145,
-    "Seattle Mariners": -185
+    "Athletics": 140,
+    "Seattle Mariners": -175
    }
   },
   "best_away": [
-   "draftkings",
-   -180
+   "betmgm",
+   -175
   ],
   "best_home": [
    "williamhill_us",
    150
   ],
-  "dv_edge_away": -7.2,
-  "dv_edge_home": 8.1,
-  "flag": "",
+  "dv_edge_away": -4.7,
+  "dv_edge_home": 5.9,
+  "flag": "home",
   "locked": false
  },
  "San Diego Padres@San Francisco Giants": {
   "away": "San Diego Padres",
   "home": "San Francisco Giants",
-  "prob_home": 36.7,
+  "prob_home": 32.5,
   "odds": {
    "fanduel": {
     "San Diego Padres": -138,
@@ -406,10 +406,10 @@
    "fanduel",
    110
   ],
-  "dv_edge_away": 9.2,
-  "dv_edge_home": -8.2,
+  "dv_edge_away": 13.4,
+  "dv_edge_home": -12.4,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Pittsburgh Pirates@Chicago Cubs": {
   "away": "Pittsburgh Pirates",
@@ -452,8 +452,8 @@
   "prob_home": 57.3,
   "odds": {
    "fanduel": {
-    "Arizona Diamondbacks": 100,
-    "Texas Rangers": -124
+    "Arizona Diamondbacks": -102,
+    "Texas Rangers": -122
    },
    "draftkings": {
     "Arizona Diamondbacks": -105,
@@ -464,7 +464,7 @@
     "Texas Rangers": -115
    },
    "betmgm": {
-    "Arizona Diamondbacks": -105,
+    "Arizona Diamondbacks": -102,
     "Texas Rangers": -120
    }
   },
@@ -474,10 +474,10 @@
   ],
   "best_home": [
    "fanduel",
-   100
+   -102
   ],
   "dv_edge_away": -7.3,
-  "dv_edge_home": 9.8,
+  "dv_edge_home": 9.4,
   "flag": "",
   "locked": false
  }
