@@ -11,15 +11,30 @@ Inference feeds the model **career-blended** pitcher stats
 archive was built on **raw season** stats. The traded-stint half was fixed
 tonight (training now uses combined season totals), but the blend half is a
 modeling DECISION: align training→blended (rebuild rows) or inference→raw.
-What the evidence actually supports: the walk-forward 60.8% was measured on
-the deployed hybrid (raw-trained model fed blended inputs) over live 2026
-games — it validates the SYSTEM AS SHIPPED, not either input convention in
-isolation. Neither pure convention is proven; the blend-vs-raw A/B on live
-2026 finals (launched 2026-09-11, blend_vs_raw_ab.json) is the deciding
-test. Changing inference mid-season shifts every live probability, so
-**no change ships until that A/B has a verdict** (its own methodology was
-adversarially audited before use). Until then the mismatch stands,
-documented here.
+**A/B VERDICT (2026-09-12, blend_vs_raw_ab.json; methodology adversarially
+audited twice — a v1 career-anchor leak and a v2 traded-season double count
+were found, fixed, and shown not to move the result):**
+
+- PROBABILITY ACCURACY: no EVIDENCE of a difference — test underpowered.
+  Citable OOS split (n=193, 8/27-9/10): paired Brier delta +0.0012,
+  t=+0.37, 95% CI [-0.0054, +0.0079], MDE80 ~0.009 — about 2x the 0.0047
+  Brier gap that justified shipping V2. Equivalence is NOT established;
+  the mismatch's accuracy cost is bounded only by that CI. Extending the
+  window through season end cannot resolve it (blend converges to raw as
+  starters accumulate IP); the decisive Brier test is early-season 2027
+  walk-forward, when the conventions maximally disagree.
+- FLAG SELECTION (the economics): the conventions are NOT interchangeable.
+  Mean per-game probability gap 3.6 pts vs a 3-point-wide bet window; of
+  527 odds-joinable games only 57 flag events were shared, 55 blend-only,
+  52 raw-only. Replayed at stored prices with live gates: raw arm 64-45
+  +$2,317 vs blend arm 54-58 +$104; the exclusive cells split 32-20
+  +$1,067 (raw-only) vs 22-33 -$1,147 (blend-only). Cell sizes ~55 —
+  a strong lead, not a verdict.
+- DECISION: live inference stays on blended inputs mid-season (the
+  walk-forward 60.8% validates the SYSTEM AS SHIPPED, not either pure
+  convention). NEXT STEP, pending owner approval: a RAW-arm shadow ledger
+  at lock time (shadow-first discipline, like F5/runline) so the flag-level
+  lead gets a real forward test before any convention switch.
 
 ## 2. Historical training rows contain full-season stats (leakage, core #3 class)
 The 2023-25 bulk rows were built with each season's FINAL stats, so early-season
