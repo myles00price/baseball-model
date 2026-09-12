@@ -317,37 +317,37 @@
  "Chicago White Sox@St. Louis Cardinals": {
   "away": "Chicago White Sox",
   "home": "St. Louis Cardinals",
-  "prob_home": 52.0,
+  "prob_home": 52.9,
   "odds": {
    "fanduel": {
-    "Chicago White Sox": 108,
-    "St. Louis Cardinals": -135
+    "Chicago White Sox": -104,
+    "St. Louis Cardinals": -120
    },
    "betmgm": {
     "Chicago White Sox": -105,
     "St. Louis Cardinals": -120
    },
    "draftkings": {
-    "Chicago White Sox": -115,
-    "St. Louis Cardinals": -115
+    "Chicago White Sox": -110,
+    "St. Louis Cardinals": -120
    },
    "williamhill_us": {
-    "Chicago White Sox": 100,
-    "St. Louis Cardinals": -130
+    "Chicago White Sox": -105,
+    "St. Louis Cardinals": -125
    }
   },
   "best_away": [
    "fanduel",
-   108
+   -104
   ],
   "best_home": [
-   "draftkings",
-   -115
+   "fanduel",
+   -120
   ],
-  "dv_edge_away": 2.4,
-  "dv_edge_home": 2.0,
+  "dv_edge_away": -0.9,
+  "dv_edge_home": 1.9,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Texas Rangers@Arizona Diamondbacks": {
   "away": "Texas Rangers",
@@ -460,8 +460,8 @@
   "prob_home": 62.8,
   "odds": {
    "fanduel": {
-    "Cincinnati Reds": 140,
-    "Milwaukee Brewers": -176
+    "Cincinnati Reds": 142,
+    "Milwaukee Brewers": -180
    },
    "draftkings": {
     "Cincinnati Reds": 135,
