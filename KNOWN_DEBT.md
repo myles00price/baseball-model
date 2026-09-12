@@ -11,16 +11,22 @@ Inference feeds the model **career-blended** pitcher stats
 archive was built on **raw season** stats. The traded-stint half was fixed
 tonight (training now uses combined season totals), but the blend half is a
 modeling DECISION: align training→blended (rebuild rows) or inference→raw.
-The model walk-forward-validated at 60.8% on raw-stat rows, so raw is the
-proven side — but changing inference mid-season shifts every live probability.
-**Do not touch without a walk-forward A/B on 2023-25.** Until then the
-mismatch stands, documented here.
+What the evidence actually supports: the walk-forward 60.8% was measured on
+the deployed hybrid (raw-trained model fed blended inputs) over live 2026
+games — it validates the SYSTEM AS SHIPPED, not either input convention in
+isolation. Neither pure convention is proven; the blend-vs-raw A/B on live
+2026 finals (launched 2026-09-11, blend_vs_raw_ab.json) is the deciding
+test. Changing inference mid-season shifts every live probability, so
+**no change ships until that A/B has a verdict** (its own methodology was
+adversarially audited before use). Until then the mismatch stands,
+documented here.
 
 ## 2. Historical training rows contain full-season stats (leakage, core #3 class)
 The 2023-25 bulk rows were built with each season's FINAL stats, so early-season
 games "know" the future. Walk-forward validation on live 2026 data is the real
-test and it never had this problem, so headline accuracy stands — but any
-backtest run ON the training archive itself overstates. A clean rebuild
+test and it never had this problem — the live-2026 walk-forward numbers are
+the only accuracy claims this project treats as evidence. Any backtest run
+ON the training archive itself overstates and is not citable. A clean rebuild
 (point-in-time stats) is a multi-day pull; queue for offseason.
 
 ## 3. k_summary morning-vs-lock double count (props #8)
