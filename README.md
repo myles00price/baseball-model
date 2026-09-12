@@ -72,7 +72,6 @@ log once the slate has started, and refuse past dates entirely.
 - Python 3.11 (`py -3.11`), shared interpreter — no new packages get
   installed into it; anything extra lives in a venv.
 - `ODDS_API_KEY` comes from the environment; no key appears in the current
-  code. (An early commit contained a hardcoded key; it has been rotated -
-  see the security note in the changelog.)
+  code.
 - Windows Task Scheduler drives every job (`Baseball*` tasks).
 - The ntfy topic receives plays, results, and weekly reports only.
