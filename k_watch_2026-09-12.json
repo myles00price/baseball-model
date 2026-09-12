@@ -1,6 +1,6 @@
 {
  "date": "2026-09-12",
- "generated": "2026-09-12T16:00:07Z",
+ "generated": "2026-09-12T16:16:10Z",
  "pitchers": [
   {
    "id": 681517,
@@ -2587,248 +2587,6 @@
    "k9": 7.26
   },
   {
-   "id": 694973,
-   "name": "Paul Skenes",
-   "team": "Pittsburgh Pirates",
-   "opp": "Chicago Cubs",
-   "home": false,
-   "pk": 824630,
-   "hand": "R",
-   "so": 181,
-   "bf": 640,
-   "gs": 29,
-   "ip": 155.0,
-   "f_pit": 1.277,
-   "bf_l5": 20.67,
-   "exp_bf": 21.55,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.926,
-   "pk_pa": 0.2626,
-   "exp_k": 5.71,
-   "dist": {
-    "2.5": 0.9137,
-    "3.5": 0.8175,
-    "4.5": 0.6792,
-    "5.5": 0.5164,
-    "6.5": 0.3567,
-    "7.5": 0.2231,
-    "8.5": 0.1264,
-    "9.5": 0.065
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": 102,
-     "under": -130,
-     "alts": {
-      "2.5": [
-       -1660,
-       null
-      ],
-      "3.5": [
-       -509,
-       null
-      ],
-      "4.5": [
-       -212,
-       null
-      ],
-      "5.5": [
-       103,
-       null
-      ],
-      "6.5": [
-       215,
-       null
-      ],
-      "7.5": [
-       444,
-       null
-      ],
-      "8.5": [
-       910,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": 104,
-     "under": -132,
-     "alts": {
-      "2.5": [
-       -2500,
-       null
-      ],
-      "3.5": [
-       -590,
-       null
-      ],
-      "4.5": [
-       -235,
-       null
-      ],
-      "5.5": [
-       104,
-       null
-      ],
-      "6.5": [
-       200,
-       null
-      ],
-      "7.5": [
-       400,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": -105,
-     "under": -125,
-     "alts": {
-      "4.5": [
-       -235,
-       null
-      ],
-      "3.5": [
-       -550,
-       null
-      ],
-      "6.5": [
-       175,
-       null
-      ],
-      "5.5": [
-       -110,
-       null
-      ],
-      "7.5": [
-       340,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "3.5": [
-       -675,
-       null
-      ],
-      "4.5": [
-       -218,
-       null
-      ],
-      "5.5": [
-       104,
-       null
-      ],
-      "6.5": [
-       189,
-       null
-      ],
-      "7.5": [
-       375,
-       null
-      ],
-      "8.5": [
-       700,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.5164,
-   "fair_over": "-107",
-   "fair_under": "+107",
-   "best": {
-    "side": "over",
-    "book": "fd",
-    "line": 5.5,
-    "price": 104,
-    "p_model": 0.5164,
-    "implied": 0.4628,
-    "edge": 0.0536,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": 102,
-      "p_model": 0.5164,
-      "implied": 0.4669,
-      "edge": 0.0495,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": -130,
-      "p_model": 0.4836,
-      "implied": 0.5331,
-      "edge": -0.0495,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": 104,
-      "p_model": 0.5164,
-      "implied": 0.4628,
-      "edge": 0.0536,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": -132,
-      "p_model": 0.4836,
-      "implied": 0.5372,
-      "edge": -0.0536,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -105,
-      "p_model": 0.5164,
-      "implied": 0.4797,
-      "edge": 0.0367,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -125,
-      "p_model": 0.4836,
-      "implied": 0.5203,
-      "edge": -0.0367,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 28.3,
-   "k9": 10.51
-  },
-  {
    "id": 543037,
    "name": "Gerrit Cole",
    "team": "New York Yankees",
@@ -4273,6 +4031,248 @@
    "k9": 8.83
   },
   {
+   "id": 694973,
+   "name": "Paul Skenes",
+   "team": "Pittsburgh Pirates",
+   "opp": "Chicago Cubs",
+   "home": false,
+   "pk": 824630,
+   "hand": "R",
+   "so": 181,
+   "bf": 640,
+   "gs": 29,
+   "ip": 155.0,
+   "f_pit": 1.277,
+   "bf_l5": 20.67,
+   "exp_bf": 21.55,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9004431232127408,
+   "pk_pa": 0.2558,
+   "exp_k": 5.56,
+   "dist": {
+    "2.5": 0.9055,
+    "3.5": 0.8022,
+    "4.5": 0.6572,
+    "5.5": 0.4912,
+    "6.5": 0.3327,
+    "7.5": 0.2037,
+    "8.5": 0.1128,
+    "9.5": 0.0567
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": 102,
+     "under": -130,
+     "alts": {
+      "2.5": [
+       -1660,
+       null
+      ],
+      "3.5": [
+       -509,
+       null
+      ],
+      "4.5": [
+       -212,
+       null
+      ],
+      "5.5": [
+       103,
+       null
+      ],
+      "6.5": [
+       215,
+       null
+      ],
+      "7.5": [
+       444,
+       null
+      ],
+      "8.5": [
+       910,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": 104,
+     "under": -132,
+     "alts": {
+      "2.5": [
+       -2500,
+       null
+      ],
+      "3.5": [
+       -590,
+       null
+      ],
+      "4.5": [
+       -235,
+       null
+      ],
+      "5.5": [
+       104,
+       null
+      ],
+      "6.5": [
+       200,
+       null
+      ],
+      "7.5": [
+       400,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": -105,
+     "under": -125,
+     "alts": {
+      "4.5": [
+       -235,
+       null
+      ],
+      "3.5": [
+       -550,
+       null
+      ],
+      "6.5": [
+       175,
+       null
+      ],
+      "5.5": [
+       -110,
+       null
+      ],
+      "7.5": [
+       340,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -675,
+       null
+      ],
+      "4.5": [
+       -218,
+       null
+      ],
+      "5.5": [
+       104,
+       null
+      ],
+      "6.5": [
+       189,
+       null
+      ],
+      "7.5": [
+       375,
+       null
+      ],
+      "8.5": [
+       700,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.4912,
+   "fair_over": "+104",
+   "fair_under": "-104",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 5.5,
+    "price": 104,
+    "p_model": 0.4912,
+    "implied": 0.4628,
+    "edge": 0.0284,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": 102,
+      "p_model": 0.4912,
+      "implied": 0.4669,
+      "edge": 0.0243,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -130,
+      "p_model": 0.5088,
+      "implied": 0.5331,
+      "edge": -0.0243,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 104,
+      "p_model": 0.4912,
+      "implied": 0.4628,
+      "edge": 0.0284,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -132,
+      "p_model": 0.5088,
+      "implied": 0.5372,
+      "edge": -0.0284,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -105,
+      "p_model": 0.4912,
+      "implied": 0.4797,
+      "edge": 0.0115,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -125,
+      "p_model": 0.5088,
+      "implied": 0.5203,
+      "edge": -0.0115,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 28.3,
+   "k9": 10.51
+  },
+  {
    "id": 674841,
    "name": "Andrew Alvarez",
    "team": "Washington Nationals",
@@ -5575,20 +5575,20 @@
    "f_pit": 1.031,
    "bf_l5": 14.67,
    "exp_bf": 15.91,
-   "lineup_src": "previous",
+   "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.141,
-   "pk_pa": 0.2594,
-   "exp_k": 4.09,
+   "f_lineup": 1.1636312789487173,
+   "pk_pa": 0.2645,
+   "exp_k": 4.17,
    "dist": {
-    "2.5": 0.7695,
-    "3.5": 0.5914,
-    "4.5": 0.4015,
-    "5.5": 0.24,
-    "6.5": 0.1266,
-    "7.5": 0.0592,
-    "8.5": 0.0247,
-    "9.5": 0.0092
+    "2.5": 0.7801,
+    "3.5": 0.6063,
+    "4.5": 0.4174,
+    "5.5": 0.2535,
+    "6.5": 0.1359,
+    "7.5": 0.0647,
+    "8.5": 0.0274,
+    "9.5": 0.0104
    },
    "books": {},
    "cons_line": null,
@@ -5685,7 +5685,7 @@
   }
  ],
  "league_k_pa": 0.2208,
- "lineups_confirmed": 6,
+ "lineups_confirmed": 8,
  "odds_at": "2026-09-12T15:31:40Z",
- "locked": 6
+ "locked": 8
 }
