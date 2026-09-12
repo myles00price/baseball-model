@@ -142,7 +142,7 @@
  "Los Angeles Angels@Washington Nationals": {
   "away": "Los Angeles Angels",
   "home": "Washington Nationals",
-  "prob_home": 52.6,
+  "prob_home": 51.0,
   "odds": {
    "fanduel": {
     "Los Angeles Angels": 102,
@@ -169,23 +169,23 @@
    "betmgm",
    -118
   ],
-  "dv_edge_away": 0.5,
-  "dv_edge_home": 1.6,
+  "dv_edge_away": 2.1,
+  "dv_edge_home": -0.0,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "San Diego Padres@San Francisco Giants": {
   "away": "San Diego Padres",
   "home": "San Francisco Giants",
-  "prob_home": 67.5,
+  "prob_home": 66.1,
   "odds": {
    "fanduel": {
-    "San Diego Padres": -176,
-    "San Francisco Giants": 140
+    "San Diego Padres": -174,
+    "San Francisco Giants": 138
    },
    "draftkings": {
-    "San Diego Padres": -180,
-    "San Francisco Giants": 140
+    "San Diego Padres": -188,
+    "San Francisco Giants": 145
    },
    "williamhill_us": {
     "San Diego Padres": -170,
@@ -201,13 +201,13 @@
    -170
   ],
   "best_home": [
-   "fanduel",
-   140
+   "draftkings",
+   145
   ],
-  "dv_edge_away": -27.7,
-  "dv_edge_home": 28.2,
+  "dv_edge_away": -26.3,
+  "dv_edge_home": 27.6,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Kansas City Royals@Boston Red Sox": {
   "away": "Kansas City Royals",
@@ -320,8 +320,8 @@
   "prob_home": 52.0,
   "odds": {
    "fanduel": {
-    "Chicago White Sox": 106,
-    "St. Louis Cardinals": -132
+    "Chicago White Sox": 108,
+    "St. Louis Cardinals": -135
    },
    "betmgm": {
     "Chicago White Sox": -105,
@@ -338,13 +338,13 @@
   },
   "best_away": [
    "fanduel",
-   106
+   108
   ],
   "best_home": [
    "draftkings",
    -115
   ],
-  "dv_edge_away": 2.0,
+  "dv_edge_away": 2.4,
   "dv_edge_home": 2.0,
   "flag": "",
   "locked": false
@@ -422,11 +422,11 @@
  "Cleveland Guardians@Minnesota Twins": {
   "away": "Cleveland Guardians",
   "home": "Minnesota Twins",
-  "prob_home": 37.5,
+  "prob_home": 34.9,
   "odds": {
    "fanduel": {
-    "Cleveland Guardians": -104,
-    "Minnesota Twins": -120
+    "Cleveland Guardians": -106,
+    "Minnesota Twins": -118
    },
    "betmgm": {
     "Cleveland Guardians": -105,
@@ -442,16 +442,16 @@
    }
   },
   "best_away": [
-   "fanduel",
-   -104
+   "betmgm",
+   -105
   ],
   "best_home": [
    "fanduel",
-   -120
+   -118
   ],
-  "dv_edge_away": 14.5,
-  "dv_edge_home": -13.5,
+  "dv_edge_away": 17.1,
+  "dv_edge_home": -16.1,
   "flag": "",
-  "locked": false
+  "locked": true
  }
 }
