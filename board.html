@@ -607,8 +607,11 @@ async function loadStats(){
       [s.gate+"/"+s.gate_target,"KELLY GATE","grn","gate"],
     ].map(([v,k,c,key])=>`<div class="stat" onclick="openInfo(event,'${key}')"><div class="v ${c||""}">${v}</div><div class="k">${k} ⓘ</div></div>`).join("");
     if(s.offline_w!=null){
+      const $=v=>v>=0?"+$"+v:"-$"+Math.abs(v);
+      const [tw,tl]=s.record.split("-").map(Number);
+      const xw=tw-s.offline_w,xl=tl-s.offline_l,xp=s.pnl-s.offline_pnl;
       document.getElementById("stats").insertAdjacentHTML("afterend",
-        `<div style="text-align:center;font-size:11px;opacity:.75;margin:4px 0 10px;cursor:pointer" onclick="openInfo(event,'offline')">RECORD INCLUDES ${s.offline_w+s.offline_l} OFFLINE PLAYS (${s.offline_w}-${s.offline_l}, ${s.offline_pnl>=0?"+$"+s.offline_pnl:"-$"+Math.abs(s.offline_pnl)}) · 6 real locks never texted + 23 reconstructed ⓘ</div>`);
+        `<div style="text-align:center;font-size:11px;opacity:.75;margin:4px 0 10px;cursor:pointer" onclick="openInfo(event,'offline')">RECORD = TEXTED ${xw}-${xl} (${$(xp)}) + OFFLINE LOCKS ${s.offline_exact_w}-${s.offline_exact_l} (${$(s.offline_exact_pnl)}) + RECONSTRUCTED ${s.offline_recon_w}-${s.offline_recon_l} (${$(s.offline_recon_pnl)}) ⓘ</div>`);
     }
   }catch{}
 }

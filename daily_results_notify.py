@@ -68,14 +68,27 @@ def grade_day(date_str, results=None):
 
 def _offline_block():
     """Disclosure for the board: how many record plays come from the offline
-    period (owner decision 9/8: they count; 6 real locks + 23 reconstructed)."""
+    period (owner decision 9/8: they count; 6 real locks + 23 reconstructed).
+    Split by provenance (review 9/11): real frozen locks vs reconstruction,
+    so the texted-only record is always derivable from the tiles."""
     import json as _json
     try:
         g = _json.load(open("gap_paper_backfill.json"))
-        w = sum(1 for p in g["plays"] if p["result"] == "W")
-        n = len(g["plays"])
-        return {"offline_w": w, "offline_l": n - w,
-                "offline_pnl": round(sum(p["pnl"] for p in g["plays"]))}
+        ex_w = ex_l = re_w = re_l = 0
+        ex_pnl = re_pnl = 0.0
+        for p in g["plays"]:
+            exact = str(p.get("source", "")).startswith("frozen-csv")
+            won = p["result"] == "W"
+            if exact:
+                ex_w += won; ex_l += not won; ex_pnl += p["pnl"]
+            else:
+                re_w += won; re_l += not won; re_pnl += p["pnl"]
+        return {"offline_w": ex_w + re_w, "offline_l": ex_l + re_l,
+                "offline_pnl": round(ex_pnl + re_pnl),
+                "offline_exact_w": ex_w, "offline_exact_l": ex_l,
+                "offline_exact_pnl": round(ex_pnl),
+                "offline_recon_w": re_w, "offline_recon_l": re_l,
+                "offline_recon_pnl": round(re_pnl)}
     except Exception:
         return {}
 
