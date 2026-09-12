@@ -16,8 +16,7 @@ post-hoc adjustments are layered on top.
 
 A play is flagged when the model's probability beats a book's implied
 probability by **3–6 points** (the window where the model has historically
-been right; above 6 the market is usually the one that's right) and both
-starters pass a data-reliability gate. Flat $100 paper stakes; real sizing
+been right; above 6 the market is usually the one that's right) and the flagged side's starter passes a data-reliability gate (a stricter side-aware rule governs plays against thin opposing starters); Coors Field games are excluded outright. Flat $100 paper stakes; real sizing
 is gated behind a public report card (150 plays, ROI ≥ +3%, bet-side CLV
 beat ≥ 60%).
 

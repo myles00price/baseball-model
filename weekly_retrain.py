@@ -134,7 +134,10 @@ def get_pitcher_stats(player_id, season):
         # since the deadline, training rows did not). Prefer the combined
         # split (no 'team' key), else the max-IP stint.
         from pitcher_stats import season_total_split
-        s = season_total_split(splits)
+        # season_total_split returns the SPLIT; stats live under ["stat"]
+        # (2026-09-12: missing ["stat"] made ip read 0.0 for every pitcher,
+        # so the 9/10 retrain built 0 rows and silently skipped)
+        s = season_total_split(splits)["stat"]
         ip = parse_ip(s.get("inningsPitched", 0))
         if ip < 1:
             return None
@@ -212,7 +215,7 @@ def get_batter_ops(player_id, season, vs_hand=None):
         if not splits:
             return None
         from lineup_stats import _best_split
-        ops = float(_best_split(splits).get("ops", 0))
+        ops = float(_best_split(splits)["stat"].get("ops", 0))
         return ops if ops > 0 else None
     except:
         return None
