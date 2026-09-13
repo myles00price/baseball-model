@@ -1,0 +1,33 @@
+/* Shared MLB presentation. Loaded by shell.js so generated pages inherit it. */
+body{padding:18px clamp(12px,1.5vw,40px) 40px}
+body .frame{max-width:min(96vw,3200px);margin:0 auto;min-width:0}
+body .frame>*{min-width:0}
+body div.grid,body .bouts,body .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(350px,100%),1fr));gap:9px}
+body .bout,body .sport,body div.card{background:#020202;border:1px solid var(--line)}
+body .bout,body .sport{padding:12px 14px}
+body .sect,body .bigsect,body .news{background:#0a0a0a;border:1px solid var(--line);padding:12px 14px;margin-top:14px}
+body .sect h2,body .bigsect h2,body .news h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:8px;overflow-wrap:anywhere}
+body .banner{padding:12px 14px;margin-bottom:10px}
+body .recbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:9px;background:transparent;border:0;padding:0;margin-bottom:10px}
+body .recbox>.cell{background:#020202;border:1px solid var(--line);padding:9px 14px 7px;text-align:center;min-width:0}
+body .recbox>.cell>b{font-family:'VT323',monospace;font-size:31px;color:var(--amber);font-weight:400;overflow-wrap:anywhere}
+body .recbox>.cell>span{display:block;font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.18em;color:var(--mut)}
+body .tw{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+body .modebtn{background:transparent;line-height:inherit}
+body .sr button{display:block;width:100%;text-align:left;padding:8px 12px;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--ink);font:inherit;cursor:pointer}
+body .sr button:hover,body .sr button:focus-visible{background:#141414;color:var(--phos)}
+:where(a,button,input,[tabindex]):focus-visible{outline:2px solid var(--phos);outline-offset:3px}
+body.light .bout,body.light .sport,body.light div.card,body.light .recbox>.cell,body.light .sect,body.light .bigsect,body.light .news{background:#f7f4ec}
+body.light .sr button:hover,body.light .sr button:focus-visible{background:#efece0}
+@media(min-width:1700px){body div.grid,body .bouts,body .cards{grid-template-columns:repeat(auto-fill,minmax(390px,1fr))}body .marquee h1{font-size:clamp(32px,2vw,44px)}}
+@media(min-width:2400px){body div.grid,body .bouts,body .cards{grid-template-columns:repeat(auto-fill,minmax(420px,1fr))}}
+@media(max-width:600px){body .frame{max-width:100%}body .marquee{padding:10px 12px;gap:10px}body .marquee h1{font-size:28px;letter-spacing:.16em}body .searchbox{min-width:0;max-width:none;flex-basis:100%;order:3}body .marquee .sub{font-size:15px;overflow-wrap:anywhere}body #sportnav{gap:3px;padding:6px}body #sportnav a,body #sportnav span.soon{padding:6px 8px}body .duo{grid-template-columns:1fr}body .names{font-size:22px}body .names .tm{white-space:normal}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+body .sc-grid{grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr))}
+body .lg-grid{grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+
+body .duo>* ,body .sect,body .bout,body .sc-card,body .lg-grid>*{min-width:0}
+body .board-table-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+body .eng-formula{flex-wrap:wrap}
+body .rsh,body .tdteams{grid-template-columns:repeat(auto-fit,minmax(min(350px,100%),1fr))}body .rsh>*{min-width:0}

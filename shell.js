@@ -16,6 +16,11 @@
 (function () {
   var cfg = window.SHELL || {};
   var sport = cfg.sport || "";
+  document.body.dataset.boardSport = sport;
+  var shared = document.createElement("link");
+  shared.rel = "stylesheet";
+  shared.href = new URL("board-common.css", document.currentScript.src).href;
+  document.head.appendChild(shared);
   var SPORTS = [
     { id: "hub",   label: "HOME",   href: "index.html", status: "live"  },
     { id: "mlb",   label: "MLB",    href: "board.html", status: "live"  },
@@ -84,33 +89,51 @@
     var tag = s.status === "paper" ? "<span class='tag'>PAPER</span>"
             : s.status === "soon" ? "<span class='tag'>SOON</span>" : "";
     if (!s.href) return "<span class='soon'>" + s.label + tag + "</span>";
-    var active = path === s.href.toLowerCase() ? " class='active'" : "";
+    var active = path === s.href.toLowerCase() ? " class='active' aria-current='page'" : "";
     return "<a href='" + s.href + "'" + active + ">" + s.label + tag + "</a>";
   }).join("");
   var accent = cfg.accent ? " <span class='accent'>" + cfg.accent + "</span>" : "";
   mount.innerHTML =
-    "<div id='sportnav'>" + nav + "</div>" +
+    "<div id='sportnav' role='navigation' aria-label='Sports'>" + nav + "</div>" +
     "<div class='marquee'>" +
       "<h1>THE BOARD" + accent + "</h1>" +
       "<div class='searchbox'><input id='psearch' placeholder='► SEARCH PLAYERS…' " +
-        "autocomplete='off'><div class='sr' id='sr' style='display:none'></div></div>" +
+        "autocomplete='off' aria-label='Search players'><div class='sr' id='sr' style='display:none'></div></div>" +
       "<span class='sub' id='mq-sub'>" + (cfg.sub || "") + "</span>" +
-      "<span class='modebtn' id='modebtn' title='light/dark'>☀</span>" +
+      "<button type='button' class='modebtn' id='modebtn' aria-label='Toggle light and dark theme' title='light/dark'>☀</button>" +
     "</div>";
 
+  function fitTables() {
+    document.querySelectorAll(".frame table").forEach(function (table) {
+      if (table.closest(".board-table-scroll,.tw")) return;
+      var wrap = document.createElement("div");
+      wrap.className = "board-table-scroll";
+      wrap.tabIndex = 0;
+      wrap.setAttribute("role", "region");
+      wrap.setAttribute("aria-label", "Data table, scroll horizontally for more columns");
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    fitTables();
+    new MutationObserver(fitTables).observe(document.querySelector(".frame"), {childList:true,subtree:true});
+  });
   if (!cfg.ownUI) return;   /* the MLB board's own JS takes over from here */
 
   /* ---- theme: same localStorage key as the MLB board, so it follows you ---- */
   var btn = document.getElementById("modebtn");
   function applyTheme() {
-    var light = localStorage.getItem("boardMode") === "light";
+    var light = document.body.classList.contains("light");
+    try { light = localStorage.getItem("boardMode") === "light"; } catch (e) {}
     document.body.classList.toggle("light", light);
     btn.textContent = light ? "☾" : "☀";
   }
   applyTheme();
   btn.addEventListener("click", function () {
-    localStorage.setItem("boardMode",
-      document.body.classList.contains("light") ? "dark" : "light");
+    var light = !document.body.classList.contains("light");
+    document.body.classList.toggle("light", light);
+    try { localStorage.setItem("boardMode", light ? "light" : "dark"); } catch (e) {}
     applyTheme();
   });
 
@@ -123,17 +146,27 @@
   document.addEventListener("DOMContentLoaded", function () {
     rows = Array.prototype.slice.call(document.querySelectorAll("[data-player]"));
   });
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") srBox.style.display = "none";
+    if (e.key === "ArrowDown") {
+      var first = srBox.querySelector("button");
+      if (first) { e.preventDefault(); first.focus(); }
+    }
+  });
   input.addEventListener("input", function () {
     var q = input.value.trim().toLowerCase();
     if (q.length < 2) { srBox.style.display = "none"; return; }
+    rows = Array.prototype.slice.call(document.querySelectorAll("[data-player]"));
     var hits = rows.filter(function (r) {
       return r.getAttribute("data-player").toLowerCase().indexOf(q) !== -1;
     }).slice(0, 12);
     srBox.innerHTML = hits.length
       ? hits.map(function (r, i) {
-          return "<div data-hit='" + i + "'>" + r.getAttribute("data-player") + "</div>";
+          var label = document.createElement("span");
+          label.textContent = r.getAttribute("data-player");
+          return "<button type='button' data-hit='" + i + "'>" + label.innerHTML + "</button>";
         }).join("")
-      : "<div><span class='pos'>NO PLAYERS ON THIS PAGE</span></div>";
+      : "<div><span class='pos'>NO MATCHING PLAYERS</span></div>";
     srBox.style.display = "block";
     Array.prototype.forEach.call(srBox.querySelectorAll("[data-hit]"), function (el) {
       el.addEventListener("click", function () {
