@@ -12,10 +12,14 @@ if sys.stdout and hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(errors="replace")
 
 def get_game_results(date_str):
-    schedule = requests.get(
+    response = requests.get(
         "https://statsapi.mlb.com/api/v1/schedule",
-        params={"sportId": 1, "date": date_str, "hydrate": "linescore"}
-    ).json()
+        params={"sportId": 1, "date": date_str, "hydrate": "linescore"}, timeout=30
+    )
+    response.raise_for_status()
+    schedule = response.json()
+    if not isinstance(schedule, dict) or "dates" not in schedule:
+        raise ValueError("Invalid schedule response; refusing to publish partial results")
     results = {}
     for date in schedule.get("dates", []):
         for game in date.get("games", []):

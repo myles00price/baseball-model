@@ -8,6 +8,7 @@ is missing/stale.
 """
 
 import os
+import json
 import sys
 import time
 from datetime import datetime, timedelta, timezone
@@ -33,6 +34,11 @@ def main():
         send_ops("Nightly run PROBLEM",
                  f"No fresh picks file for {date_str} after the 10:50 PM run - check the machine.")
         print(f"{date_str}: picks file missing or stale — ops alert sent")
+        return
+
+    marker = f"notified_nightly_{date_str}.json"
+    if os.path.exists(marker):
+        print(f"{date_str}: nightly summary already sent")
         return
 
     picks = load_picks(date_str)
@@ -69,11 +75,15 @@ def main():
     try:
         import subprocess
         subprocess.run([sys.executable, r"C:\Users\Poons\baseball-model\k_model.py", date_str],
-                       timeout=600, cwd=r"C:\Users\Poons\baseball-model")
+                       check=True, timeout=600, cwd=r"C:\Users\Poons\baseball-model")
     except Exception as e:
         print(f"K build skipped: {e}")
     # K lean lines pulled from subscriber texts 2026-08-19 (display-only again)
     send_push(f"MLB model: tomorrow's slate ready", "\n".join(lines), bet=bool(bets or k_lines))
+    temporary = marker + ".tmp"
+    with open(temporary, "w") as f:
+        json.dump({"sent": datetime.now(lv).isoformat()}, f)
+    os.replace(temporary, marker)
     print(f"{date_str}: nightly summary sent ({len(picks)} games, {len(bets)} bets, {len(k_lines)} K leans)")
 
 

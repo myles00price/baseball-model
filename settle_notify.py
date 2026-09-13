@@ -101,10 +101,11 @@ def settle_k(date_str):
         body = (f"{head} · K PLAY {p['name']} {b['side'].upper()} {b['line']} · finished with {so} K\n"
                 f"Graded on the board's Props Ledger.")
         try:
-            requests.post(f"https://ntfy.sh/{NTFY_TOPIC}", data=body.encode("utf-8"),
+            response = requests.post(f"https://ntfy.sh/{NTFY_TOPIC}", data=body.encode("utf-8"),
                           headers={"Title": f"K PLAY {'cashed' if won else 'lost'}: {p['name']}",
                                    "Priority": "high" if won else "default",
                                    "Tags": "baseball" + (",moneybag" if won else "")}, timeout=15)
+            response.raise_for_status()
             done.add(key); n += 1
             print(f"settle K: {head} {p['name']} {b['side']} {b['line']} -> {so} K")
         except Exception as e:
@@ -170,10 +171,11 @@ def main(date_str=None):
         body = (f"{head} · {team} {fmt(odds)} · final {score}\n"
                 f"Today: {w}-{l} ({pnl:+.0f} at $100 flat)")
         try:
-            requests.post(f"https://ntfy.sh/{NTFY_TOPIC}", data=body.encode("utf-8"),
+            response = requests.post(f"https://ntfy.sh/{NTFY_TOPIC}", data=body.encode("utf-8"),
                           headers={"Title": f"MLB play {'cashed' if won else 'lost'}: {team}",
                                    "Priority": "high" if won else "default",
                                    "Tags": "baseball" + (",moneybag" if won else "")}, timeout=15)
+            response.raise_for_status()
             done.add(key); n += 1
             print(f"settle: {head} {team} {fmt(odds)} {score}")
         except Exception as e:

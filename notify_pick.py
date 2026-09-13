@@ -121,7 +121,8 @@ def get_confirmed_games(date_str):
         "https://statsapi.mlb.com/api/v1/schedule",
         params={"sportId": 1, "date": date_str, "hydrate": "lineups"},
         timeout=15,
-    ).json()
+    )
+    response.raise_for_status().json()
     games = []
     for d in data.get("dates", []):
         for g in d.get("games", []):
@@ -231,12 +232,13 @@ def format_pick(row, book_odds=None, started=False):
 
 def send_ops(title, body):
     """System/failure alerts — private ops topic, never the shared one."""
-    requests.post(f"https://ntfy.sh/{OPS_TOPIC}", data=body.encode("utf-8"),
+    response = requests.post(f"https://ntfy.sh/{OPS_TOPIC}", data=body.encode("utf-8"),
                   headers={"Title": title, "Priority": "high", "Tags": "wrench"}, timeout=15)
+    response.raise_for_status()
 
 
 def send_push(title, body, bet):
-    requests.post(
+    response = requests.post(
         f"https://ntfy.sh/{NTFY_TOPIC}",
         data=body.encode("utf-8"),
         headers={
@@ -246,6 +248,7 @@ def send_push(title, body, bet):
         },
         timeout=15,
     )
+    response.raise_for_status()
 
 
 def send_heartbeat(date_str):

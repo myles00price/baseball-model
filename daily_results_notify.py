@@ -39,10 +39,7 @@ def grade_day(date_str, results=None):
     except OSError:
         return []
     if results is None:
-        try:
-            results = get_game_results(date_str)
-        except Exception:
-            results = {}
+        results = get_game_results(date_str)
     out = []
     from features_v2 import key_from_row
     texted = official_keys(date_str)
@@ -235,11 +232,14 @@ def main():
     # for this slate (2026-08-18: 7:10 AM catch-up duplicated the 9:25 PM text)
     marker = f"notified_daily_{today}.json"
     import os
+    final = bool(day) and all(g[2] is not None for g in day)
     if os.path.exists(marker):
-        print("daily record already texted for today - skipping send")
-        return
+        previous = json.load(open(marker))
+        if previous.get("final", False) or not final:
+            print("daily record already texted at this stage - skipping send")
+            return
     send_push("MLB model: daily record", "\n".join(lines), bet=False)
-    json.dump({"sent": datetime.now().isoformat()}, open(marker, "w"))
+    json.dump({"sent": datetime.now().isoformat(), "final": final}, open(marker, "w"))
     print("\n".join(lines))
 
 
