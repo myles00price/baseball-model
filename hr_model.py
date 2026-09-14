@@ -483,6 +483,20 @@ def fetch_hr_odds(date, games):
     return out
 
 
+def slate_started(session, date):
+    """True if any game on the date is past Preview (live or final)."""
+    try:
+        j = get(session, "/schedule", sportId=1, date=date, gameTypes="R",
+                fields="dates,games,status,abstractGameState")
+    except Exception:
+        return True  # can't tell -> be safe, don't build
+    for day in j.get("dates", []):
+        for g in day.get("games", []):
+            if g.get("status", {}).get("abstractGameState", "Preview") != "Preview":
+                return True
+    return False
+
+
 def main():
     date = (sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith("--")
             else board_date())
