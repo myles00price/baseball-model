@@ -21,6 +21,14 @@
   shared.rel = "stylesheet";
   shared.href = new URL("board-common.css", document.currentScript.src).href;
   document.head.appendChild(shared);
+  var vegasStyle = document.createElement("link");
+  vegasStyle.rel = "stylesheet";
+  vegasStyle.href = new URL("vegas.css?v=20260914", document.currentScript.src).href;
+  document.head.appendChild(vegasStyle);
+  var vegasScript = document.createElement("script");
+  vegasScript.src = new URL("vegas.js?v=20260914", document.currentScript.src).href;
+  document.head.appendChild(vegasScript);
+
   var SPORTS = [
     { id: "hub",   label: "HOME",   href: "index.html", status: "live"  },
     { id: "mlb",   label: "MLB",    href: "board.html", status: "live"  },
@@ -172,6 +180,7 @@
       el.addEventListener("click", function () {
         var row = hits[+el.getAttribute("data-hit")];
         srBox.style.display = "none"; input.value = "";
+        document.dispatchEvent(new CustomEvent("board-reveal", {detail:row}));
         row.scrollIntoView({ behavior: "smooth", block: "center" });
         row.classList.remove("shell-flash"); void row.offsetWidth;
         row.classList.add("shell-flash");

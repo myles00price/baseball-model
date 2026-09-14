@@ -1,0 +1,105 @@
+/* THE BOARD / Vegas After Dark. Shared presentation across generated sport pages. */
+html:has(body.vegas){background:#0b0c0e}
+body.vegas{--phos:#56d99a;--phos-dim:#3b946e;--amber:#dfbf77;--gold:#dfbf77;--ink:#f5f5f4;--mut:#9b9ca5;--line:#2d3036;background:#0b0c0e;color:var(--ink);font-family:Arial,Helvetica,sans-serif;padding:0 28px 48px;font-size:14px;line-height:1.5}
+body.vegas .frame{max-width:1680px}
+body.vegas :is(.vt,.bebas,.hr-sub,.hr-odds,.k-note,.hintline,.eng-note,.note,.foot,.statusline,.paper,.banner p,.sc-why p,.sc-news a,.ldr,.lg-rows,.eng-block){font-family:Arial,Helvetica,sans-serif;text-shadow:none;line-height:1.55}
+body.vegas :is(h1,h2,h3,h4,.n,.names,.nm,.ab){font-family:Arial,Helvetica,sans-serif;text-shadow:none}
+body.vegas :is(.odds,.mdl,.score,.top,.playbar,.sc-sp .ln,.sc-sp .nm,.sc-vs,.k-tab){font-family:Arial,Helvetica,sans-serif;text-shadow:none;letter-spacing:0}
+body.vegas #shell .marquee{border:0;border-bottom:1px solid var(--line);background:transparent;padding:26px 0 20px;margin:0;gap:24px}
+body.vegas #shell h1{font-size:28px;font-weight:900;letter-spacing:-1px;white-space:nowrap}
+body.vegas #shell h1 small{display:block;font-size:9px;letter-spacing:3px;color:var(--mut);font-weight:400;margin-top:3px}
+body.vegas #shell .searchbox{max-width:470px;margin-left:auto}
+body.vegas #shell input{font-family:Arial,Helvetica,sans-serif;border-radius:6px;background:#17191d;border-color:#34363d;font-size:13px;padding:11px 14px;color:var(--ink)}
+body.vegas #shell input::placeholder{color:#a0a1aa}
+body.vegas #shell .sub{font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:.04em;color:var(--mut);text-shadow:none}
+body.vegas #shell .modebtn{border-radius:6px;padding:5px 12px;color:var(--amber)}
+body.vegas #sportnav{margin:0;border:0;border-bottom:1px solid var(--line);background:transparent;padding:0;gap:0;flex-wrap:nowrap;overflow-x:auto}
+body.vegas #sportnav a,body.vegas #sportnav span.soon{font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:.04em;padding:17px 24px;white-space:nowrap;border:0;text-shadow:none;color:#b9bbc3}
+body.vegas #sportnav a.active{background:linear-gradient(110deg,#b69750,#f0d99b);color:#121212;font-weight:800}
+body.vegas #sportnav span.soon{color:#686b73}
+body.vegas #sportnav .tag{font-size:8px;color:var(--amber)}
+body.vegas #sportnav a.active .tag{color:#292319}
+.vegas-markets{display:flex;gap:26px;overflow-x:auto;border-bottom:1px solid var(--line);padding:0 2px}
+body.vegas #sportnav,.vegas-markets,.vegas-subtabs{scrollbar-width:none}
+body.vegas #sportnav::-webkit-scrollbar,.vegas-markets::-webkit-scrollbar,.vegas-subtabs::-webkit-scrollbar{display:none}
+.vegas-odds-detail .k-lean,.vegas-odds-detail .lean-tag{display:block;margin-top:5px}
+.vegas-runlines{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));gap:16px;margin-top:18px}
+.vegas-runline{border:1px solid var(--line);border-radius:8px;padding:18px;background:#17191d}
+.vegas-runline h3{font-size:15px;margin-bottom:14px}.vegas-runline p{font-size:12px;color:var(--mut)}
+body.vegas.light .vegas-runline{background:#fff}
+.vegas-markets button,.vegas-subtabs button{font:inherit;font-size:13px;white-space:nowrap;color:#bfc1c9;background:transparent;border:0;cursor:pointer;padding:17px 0}
+.vegas-markets button[aria-current=page]{color:var(--amber);box-shadow:inset 0 -3px var(--amber);font-weight:700}
+.vegas-subtabs{display:flex;width:max-content;max-width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:6px;margin-top:22px;padding:3px;background:#14161a}
+.vegas-subtabs button{padding:7px 22px;border-radius:4px;font-size:12px}
+.vegas-subtabs button[aria-current=page]{background:var(--amber);color:#17140e;font-weight:700}
+.vegas-pageheading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:26px 0 22px}
+.vegas-eyebrow{font-size:10px;letter-spacing:2px;color:var(--amber);margin-bottom:7px}
+body.vegas .vegas-pageheading h2{font-size:32px;line-height:1.15;font-weight:800;letter-spacing:-1px;margin:0 0 8px}
+.vegas-description{color:#b5b7c0;font-size:13px}
+.vegas-disclosure{font-size:10px;letter-spacing:1px;border:1px solid #474035;padding:7px 10px;border-radius:4px;color:var(--amber);white-space:nowrap}
+body.vegas .vegas-hidden,[hidden]{display:none!important}
+body.vegas .vegas-group{display:contents}
+.vegas-empty{padding:40px;text-align:center;color:var(--mut);border:1px dashed var(--line);border-radius:8px}
+body.vegas .stats,body.vegas .recbox{gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:16px;background:#121417}
+body.vegas .stat,body.vegas .recbox>.cell{padding:15px 18px;background:transparent;border:0;border-right:1px solid var(--line);text-align:left}
+body.vegas .stat .v,body.vegas .recbox>.cell>b{font-family:Arial,Helvetica,sans-serif;font-size:25px;font-weight:700;text-shadow:none;color:var(--ink);letter-spacing:-.8px}
+body.vegas .stat .k,body.vegas .recbox>.cell>span{font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:.8px;color:#b3b4bc;margin-top:6px;line-height:1.6}
+body.vegas .statusline{font-size:11px;color:var(--mut);padding:0 0 12px}
+body.vegas .paper,body.vegas .banner{background:#191710;border:1px solid #4b4028;border-radius:6px;font-size:12px;padding:12px 16px;margin-bottom:18px;color:#d3bd8c}
+body.vegas .sc-grid{gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(470px,100%),1fr))}
+body.vegas .sc-card{background:linear-gradient(135deg,#1c1d20,#111215);border:1px solid #454039;border-radius:9px;overflow:hidden;box-shadow:none}
+body.vegas .sc-bar{background:#242017;color:var(--amber);text-align:left;padding:10px 18px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;border-bottom:1px solid #423b2d}
+body.vegas .sc-bar.cash{background:#10261d;color:#73e1ad}
+body.vegas .sc-bar.lost{background:#30191b;color:#f19595}
+body.vegas .sc-head{padding:20px 18px 12px;gap:22px}
+body.vegas .sc-team .n{font-size:15px;font-weight:700;letter-spacing:0}
+body.vegas .sc-team img{width:58px;height:58px;object-fit:contain}
+body.vegas .sc-line{font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;color:var(--ink);padding:8px 16px;text-shadow:none;letter-spacing:0}
+.vegas-prices{display:grid;grid-template-columns:repeat(auto-fit,minmax(75px,1fr));gap:8px;margin:12px 18px 16px}
+.vegas-price{background:#121417;border:1px solid #3a3e46;border-radius:6px;text-align:center;overflow:hidden;padding:10px 4px 0;min-height:88px}
+.vegas-price>span{display:block;font-size:10px;letter-spacing:1px;color:#c7c8d0}
+.vegas-price strong{display:block;font-size:27px;line-height:1.4;font-variant-numeric:tabular-nums;color:#f5f5f4}
+.vegas-price.best{border-color:var(--amber)}
+.vegas-price.best strong{color:var(--amber)}
+.vegas-price small{display:block;margin-top:6px;background:var(--amber);color:#191710;font-size:8px;font-weight:800;padding:3px}
+body.vegas .sc-sps{padding:0 18px 12px}
+body.vegas .sc-sp{background:#121417;border-radius:6px;padding:8px}
+body.vegas .sc-why{padding:0;border:0}
+.vegas-why{border-top:1px solid var(--line);padding:12px 18px}
+.vegas-why summary{font-size:12px;font-weight:600;cursor:pointer;color:var(--ink)}
+.vegas-why h4{display:none}
+body.vegas .vegas-why p{font-size:13px;margin-top:12px;color:#c1c3cc}
+body.vegas .sc-news{padding:0 18px 12px}
+body.vegas div.grid{gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(430px,100%),1fr));margin-top:20px}
+body.vegas div.card,body.vegas .bout,body.vegas .sport{background:#15171b;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+body.vegas .sect,body.vegas .bigsect,body.vegas .news,body.vegas .ledger{background:#121417;border:1px solid var(--line);border-radius:8px;padding:20px;margin:0 0 18px}
+body.vegas .sect h2,body.vegas .bigsect h2,body.vegas .news h2,body.vegas .ledger h2{font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;letter-spacing:0;color:var(--ink);margin-bottom:16px}
+body.vegas :is(#hrwatch,#hitwatch){background:transparent;border:0;padding:0}
+body.vegas :is(#hr-body,#hit-body){display:grid;grid-template-columns:repeat(auto-fill,minmax(min(390px,100%),1fr));gap:18px}
+body.vegas .vegas-player{position:relative;display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px;background:linear-gradient(130deg,#23252a,#121417);border:1px solid #393c43;border-radius:9px;padding:22px 18px 0;cursor:pointer;color:var(--ink);align-items:start;overflow:hidden}
+body.vegas .vegas-player>.hr-rank{position:absolute;top:7px;left:10px;font-size:10px;color:var(--mut)}
+body.vegas .vegas-player>img{width:112px;height:145px;object-fit:cover;object-position:top;border-radius:0;grid-column:1;grid-row:1/3;align-self:end;margin:0}
+.vegas-player-info{min-width:0}
+.vegas-player-info>div:first-child{font-size:21px;font-weight:800;line-height:1.15;margin:4px 0 8px}
+body.vegas .vegas-player .hr-sub{font-size:10px;line-height:1.6;letter-spacing:.2px;color:#b7bac5}
+body.vegas .vegas-player>.v{grid-column:2;font-family:Arial,Helvetica,sans-serif;font-size:38px;font-weight:800;letter-spacing:-1.5px;line-height:1;color:var(--ink);margin:0;text-shadow:none;text-align:left}
+.vegas-prob-label{display:block;font-size:9px;letter-spacing:1px;font-weight:400;color:#c4c5cd;margin-top:8px;line-height:1.4}
+body.vegas .vegas-player .hd-caret{display:none}
+.vegas-player>.vegas-prices{grid-column:1/-1;width:100%;margin:0}
+.vegas-more{grid-column:1/-1;border-top:1px solid var(--line);padding:12px 0;color:#d3c199;font-size:12px}
+body.vegas .vegas-player .vegas-odds-detail{font-size:9px;margin-top:7px;color:#aeb0ba;line-height:1.5}
+body.vegas :is(#hr-body,#hit-body)>:not(.ldr){grid-column:1/-1}
+body.vegas .hr-flag{font-size:10px;letter-spacing:0;padding:3px 5px}
+body.vegas .lg-box{background:#17191d;border-radius:6px;border-color:var(--line)}
+body.vegas table{font-family:Arial,Helvetica,sans-serif;font-size:12px}
+body.vegas table th{font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#b6b8c0;letter-spacing:.5px;padding:10px}
+body.vegas table td{padding:9px 10px}
+body.vegas .panel,body.vegas .povbox,body.vegas .ovbox{background:#14161a;color:var(--ink)}
+body.vegas.light{--ink:#20232a;--mut:#626875;--line:#cfd1d5;--amber:#89601c;--gold:#89601c;background:#f2f1ed;color:var(--ink)}
+body.vegas.light :is(.sc-card,.vegas-player,.sect,.bigsect,.news,.ledger,.stats,.recbox,div.card,.bout,.sport,.lg-box){background:#fff;color:var(--ink)}
+body.vegas.light :is(.vegas-player>.v,.stat .v,.recbox>.cell>b,.vegas-price strong){color:#20232a}
+body.vegas.light :is(.vegas-description,.vegas-player .hr-sub,.vegas-odds-detail,.vegas-prob-label){color:#626875}
+body.vegas.light :is(.vegas-price,.sc-sp,.vegas-subtabs){background:#f4f3ef}
+body.vegas.light .vegas-price>span{color:#515660}
+body.vegas.light .vegas-price.best strong{color:#89601c}
+@media(max-width:650px){body.vegas{padding:0 14px 30px}body.vegas #shell .marquee{padding:20px 0 14px;gap:12px}body.vegas #shell h1{font-size:24px}body.vegas #shell .searchbox{order:3;flex-basis:100%;max-width:none}body.vegas #shell .sub{max-width:155px;margin-left:auto;font-size:9px}body.vegas #sportnav a,body.vegas #sportnav span.soon{padding:14px 17px}.vegas-markets{gap:22px}.vegas-markets button{font-size:12px;padding:15px 0}.vegas-pageheading{padding:22px 0;align-items:flex-start;flex-direction:column;gap:10px}body.vegas .vegas-pageheading h2{font-size:28px}.vegas-disclosure{font-size:9px}.vegas-subtabs{margin-top:18px}.vegas-subtabs button{padding:7px 16px}body.vegas .stats{grid-template-columns:repeat(3,minmax(0,1fr))}body.vegas .stat{padding:12px 10px}body.vegas .stat .v{font-size:21px}body.vegas .stat .k{font-size:8px}body.vegas .sect,body.vegas .bigsect,body.vegas .ledger{padding:14px}body.vegas .vegas-player{grid-template-columns:92px minmax(0,1fr);padding:22px 14px 0}body.vegas .vegas-player>img{width:92px;height:135px}.vegas-player-info>div:first-child{font-size:20px}body.vegas .vegas-player>.v{font-size:34px}}
