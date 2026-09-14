@@ -131,3 +131,4 @@ body.vegas.light .vegas-player>img.vegas-team-watermark{filter:grayscale(1);opac
 body.vegas .vegas-player.vegas-action>img:not(.vegas-team-watermark){object-fit:cover;object-position:center top;mask-image:linear-gradient(#000 0%,#000 68%,transparent 100%);-webkit-mask-image:linear-gradient(#000 0%,#000 68%,transparent 100%)}
 .vegas-photo-credits{display:block;padding:18px 0;color:var(--mut);font-size:11px;text-align:right}
 body.vegas .vegas-player.vegas-action>img:not(.vegas-team-watermark){width:180%;max-width:none;margin-left:-40%;clip-path:inset(0 22.222%);object-position:center top}
+body.vegas .vegas-player.vegas-action[data-player-id="592450"]>img:not(.vegas-team-watermark){width:140%;margin-left:-20%;clip-path:inset(0 14.285%)}
