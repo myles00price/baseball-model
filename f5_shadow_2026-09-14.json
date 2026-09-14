@@ -173,37 +173,37 @@
  "New York Yankees@Minnesota Twins": {
   "away": "New York Yankees",
   "home": "Minnesota Twins",
-  "prob_home": 47.9,
+  "prob_home": 52.2,
   "odds": {
    "fanduel": {
-    "Minnesota Twins": 106,
-    "New York Yankees": -132
+    "Minnesota Twins": 108,
+    "New York Yankees": -135
    },
    "betmgm": {
     "Minnesota Twins": 105,
     "New York Yankees": -135
    },
    "draftkings": {
-    "Minnesota Twins": -105,
-    "New York Yankees": -125
-   },
-   "williamhill_us": {
     "Minnesota Twins": 100,
     "New York Yankees": -130
+   },
+   "williamhill_us": {
+    "Minnesota Twins": 105,
+    "New York Yankees": -135
    }
   },
   "best_away": [
    "draftkings",
-   -125
+   -130
   ],
   "best_home": [
    "fanduel",
-   106
+   108
   ],
-  "dv_edge_away": 0.1,
-  "dv_edge_home": 2.0,
+  "dv_edge_away": -5.3,
+  "dv_edge_home": 6.6,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "San Francisco Giants@St. Louis Cardinals": {
   "away": "San Francisco Giants",
@@ -250,12 +250,12 @@
     "San Diego Padres": -166
    },
    "williamhill_us": {
-    "Colorado Rockies": 140,
-    "San Diego Padres": -170
+    "Colorado Rockies": 150,
+    "San Diego Padres": -180
    },
    "betmgm": {
-    "Colorado Rockies": 135,
-    "San Diego Padres": -170
+    "Colorado Rockies": 140,
+    "San Diego Padres": -175
    }
   },
   "best_away": [
@@ -264,10 +264,10 @@
   ],
   "best_home": [
    "williamhill_us",
-   140
+   150
   ],
   "dv_edge_away": -5.7,
-  "dv_edge_home": 7.0,
+  "dv_edge_home": 8.4,
   "flag": "",
   "locked": false
  },
@@ -289,8 +289,8 @@
     "Seattle Mariners": 115
    },
    "williamhill_us": {
-    "Los Angeles Angels": -130,
-    "Seattle Mariners": 100
+    "Los Angeles Angels": -135,
+    "Seattle Mariners": 105
    }
   },
   "best_away": [
