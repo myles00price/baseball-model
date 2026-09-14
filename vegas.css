@@ -75,7 +75,7 @@ body.vegas div.card,body.vegas .bout,body.vegas .sport{background:#15171b;border
 body.vegas .sect,body.vegas .bigsect,body.vegas .news,body.vegas .ledger{background:#121417;border:1px solid var(--line);border-radius:8px;padding:20px;margin:0 0 18px}
 body.vegas .sect h2,body.vegas .bigsect h2,body.vegas .news h2,body.vegas .ledger h2{font-family:Arial,Helvetica,sans-serif;font-size:17px;font-weight:700;letter-spacing:0;color:var(--ink);margin-bottom:16px}
 body.vegas :is(#hrwatch,#hitwatch){background:transparent;border:0;padding:0}
-body.vegas :is(#hr-body,#hit-body){display:grid;grid-template-columns:repeat(auto-fill,minmax(min(390px,100%),1fr));gap:18px}
+body.vegas :is(#hr-body,#hit-body,#hit2-body){display:grid;grid-template-columns:repeat(auto-fill,minmax(min(390px,100%),1fr));gap:18px}
 body.vegas .vegas-player{position:relative;display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px;background:linear-gradient(130deg,#23252a,#121417);border:1px solid #393c43;border-radius:9px;padding:22px 18px 0;cursor:pointer;color:var(--ink);align-items:start;overflow:hidden}
 body.vegas .vegas-player>.hr-rank{position:absolute;top:7px;left:10px;font-size:10px;color:var(--mut)}
 body.vegas .vegas-player>img{width:112px;height:145px;object-fit:cover;object-position:top;border-radius:0;grid-column:1;grid-row:1/3;align-self:end;margin:0}
@@ -88,7 +88,7 @@ body.vegas .vegas-player .hd-caret{display:none}
 .vegas-player>.vegas-prices{grid-column:1/-1;width:100%;margin:0}
 .vegas-more{grid-column:1/-1;border-top:1px solid var(--line);padding:12px 0;color:#d3c199;font-size:12px}
 body.vegas .vegas-player .vegas-odds-detail{font-size:9px;margin-top:7px;color:#aeb0ba;line-height:1.5}
-body.vegas :is(#hr-body,#hit-body)>:not(.ldr){grid-column:1/-1}
+body.vegas :is(#hr-body,#hit-body,#hit2-body)>:not(.ldr){grid-column:1/-1}
 body.vegas .hr-flag{font-size:10px;letter-spacing:0;padding:3px 5px}
 body.vegas .lg-box{background:#17191d;border-radius:6px;border-color:var(--line)}
 body.vegas table{font-family:Arial,Helvetica,sans-serif;font-size:12px}
@@ -105,7 +105,7 @@ body.vegas.light .vegas-price.best strong{color:#89601c}
 @media(max-width:650px){body.vegas{padding:0 14px 30px}body.vegas #shell .marquee{padding:20px 0 14px;gap:12px}body.vegas #shell h1{font-size:24px}body.vegas #shell .searchbox{order:3;flex-basis:100%;max-width:none}body.vegas #shell .sub{max-width:155px;margin-left:auto;font-size:9px}body.vegas #sportnav a,body.vegas #sportnav span.soon{padding:14px 17px}.vegas-markets{gap:22px}.vegas-markets button{font-size:12px;padding:15px 0}.vegas-pageheading{padding:22px 0;align-items:flex-start;flex-direction:column;gap:10px}body.vegas .vegas-pageheading h2{font-size:28px}.vegas-disclosure{font-size:9px}.vegas-subtabs{margin-top:18px}.vegas-subtabs button{padding:7px 16px}body.vegas .stats{grid-template-columns:repeat(3,minmax(0,1fr))}body.vegas .stat{padding:12px 10px}body.vegas .stat .v{font-size:21px}body.vegas .stat .k{font-size:8px}body.vegas .sect,body.vegas .bigsect,body.vegas .ledger{padding:14px}body.vegas .vegas-player{grid-template-columns:92px minmax(0,1fr);padding:22px 14px 0}body.vegas .vegas-player>img{width:92px;height:135px}.vegas-player-info>div:first-child{font-size:20px}body.vegas .vegas-player>.v{font-size:34px}}
 
 /* Portrait edition: two roomy columns, soft image fade, restrained team artwork. */
-body.vegas :is(#hr-body,#hit-body){grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+body.vegas :is(#hr-body,#hit-body,#hit2-body){grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 body.vegas .vegas-player{grid-template-columns:minmax(140px,42%) minmax(0,1fr);grid-template-rows:minmax(100px,auto) 100px auto auto;gap:12px 16px;padding:28px 22px 0;isolation:isolate;align-items:start}
 body.vegas .vegas-player>img:not(.vegas-team-watermark){width:100%;height:246px;max-height:100%;grid-column:1;grid-row:1/3;object-fit:contain;object-position:bottom;background:transparent!important;align-self:end;z-index:1;mask-image:linear-gradient(to bottom,#000 0%,#000 63%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 63%,transparent 100%)}
 body.vegas .vegas-player>img.vegas-team-watermark{position:absolute;left:6px;top:25px;width:43%;height:210px;object-fit:contain;opacity:.09;background:transparent;border-radius:0;z-index:0;pointer-events:none;filter:grayscale(1)}
@@ -119,6 +119,15 @@ body.vegas .vegas-player .vegas-price{min-height:90px;background:linear-gradient
 body.vegas .vegas-player .vegas-price strong{font-size:31px}
 body.vegas .vegas-player>.vegas-more{grid-row:4;margin-top:2px;font-size:13px;padding:14px 0}
 body.vegas.light .vegas-player .vegas-price{background:#f4f3ef}
-@media(max-width:800px){body.vegas :is(#hr-body,#hit-body){grid-template-columns:minmax(0,1fr)}body.vegas .vegas-player{grid-template-columns:minmax(110px,40%) minmax(0,1fr);padding:24px 16px 0;gap:10px 12px}body.vegas .vegas-player-info>div:first-child{font-size:23px}body.vegas .vegas-player>.v{font-size:42px}body.vegas .vegas-player>img:not(.vegas-team-watermark){height:220px}body.vegas .vegas-player .vegas-price strong{font-size:29px}}
+@media(max-width:800px){body.vegas :is(#hr-body,#hit-body,#hit2-body){grid-template-columns:minmax(0,1fr)}body.vegas .vegas-player{grid-template-columns:minmax(110px,40%) minmax(0,1fr);padding:24px 16px 0;gap:10px 12px}body.vegas .vegas-player-info>div:first-child{font-size:23px}body.vegas .vegas-player>.v{font-size:42px}body.vegas .vegas-player>img:not(.vegas-team-watermark){height:220px}body.vegas .vegas-player .vegas-price strong{font-size:29px}}
 
 body.vegas .vegas-player>img:not(.vegas-team-watermark){mask-image:radial-gradient(ellipse at 50% 35%,#000 28%,rgba(0,0,0,.92) 46%,transparent 73%);-webkit-mask-image:radial-gradient(ellipse at 50% 35%,#000 28%,rgba(0,0,0,.92) 46%,transparent 73%)}
+
+/* Keep team identity legible independently of decorative background artwork. */
+body.vegas .vegas-team-badge{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--ink);margin-top:9px}
+body.vegas .vegas-team-badge img{width:28px!important;height:28px!important;object-fit:contain;border-radius:50%;padding:4px;background:#eef0f3;margin:0;filter:none;opacity:1}
+body.vegas .vegas-player>img.vegas-team-watermark{opacity:.24;filter:grayscale(1) brightness(2.8);top:40px}
+body.vegas.light .vegas-player>img.vegas-team-watermark{filter:grayscale(1);opacity:.16}
+body.vegas .vegas-player.vegas-action>img:not(.vegas-team-watermark){object-fit:cover;object-position:center top;mask-image:linear-gradient(#000 0%,#000 68%,transparent 100%);-webkit-mask-image:linear-gradient(#000 0%,#000 68%,transparent 100%)}
+.vegas-photo-credits{display:block;padding:18px 0;color:var(--mut);font-size:11px;text-align:right}
+body.vegas .vegas-player.vegas-action>img:not(.vegas-team-watermark){width:180%;max-width:none;margin-left:-40%;clip-path:inset(0 22.222%);object-position:center top}

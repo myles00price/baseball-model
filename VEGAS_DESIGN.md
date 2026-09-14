@@ -39,3 +39,7 @@ Each entry may specify `src` under `assets/player-art/`, `approved: true`,
 and source/license notes. Only add approved artwork with verified reuse rights.
 An empty registry uses existing headshots; no third-party action photos are
 bundled. Gray-background photos are softened, not represented as true cutouts.
+
+
+## Action artwork correction
+Two sourced cutouts are installed: Aaron Judge (592450), Mookie Betts (605141). Other players retain headshots; this is not full roster action coverage. Provenance and derivative licenses are in player-art.json and photo-credits.html. Built-in imagegen was used with background-extraction prompts: extract only the named player and bat, remove background, preserve face/pose/uniform/equipment, transparent PNG, no invented pose. Files: assets/player-art/592450.png and assets/player-art/605141.png. Team badges are independent of watermarks. 2+ Hits now receives the same card treatment as 1+ Hits without changing its market or probability.

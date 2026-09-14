@@ -114,44 +114,57 @@
       list.forEach(x=>{const win=list.length>1&&payout(x.odds)===best;const tile=make('div','vegas-price'+(win?' best':''));tile.append(make('span','',x.book),make('strong','',(x.odds>0?'+':'')+x.odds));if(win)tile.append(make('small','','BEST PRICE'));box.append(tile);});return box;}
     let playerArt = {};
     function portrait(row) {
-      const img=row.querySelector('img:not(.vegas-team-watermark)');
+      const img=row.querySelector(':scope > img:not(.vegas-team-watermark)');
       if(!img)return;
-      const id=img.src.match(/people\/(\d+)\//)?.[1];
+      const id=row.dataset.playerId||img.src.match(/people\/(\d+)\//)?.[1];
       if(!id)return;
+      row.dataset.playerId=id;
+      const data=row.closest('#hr-body')?(typeof hrData!=='undefined'?hrData:null):row.closest('#k-body')?(typeof kData!=='undefined'?kData:null):(typeof hitData!=='undefined'?hitData:null);
+      const player=(row.closest('#hit2-body')?(data?.players2||[]):(data?.players||data?.pitchers||[])).find(p=>String(p.id)===id);
       const source=playerArt[id];
-      const fallback=img.src.replace(/w_\d+,q_\d+/, 'w_426,q_90');
       if(!img.dataset.original)img.dataset.original=img.src;
-      if(!img.dataset.fallback)img.dataset.fallback=fallback;
+      if(!img.dataset.fallback)img.dataset.fallback=img.src.replace(/w_\d+,q_\d+/, 'w_426,q_90');
       img.alt='';img.loading='lazy';img.decoding='async';
-      const custom=source&&source.approved===true&&typeof source.src==='string'&&source.src.startsWith('assets/player-art/');
+      const custom=source?.approved===true&&typeof source.src==='string'&&source.src.startsWith('assets/player-art/')&&!source.src.includes('..');
       const target=custom?new URL(source.src,assetBase).href:img.dataset.fallback;
-      if(img.src!==target){img.onerror=()=>{img.onerror=null;img.src=custom?img.dataset.fallback:img.dataset.original;};img.src=target;}
-      if(!row.querySelector('.vegas-team-watermark')&&typeof hrData!=='undefined'&&typeof hitData!=='undefined'){
-        const data=row.closest('#hr-body')?hrData:hitData;
-        const player=(data?.players||[]).find(p=>String(p.id)===id);
-        if(player&&typeof logo==='function'){
-          const mark=make('img','vegas-team-watermark');mark.src=logo(player.team);mark.alt='';mark.setAttribute('aria-hidden','true');mark.onerror=()=>mark.remove();row.prepend(mark);
+      if(img.src!==target){
+        const fallbacks=[img.dataset.fallback,img.dataset.original].filter(url=>url!==target);
+        img.onerror=()=>{row.classList.remove('vegas-action');const next=fallbacks.shift();if(next)img.src=next;else {img.onerror=null;img.style.visibility='hidden';}};
+        img.style.visibility='';row.classList.toggle('vegas-action',custom);img.src=target;
+      }
+      if(player&&typeof logo==='function'){
+        const info=row.querySelector('.vegas-player-info')||Array.from(row.children).find(x=>x.tagName==='DIV');
+        if(info&&!info.querySelector('.vegas-team-badge')){
+          const badge=make('span','vegas-team-badge');
+          const icon=make('img');icon.src=logo(player.team);icon.alt='';icon.onerror=()=>{icon.hidden=true;};
+          badge.append(icon,document.createTextNode(typeof AB!=='undefined'?(AB[player.team]||player.team):player.team));
+          badge.title=player.team;info.append(badge);
+        }
+        if(row.classList.contains('vegas-player')&&!row.querySelector('.vegas-team-watermark')){
+          const mark=make('img','vegas-team-watermark');mark.src=logo(player.team);mark.alt='';mark.setAttribute('aria-hidden','true');mark.onerror=()=>{mark.hidden=true;};row.prepend(mark);
         }
       }
     }
-    fetch(new URL('player-art.json',assetBase)).then(r=>r.ok?r.json():{}).then(data=>{playerArt=data.players||{};document.querySelectorAll('.vegas-player').forEach(portrait);}).catch(()=>{});
+    fetch(new URL('player-art.json?v=action-20260914',assetBase)).then(r=>r.ok?r.json():{}).then(data=>{playerArt=data.players||{};document.querySelectorAll('.vegas-player,#k-body>.ldr').forEach(portrait);}).catch(()=>{});
+    const credits=make('a','vegas-photo-credits','Player photo credits');credits.href=new URL('photo-credits.html',assetBase).href;frame.append(credits);
     function enhance(){
       renderRunline();
       syncProvenance();
       document.querySelectorAll('.sc-bar').forEach(b=>{if(b.textContent==="TONIGHT'S LEAN")b.textContent='LEAN · NOT LOCKED';});
       [['hrwatch','Home run projections ⓘ'],['hitwatch','Hit projections ⓘ'],['kwatch','Strikeout projections ⓘ']].forEach(([id,label])=>{const t=document.querySelector('#'+id+'>h2');if(t&&t.textContent!==label)t.textContent=label;});
       document.querySelectorAll('.sc-why:not([data-vegas])').forEach(el=>{el.dataset.vegas='1';const details=make('details','vegas-why');const summary=make('summary','','Why the model likes it');details.append(summary);while(el.firstChild)details.append(el.firstChild);el.append(details);});
-      document.querySelectorAll('#hr-body>.ldr:not([data-vegas]),#hit-body>.ldr:not([data-vegas])').forEach(row=>{
+      document.querySelectorAll('#hr-body>.ldr:not([data-vegas]),#hit-body>.ldr:not([data-vegas]),#hit2-body>.ldr:not([data-vegas])').forEach(row=>{
         row.dataset.vegas='1';row.classList.add('vegas-player');
         const info=Array.from(row.children).find(x=>x.tagName==='DIV');if(info)info.classList.add('vegas-player-info');
         const odds=row.querySelector('.hr-odds');const list=prices(odds?.textContent||'');
         if(list.length){row.append(tiles(list));odds.classList.add('vegas-odds-detail');Array.from(odds.childNodes).filter(n=>n.nodeType===3).forEach(n=>{n.textContent=n.textContent.replace(/\b(DK|MGM|CZR|FD)\s+[+-]\d+(?:\.\d+)?/g,'').replace(/(?:\s*·\s*){2,}/g,' · ').replace(/^\s*·\s*$/,' ');});}
-        const label=row.closest('#hr-body')?'MODEL HR PROBABILITY':'MODEL HIT PROBABILITY';
+        const label=row.closest('#hr-body')?'MODEL HR PROBABILITY':row.closest('#hit2-body')?'MODEL 2+ HITS PROBABILITY':'MODEL 1+ HIT PROBABILITY';
         row.querySelector('.v')?.append(make('small','vegas-prob-label',label));
         const more=make('span','vegas-more','Player analysis ↗');row.append(more);
         portrait(row);
         row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-expanded',row.querySelector('.hd-caret')?.textContent==='▴'?'true':'false');row.setAttribute('aria-label',(info?.firstElementChild?.textContent||'Player')+' — view analysis');row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.click();}});
       });
+      document.querySelectorAll('#k-body>.ldr:not([data-portrait])').forEach(row=>{row.dataset.portrait='1';portrait(row);});
       document.querySelectorAll('.sc-line:not([data-vegas])').forEach(el=>{
         el.dataset.vegas='1';const list=prices(el.textContent);if(!list.length)return;
         const text=el.textContent;el.textContent=text.split(/\s*·\s*DK\s/)[0];el.after(tiles(list));
