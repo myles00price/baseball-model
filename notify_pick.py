@@ -117,12 +117,13 @@ def lv_today():
 
 def get_confirmed_games(date_str):
     """Games today where BOTH lineups are posted. Returns list of dicts."""
-    data = requests.get(
+    response = requests.get(
         "https://statsapi.mlb.com/api/v1/schedule",
         params={"sportId": 1, "date": date_str, "hydrate": "lineups"},
         timeout=15,
     )
-    response.raise_for_status().json()
+    response.raise_for_status()
+    data = response.json()
     games = []
     for d in data.get("dates", []):
         for g in d.get("games", []):
