@@ -27,3 +27,15 @@ Regression checks performed with local pages and actual published data:
 
 These are presentation checks, not a revalidation of the models or historical data.
 `mlb_model_vault.html` is a separate archived artifact and is not restyled.
+
+## Portrait edition
+
+MLB hit and home-run views use two desktop columns, soft CSS portrait masks,
+team-logo watermarks, and 426px MLB headshots (original small image fallback).
+Player details, probabilities, and book-price comparisons remain unchanged.
+
+`player-art.json` is an optional local-art registry keyed by MLB player ID.
+Each entry may specify `src` under `assets/player-art/`, `approved: true`,
+and source/license notes. Only add approved artwork with verified reuse rights.
+An empty registry uses existing headshots; no third-party action photos are
+bundled. Gray-background photos are softened, not represented as true cutouts.
