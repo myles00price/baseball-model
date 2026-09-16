@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BOARD — NCAAM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--phos:#2bff64;--phos-dim:#1f7a3d;--amber:#ffb000;--hot:#ff2020;--gold:#c9992b;--ink:#f2f2f2;--mut:#5c5c5c;--line:#1c1c1c}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;min-height:100%}
+body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.5vw,40px) 40px}
+.frame{max-width:min(96vw,3200px);margin:0 auto}
+.paper{background:#140b00;border:1px solid #3a2600;color:var(--amber);font-family:'VT323',monospace;font-size:18px;padding:10px 16px;margin-bottom:12px;letter-spacing:.05em}
+.recbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-bottom:12px}
+.recbox .cell{background:#0a0a0a;border:1px solid var(--line);padding:10px 12px}
+.recbox .cell b{display:block;font-family:'VT323',monospace;font-size:26px;color:var(--phos);line-height:1}
+.recbox .cell span{display:block;font-family:'VT323',monospace;font-size:12.5px;color:var(--mut);margin-top:4px;letter-spacing:.05em}
+.recbox .cell.dead b{color:var(--hot)}
+.banner{background:#0a0a0a;border:1px solid var(--line);border-left:3px solid var(--amber);padding:12px 18px;margin-bottom:14px}
+.banner b{font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;color:var(--amber);font-size:19px}
+.banner p{font-size:13.5px;color:#b5b5b5;line-height:1.6;margin-top:6px;max-width:1100px}
+.bigsect{background:#0a0a0a;border:1px solid var(--line);padding:12px 14px;margin-bottom:14px}
+.bigsect h2{font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;font-size:20px;color:var(--amber);margin-bottom:8px}
+.note{font-family:'VT323',monospace;font-size:15px;color:var(--mut);line-height:1.55;max-width:1100px}
+.evt{font-family:'Bebas Neue',sans-serif;letter-spacing:.18em;font-size:19px;color:var(--amber);margin:2px 0 4px}
+.evt span{font-family:'VT323',monospace;letter-spacing:.04em;font-size:14px;color:var(--mut)}
+.hintline{font-family:'VT323',monospace;font-size:13.5px;color:var(--mut);line-height:1.5;margin-bottom:8px;max-width:1200px}
+table.card{width:100%;border-collapse:collapse;background:#0a0a0a;border:1px solid var(--line)}
+table.card th{font-family:'VT323',monospace;font-size:13px;color:var(--mut);font-weight:400;text-align:right;padding:6px 8px;letter-spacing:.06em;border-bottom:1px solid #262626;white-space:nowrap}
+table.card th.l{text-align:left}
+table.card td{padding:6px 8px;text-align:right;border-top:1px solid #141414;font-family:'VT323',monospace;font-size:17px;white-space:nowrap}
+table.card td.m{text-align:left;font-family:'Oswald',sans-serif;font-size:14px;color:#cfcfcf}
+table.card td.bk{color:#8a8a8a}
+table.card td.lean{text-align:left;color:#cfcfcf}
+table.card tr.dim td{opacity:.55}
+table.card tr.day td{text-align:left;color:var(--amber);font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:.2em;border-top:1px solid #262626;padding-top:10px}
+.neu{color:var(--mut);font-family:'VT323',monospace;font-size:11.5px;border:1px solid #333;padding:0 4px;margin-left:6px;vertical-align:2px}
+.upd{border-top:1px solid var(--line);padding:8px 0;cursor:pointer}
+.upd .ud{font-family:'VT323',monospace;color:var(--mut);margin-right:10px}
+.upd .ut{font-family:'Bebas Neue',sans-serif;letter-spacing:.12em;font-size:16px}
+.upd .ux{display:none;font-size:13.5px;color:#b5b5b5;line-height:1.55;margin-top:6px;max-width:1100px}
+.upd.open .ux{display:block}
+.foot{margin-top:18px;font-family:'VT323',monospace;font-size:14px;color:var(--mut);line-height:1.6}
+@media(max-width:900px){table.card td.m .tm{display:block}}
+body.light{--phos:#0a7a34;--amber:#a35600;--gold:#8a6410;--hot:#c41414;--ink:#14171c;--mut:#8a8272;--line:#d8d2c2;background:#efece0;color:#14171c}
+body.light .paper{background:#fbf3e4;border-color:#e2c99a}
+body.light .recbox .cell,body.light .banner,body.light .bigsect,body.light table.card{background:#f7f4ec;border-color:var(--line)}
+body.light .banner p,body.light .note,body.light .upd .ux{color:#4a463c}
+body.light table.card td{border-color:#e6e0d0}
+body.light table.card td.m,body.light table.card td.lean{color:#3b3830}
+body.light table.card td.bk{color:#4a463c}
+body.light table.card tr.day td,body.light table.card th{border-color:#d8d2c2}
+</style>
+</head>
+<body><div class="frame">
+  <div id="shell"></div>
+  <script>window.SHELL={sport:'ncaam',accent:'NCAAM',sub:'2026-27 · PAPER · REFERENCE ONLY',ownUI:true}</script>
+  <script src="shell.js?v=locked-20260915"></script>
+
+  <div class="paper">■ PAPER — reference numbers, not plays. Our spread and total for every game between two Division I teams,
+  next to the books at the moment we logged them, then graded in public against the last line we recorded before tip.
+  Nothing is bet, nothing is texted.</div>
+
+  <div class="recbox">
+    <div class="cell dead"><b>NO EDGE</b><span>SAID FIRST, NOT LAST &middot; THE MARKET BEAT THIS MODEL OVER 11,508 GAMES</span></div>
+    <div class="cell"><b>0.93 PTS</b><span>BEHIND THE CLOSING SPREAD ON ACCURACY (AVG MISS 9.65 vs 8.71, 2024-26, n=11,508)</span></div>
+    <div class="cell"><b>50.1%</b><span>SIDES vs THE CLOSE, EVERY GAME (n=11,508) &mdash; -4.85 SE FROM BREAK-EVEN, WHICH IS WORSE THAN A COIN FLIP AFTER THE VIG</span></div>
+    <div class="cell dead"><b>0 OF 15</b><span>HYPERPARAMETER SETTINGS THAT BEAT BREAK-EVEN BY 2 STANDARD ERRORS &mdash; THE VERDICT IS NOT A TUNING ARTEFACT</span></div>
+    <div class="cell"><b>0.35 PTS</b><span>HOW CLOSE IT GETS AT ITS MOST ACCURATE SETTING &mdash; AND IT STILL GOES 49.8% AGAINST THE SPREAD</span></div>
+    <div class="cell dead"><b>NOTHING TEXTED</b><span>THIS MODEL NEVER REACHES THE TEXT LIST &middot; PAPER SEASON &middot; NUMBERS ONLY</span></div>
+  </div>
+
+  <div class="banner">
+    <b>REFERENCE NUMBERS — NOT PLAYS</b>
+    <p>This page exists because the model was tested honestly and lost. Before a single number went up it was run
+    walk-forward across three past seasons &mdash; ratings rebuilt every week from games played
+    <i>before</i> the date being predicted, never after &mdash; and graded against 11,508 real closing spreads.
+    The closing line was more accurate by about a point, and betting our disagreement with it won
+    50.1% of the time, which loses money at standard juice. Fifteen different settings of the model's two
+    dials were tried; none of them beat break-even. So: <b>the numbers go up, the plays do not, and nothing
+    here is ever texted.</b> The most useful thing on this page is the fifth tile. At its sharpest the model
+    lands within a third of a point of the closing line's accuracy and <i>still</i> cannot beat it. That is what
+    a market that has already priced everything public looks like from the inside, and it is worth showing.
+    LEAN = the side our number favors against the book's line and by how many points. Rows marked WIDE
+    disagree by eight points or more; they are shown, not trusted.</p>
+  </div>
+
+  <div class="evt">PRESEASON · 2026-27 <span>&middot; first card when Division I tips in November</span></div>
+  <p class="hintline">OUR SPREAD and BOOK are the home team's number (minus = home favored) &middot; OUR TOTAL and the book
+  total are points in the game &middot; LEAN shows which side our number favors and the size of the gap &middot;
+  N = neutral site &middot; missing book cells mean no line was posted when we logged &middot; PAPER — nothing here is a pick.</p>
+  <div class='bigsect'><h2>THE CARD</h2><div class='note'>No card yet. Division I does not tip until November, and this page will not invent a slate to look busy. When the season starts, every game between two D-I teams gets our spread and total here before tip, beside the books as they stood when we logged them, graded in public afterwards.</div></div>
+
+  <div class='bigsect'><h2>THE LEDGER</h2><div class='note'>Empty until the first card is graded. Every number this page posts gets graded against the last line we recorded before tip, win or lose, and the first number logged for a game is the one graded.</div></div>
+  <div class='bigsect'><h2>MODEL UPDATES</h2><div class='note' style='padding-bottom:6px'>every change to this model, in plain English, newest first &mdash; tap to expand</div><div class='upd' onclick="this.classList.toggle('open')"><span class='ud'>2026-09-15</span><span class='ut'>NCAAM GOES UP AS NUMBERS ONLY - THE MARKET BEAT IT, AND HERE IS THE PROOF</span><div class='ux'>College basketball joins the board tonight, and it joins it losing. The honest summary first: across 11,508 games with a real closing spread, our number missed the final margin by 9.65 points on average and the closing line missed by 8.71. The market was better by about a point, and betting our disagreement with it won 50.1% of the time - which loses money once you pay the vig. So this is a reference page. Numbers go up, plays do not, and nothing from this model will ever reach the text list. Some history, because it matters. This model used to live in a spreadsheet, and that spreadsheet claimed a 57% record - and, stranger, 78% on away teams against 43% on home teams. That 35-point gap is not something a basketball model can do; it was a bookkeeping artefact. The old tracker wrote a row for BOTH sides of every game, more than half the rows were never graded at all, and nothing anywhere recorded which side had actually been bet. So the 57% was really measuring which rows someone happened to type a result into. Re-graded properly from final scores - one row per bet, graded mechanically - it was 54.7%, on 446 games, which is not far enough above break-even to call anything. That is why the whole thing was rebuilt and retested from scratch rather than simply moved across. The rebuild was tested the way everything on this site is tested: walk-forward, meaning the team ratings used to predict any given game are built only from games played BEFORE it, never after. That distinction is the whole ballgame. Using end-of-season ratings to &#x27;predict&#x27; that same season is the single easiest way to produce a model that looks brilliant and is worthless, and it is the trap most published basketball systems fall into. We also tried fifteen different settings of the model&#x27;s two dials to make sure the answer was not just a bad choice of knob. None of them beat break-even. Not one. The most interesting number on the page is the one that looks least dramatic. At its sharpest setting the model gets within a third of a point of the closing line&#x27;s accuracy - genuinely close - and still cannot beat it. That is what it looks like when a market has already priced in everything that is publicly knowable. The remaining gap is not a flaw we can engineer away; it is the part of a basketball game that nobody predicts. Worth seeing from the inside, which is why the page exists at all. What is still open: totals have not been tested here yet, and neither has the opening line, which in college football is the one place this site has ever found a real signal. Those get done before the season tips in November. If either clears the bar, it will say so here first - and if it does not, this page will keep saying no edge in large friendly letters.</div></div></div>
+
+  <div class="foot">Generated 2026-09-15 9:54 PM ET · ncaam-model · paper season · the first number logged for each game is the one graded; later refreshes update the card, never the ledger.</div>
+</div></body></html>
