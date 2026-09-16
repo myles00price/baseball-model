@@ -162,3 +162,20 @@ body.vegas .vegas-lock-card.is-lean{border-color:#525968}.vegas-lock-card.is-lea
 @media(max-width:900px){body.vegas #sc-grid{grid-template-columns:1fr}}
 @media(max-width:430px){body.vegas .vegas-lock-main{grid-template-columns:42% 58%;min-height:265px}body.vegas .vegas-lock-info h3{font-size:23px}body.vegas .vegas-lock-info{padding-right:14px}body.vegas .vegas-lock-price strong{font-size:34px}}
 body.vegas .vegas-lock-headshot{object-fit:contain;mask-image:radial-gradient(ellipse at 50% 40%,#000 25%,transparent 72%);-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 25%,transparent 72%)}
+
+/* Modern prop results */
+body.vegas .vegas-player.vegas-result{padding-top:62px;border:1px solid #487963;box-shadow:inset 0 1px 0 #91d5b41a;background:linear-gradient(130deg,#202d29,#121719 75%)}
+body.vegas .vegas-prop-result{position:absolute;top:0;left:0;right:0;z-index:3;min-height:36px;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:5px 12px;border-bottom:1px solid #78cfa52e;background:linear-gradient(90deg,#2c614640,#1a302b40);color:#a4e1bf;font:700 10px/1.4 Arial,Helvetica,sans-serif;letter-spacing:1px;text-shadow:none;animation:none}
+body.vegas .vegas-prop-result span{font-size:9px;font-weight:500;letter-spacing:.7px;color:#a9bfb3}
+body.vegas .vegas-player.vegas-result>.hr-rank{top:46px}
+body.vegas .vegas-player.vegas-result>.vegas-team-watermark{top:74px}
+body.vegas .vegas-player.vegas-result>.v,body.vegas .vegas-result .vegas-player-info>div:first-child{color:var(--ink);text-shadow:none;animation:none}
+body.vegas .vegas-player.vegas-result-miss{border-color:#795658;background:linear-gradient(130deg,#2d2427,#171417 75%)}
+body.vegas .vegas-result-miss .vegas-prop-result{color:#e6b0b4;background:#61343b30;border-color:#bc737630}
+body.vegas .vegas-result-miss .vegas-prop-result span{color:#c7b3b5}
+body.vegas.light .vegas-player.vegas-result-hit{background:linear-gradient(130deg,#f1f8f3,#fff);border-color:#91b59e}
+body.vegas.light .vegas-prop-result{color:#235b3e;background:#e1eee5;border-color:#a9c5b2}
+body.vegas.light .vegas-prop-result span{color:#496453}
+body.vegas.light .vegas-player.vegas-result-miss{background:#fff8f8;border-color:#cda7aa}
+body.vegas.light .vegas-result-miss .vegas-prop-result{background:#f5e7e8;color:#853c45}
+@media(max-width:430px){body.vegas .vegas-player.vegas-result{padding-top:76px}body.vegas .vegas-player.vegas-result>.hr-rank{top:61px}body.vegas .vegas-prop-result{padding:10px 13px;min-height:49px}}

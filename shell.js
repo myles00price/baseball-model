@@ -23,10 +23,10 @@
   document.head.appendChild(shared);
   var vegasStyle = document.createElement("link");
   vegasStyle.rel = "stylesheet";
-  vegasStyle.href = new URL("vegas.css?v=locked-20260915", document.currentScript.src).href;
+  vegasStyle.href = new URL("vegas.css?v=results-20260915", document.currentScript.src).href;
   document.head.appendChild(vegasStyle);
   var vegasScript = document.createElement("script");
-  vegasScript.src = new URL("vegas.js?v=locked-20260915", document.currentScript.src).href;
+  vegasScript.src = new URL("vegas.js?v=results-20260915", document.currentScript.src).href;
   document.head.appendChild(vegasScript);
 
   var SPORTS = [

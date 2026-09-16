@@ -218,6 +218,17 @@
         row.querySelector('.v')?.append(make('small','vegas-prob-label',label));
         const more=make('span','vegas-more','Player analysis ↗');row.append(more);
         portrait(row);
+        const resultFlag=row.querySelector('.hr-flag');
+        if(resultFlag){
+          const missed=resultFlag.classList.contains('miss');
+          const hr=!!row.closest('#hr-body'),two=!!row.closest('#hit2-body');
+          const count=Number(resultFlag.textContent.match(/\d+/)?.[0]||1);
+          const result=make('div','vegas-prop-result');
+          result.append(make('strong','',missed?'FINAL · NOT HIT':hr?'✓ HOME RUN HIT':two?'✓ 2+ HITS RECORDED':'✓ HIT RECORDED'),make('span','',count+' '+(hr?'HR':count===1?'HIT':'HITS')+' · DISPLAY ONLY'));
+          row.classList.add('vegas-result',missed?'vegas-result-miss':'vegas-result-hit');
+          row.classList.remove('cash','hr-hit','k-miss');
+          resultFlag.remove();row.prepend(result);
+        }
         row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-expanded',row.querySelector('.hd-caret')?.textContent==='▴'?'true':'false');row.setAttribute('aria-label',(info?.firstElementChild?.textContent||'Player')+' — view analysis');row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.click();}});
       });
       document.querySelectorAll('#k-body>.ldr:not([data-portrait])').forEach(row=>{row.dataset.portrait='1';portrait(row);});
