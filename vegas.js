@@ -182,7 +182,7 @@
         }else if(typeof roster!=='undefined'&&roster){
           const belongs=id=>roster.some(p=>String(p.id)===String(id)&&Number(p.t)===Number(TID[team]));
           const hitter=hitters.filter(p=>p.team===team&&belongs(p.id)).sort((a,b)=>Number(b.p)-Number(a.p))[0];
-          const starter=roster.find(p=>p.n===r[label+' SP']&&Number(p.t)===Number(TID[team]));
+          const starter=roster.find(p=>r[label+' SP']&&p.n===r[label+' SP']&&Number(p.t)===Number(TID[team]));
           const person=hitter||starter;
           if(person){const img=make('img','vegas-lock-player vegas-lock-headshot');img.src=mug(person.id).replace(/w_\d+,q_\d+/,'w_426,q_90');img.alt=person.name||person.n;img.decoding='async';const caption=make('span','vegas-lock-caption',(hitter?'FEATURED · ':'STARTER · ')+(person.name||person.n));img.onerror=()=>{img.hidden=true;caption.hidden=true;};art.append(img,caption);}
         }
