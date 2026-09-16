@@ -1,7 +1,7 @@
 {
  "date": "2026-09-16",
- "generated": "2026-09-16T19:16:20Z",
- "lineups_confirmed": 6,
+ "generated": "2026-09-16T19:46:14Z",
+ "lineups_confirmed": 8,
  "players": [
   {
    "id": 700250,
@@ -32,6 +32,34 @@
    "fair": "+302"
   },
   {
+   "id": 656941,
+   "name": "Kyle Schwarber",
+   "team": "Philadelphia Phillies",
+   "opp": "Washington Nationals",
+   "home": false,
+   "pk": 822680,
+   "opp_sp": "Jared Simpson",
+   "opp_sp_id": 688692,
+   "p": 23.5,
+   "hr": 45,
+   "pa": 650,
+   "exp_pa": 4.7,
+   "f_bat": 1.87,
+   "f_platoon": 1.05,
+   "f_arsenal": 1.0,
+   "f_pit": 0.98,
+   "f_park": 1.0,
+   "f_wind": 1.14,
+   "f_temp": 1.05,
+   "wind": "HOT 83F \u00b7 WIND 7 OUT",
+   "odds": {
+    "dk": 311,
+    "mgm": 240,
+    "czr": 290
+   },
+   "fair": "+326"
+  },
+  {
    "id": 621566,
    "name": "Matt Olson",
    "team": "Atlanta Braves",
@@ -53,39 +81,11 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 410,
-    "czr": 390,
-    "mgm": 350
+    "dk": 397,
+    "mgm": 340,
+    "czr": 390
    },
    "fair": "+327"
-  },
-  {
-   "id": 656941,
-   "name": "Kyle Schwarber",
-   "team": "Philadelphia Phillies",
-   "opp": "Washington Nationals",
-   "home": false,
-   "pk": 822680,
-   "opp_sp": "Jared Simpson",
-   "opp_sp_id": 688692,
-   "p": 22.8,
-   "hr": 45,
-   "pa": 650,
-   "exp_pa": 4.5,
-   "f_bat": 1.87,
-   "f_platoon": 1.05,
-   "f_arsenal": 1.0,
-   "f_pit": 0.98,
-   "f_park": 1.0,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 332,
-    "czr": 305,
-    "mgm": 240
-   },
-   "fair": "+339"
   },
   {
    "id": 696100,
@@ -109,7 +109,7 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "mgm": 230
+    "mgm": 210
    },
    "fair": "+344"
   },
@@ -135,9 +135,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 413,
-    "czr": 390,
-    "mgm": 275
+    "dk": 393,
+    "mgm": 280,
+    "czr": 390
    },
    "fair": "+350"
   },
@@ -198,34 +198,6 @@
    "fair": "+357"
   },
   {
-   "id": 695578,
-   "name": "James Wood",
-   "team": "Washington Nationals",
-   "opp": "Philadelphia Phillies",
-   "home": true,
-   "pk": 822680,
-   "opp_sp": "Zack Wheeler",
-   "opp_sp_id": 554430,
-   "p": 19.9,
-   "hr": 30,
-   "pa": 581,
-   "exp_pa": 4.6,
-   "f_bat": 1.46,
-   "f_platoon": 1.13,
-   "f_arsenal": 1.01,
-   "f_pit": 1.05,
-   "f_park": 1.0,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 332,
-    "czr": 320,
-    "mgm": 340
-   },
-   "fair": "+403"
-  },
-  {
    "id": 670541,
    "name": "Yordan Alvarez",
    "team": "Houston Astros",
@@ -247,7 +219,7 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 341,
+    "dk": 333,
     "mgm": 350,
     "czr": 330
    },
@@ -275,9 +247,9 @@
    "f_temp": 1.0,
    "wind": "ROOF",
    "odds": {
-    "mgm": 270,
     "dk": 301,
-    "czr": 305
+    "mgm": 270,
+    "czr": 290
    },
    "fair": "+415"
   },
@@ -304,8 +276,8 @@
    "wind": "",
    "odds": {
     "dk": 353,
-    "czr": 350,
-    "mgm": 300
+    "mgm": 300,
+    "czr": 330
    },
    "fair": "+432"
   },
@@ -331,8 +303,8 @@
    "f_temp": 1.02,
    "wind": "WIND 7 IN",
    "odds": {
-    "mgm": 310,
-    "dk": 424,
+    "dk": 409,
+    "mgm": 325,
     "czr": 400
    },
    "fair": "+432"
@@ -387,39 +359,67 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 640,
-    "czr": 625,
-    "mgm": 500
+    "dk": 660,
+    "mgm": 475,
+    "czr": 575
    },
    "fair": "+441"
   },
   {
-   "id": 682928,
-   "name": "CJ Abrams",
-   "team": "Washington Nationals",
-   "opp": "Philadelphia Phillies",
+   "id": 672960,
+   "name": "Kazuma Okamoto",
+   "team": "Toronto Blue Jays",
+   "opp": "Detroit Tigers",
    "home": true,
-   "pk": 822680,
-   "opp_sp": "Zack Wheeler",
-   "opp_sp_id": 554430,
+   "pk": 822763,
+   "opp_sp": "Keider Montero",
+   "opp_sp_id": 672456,
    "p": 18.1,
-   "hr": 30,
-   "pa": 613,
-   "exp_pa": 4.3,
-   "f_bat": 1.41,
-   "f_platoon": 1.16,
-   "f_arsenal": 0.92,
-   "f_pit": 1.05,
+   "hr": 33,
+   "pa": 596,
+   "exp_pa": 4.2,
+   "f_bat": 1.55,
+   "f_platoon": 1.07,
+   "f_arsenal": 1.05,
+   "f_pit": 0.98,
+   "f_park": 1.01,
+   "f_wind": 1.1,
+   "f_temp": 1.01,
+   "wind": "WIND 5 OUT",
+   "odds": {
+    "dk": 369,
+    "mgm": 300,
+    "czr": 370
+   },
+   "fair": "+452"
+  },
+  {
+   "id": 660670,
+   "name": "Ronald Acu\u00f1a Jr.",
+   "team": "Atlanta Braves",
+   "opp": "Chicago Cubs",
+   "home": false,
+   "pk": 824626,
+   "opp_sp": "Shota Imanaga",
+   "opp_sp_id": 684007,
+   "p": 18.0,
+   "hr": 18,
+   "pa": 436,
+   "exp_pa": 4.4,
+   "f_bat": 1.21,
+   "f_platoon": 0.99,
+   "f_arsenal": 0.93,
+   "f_pit": 1.19,
    "f_park": 1.0,
    "f_wind": 1.0,
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 420,
-    "czr": 400,
-    "mgm": 390
+    "dk": 434,
+    "mgm": 350,
+    "czr": 400
    },
-   "fair": "+452"
+   "fair": "+456"
   }
  ]
 }
