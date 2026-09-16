@@ -132,3 +132,32 @@ body.vegas .vegas-player.vegas-action>img:not(.vegas-team-watermark){object-fit:
 .vegas-photo-credits{display:block;padding:18px 0;color:var(--mut);font-size:11px;text-align:right}
 body.vegas .vegas-player.vegas-action>img:not(.vegas-team-watermark){width:180%;max-width:none;margin-left:-40%;clip-path:inset(0 22.222%);object-position:center top}
 body.vegas .vegas-player.vegas-action[data-player-id="592450"]>img:not(.vegas-team-watermark){width:140%;margin-left:-20%;clip-path:inset(0 14.285%)}
+
+/* Official moneyline tickets: decorative art never replaces selection data. */
+body.vegas #sc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+body.vegas .vegas-lock-card{overflow:hidden;border:1px solid #8f7644;border-radius:16px;background:linear-gradient(125deg,#202329,#111318 75%);color:#f5f1e8;box-shadow:0 14px 38px #0003;min-width:0}
+body.vegas .vegas-lock-status{padding:14px 20px;border-bottom:1px solid #d8bc7133;color:#e9ce8b;font-size:11px;letter-spacing:2px;font-weight:800;background:linear-gradient(90deg,#b9923930,transparent)}
+body.vegas .vegas-lock-main{display:grid;grid-template-columns:44% 56%;min-height:285px}
+body.vegas .vegas-lock-art{position:relative;min-width:0;overflow:hidden}
+body.vegas .vegas-lock-watermark{position:absolute;width:88%;height:210px;object-fit:contain;top:30px;left:6%;opacity:.22;filter:grayscale(1) brightness(2.5)}
+body.vegas .vegas-lock-player{position:absolute;width:115%;max-width:none;height:100%;object-fit:cover;object-position:center top;left:-7.5%;top:8px;mask-image:linear-gradient(#000 65%,transparent 98%);-webkit-mask-image:linear-gradient(#000 65%,transparent 98%)}
+body.vegas .vegas-lock-caption{position:absolute;bottom:10px;left:15px;right:8px;color:#c3b9a6;font-size:9px;letter-spacing:1px;text-shadow:0 1px 6px #000}
+body.vegas .vegas-lock-info{position:relative;padding:24px 20px 20px 6px;min-width:0}
+body.vegas .vegas-lock-team{width:33px;height:33px;object-fit:contain;float:right;background:#eee;border-radius:50%;padding:4px;margin-left:8px}
+body.vegas .vegas-lock-market{font-size:10px;color:#c0b39a;letter-spacing:1.5px;display:block;padding:6px 0 10px}
+body.vegas .vegas-lock-info h3{font-family:inherit;font-size:26px;line-height:1.1;margin:5px 0 12px;color:#fff;font-weight:800}
+body.vegas .vegas-lock-matchup{font-size:11px;line-height:1.5;color:#aeb1bb;margin:0}
+body.vegas .vegas-lock-price{margin-top:19px;display:flex;flex-direction:column;gap:5px}
+body.vegas .vegas-lock-price strong{font-size:38px;line-height:1;color:#ebd398;font-variant-numeric:tabular-nums}
+body.vegas .vegas-lock-price span{font-size:9px;letter-spacing:1px;color:#b9b5ad}
+body.vegas .vegas-lock-model{font-size:11px;color:#d0d2d8;margin:12px 0 0}
+body.vegas .vegas-lock-stats{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #ffffff12;border-bottom:1px solid #ffffff12;background:#0002;padding:16px 20px;gap:12px}
+body.vegas .vegas-lock-stats small{display:block;color:#aaa7a0;font-size:9px;letter-spacing:1.3px;margin-bottom:7px}
+body.vegas .vegas-lock-stats strong{font-size:23px;color:#f1deb0;font-variant-numeric:tabular-nums}
+body.vegas .vegas-lock-details{padding:0 20px 15px;color:#c7c9d0;font-size:12px;line-height:1.6}
+body.vegas .vegas-lock-details summary{cursor:pointer;margin-top:15px;padding:10px 14px;border:1px solid #bd99575c;border-radius:7px;color:#e5cd98;font-weight:700;list-style-position:inside}
+body.vegas .vegas-lock-details summary:focus-visible{outline:2px solid #ebd398;outline-offset:3px}
+body.vegas .vegas-lock-note{color:#9fa4ae;font-size:11px}
+body.vegas .vegas-lock-card.is-lean{border-color:#525968}.vegas-lock-card.is-lean .vegas-lock-status{color:#b3bccd;background:#ffffff08}
+@media(max-width:900px){body.vegas #sc-grid{grid-template-columns:1fr}}
+@media(max-width:430px){body.vegas .vegas-lock-main{grid-template-columns:42% 58%;min-height:265px}body.vegas .vegas-lock-info h3{font-size:23px}body.vegas .vegas-lock-info{padding-right:14px}body.vegas .vegas-lock-price strong{font-size:34px}}

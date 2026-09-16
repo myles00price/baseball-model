@@ -125,7 +125,7 @@
       if(!img.dataset.original)img.dataset.original=img.src;
       if(!img.dataset.fallback)img.dataset.fallback=img.src.replace(/w_\d+,q_\d+/, 'w_426,q_90');
       img.alt='';img.loading='lazy';img.decoding='async';
-      const custom=source?.approved===true&&typeof source.src==='string'&&source.src.startsWith('assets/player-art/')&&!source.src.includes('..');
+      const custom=source?.approved===true&&(!player||source.team===player.team)&&typeof source.src==='string'&&source.src.startsWith('assets/player-art/')&&!source.src.includes('..');
       const target=custom?new URL(source.src,assetBase).href:img.dataset.fallback;
       if(img.src!==target){
         const fallbacks=[img.dataset.fallback,img.dataset.original].filter(url=>url!==target);
@@ -145,9 +145,58 @@
         }
       }
     }
-    fetch(new URL('player-art.json?v=action-20260914',assetBase)).then(r=>r.ok?r.json():{}).then(data=>{playerArt=data.players||{};document.querySelectorAll('.vegas-player,#k-body>.ldr').forEach(portrait);}).catch(()=>{});
+    fetch(new URL('player-art.json?v=locked-20260915',assetBase)).then(r=>r.ok?r.json():{}).then(data=>{playerArt=data.players||{};renderFeaturedPlays();renderFeaturedPlays();document.querySelectorAll('.vegas-player,#k-body>.ldr').forEach(portrait);}).catch(()=>{});
     const credits=make('a','vegas-photo-credits','Player photo credits');credits.href=new URL('photo-credits.html',assetBase).href;frame.append(credits);
+    // A notified key alone is not a bet: the notifier also records skipped games.
+    let featuredSignature='';
+    function renderFeaturedPlays(){
+      if(sport!=='mlb'||typeof picks==='undefined'||typeof locked==='undefined')return;
+      const grid=document.getElementById('sc-grid');if(!grid)return;
+      const rows=picks.filter(r=>String(r.Flag||'').includes('BET')&&flagged_side_js(r));
+      const signature=JSON.stringify([rows,Array.from(locked),liveMap,playerArt,typeof roster!=='undefined'?roster:null]);
+      if(signature===featuredSignature&&grid.querySelector('.vegas-lock-card'))return;
+      if(!rows.length)return;
+      featuredSignature=signature;
+      const fragment=document.createDocumentFragment();
+      const money=n=>n.toLocaleString('en-US',{style:'currency',currency:'USD'});
+      rows.forEach(r=>{
+        const side=flagged_side_js(r),label=side==='away'?'Away':'Home',team=r[label];
+        const gn=parseInt(r['Game#']||'1')||1,key=r.Away+'@'+r.Home+(gn>1?'#'+gn:'');
+        const isLocked=locked.has(key),odds=Number(r['DK '+label+' Odds']);
+        const valid=Number.isFinite(odds)&&Math.abs(odds)>=100;
+        const lv=r.GamePk?Object.values(liveMap).find(v=>String(v.pk)===String(r.GamePk))||{}:liveMap[key]||{};
+        const final=isLocked&&lv.state==='Final'&&lv.as!=null&&lv.hs!=null&&lv.as!==lv.hs;
+        const won=final&&(side==='away'?lv.as>lv.hs:lv.hs>lv.as);
+        const card=make('article','vegas-lock-card'+(isLocked?' is-locked':' is-lean'));
+        const badge=make('div','vegas-lock-status',final?(won?'✓ LOCKED · CASHED':'LOCKED · LOST'):isLocked?'▣ LOCKED · OFFICIAL PLAY':'LEAN · NOT LOCKED');
+        card.append(badge);
+        const main=make('div','vegas-lock-main'),art=make('div','vegas-lock-art');
+        const mark=make('img','vegas-lock-watermark');mark.src=logo(team);mark.alt='';mark.onerror=()=>mark.hidden=true;art.append(mark);
+        // Current roster membership prevents old-uniform artwork representing a new team.
+        const candidate=Object.entries(playerArt).filter(([id,a])=>a.approved===true&&a.team===team&&a.src?.startsWith('assets/player-art/')&&!a.src.includes('..')&&typeof roster!=='undefined'&&roster?.some(p=>String(p.id)===id&&Number(p.t)===Number(TID[team]))).sort((a,b)=>(a[1].featurePriority||99)-(b[1].featurePriority||99))[0];
+        if(candidate){
+          const [id,a]=candidate,img=make('img','vegas-lock-player');img.src=new URL(a.src,assetBase).href;img.alt=a.name;img.decoding='async';
+          img.onerror=()=>{img.hidden=true;caption.hidden=true;};
+          art.append(img);const caption=make('span','vegas-lock-caption','FEATURED · '+a.name);art.append(caption);
+        }
+        const info=make('div','vegas-lock-info'),teamBadge=make('img','vegas-lock-team');teamBadge.src=logo(team);teamBadge.alt='';teamBadge.onerror=()=>teamBadge.hidden=true;
+        info.append(teamBadge,make('small','vegas-lock-market','MLB · MONEYLINE'),make('h3','',team),make('p','vegas-lock-matchup',r.Away+' @ '+r.Home+(gn>1?' · Game '+gn:'')));
+        const price=make('div','vegas-lock-price');price.append(make('strong','',valid?(odds>0?'+':'')+odds:'Unavailable'),make('span','',isLocked?'SAVED DRAFTKINGS PRICE':'DRAFTKINGS SNAPSHOT'));info.append(price);
+        const probability=parseFloat(r['Model '+label+'%']);if(Number.isFinite(probability))info.append(make('p','vegas-lock-model','Model probability '+probability.toFixed(1)+'%'));
+        main.append(art,info);card.append(main);
+        const stats=make('div','vegas-lock-stats');
+        const stat=(title,value)=>{const e=make('div');e.append(make('small','',title),make('strong','',value));return e;};
+        const win=valid?(odds>0?odds:10000/-odds):null;
+        stats.append(stat(isLocked?'MODEL TRACKED STAKE':'ILLUSTRATIVE STAKE','$100.00'),stat(final?'TRACKED RESULT':'POTENTIAL PROFIT',win===null?'Unavailable':final?(won?'+'+money(win):'−$100.00'):'+'+money(win)));card.append(stats);
+        const details=make('details','vegas-lock-details');details.append(make('summary','','View play details'));
+        details.append(make('p','',whyText(r,team,side)),make('p','',r.Away+' starter: '+(r['Away SP']||'TBD')+' · '+r.Home+' starter: '+(r['Home SP']||'TBD')),make('p','vegas-lock-note','Model tracking uses a flat $100 stake. This is not a wager receipt. '+(isLocked?'The DraftKings price is preserved with the official pick.':'This lean has not been locked as an official play.')));card.append(details);
+        fragment.append(card);
+      });
+      grid.replaceChildren(fragment);
+    }
+
     function enhance(){
+      renderFeaturedPlays();
       renderRunline();
       syncProvenance();
       document.querySelectorAll('.sc-bar').forEach(b=>{if(b.textContent==="TONIGHT'S LEAN")b.textContent='LEAN · NOT LOCKED';});

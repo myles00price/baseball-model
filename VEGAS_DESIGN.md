@@ -43,3 +43,14 @@ bundled. Gray-background photos are softened, not represented as true cutouts.
 
 ## Action artwork correction
 Two sourced cutouts are installed: Aaron Judge (592450), Mookie Betts (605141). Other players retain headshots; this is not full roster action coverage. Provenance and derivative licenses are in player-art.json and photo-credits.html. Built-in imagegen was used with background-extraction prompts: extract only the named player and bat, remove background, preserve face/pose/uniform/equipment, transparent PNG, no invented pose. Files: assets/player-art/592450.png and assets/player-art/605141.png. Team badges are independent of watermarks. 2+ Hits now receives the same card treatment as 1+ Hits without changing its market or probability.
+
+
+## Locked play cards — September 15, 2026
+
+Moneyline showcase cards now display a muted team logo, fading featured player, saved DraftKings odds, model probability, $100 model tracked stake, potential profit and expandable explanation. Official status requires a BET flag, a flagged side and a notified game key. Live results prefer GamePk to avoid doubleheader mismatches; missing odds remain unavailable. Unlocked leans are labeled separately. No wager-placement control or invented lock time is added.
+
+Five approved cutouts are installed in assets/player-art/: Aaron Judge (592450), Mookie Betts (605141), Cal Raleigh (663728), Freddie Freeman (518692) and Matt Olson (621566). Cal and Matt are posed portraits; Freddie, Judge and Betts supply action imagery. Featured artwork requires current roster membership and a matching source team; unavailable artwork leaves the team logo. All five have genuine RGBA transparency. Licenses, author and original source links are maintained in player-art.json and photo-credits.html.
+
+The three new images were edited with built-in imagegen. Prompt: remove only the photographic background to transparent alpha, preserve identity, face, pose, framing, uniform, logos and equipment; no new anatomy, shadows or fade. CSS supplies the fade. Original generated files are retained. Remaining research candidates are not installed or represented as finished artwork: Wikimedia rejected further media downloads with HTTP 429/robot-policy responses during this rollout.
+
+Validation: Node syntax check; rendering regression tests for official/lean classification, skipped games, money calculations, missing odds, team mismatch, doubleheaders, tied scores and stable rerenders; desktop and 390px mobile browser inspection, image load checks, details interaction and no horizontal mobile overflow.
