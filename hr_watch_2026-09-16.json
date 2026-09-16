@@ -1,7 +1,7 @@
 {
  "date": "2026-09-16",
- "generated": "2026-09-16T16:01:54Z",
- "lineups_confirmed": 4,
+ "generated": "2026-09-16T19:16:20Z",
+ "lineups_confirmed": 6,
  "players": [
   {
    "id": 700250,
@@ -21,9 +21,9 @@
    "f_arsenal": 1.15,
    "f_pit": 1.18,
    "f_park": 0.99,
-   "f_wind": 0.86,
-   "f_temp": 0.98,
-   "wind": "WIND 7 IN",
+   "f_wind": 0.8,
+   "f_temp": 0.99,
+   "wind": "WIND 10 IN",
    "odds": {
     "dk": 378,
     "mgm": 310,
@@ -53,9 +53,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 397,
-    "mgm": 340,
-    "czr": 390
+    "dk": 410,
+    "czr": 390,
+    "mgm": 350
    },
    "fair": "+327"
   },
@@ -81,9 +81,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 311,
-    "mgm": 240,
-    "czr": 290
+    "dk": 332,
+    "czr": 305,
+    "mgm": 240
    },
    "fair": "+339"
   },
@@ -109,7 +109,7 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "mgm": 210
+    "mgm": 230
    },
    "fair": "+344"
   },
@@ -135,9 +135,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 393,
-    "mgm": 280,
-    "czr": 390
+    "dk": 413,
+    "czr": 390,
+    "mgm": 275
    },
    "fair": "+350"
   },
@@ -159,9 +159,9 @@
    "f_arsenal": 0.99,
    "f_pit": 1.18,
    "f_park": 0.99,
-   "f_wind": 0.86,
-   "f_temp": 0.98,
-   "wind": "WIND 7 IN",
+   "f_wind": 0.8,
+   "f_temp": 0.99,
+   "wind": "WIND 10 IN",
    "odds": {
     "dk": 418,
     "mgm": 400,
@@ -187,9 +187,9 @@
    "f_arsenal": 1.01,
    "f_pit": 1.18,
    "f_park": 0.99,
-   "f_wind": 0.86,
-   "f_temp": 0.98,
-   "wind": "WIND 7 IN",
+   "f_wind": 0.8,
+   "f_temp": 0.99,
+   "wind": "WIND 10 IN",
    "odds": {
     "dk": 276,
     "mgm": 300,
@@ -219,9 +219,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 328,
-    "mgm": 375,
-    "czr": 330
+    "dk": 332,
+    "czr": 320,
+    "mgm": 340
    },
    "fair": "+403"
   },
@@ -247,7 +247,7 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 333,
+    "dk": 341,
     "mgm": 350,
     "czr": 330
    },
@@ -262,7 +262,7 @@
    "pk": 822926,
    "opp_sp": "Brady Basso",
    "opp_sp_id": 669620,
-   "p": 19.3,
+   "p": 19.4,
    "hr": 41,
    "pa": 655,
    "exp_pa": 4.4,
@@ -273,37 +273,13 @@
    "f_park": 0.98,
    "f_wind": 1.0,
    "f_temp": 1.0,
-   "wind": "",
+   "wind": "ROOF",
    "odds": {
-    "dk": 301,
     "mgm": 270,
-    "czr": 290
+    "dk": 301,
+    "czr": 305
    },
-   "fair": "+418"
-  },
-  {
-   "id": 571970,
-   "name": "Max Muncy",
-   "team": "Los Angeles Dodgers",
-   "opp": "Cincinnati Reds",
-   "home": false,
-   "pk": 824467,
-   "opp_sp": "Andrew Abbott",
-   "opp_sp_id": 671096,
-   "p": 19.2,
-   "hr": 28,
-   "pa": 525,
-   "exp_pa": 3.8,
-   "f_bat": 1.48,
-   "f_platoon": 1.02,
-   "f_arsenal": 0.99,
-   "f_pit": 1.06,
-   "f_park": 1.14,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {},
-   "fair": "+421"
+   "fair": "+415"
   },
   {
    "id": 592518,
@@ -328,8 +304,36 @@
    "wind": "",
    "odds": {
     "dk": 353,
-    "mgm": 300,
-    "czr": 330
+    "czr": 350,
+    "mgm": 300
+   },
+   "fair": "+432"
+  },
+  {
+   "id": 605141,
+   "name": "Mookie Betts",
+   "team": "Los Angeles Dodgers",
+   "opp": "Cincinnati Reds",
+   "home": false,
+   "pk": 824467,
+   "opp_sp": "Andrew Abbott",
+   "opp_sp_id": 671096,
+   "p": 18.8,
+   "hr": 20,
+   "pa": 483,
+   "exp_pa": 4.5,
+   "f_bat": 1.22,
+   "f_platoon": 0.96,
+   "f_arsenal": 1.13,
+   "f_pit": 1.06,
+   "f_park": 1.14,
+   "f_wind": 0.86,
+   "f_temp": 1.02,
+   "wind": "WIND 7 IN",
+   "odds": {
+    "mgm": 310,
+    "dk": 424,
+    "czr": 400
    },
    "fair": "+432"
   },
@@ -351,9 +355,9 @@
    "f_arsenal": 1.05,
    "f_pit": 1.15,
    "f_park": 1.01,
-   "f_wind": 0.88,
+   "f_wind": 1.1,
    "f_temp": 1.01,
-   "wind": "WIND 6 IN",
+   "wind": "WIND 5 OUT",
    "odds": {
     "dk": 490,
     "mgm": 360,
@@ -383,9 +387,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 660,
-    "mgm": 475,
-    "czr": 575
+    "dk": 640,
+    "czr": 625,
+    "mgm": 500
    },
    "fair": "+441"
   },
@@ -411,9 +415,9 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 435,
-    "mgm": 425,
-    "czr": 425
+    "dk": 420,
+    "czr": 400,
+    "mgm": 390
    },
    "fair": "+452"
   }
