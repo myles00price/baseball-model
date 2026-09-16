@@ -41,6 +41,10 @@ tr.tot td.who{color:var(--amber);font-family:'VT323',monospace;letter-spacing:.0
 .flags li{font-family:'VT323',monospace;font-size:13px;color:var(--amber)}
 .flags li:before{content:"⚠ "}
 .norate{font-family:'VT323',monospace;font-size:14px;color:var(--mut);margin-top:6px}
+.calib{margin:18px 0 0}
+.calib .head{font-family:'Bebas Neue',sans-serif;letter-spacing:.2em;color:var(--amber);font-size:19px}
+.calib .why{font-size:13px;color:#b5b5b5;line-height:1.55;margin:5px 0 12px}
+.calib .norate{margin:2px 0 8px}
 .foot{margin-top:18px;font-family:'VT323',monospace;font-size:14px;color:var(--mut);line-height:1.6}
 body.light{--phos:#0a7a34;--amber:#a35600;--ink:#14171c;--mut:#8a8272;--line:#d8d2c2;
   background:#efece0;color:#14171c}
@@ -50,6 +54,7 @@ body.light .banner p{color:#4a463c}
 body.light table.proj td{border-color:#e6e0d0}
 body.light table.proj td.who{color:#3b3830}
 body.light tr.tot td{border-color:#d8d2c2}
+body.light .calib .why{color:#4a463c}
 
 .news{margin:14px 0 0;background:#0a0a0a;border:1px solid var(--line);padding:10px 14px}
 .news h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.3em;color:var(--mut);margin-bottom:8px}
@@ -271,7 +276,7 @@ body.light .newsitem img{filter:none}
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 11.6 min · P(decision) 0.62</div>
-  <ul class='flags'><li>eduarda moura: weight-class change, w_strawweight -&gt; w_flyweight</li></ul>
+  
 </div><div class='bout'>
   <div class='slot'>PRELIMS · middleweight · 3R</div>
   <div class='names' data-player='Ryan Gandra Ozzy Diaz'>
@@ -325,9 +330,48 @@ body.light .newsitem img{filter:none}
         <td class='n'></td></tr>
   </table>
   <div class='dur'>E[length] 9.0 min · P(decision) 0.36</div>
-  <ul class='flags'><li>joosang yoo: only 3 prior UFC rounds (&lt; 8)</li></ul>
+  <ul class='flags'><li>joosang yoo: only 3 prior UFC rounds (&lt; 8)</li><li>joosang yoo: weight-class change, catch_weight -&gt; featherweight</li></ul>
 </div>
   </div>
+
+  <div class="calib">
+    <div class="head">CALIBRATION BUCKETS — BACKTEST SAMPLE, NOT A BETTING RECORD</div>
+    <p class="why">Every other tab on the board buckets its record by edge — how far the
+    model&rsquo;s number sat from the book&rsquo;s price. This page carries no book prices,
+    so there is no edge here to bucket. What it can report instead is whether its own
+    published probabilities come in at the rate they claim. The bands below are disjoint
+    slices of each published distribution, scored on the walk-forward backtest,
+    2019&ndash;2026. No prices, no stakes, no settled wagers — this is the model graded
+    against results, not against a market.</p>
+    <div class="bouts">
+<div class='bout'>
+  <div class='slot'>PER-FIGHTER SIGNIFICANT STRIKES</div>
+  <div class='norate'>where the result landed in the model&rsquo;s own published range</div>
+  <table class='proj'>
+    <tr><th>BAND</th><th>MODEL</th><th>ACTUAL</th><th>GAP&nbsp;pp</th><th>N</th></tr>
+<tr><td class='who'>0&ndash;20%</td><td>20.0%</td><td class='med'>21.4%</td><td class='wide'>+1.4</td><td class='n'>1,649</td></tr><tr><td class='who'>20&ndash;40%</td><td>20.0%</td><td class='med'>20.0%</td><td class='wide'>+0.0</td><td class='n'>1,545</td></tr><tr><td class='who'>40&ndash;60%</td><td>20.0%</td><td class='med'>19.4%</td><td class='wide'>-0.6</td><td class='n'>1,499</td></tr><tr><td class='who'>60&ndash;80%</td><td>20.0%</td><td class='med'>19.4%</td><td class='wide'>-0.6</td><td class='n'>1,497</td></tr><tr><td class='who'>80&ndash;100%</td><td>20.0%</td><td class='med'>19.7%</td><td class='wide'>-0.3</td><td class='n'>1,518</td></tr>
+  </table>
+  <div class='dur'>n = 7,708 fighter projections · walk-forward backtest</div>
+</div><div class='bout'>
+  <div class='slot'>BOUT TOTAL</div>
+  <div class='norate'>same check on the combined two-fighter number</div>
+  <table class='proj'>
+    <tr><th>BAND</th><th>MODEL</th><th>ACTUAL</th><th>GAP&nbsp;pp</th><th>N</th></tr>
+<tr><td class='who'>0&ndash;20%</td><td>20.0%</td><td class='med'>19.2%</td><td class='wide'>-0.8</td><td class='n'>741</td></tr><tr><td class='who'>20&ndash;40%</td><td>20.0%</td><td class='med'>22.6%</td><td class='wide'>+2.6</td><td class='n'>872</td></tr><tr><td class='who'>40&ndash;60%</td><td>20.0%</td><td class='med'>19.6%</td><td class='wide'>-0.4</td><td class='n'>756</td></tr><tr><td class='who'>60&ndash;80%</td><td>20.0%</td><td class='med'>19.6%</td><td class='wide'>-0.4</td><td class='n'>756</td></tr><tr><td class='who'>80&ndash;100%</td><td>20.0%</td><td class='med'>18.9%</td><td class='wide'>-1.1</td><td class='n'>729</td></tr>
+  </table>
+  <div class='dur'>n = 3,854 bout totals · walk-forward backtest</div>
+</div><div class='bout'>
+  <div class='slot'>ROUND-FINISH PROBABILITY</div>
+  <div class='norate'>the probability behind P(decision) on each card above</div>
+  <table class='proj'>
+    <tr><th>BAND</th><th>MODEL</th><th>ACTUAL</th><th>GAP&nbsp;pp</th><th>N</th></tr>
+<tr><td class='who'>0&ndash;20%</td><td>14.0%</td><td class='med'>14.2%</td><td class='wide'>+0.2</td><td class='n'>5,116</td></tr><tr><td class='who'>20&ndash;40%</td><td>26.5%</td><td class='med'>26.4%</td><td class='wide'>-0.1</td><td class='n'>4,177</td></tr><tr><td class='who'>40&ndash;60%</td><td>43.0%</td><td class='med'>40.6%</td><td class='wide'>-2.4</td><td class='n'>128</td></tr><tr><td class='who'>60&ndash;80%</td><td>&mdash;</td><td class='med'>&mdash;</td><td class='wide'>&mdash;</td><td class='n'>0</td></tr><tr><td class='who'>80&ndash;100%</td><td>&mdash;</td><td class='med'>&mdash;</td><td class='wide'>&mdash;</td><td class='n'>0</td></tr>
+  </table>
+  <div class='dur'>n = 9,421 scheduled rounds · walk-forward backtest</div>
+</div>
+    </div>
+  </div>
+
 
   <div class="news" id="news" style="display:none"><h2>THE WIRE</h2><div class="newsrow" id="newsrow"></div></div>
 
@@ -337,7 +381,7 @@ body.light .newsitem img{filter:none}
     ranges are genuine predictive intervals, not confidence bands: a fight that ends in
     round one produces very few strikes, so the low end is real<br>
     strike rate and fight duration are modelled separately and combined by convolution ·
-    generated 2026-08-20 20:29
+    generated 2026-09-15 20:14
   </div>
 </div>
 <script>
