@@ -153,7 +153,8 @@
       if(sport!=='mlb'||typeof picks==='undefined'||typeof locked==='undefined')return;
       const grid=document.getElementById('sc-grid');if(!grid)return;
       const rows=picks.filter(r=>String(r.Flag||'').includes('BET')&&flagged_side_js(r));
-      const signature=JSON.stringify([rows,Array.from(locked),liveMap,playerArt,typeof roster!=='undefined'?roster:null]);
+      const hitters=typeof hitData!=='undefined'?(hitData?.players||[]):[];
+      const signature=JSON.stringify([rows,Array.from(locked),liveMap,playerArt,typeof roster!=='undefined'?roster:null,hitters.map(p=>[p.id,p.team,p.p])]);
       if(signature===featuredSignature&&grid.querySelector('.vegas-lock-card'))return;
       if(!rows.length)return;
       featuredSignature=signature;
@@ -178,6 +179,12 @@
           const [id,a]=candidate,img=make('img','vegas-lock-player');img.src=new URL(a.src,assetBase).href;img.alt=a.name;img.decoding='async';
           img.onerror=()=>{img.hidden=true;caption.hidden=true;};
           art.append(img);const caption=make('span','vegas-lock-caption','FEATURED · '+a.name);art.append(caption);
+        }else if(typeof roster!=='undefined'&&roster){
+          const belongs=id=>roster.some(p=>String(p.id)===String(id)&&Number(p.t)===Number(TID[team]));
+          const hitter=hitters.filter(p=>p.team===team&&belongs(p.id)).sort((a,b)=>Number(b.p)-Number(a.p))[0];
+          const starter=roster.find(p=>p.n===r[label+' SP']&&Number(p.t)===Number(TID[team]));
+          const person=hitter||starter;
+          if(person){const img=make('img','vegas-lock-player vegas-lock-headshot');img.src=mug(person.id).replace(/w_\d+,q_\d+/,'w_426,q_90');img.alt=person.name||person.n;img.decoding='async';const caption=make('span','vegas-lock-caption',(hitter?'FEATURED · ':'STARTER · ')+(person.name||person.n));img.onerror=()=>{img.hidden=true;caption.hidden=true;};art.append(img,caption);}
         }
         const info=make('div','vegas-lock-info'),teamBadge=make('img','vegas-lock-team');teamBadge.src=logo(team);teamBadge.alt='';teamBadge.onerror=()=>teamBadge.hidden=true;
         info.append(teamBadge,make('small','vegas-lock-market','MLB · MONEYLINE'),make('h3','',team),make('p','vegas-lock-matchup',r.Away+' @ '+r.Home+(gn>1?' · Game '+gn:'')));
