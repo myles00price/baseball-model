@@ -130,7 +130,7 @@
  "Philadelphia Phillies@New York Mets": {
   "away": "Philadelphia Phillies",
   "home": "New York Mets",
-  "prob_home": 61.2,
+  "prob_home": 65.0,
   "odds": {
    "fanduel": {
     "New York Mets": -150,
@@ -145,8 +145,8 @@
     "Philadelphia Phillies": 110
    },
    "betmgm": {
-    "New York Mets": -145,
-    "Philadelphia Phillies": 115
+    "New York Mets": -150,
+    "Philadelphia Phillies": 118
    }
   },
   "best_away": [
@@ -157,15 +157,15 @@
    "draftkings",
    -140
   ],
-  "dv_edge_away": -4.3,
-  "dv_edge_home": 6.1,
+  "dv_edge_away": -8.1,
+  "dv_edge_home": 9.9,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Detroit Tigers@Chicago White Sox": {
   "away": "Detroit Tigers",
   "home": "Chicago White Sox",
-  "prob_home": 53.7,
+  "prob_home": 51.5,
   "odds": {
    "fanduel": {
     "Chicago White Sox": -106,
@@ -192,27 +192,27 @@
    "draftkings",
    100
   ],
-  "dv_edge_away": -5.0,
-  "dv_edge_home": 6.8,
-  "flag": "",
-  "locked": false
+  "dv_edge_away": -2.8,
+  "dv_edge_home": 4.6,
+  "flag": "home",
+  "locked": true
  },
  "Boston Red Sox@Texas Rangers": {
   "away": "Boston Red Sox",
   "home": "Texas Rangers",
-  "prob_home": 43.3,
+  "prob_home": 39.6,
   "odds": {
    "fanduel": {
-    "Boston Red Sox": -132,
-    "Texas Rangers": 106
+    "Boston Red Sox": -130,
+    "Texas Rangers": 104
    },
    "williamhill_us": {
     "Boston Red Sox": -129,
     "Texas Rangers": 105
    },
    "draftkings": {
-    "Boston Red Sox": -125,
-    "Texas Rangers": -105
+    "Boston Red Sox": -135,
+    "Texas Rangers": 105
    },
    "betmgm": {
     "Boston Red Sox": -135,
@@ -220,17 +220,17 @@
    }
   },
   "best_away": [
-   "draftkings",
-   -125
+   "williamhill_us",
+   -129
   ],
   "best_home": [
-   "fanduel",
-   106
+   "williamhill_us",
+   105
   ],
-  "dv_edge_away": 4.7,
-  "dv_edge_home": -2.6,
-  "flag": "away",
-  "locked": false
+  "dv_edge_away": 6.8,
+  "dv_edge_home": -6.3,
+  "flag": "",
+  "locked": true
  },
  "Minnesota Twins@Los Angeles Angels": {
   "away": "Minnesota Twins",
@@ -246,8 +246,8 @@
     "Minnesota Twins": -109
    },
    "draftkings": {
-    "Los Angeles Angels": -120,
-    "Minnesota Twins": -110
+    "Los Angeles Angels": -115,
+    "Minnesota Twins": -115
    },
    "betmgm": {
     "Los Angeles Angels": -110,
@@ -262,7 +262,7 @@
    "fanduel",
    -108
   ],
-  "dv_edge_away": -6.1,
+  "dv_edge_away": -6.7,
   "dv_edge_home": 7.9,
   "flag": "",
   "locked": false

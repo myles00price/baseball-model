@@ -1,7 +1,7 @@
 {
  "date": "2026-09-17",
- "generated": "2026-09-17T20:01:03Z",
- "lineups_confirmed": 7,
+ "generated": "2026-09-17T20:31:05Z",
+ "lineups_confirmed": 8,
  "players": [
   {
    "id": 691406,
@@ -60,6 +60,34 @@
    "fair": "+339"
   },
   {
+   "id": 665742,
+   "name": "Juan Soto",
+   "team": "New York Mets",
+   "opp": "Philadelphia Phillies",
+   "home": true,
+   "pk": 823573,
+   "opp_sp": "Aaron Nola",
+   "opp_sp_id": 605400,
+   "p": 22.2,
+   "hr": 25,
+   "pa": 435,
+   "exp_pa": 4.5,
+   "f_bat": 1.53,
+   "f_platoon": 1.2,
+   "f_arsenal": 1.05,
+   "f_pit": 1.19,
+   "f_park": 0.97,
+   "f_wind": 1.22,
+   "f_temp": 1.02,
+   "wind": "WIND 11 OUT",
+   "odds": {
+    "dk": 296,
+    "mgm": 250,
+    "czr": 290
+   },
+   "fair": "+350"
+  },
+  {
    "id": 656941,
    "name": "Kyle Schwarber",
    "team": "Philadelphia Phillies",
@@ -81,9 +109,9 @@
    "f_temp": 1.02,
    "wind": "WIND 11 OUT",
    "odds": {
-    "czr": 265,
-    "dk": 266,
-    "mgm": 250
+    "dk": 295,
+    "mgm": 250,
+    "czr": 265
    },
    "fair": "+363"
   },
@@ -165,11 +193,39 @@
    "f_temp": 1.0,
    "wind": "ROOF",
    "odds": {
-    "czr": 235,
+    "dk": 237,
     "mgm": 270,
-    "dk": 248
+    "czr": 235
    },
    "fair": "+378"
+  },
+  {
+   "id": 596019,
+   "name": "Francisco Lindor",
+   "team": "New York Mets",
+   "opp": "Philadelphia Phillies",
+   "home": true,
+   "pk": 823573,
+   "opp_sp": "Aaron Nola",
+   "opp_sp_id": 605400,
+   "p": 20.0,
+   "hr": 20,
+   "pa": 421,
+   "exp_pa": 4.7,
+   "f_bat": 1.33,
+   "f_platoon": 1.13,
+   "f_arsenal": 1.12,
+   "f_pit": 1.19,
+   "f_park": 0.97,
+   "f_wind": 1.22,
+   "f_temp": 1.02,
+   "wind": "WIND 11 OUT",
+   "odds": {
+    "dk": 389,
+    "mgm": 280,
+    "czr": 370
+   },
+   "fair": "+400"
   },
   {
    "id": 592518,
@@ -198,6 +254,34 @@
     "czr": 280
    },
    "fair": "+424"
+  },
+  {
+   "id": 693307,
+   "name": "Dillon Dingler",
+   "team": "Detroit Tigers",
+   "opp": "Chicago White Sox",
+   "home": false,
+   "pk": 824548,
+   "opp_sp": "Erick Fedde",
+   "opp_sp_id": 607200,
+   "p": 18.7,
+   "hr": 27,
+   "pa": 579,
+   "exp_pa": 4.2,
+   "f_bat": 1.35,
+   "f_platoon": 1.2,
+   "f_arsenal": 1.07,
+   "f_pit": 1.12,
+   "f_park": 1.05,
+   "f_wind": 1.0,
+   "f_temp": 1.02,
+   "wind": "",
+   "odds": {
+    "dk": 482,
+    "mgm": 400,
+    "czr": 475
+   },
+   "fair": "+435"
   },
   {
    "id": 665833,
@@ -304,11 +388,7 @@
    "f_wind": 1.0,
    "f_temp": 1.02,
    "wind": "",
-   "odds": {
-    "czr": 390,
-    "dk": 409,
-    "mgm": 425
-   },
+   "odds": {},
    "fair": "+459"
   },
   {
@@ -338,90 +418,6 @@
     "czr": 625
    },
    "fair": "+465"
-  },
-  {
-   "id": 606192,
-   "name": "Teoscar Hern\u00e1ndez",
-   "team": "Los Angeles Dodgers",
-   "opp": "Cincinnati Reds",
-   "home": false,
-   "pk": 824464,
-   "opp_sp": "Brady Singer",
-   "opp_sp_id": 663903,
-   "p": 17.2,
-   "hr": 15,
-   "pa": 450,
-   "exp_pa": 4.3,
-   "f_bat": 1.06,
-   "f_platoon": 0.9,
-   "f_arsenal": 1.06,
-   "f_pit": 1.17,
-   "f_park": 1.14,
-   "f_wind": 1.14,
-   "f_temp": 1.09,
-   "wind": "HOT 90F \u00b7 WIND 7 OUT",
-   "odds": {
-    "dk": 353,
-    "mgm": 260,
-    "czr": 370
-   },
-   "fair": "+481"
-  },
-  {
-   "id": 695600,
-   "name": "Carter Jensen",
-   "team": "Kansas City Royals",
-   "opp": "Houston Astros",
-   "home": false,
-   "pk": 824141,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "p": 17.2,
-   "hr": 24,
-   "pa": 567,
-   "exp_pa": 4.7,
-   "f_bat": 1.26,
-   "f_platoon": 1.0,
-   "f_arsenal": 1.0,
-   "f_pit": 1.0,
-   "f_park": 1.04,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "ROOF",
-   "odds": {
-    "czr": 350,
-    "mgm": 340,
-    "dk": 365
-   },
-   "fair": "+481"
-  },
-  {
-   "id": 701538,
-   "name": "Jackson Merrill",
-   "team": "San Diego Padres",
-   "opp": "Colorado Rockies",
-   "home": false,
-   "pk": 824305,
-   "opp_sp": "Tanner Gordon",
-   "opp_sp_id": 685299,
-   "p": 17.0,
-   "hr": 25,
-   "pa": 628,
-   "exp_pa": 4.2,
-   "f_bat": 1.21,
-   "f_platoon": 1.13,
-   "f_arsenal": 1.02,
-   "f_pit": 1.12,
-   "f_park": 1.05,
-   "f_wind": 0.96,
-   "f_temp": 1.01,
-   "wind": "WIND 2 IN",
-   "odds": {
-    "dk": 312,
-    "mgm": 280,
-    "czr": 305
-   },
-   "fair": "+488"
   }
  ]
 }
