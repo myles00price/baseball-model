@@ -95,7 +95,7 @@
  "San Diego Padres@Colorado Rockies": {
   "away": "San Diego Padres",
   "home": "Colorado Rockies",
-  "prob_home": 32.8,
+  "prob_home": 33.3,
   "odds": {
    "draftkings": {
     "Colorado Rockies": 130,
@@ -107,21 +107,25 @@
    },
    "betmgm": {
     "Colorado Rockies": 130,
-    "San Diego Padres": -165
+    "San Diego Padres": -160
+   },
+   "williamhill_us": {
+    "Colorado Rockies": 137,
+    "San Diego Padres": -170
    }
   },
   "best_away": [
-   "fanduel",
-   -164
+   "betmgm",
+   -160
   ],
   "best_home": [
-   "draftkings",
-   130
+   "williamhill_us",
+   137
   ],
-  "dv_edge_away": 8.4,
-  "dv_edge_home": -8.3,
+  "dv_edge_away": 8.1,
+  "dv_edge_home": -6.8,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Philadelphia Phillies@New York Mets": {
   "away": "Philadelphia Phillies",
@@ -129,7 +133,11 @@
   "prob_home": 62.8,
   "odds": {
    "fanduel": {
-    "New York Mets": -148,
+    "New York Mets": -150,
+    "Philadelphia Phillies": 120
+   },
+   "williamhill_us": {
+    "New York Mets": -145,
     "Philadelphia Phillies": 118
    },
    "draftkings": {
@@ -143,13 +151,13 @@
   },
   "best_away": [
    "fanduel",
-   118
+   120
   ],
   "best_home": [
    "draftkings",
    -140
   ],
-  "dv_edge_away": -6.1,
+  "dv_edge_away": -5.9,
   "dv_edge_home": 7.7,
   "flag": "",
   "locked": false
@@ -163,25 +171,29 @@
     "Chicago White Sox": -104,
     "Detroit Tigers": -120
    },
-   "draftkings": {
+   "williamhill_us": {
     "Chicago White Sox": -110,
-    "Detroit Tigers": -120
+    "Detroit Tigers": -112
+   },
+   "draftkings": {
+    "Chicago White Sox": -105,
+    "Detroit Tigers": -125
    },
    "betmgm": {
-    "Chicago White Sox": -110,
-    "Detroit Tigers": -110
+    "Chicago White Sox": -105,
+    "Detroit Tigers": -118
    }
   },
   "best_away": [
-   "betmgm",
-   -110
+   "williamhill_us",
+   -112
   ],
   "best_home": [
    "fanduel",
    -104
   ],
-  "dv_edge_away": -0.8,
-  "dv_edge_home": 2.5,
+  "dv_edge_away": -1.0,
+  "dv_edge_home": 2.8,
   "flag": "",
   "locked": false
  },
@@ -225,6 +237,10 @@
     "Los Angeles Angels": -110,
     "Minnesota Twins": -114
    },
+   "williamhill_us": {
+    "Los Angeles Angels": -113,
+    "Minnesota Twins": -109
+   },
    "draftkings": {
     "Los Angeles Angels": -120,
     "Minnesota Twins": -110
@@ -235,8 +251,8 @@
    }
   },
   "best_away": [
-   "draftkings",
-   -110
+   "williamhill_us",
+   -109
   ],
   "best_home": [
    "fanduel",
