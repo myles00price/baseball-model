@@ -1,6 +1,6 @@
 {
  "date": "2026-09-18",
- "generated": "2026-09-18T22:16:04Z",
+ "generated": "2026-09-18T22:46:06Z",
  "lineups_confirmed": 15,
  "players": [
   {
@@ -25,9 +25,9 @@
    "f_temp": 1.02,
    "wind": "WIND 9 IN",
    "odds": {
-    "dk": 282,
-    "mgm": 230,
-    "czr": 280
+    "czr": 255,
+    "dk": 271,
+    "mgm": 230
    },
    "fair": "+298"
   },
@@ -50,7 +50,7 @@
    "f_pit": 0.95,
    "f_park": 1.14,
    "f_wind": 1.0,
-   "f_temp": 1.04,
+   "f_temp": 1.02,
    "wind": "",
    "odds": {
     "dk": 252,
@@ -81,9 +81,9 @@
    "f_temp": 1.0,
    "wind": "ROOF",
    "odds": {
-    "dk": 280,
     "mgm": 300,
-    "czr": 265
+    "czr": 265,
+    "dk": 265
    },
    "fair": "+346"
   },
@@ -108,7 +108,11 @@
    "f_wind": 0.88,
    "f_temp": 0.99,
    "wind": "WIND 6 IN",
-   "odds": {},
+   "odds": {
+    "czr": 290,
+    "dk": 305,
+    "mgm": 270
+   },
    "fair": "+346"
   },
   {
@@ -133,6 +137,8 @@
    "f_temp": 0.98,
    "wind": "WIND 9 IN",
    "odds": {
+    "czr": 400,
+    "dk": 443,
     "mgm": 310
    },
    "fair": "+381"
@@ -159,9 +165,9 @@
    "f_temp": 1.02,
    "wind": "WIND 9 IN",
    "odds": {
-    "dk": 304,
-    "mgm": 280,
-    "czr": 290
+    "czr": 320,
+    "dk": 332,
+    "mgm": 340
    },
    "fair": "+395"
   },
@@ -187,9 +193,9 @@
    "f_temp": 1.0,
    "wind": "ROOF",
    "odds": {
-    "dk": 330,
-    "mgm": 310,
-    "czr": 320
+    "mgm": 290,
+    "czr": 305,
+    "dk": 309
    },
    "fair": "+421"
   },
@@ -215,9 +221,9 @@
    "f_temp": 0.98,
    "wind": "WIND 10 IN",
    "odds": {
-    "dk": 423,
-    "mgm": 390,
-    "czr": 390
+    "czr": 390,
+    "dk": 410,
+    "mgm": 360
    },
    "fair": "+438"
   },
@@ -243,9 +249,9 @@
    "f_temp": 1.0,
    "wind": "ROOF",
    "odds": {
-    "dk": 390,
-    "mgm": 375,
-    "czr": 370
+    "czr": 370,
+    "dk": 370,
+    "mgm": 390
    },
    "fair": "+441"
   },
@@ -271,11 +277,39 @@
    "f_temp": 0.98,
    "wind": "WIND 9 IN",
    "odds": {
-    "dk": 352,
-    "mgm": 400,
-    "czr": 370
+    "czr": 370,
+    "dk": 383,
+    "mgm": 390
    },
    "fair": "+441"
+  },
+  {
+   "id": 700250,
+   "name": "Ben Rice",
+   "team": "New York Yankees",
+   "opp": "Arizona Diamondbacks",
+   "home": false,
+   "pk": 825032,
+   "opp_sp": "Eduardo Rodriguez",
+   "opp_sp_id": 593958,
+   "p": 18.3,
+   "hr": 38,
+   "pa": 628,
+   "exp_pa": 4.3,
+   "f_bat": 1.67,
+   "f_platoon": 0.97,
+   "f_arsenal": 1.15,
+   "f_pit": 0.89,
+   "f_park": 1.01,
+   "f_wind": 1.0,
+   "f_temp": 1.0,
+   "wind": "ROOF",
+   "odds": {
+    "dk": 483,
+    "mgm": 450,
+    "czr": 475
+   },
+   "fair": "+446"
   },
   {
    "id": 596019,
@@ -299,11 +333,39 @@
    "f_temp": 1.02,
    "wind": "WIND 9 IN",
    "odds": {
-    "dk": 418,
-    "mgm": 325,
-    "czr": 400
+    "czr": 370,
+    "dk": 394,
+    "mgm": 340
    },
    "fair": "+449"
+  },
+  {
+   "id": 665019,
+   "name": "Kody Clemens",
+   "team": "Minnesota Twins",
+   "opp": "Los Angeles Angels",
+   "home": false,
+   "pk": 823977,
+   "opp_sp": "Grayson Rodriguez",
+   "opp_sp_id": 680570,
+   "p": 18.1,
+   "hr": 26,
+   "pa": 553,
+   "exp_pa": 4.4,
+   "f_bat": 1.36,
+   "f_platoon": 1.16,
+   "f_arsenal": 1.05,
+   "f_pit": 1.05,
+   "f_park": 1.02,
+   "f_wind": 1.18,
+   "f_temp": 1.01,
+   "wind": "WIND 9 OUT",
+   "odds": {
+    "dk": 446,
+    "czr": 425,
+    "mgm": 280
+   },
+   "fair": "+452"
   },
   {
    "id": 691406,
@@ -327,8 +389,8 @@
    "f_temp": 1.0,
    "wind": "ROOF",
    "odds": {
-    "dk": 382,
-    "mgm": 325,
+    "dk": 388,
+    "mgm": 333,
     "czr": 370
    },
    "fair": "+456"
@@ -355,64 +417,8 @@
    "f_temp": 1.0,
    "wind": "ROOF",
    "odds": {
-    "dk": 595,
+    "dk": 660,
     "mgm": 550,
-    "czr": 625
-   },
-   "fair": "+462"
-  },
-  {
-   "id": 624413,
-   "name": "Pete Alonso",
-   "team": "Baltimore Orioles",
-   "opp": "Milwaukee Brewers",
-   "home": true,
-   "pk": 824790,
-   "opp_sp": "Dustin May",
-   "opp_sp_id": 669160,
-   "p": 17.8,
-   "hr": 37,
-   "pa": 665,
-   "exp_pa": 4.5,
-   "f_bat": 1.57,
-   "f_platoon": 1.16,
-   "f_arsenal": 0.94,
-   "f_pit": 0.86,
-   "f_park": 1.03,
-   "f_wind": 0.82,
-   "f_temp": 1.03,
-   "wind": "WIND 9 IN",
-   "odds": {
-    "dk": 377,
-    "mgm": 333,
-    "czr": 390
-   },
-   "fair": "+462"
-  },
-  {
-   "id": 665161,
-   "name": "Jeremy Pe\u00f1a",
-   "team": "Houston Astros",
-   "opp": "Atlanta Braves",
-   "home": true,
-   "pk": 824138,
-   "opp_sp": "Tyler Mahle",
-   "opp_sp_id": 641816,
-   "p": 17.8,
-   "hr": 20,
-   "pa": 443,
-   "exp_pa": 4.7,
-   "f_bat": 1.29,
-   "f_platoon": 1.18,
-   "f_arsenal": 1.07,
-   "f_pit": 1.01,
-   "f_park": 1.04,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "ROOF",
-   "odds": {
-    "dk": 556,
-    "mgm": 400,
     "czr": 575
    },
    "fair": "+462"
