@@ -1,0 +1,25 @@
+body.nfl-facelift{background:#090d10!important}
+body.nfl-facelift .frame{max-width:1580px!important}
+.nfl-facelift .vegas-pageheading{position:relative;display:flex;flex-wrap:wrap;gap:8px!important;padding:18px 0 12px!important;background:linear-gradient(90deg,#090d10 40%,#090d10aa),url('assets/stadium-night.png') right 45%/cover}
+.nfl-title{width:100%;font:700 40px 'Oswald',sans-serif;letter-spacing:1px;color:#f0f0ea}
+.nfl-facelift .vegas-pageheading h2{font-size:12px!important;letter-spacing:1px!important;text-transform:uppercase;margin:0!important}.nfl-facelift .vegas-eyebrow,.nfl-facelift .vegas-description{display:none}.nfl-facelift .vegas-disclosure{margin-left:auto}
+.nfl-facelift .vegas-markets{background:none!important;border:0!important;border-bottom:1px solid #384047!important;border-radius:0!important;padding:0!important;gap:20px!important}
+.nfl-facelift .vegas-markets button{border-radius:0!important;background:none!important;padding:12px 0!important;font-size:11px!important;letter-spacing:1px;border-bottom:3px solid transparent!important}
+.nfl-facelift .vegas-markets button[aria-current=page]{color:#e6c687!important;border-bottom-color:#e6c687!important}
+.nfl-market-tabs{display:flex;gap:8px;padding:0 0 14px;flex-wrap:wrap}.nfl-market-tabs button{background:#131b20;color:#bac0c6;border:1px solid #38434b;border-radius:4px;padding:9px 18px;font:11px Arial,sans-serif;cursor:pointer}.nfl-market-tabs button[aria-pressed=true]{border-color:#d8b87a;color:#e7c98b;background:#252219}
+#gamelines[data-nfl-market='0'] .gl-box:not(:nth-child(1)),#gamelines[data-nfl-market='1'] .gl-box:not(:nth-child(2)),#gamelines[data-nfl-market='2'] .gl-box:not(:nth-child(3)){display:none!important}
+.nfl-facelift .gl-slot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.nfl-facelift .gl-slot-h{grid-column:1/-1}
+.nfl-facelift .gl-game,.nfl-facelift #gamegrid>.card{background:linear-gradient(110deg,#182127,#10161b)!important;border:1px solid #364148!important;border-radius:7px!important;overflow:hidden;margin:0!important;min-width:0}
+.nfl-facelift .gl-head,.nfl-facelift #gamegrid .ch{position:relative;min-height:135px;padding:18px 16px 16px 33%!important;display:flex;flex-wrap:wrap;align-content:center;gap:8px;background:none!important;isolation:isolate;border-bottom:1px solid #384149}
+.nfl-art{position:absolute;inset:0 auto 0 0;width:31%;overflow:hidden;background:linear-gradient(90deg,#10171b00,#10171b88 75%,#172026),url('assets/stadium-night.png') 30% center/auto 100%;z-index:-1;pointer-events:none}
+.nfl-art-logo{position:absolute;object-fit:contain;width:66%!important;height:74%!important;filter:drop-shadow(0 0 1px #ddd) drop-shadow(0 6px 8px #000);padding:0!important}.nfl-art .logo-0{left:1%;top:0;transform:rotate(-5deg)}.nfl-art .logo-1{right:0;bottom:0;transform:rotate(3deg)}
+.nfl-facelift .gl-mu,.nfl-facelift #gamegrid .matchup{font:600 25px 'Oswald',sans-serif!important;color:#f1f0eb!important;width:100%}.nfl-facelift .gl-ko{font:10px Arial,sans-serif;letter-spacing:1px;color:#dbc18c}.nfl-facelift .gl-chips{width:100%}
+.nfl-facelift .gl-mk{display:block!important;padding:12px!important}.nfl-facelift .gl-box{background:none!important;border:0!important;margin:0 0 8px}.nfl-facelift .gl-box-h{font:10px Arial,sans-serif!important;letter-spacing:1.4px;color:#d7bd87!important;margin-bottom:8px}
+.nfl-facelift .gl-tw{overflow:auto}.nfl-facelift .gl-t{width:100%;min-width:420px}.nfl-facelift .gl-t td{font:16px 'Oswald',sans-serif!important;padding:9px 5px!important}.nfl-facelift .gl-t th{font:9px Arial,sans-serif!important;color:#aeb6be!important;letter-spacing:.5px}.nfl-facelift .gl-t .ours{color:#e3c789!important}.nfl-facelift .gl-px{font:9px Arial,sans-serif!important;color:#a6afb8!important}.nfl-facelift .gl-t .ref{background:#e4c57b0d!important}
+.nfl-method{padding:8px 0;color:#b2bac0;font:11px Arial,sans-serif;line-height:1.6}.nfl-method summary{cursor:pointer}.nfl-method .paper{margin-top:8px!important}
+.nfl-facelift #gamegrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px}.nfl-facelift #gamegrid table{width:100%}.nfl-facelift .meta{font-size:10px!important;line-height:1.6}.nfl-facelift .teambar{border-radius:5px;background:#11181c!important}.nfl-facelift .teambar .hintline{font-size:10px!important}
+@media(max-width:800px){.nfl-facelift .gl-slot,.nfl-facelift #gamegrid{grid-template-columns:1fr!important}.nfl-title{font-size:33px}.nfl-facelift .vegas-markets{gap:14px!important}.nfl-facelift .vegas-markets button{font-size:10px!important}.nfl-market-tabs button{padding:9px 12px}}
+body.light.nfl-facelift .gl-t td,body.light.nfl-facelift #gamegrid td{color:#e2e5e8}body.light.nfl-facelift .gl-t .ours{color:#e3c789}
+.nfl-facelift #gamelines>h2{display:none}.nfl-facelift #gamelines{padding:12px 0!important;border:0!important;background:none!important}
+.nfl-facelift[data-nfl-view=games] .frame>.teambar,.nfl-facelift[data-nfl-view=games] #gamegrid{display:none!important}
+.nfl-facelift .gl-evt{font:10px Arial,sans-serif!important;color:#b9bfc4!important;margin-bottom:12px!important}

@@ -191,3 +191,6 @@
     if (!srBox.contains(e.target) && e.target !== input) srBox.style.display = "none";
   });
 })();
+
+/* NFL presentation assets persist across regenerated pages; other sports are untouched. */
+(function(){if(!window.SHELL||window.SHELL.sport!=='nfl')return;var base=new URL('.',document.currentScript.src);var c=document.createElement('link');c.rel='stylesheet';c.href=new URL('nfl-facelift.css?v=20260918b',base);document.head.appendChild(c);var s=document.createElement('script');s.src=new URL('nfl-facelift.js?v=20260918b',base);document.head.appendChild(s);})();
