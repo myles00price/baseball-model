@@ -20,6 +20,8 @@ from line_tracker import save_current_lines, get_line_movement
 from features_v2 import (predict_home_win_prob_v2, is_bet, BET_MIN, BET_MAX,
                          commence_lv_date, key_from_sched, key_from_row)
 import f5_shadow  # SHADOW ONLY — logs would-be F5 plays, never texts/flags real bets
+import features_v2
+import pit_snapshot  # F01: append-only record of the inputs behind every pregame probability
 
 # ─────────────────────────────────────────────────────────────
 # master_v2.py — V2 inference. Four fixes vs master.py:
@@ -544,6 +546,17 @@ def run_model(target_date, save_csv=True):
                     away_prob = round(100 - home_prob, 1)
             except:
                 pass
+
+            if home_prob is not None:
+                # AUDIT F01: keep the exact inputs this probability came from (game_pk + UTC stamp), so
+                # future training/evaluation rows are clean by construction. Bookkeeping only: record_v2()
+                # builds and writes inside one guard, swallows every failure, and nothing reads its result.
+                pit_snapshot.record_v2(
+                    target_str, game_key, game_pk, game.get("gameDate"),
+                    home_stats=home_stats, away_stats=away_stats, home_ops=home_ops, home_kpct=home_kpct,
+                    away_ops=away_ops, away_kpct=away_kpct, lineup_source=lineup_source, home_prob=home_prob,
+                    home_pitcher=home_p, away_pitcher=away_p, home_pid=home_pid, away_pid=away_pid,
+                    model_meta=features_v2._model_cache.get("meta"))
 
             def _devig_edges(imp_a, imp_h):
                 """SHADOW de-vig edges (no behavior change): remove the vig by
