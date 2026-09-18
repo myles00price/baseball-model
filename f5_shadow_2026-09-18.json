@@ -177,7 +177,7 @@
  "Detroit Tigers@Chicago White Sox": {
   "away": "Detroit Tigers",
   "home": "Chicago White Sox",
-  "prob_home": 53.5,
+  "prob_home": 57.9,
   "odds": {
    "fanduel": {
     "Chicago White Sox": -128,
@@ -188,8 +188,8 @@
     "Detroit Tigers": 107
    },
    "draftkings": {
-    "Chicago White Sox": -135,
-    "Detroit Tigers": 105
+    "Chicago White Sox": -140,
+    "Detroit Tigers": 110
    },
    "betmgm": {
     "Chicago White Sox": -135,
@@ -197,15 +197,15 @@
    }
   },
   "best_away": [
-   "williamhill_us",
-   107
+   "draftkings",
+   110
   ],
   "best_home": [
    "fanduel",
    -128
   ],
-  "dv_edge_away": 0.6,
-  "dv_edge_home": 0.4,
+  "dv_edge_away": -2.8,
+  "dv_edge_home": 4.8,
   "flag": "",
   "locked": false
  },
@@ -282,7 +282,7 @@
  "Washington Nationals@St. Louis Cardinals": {
   "away": "Washington Nationals",
   "home": "St. Louis Cardinals",
-  "prob_home": 47.3,
+  "prob_home": 50.7,
   "odds": {
    "fanduel": {
     "St. Louis Cardinals": -104,
@@ -309,9 +309,9 @@
    "betmgm",
    -102
   ],
-  "dv_edge_away": 2.1,
-  "dv_edge_home": -0.3,
-  "flag": "",
+  "dv_edge_away": -1.3,
+  "dv_edge_home": 3.1,
+  "flag": "home",
   "locked": false
  },
  "Minnesota Twins@Los Angeles Angels": {
@@ -457,19 +457,19 @@
  "Milwaukee Brewers@Baltimore Orioles": {
   "away": "Milwaukee Brewers",
   "home": "Baltimore Orioles",
-  "prob_home": 44.9,
+  "prob_home": 47.3,
   "odds": {
    "fanduel": {
-    "Baltimore Orioles": 114,
-    "Milwaukee Brewers": -142
+    "Baltimore Orioles": 112,
+    "Milwaukee Brewers": -140
    },
    "williamhill_us": {
     "Baltimore Orioles": 120,
     "Milwaukee Brewers": -148
    },
    "draftkings": {
-    "Baltimore Orioles": 124,
-    "Milwaukee Brewers": -160
+    "Baltimore Orioles": 120,
+    "Milwaukee Brewers": -154
    },
    "betmgm": {
     "Baltimore Orioles": 120,
@@ -478,16 +478,16 @@
   },
   "best_away": [
    "fanduel",
-   -142
+   -140
   ],
   "best_home": [
-   "draftkings",
-   124
+   "williamhill_us",
+   120
   ],
-  "dv_edge_away": -0.6,
-  "dv_edge_home": 2.9,
+  "dv_edge_away": -2.6,
+  "dv_edge_home": 4.5,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Seattle Mariners@Colorado Rockies": {
   "away": "Seattle Mariners",
@@ -507,7 +507,7 @@
     "Seattle Mariners": -215
    },
    "betmgm": {
-    "Colorado Rockies": 165,
+    "Colorado Rockies": 160,
     "Seattle Mariners": -210
    }
   },

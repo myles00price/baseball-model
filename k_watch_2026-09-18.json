@@ -1,6 +1,6 @@
 {
  "date": "2026-09-18",
- "generated": "2026-09-18T19:46:11Z",
+ "generated": "2026-09-18T20:01:18Z",
  "pitchers": [
   {
    "id": 702885,
@@ -479,6 +479,240 @@
    "k9": 11.23
   },
   {
+   "id": 808825,
+   "name": "Andrew Sears",
+   "team": "Detroit Tigers",
+   "opp": "Chicago White Sox",
+   "home": false,
+   "pk": 824547,
+   "hand": "L",
+   "so": 13,
+   "bf": 73,
+   "gs": 2,
+   "ip": 16.7,
+   "f_pit": 0.948,
+   "bf_l5": 22.0,
+   "exp_bf": 21.91,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.1952370043753244,
+   "pk_pa": 0.251,
+   "exp_k": 5.46,
+   "dist": {
+    "2.5": 0.8994,
+    "3.5": 0.7909,
+    "4.5": 0.6413,
+    "5.5": 0.4733,
+    "6.5": 0.316,
+    "7.5": 0.1905,
+    "8.5": 0.1038,
+    "9.5": 0.0513
+   },
+   "books": {
+    "dk": {
+     "line": 3.5,
+     "over": -158,
+     "under": 123,
+     "alts": {
+      "1.5": [
+       -1600,
+       null
+      ],
+      "2.5": [
+       -414,
+       null
+      ],
+      "3.5": [
+       -158,
+       null
+      ],
+      "4.5": [
+       151,
+       null
+      ],
+      "5.5": [
+       338,
+       null
+      ],
+      "6.5": [
+       740,
+       null
+      ],
+      "7.5": [
+       1580,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 3.5,
+     "over": -156,
+     "under": 122,
+     "alts": {
+      "2.5": [
+       -460,
+       null
+      ],
+      "3.5": [
+       -156,
+       null
+      ],
+      "4.5": [
+       140,
+       null
+      ],
+      "5.5": [
+       300,
+       null
+      ],
+      "6.5": [
+       680,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 3.5,
+     "over": -160,
+     "under": 120,
+     "alts": {
+      "4.5": [
+       135,
+       null
+      ],
+      "2.5": [
+       -375,
+       null
+      ],
+      "6.5": [
+       525,
+       null
+      ],
+      "3.5": [
+       -160,
+       null
+      ],
+      "5.5": [
+       270,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -500,
+       null
+      ],
+      "3.5": [
+       -154,
+       null
+      ],
+      "4.5": [
+       134,
+       null
+      ],
+      "5.5": [
+       285,
+       null
+      ],
+      "6.5": [
+       600,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.7909,
+   "fair_over": "-378",
+   "fair_under": "+378",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 5.5,
+    "price": 338,
+    "p_model": 0.4733,
+    "implied": 0.2283,
+    "edge": 0.245,
+    "main": false
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -158,
+      "p_model": 0.7909,
+      "implied": 0.5773,
+      "edge": 0.2136,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": 123,
+      "p_model": 0.2091,
+      "implied": 0.4227,
+      "edge": -0.2136,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -156,
+      "p_model": 0.7909,
+      "implied": 0.575,
+      "edge": 0.2159,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": 122,
+      "p_model": 0.2091,
+      "implied": 0.425,
+      "edge": -0.2159,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -160,
+      "p_model": 0.7909,
+      "implied": 0.5752,
+      "edge": 0.2157,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 3.5,
+      "price": 120,
+      "p_model": 0.2091,
+      "implied": 0.4248,
+      "edge": -0.2157,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 17.8,
+   "k9": 7.01
+  },
+  {
    "id": 681517,
    "name": "Kyle Leahy",
    "team": "St. Louis Cardinals",
@@ -654,6 +888,252 @@
    "state": "Preview",
    "kpct": 22.5,
    "k9": 8.53
+  },
+  {
+   "id": 669160,
+   "name": "Dustin May",
+   "team": "Milwaukee Brewers",
+   "opp": "Baltimore Orioles",
+   "home": false,
+   "pk": 824790,
+   "hand": "R",
+   "so": 133,
+   "bf": 584,
+   "gs": 28,
+   "ip": 138.3,
+   "f_pit": 1.015,
+   "bf_l5": 13.0,
+   "exp_bf": 17.02,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.1598958829225703,
+   "pk_pa": 0.2596,
+   "exp_k": 4.35,
+   "dist": {
+    "2.5": 0.8023,
+    "3.5": 0.6378,
+    "4.5": 0.4518,
+    "5.5": 0.2835,
+    "6.5": 0.1576,
+    "7.5": 0.0779,
+    "8.5": 0.0343,
+    "9.5": 0.0136
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": -103,
+     "under": -124,
+     "alts": {
+      "2.5": [
+       -1300,
+       null
+      ],
+      "3.5": [
+       -464,
+       null
+      ],
+      "4.5": [
+       -204,
+       null
+      ],
+      "5.5": [
+       -101,
+       null
+      ],
+      "6.5": [
+       195,
+       null
+      ],
+      "7.5": [
+       376,
+       null
+      ],
+      "8.5": [
+       720,
+       null
+      ],
+      "9.5": [
+       1380,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": 100,
+     "under": -128,
+     "alts": {
+      "2.5": [
+       -2200,
+       null
+      ],
+      "3.5": [
+       -590,
+       null
+      ],
+      "4.5": [
+       -245,
+       null
+      ],
+      "5.5": [
+       100,
+       null
+      ],
+      "6.5": [
+       196,
+       null
+      ],
+      "7.5": [
+       400,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": 100,
+     "under": -135,
+     "alts": {
+      "7.5": [
+       380,
+       null
+      ],
+      "4.5": [
+       -220,
+       null
+      ],
+      "6.5": [
+       195,
+       null
+      ],
+      "3.5": [
+       -500,
+       null
+      ],
+      "5.5": [
+       100,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -590,
+       null
+      ],
+      "4.5": [
+       -225,
+       null
+      ],
+      "5.5": [
+       102,
+       null
+      ],
+      "6.5": [
+       183,
+       null
+      ],
+      "7.5": [
+       350,
+       null
+      ],
+      "8.5": [
+       700,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.2835,
+   "fair_over": "+253",
+   "fair_under": "-253",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 5.5,
+    "price": -124,
+    "p_model": 0.7165,
+    "implied": 0.5218,
+    "edge": 0.1947,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -103,
+      "p_model": 0.2835,
+      "implied": 0.4782,
+      "edge": -0.1947,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -124,
+      "p_model": 0.7165,
+      "implied": 0.5218,
+      "edge": 0.1947,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 100,
+      "p_model": 0.2835,
+      "implied": 0.4711,
+      "edge": -0.1876,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -128,
+      "p_model": 0.7165,
+      "implied": 0.5289,
+      "edge": 0.1876,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 100,
+      "p_model": 0.2835,
+      "implied": 0.4653,
+      "edge": -0.1818,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -135,
+      "p_model": 0.7165,
+      "implied": 0.5347,
+      "edge": 0.1818,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 22.8,
+   "k9": 8.66
   },
   {
    "id": 601713,
@@ -896,486 +1376,6 @@
    "state": "Preview",
    "kpct": 31.0,
    "k9": 11.16
-  },
-  {
-   "id": 808825,
-   "name": "Andrew Sears",
-   "team": "Detroit Tigers",
-   "opp": "Chicago White Sox",
-   "home": false,
-   "pk": 824547,
-   "hand": "L",
-   "so": 13,
-   "bf": 73,
-   "gs": 2,
-   "ip": 16.7,
-   "f_pit": 0.948,
-   "bf_l5": 22.0,
-   "exp_bf": 21.91,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.117,
-   "pk_pa": 0.2345,
-   "exp_k": 5.1,
-   "dist": {
-    "2.5": 0.8744,
-    "3.5": 0.7469,
-    "4.5": 0.5823,
-    "5.5": 0.41,
-    "6.5": 0.2597,
-    "7.5": 0.148,
-    "8.5": 0.0761,
-    "9.5": 0.0354
-   },
-   "books": {
-    "dk": {
-     "line": 3.5,
-     "over": -158,
-     "under": 123,
-     "alts": {
-      "1.5": [
-       -1600,
-       null
-      ],
-      "2.5": [
-       -414,
-       null
-      ],
-      "3.5": [
-       -158,
-       null
-      ],
-      "4.5": [
-       151,
-       null
-      ],
-      "5.5": [
-       338,
-       null
-      ],
-      "6.5": [
-       740,
-       null
-      ],
-      "7.5": [
-       1580,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 3.5,
-     "over": -156,
-     "under": 122,
-     "alts": {
-      "2.5": [
-       -460,
-       null
-      ],
-      "3.5": [
-       -156,
-       null
-      ],
-      "4.5": [
-       140,
-       null
-      ],
-      "5.5": [
-       300,
-       null
-      ],
-      "6.5": [
-       680,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 3.5,
-     "over": -160,
-     "under": 120,
-     "alts": {
-      "4.5": [
-       135,
-       null
-      ],
-      "2.5": [
-       -375,
-       null
-      ],
-      "6.5": [
-       525,
-       null
-      ],
-      "3.5": [
-       -160,
-       null
-      ],
-      "5.5": [
-       270,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -500,
-       null
-      ],
-      "3.5": [
-       -154,
-       null
-      ],
-      "4.5": [
-       134,
-       null
-      ],
-      "5.5": [
-       285,
-       null
-      ],
-      "6.5": [
-       600,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 3.5,
-   "p_over_cons": 0.7469,
-   "fair_over": "-295",
-   "fair_under": "+295",
-   "best": {
-    "side": "over",
-    "book": "dk",
-    "line": 4.5,
-    "price": 151,
-    "p_model": 0.5823,
-    "implied": 0.3984,
-    "edge": 0.1839,
-    "main": false
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 3.5,
-      "price": -158,
-      "p_model": 0.7469,
-      "implied": 0.5773,
-      "edge": 0.1696,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 3.5,
-      "price": 123,
-      "p_model": 0.2531,
-      "implied": 0.4227,
-      "edge": -0.1696,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 3.5,
-      "price": -156,
-      "p_model": 0.7469,
-      "implied": 0.575,
-      "edge": 0.1719,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 3.5,
-      "price": 122,
-      "p_model": 0.2531,
-      "implied": 0.425,
-      "edge": -0.1719,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 3.5,
-      "price": -160,
-      "p_model": 0.7469,
-      "implied": 0.5752,
-      "edge": 0.1717,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 3.5,
-      "price": 120,
-      "p_model": 0.2531,
-      "implied": 0.4248,
-      "edge": -0.1717,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 17.8,
-   "k9": 7.01
-  },
-  {
-   "id": 669160,
-   "name": "Dustin May",
-   "team": "Milwaukee Brewers",
-   "opp": "Baltimore Orioles",
-   "home": false,
-   "pk": 824790,
-   "hand": "R",
-   "so": 133,
-   "bf": 584,
-   "gs": 28,
-   "ip": 138.3,
-   "f_pit": 1.015,
-   "bf_l5": 13.0,
-   "exp_bf": 17.02,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.193,
-   "pk_pa": 0.2671,
-   "exp_k": 4.48,
-   "dist": {
-    "2.5": 0.8163,
-    "3.5": 0.659,
-    "4.5": 0.4759,
-    "5.5": 0.3052,
-    "6.5": 0.1737,
-    "7.5": 0.088,
-    "8.5": 0.0398,
-    "9.5": 0.0162
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": -103,
-     "under": -124,
-     "alts": {
-      "2.5": [
-       -1300,
-       null
-      ],
-      "3.5": [
-       -464,
-       null
-      ],
-      "4.5": [
-       -204,
-       null
-      ],
-      "5.5": [
-       -101,
-       null
-      ],
-      "6.5": [
-       195,
-       null
-      ],
-      "7.5": [
-       376,
-       null
-      ],
-      "8.5": [
-       720,
-       null
-      ],
-      "9.5": [
-       1380,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": 100,
-     "under": -128,
-     "alts": {
-      "2.5": [
-       -2200,
-       null
-      ],
-      "3.5": [
-       -590,
-       null
-      ],
-      "4.5": [
-       -245,
-       null
-      ],
-      "5.5": [
-       100,
-       null
-      ],
-      "6.5": [
-       196,
-       null
-      ],
-      "7.5": [
-       400,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": 100,
-     "under": -135,
-     "alts": {
-      "7.5": [
-       380,
-       null
-      ],
-      "4.5": [
-       -220,
-       null
-      ],
-      "6.5": [
-       195,
-       null
-      ],
-      "3.5": [
-       -500,
-       null
-      ],
-      "5.5": [
-       100,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "3.5": [
-       -590,
-       null
-      ],
-      "4.5": [
-       -225,
-       null
-      ],
-      "5.5": [
-       102,
-       null
-      ],
-      "6.5": [
-       183,
-       null
-      ],
-      "7.5": [
-       350,
-       null
-      ],
-      "8.5": [
-       700,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.3052,
-   "fair_over": "+228",
-   "fair_under": "-228",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 5.5,
-    "price": -124,
-    "p_model": 0.6948,
-    "implied": 0.5218,
-    "edge": 0.173,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": -103,
-      "p_model": 0.3052,
-      "implied": 0.4782,
-      "edge": -0.173,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": -124,
-      "p_model": 0.6948,
-      "implied": 0.5218,
-      "edge": 0.173,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": 100,
-      "p_model": 0.3052,
-      "implied": 0.4711,
-      "edge": -0.1658,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": -128,
-      "p_model": 0.6948,
-      "implied": 0.5289,
-      "edge": 0.1658,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": 100,
-      "p_model": 0.3052,
-      "implied": 0.4653,
-      "edge": -0.1601,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -135,
-      "p_model": 0.6948,
-      "implied": 0.5347,
-      "edge": 0.1601,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 22.8,
-   "k9": 8.66
   },
   {
    "id": 695505,
@@ -2094,6 +2094,256 @@
    "state": "Preview",
    "kpct": 20.5,
    "k9": 8.4
+  },
+  {
+   "id": 676917,
+   "name": "Cade Cavalli",
+   "team": "Washington Nationals",
+   "opp": "St. Louis Cardinals",
+   "home": false,
+   "pk": 823005,
+   "hand": "R",
+   "so": 194,
+   "bf": 687,
+   "gs": 31,
+   "ip": 164.7,
+   "f_pit": 1.196,
+   "bf_l5": 23.33,
+   "exp_bf": 22.9,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9080742295390228,
+   "pk_pa": 0.241,
+   "exp_k": 5.48,
+   "dist": {
+    "2.5": 0.9014,
+    "3.5": 0.7929,
+    "4.5": 0.6436,
+    "5.5": 0.476,
+    "6.5": 0.3189,
+    "7.5": 0.1932,
+    "8.5": 0.1059,
+    "9.5": 0.0527
+   },
+   "books": {
+    "dk": {
+     "line": 6.5,
+     "over": 116,
+     "under": -148,
+     "alts": {
+      "3.5": [
+       -1060,
+       null
+      ],
+      "4.5": [
+       -395,
+       null
+      ],
+      "5.5": [
+       -178,
+       null
+      ],
+      "6.5": [
+       113,
+       null
+      ],
+      "7.5": [
+       223,
+       null
+      ],
+      "8.5": [
+       443,
+       null
+      ],
+      "9.5": [
+       890,
+       null
+      ],
+      "10.5": [
+       1740,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 6.5,
+     "over": 120,
+     "under": -154,
+     "alts": {
+      "3.5": [
+       -1400,
+       null
+      ],
+      "4.5": [
+       -460,
+       null
+      ],
+      "5.5": [
+       -200,
+       null
+      ],
+      "6.5": [
+       120,
+       null
+      ],
+      "7.5": [
+       230,
+       null
+      ],
+      "8.5": [
+       440,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": -165,
+     "under": 125,
+     "alts": {
+      "4.5": [
+       -325,
+       null
+      ],
+      "3.5": [
+       -800,
+       null
+      ],
+      "5.5": [
+       -160,
+       null
+      ],
+      "7.5": [
+       230,
+       null
+      ],
+      "6.5": [
+       120,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       750,
+       null
+      ],
+      "3.5": [
+       -2000,
+       null
+      ],
+      "4.5": [
+       -420,
+       null
+      ],
+      "5.5": [
+       -190,
+       null
+      ],
+      "6.5": [
+       113,
+       null
+      ],
+      "7.5": [
+       210,
+       null
+      ],
+      "8.5": [
+       380,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 6.5,
+   "p_over_cons": 0.3189,
+   "fair_over": "+214",
+   "fair_under": "-214",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 6.5,
+    "price": -148,
+    "p_model": 0.6811,
+    "implied": 0.5631,
+    "edge": 0.118,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 6.5,
+      "price": 116,
+      "p_model": 0.3189,
+      "implied": 0.4369,
+      "edge": -0.118,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 6.5,
+      "price": -148,
+      "p_model": 0.6811,
+      "implied": 0.5631,
+      "edge": 0.118,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 6.5,
+      "price": 120,
+      "p_model": 0.3189,
+      "implied": 0.4285,
+      "edge": -0.1096,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 6.5,
+      "price": -154,
+      "p_model": 0.6811,
+      "implied": 0.5715,
+      "edge": 0.1096,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -165,
+      "p_model": 0.476,
+      "implied": 0.5835,
+      "edge": -0.1075,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 125,
+      "p_model": 0.524,
+      "implied": 0.4165,
+      "edge": 0.1075,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 28.2,
+   "k9": 10.6
   },
   {
    "id": 677976,
@@ -5640,256 +5890,6 @@
    "k9": 9.13
   },
   {
-   "id": 676917,
-   "name": "Cade Cavalli",
-   "team": "Washington Nationals",
-   "opp": "St. Louis Cardinals",
-   "home": false,
-   "pk": 823005,
-   "hand": "R",
-   "so": 194,
-   "bf": 687,
-   "gs": 31,
-   "ip": 164.7,
-   "f_pit": 1.196,
-   "bf_l5": 23.33,
-   "exp_bf": 22.9,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.019,
-   "pk_pa": 0.2687,
-   "exp_k": 6.11,
-   "dist": {
-    "2.5": 0.9333,
-    "3.5": 0.8537,
-    "4.5": 0.7327,
-    "5.5": 0.5811,
-    "6.5": 0.4217,
-    "7.5": 0.2787,
-    "8.5": 0.1676,
-    "9.5": 0.0917
-   },
-   "books": {
-    "dk": {
-     "line": 6.5,
-     "over": 116,
-     "under": -148,
-     "alts": {
-      "3.5": [
-       -1060,
-       null
-      ],
-      "4.5": [
-       -395,
-       null
-      ],
-      "5.5": [
-       -178,
-       null
-      ],
-      "6.5": [
-       113,
-       null
-      ],
-      "7.5": [
-       223,
-       null
-      ],
-      "8.5": [
-       443,
-       null
-      ],
-      "9.5": [
-       890,
-       null
-      ],
-      "10.5": [
-       1740,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 6.5,
-     "over": 120,
-     "under": -154,
-     "alts": {
-      "3.5": [
-       -1400,
-       null
-      ],
-      "4.5": [
-       -460,
-       null
-      ],
-      "5.5": [
-       -200,
-       null
-      ],
-      "6.5": [
-       120,
-       null
-      ],
-      "7.5": [
-       230,
-       null
-      ],
-      "8.5": [
-       440,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": -165,
-     "under": 125,
-     "alts": {
-      "4.5": [
-       -325,
-       null
-      ],
-      "3.5": [
-       -800,
-       null
-      ],
-      "5.5": [
-       -160,
-       null
-      ],
-      "7.5": [
-       230,
-       null
-      ],
-      "6.5": [
-       120,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "9.5": [
-       750,
-       null
-      ],
-      "3.5": [
-       -2000,
-       null
-      ],
-      "4.5": [
-       -420,
-       null
-      ],
-      "5.5": [
-       -190,
-       null
-      ],
-      "6.5": [
-       113,
-       null
-      ],
-      "7.5": [
-       210,
-       null
-      ],
-      "8.5": [
-       380,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 6.5,
-   "p_over_cons": 0.4217,
-   "fair_over": "+137",
-   "fair_under": "-137",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 6.5,
-    "price": -148,
-    "p_model": 0.5783,
-    "implied": 0.5631,
-    "edge": 0.0151,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 6.5,
-      "price": 116,
-      "p_model": 0.4217,
-      "implied": 0.4369,
-      "edge": -0.0151,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 6.5,
-      "price": -148,
-      "p_model": 0.5783,
-      "implied": 0.5631,
-      "edge": 0.0151,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 6.5,
-      "price": 120,
-      "p_model": 0.4217,
-      "implied": 0.4285,
-      "edge": -0.0067,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 6.5,
-      "price": -154,
-      "p_model": 0.5783,
-      "implied": 0.5715,
-      "edge": 0.0067,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -165,
-      "p_model": 0.5811,
-      "implied": 0.5835,
-      "edge": -0.0024,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": 125,
-      "p_model": 0.4189,
-      "implied": 0.4165,
-      "edge": 0.0024,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 28.2,
-   "k9": 10.6
-  },
-  {
    "id": 682982,
    "name": "Daniel Espino",
    "team": "Cleveland Guardians",
@@ -5986,20 +5986,20 @@
    "f_pit": 0.9552859775072416,
    "bf_l5": 17.33,
    "exp_bf": 18.75,
-   "lineup_src": "team",
-   "lineup_n": 0,
-   "f_lineup": 0.9787890472556708,
-   "pk_pa": 0.2064,
-   "exp_k": 3.87,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9680173227513528,
+   "pk_pa": 0.2041,
+   "exp_k": 3.83,
    "dist": {
-    "2.5": 0.7372,
-    "3.5": 0.5455,
-    "4.5": 0.3549,
-    "5.5": 0.203,
-    "6.5": 0.1025,
-    "7.5": 0.046,
-    "8.5": 0.0184,
-    "9.5": 0.0066
+    "2.5": 0.7306,
+    "3.5": 0.5368,
+    "4.5": 0.3465,
+    "5.5": 0.1964,
+    "6.5": 0.0982,
+    "7.5": 0.0436,
+    "8.5": 0.0173,
+    "9.5": 0.0062
    },
    "books": {},
    "cons_line": null,
@@ -6012,6 +6012,48 @@
    "state": "Preview",
    "kpct": 17.6,
    "k9": 6.76
+  },
+  {
+   "id": 641835,
+   "name": "Tim Mayza",
+   "team": "Philadelphia Phillies",
+   "opp": "New York Mets",
+   "home": false,
+   "pk": 823572,
+   "hand": "L",
+   "so": 63,
+   "bf": 255,
+   "gs": 5,
+   "ip": 64.7,
+   "f_pit": 1.0568902744901691,
+   "bf_l5": 6.67,
+   "exp_bf": 9.6,
+   "lineup_src": "team",
+   "lineup_n": 0,
+   "f_lineup": 1.0123955381485694,
+   "pk_pa": 0.2362,
+   "exp_k": 2.35,
+   "dist": {
+    "2.5": 0.4234,
+    "3.5": 0.2239,
+    "4.5": 0.0998,
+    "5.5": 0.0381,
+    "6.5": 0.0126,
+    "7.5": 0.0036,
+    "8.5": 0.0009,
+    "9.5": 0.0002
+   },
+   "books": {},
+   "cons_line": null,
+   "p_over_cons": null,
+   "fair_over": null,
+   "fair_under": null,
+   "best": null,
+   "edges": {},
+   "late": 1,
+   "state": "Preview",
+   "kpct": 24.7,
+   "k9": 8.76
   },
   {
    "id": 687312,
@@ -6057,7 +6099,7 @@
   }
  ],
  "league_k_pa": 0.2208,
- "lineups_confirmed": 7,
+ "lineups_confirmed": 11,
  "odds_at": "2026-09-18T15:33:13Z",
- "locked": 7
+ "locked": 11
 }
