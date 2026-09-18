@@ -1,6 +1,6 @@
 {
  "date": "2026-09-18",
- "generated": "2026-09-18T20:31:46Z",
+ "generated": "2026-09-18T20:46:06Z",
  "pitchers": [
   {
    "id": 702885,
@@ -2814,6 +2814,244 @@
    "k9": 6.97
   },
   {
+   "id": 689818,
+   "name": "David Sandlin",
+   "team": "Chicago White Sox",
+   "opp": "Detroit Tigers",
+   "home": true,
+   "pk": 824547,
+   "hand": "R",
+   "so": 29,
+   "bf": 126,
+   "gs": 4,
+   "ip": 30.3,
+   "f_pit": 1.016,
+   "bf_l5": 21.67,
+   "exp_bf": 21.5,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9715580514787288,
+   "pk_pa": 0.218,
+   "exp_k": 4.74,
+   "dist": {
+    "2.5": 0.8435,
+    "3.5": 0.6961,
+    "4.5": 0.519,
+    "5.5": 0.3469,
+    "6.5": 0.2076,
+    "7.5": 0.1114,
+    "8.5": 0.0538,
+    "9.5": 0.0235
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": 120,
+     "under": -153,
+     "alts": {
+      "1.5": [
+       -1940,
+       null
+      ],
+      "2.5": [
+       -497,
+       null
+      ],
+      "3.5": [
+       -186,
+       null
+      ],
+      "4.5": [
+       120,
+       null
+      ],
+      "5.5": [
+       264,
+       null
+      ],
+      "6.5": [
+       561,
+       null
+      ],
+      "7.5": [
+       1240,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 4.5,
+     "over": 124,
+     "under": -158,
+     "alts": {
+      "2.5": [
+       -650,
+       null
+      ],
+      "3.5": [
+       -220,
+       null
+      ],
+      "4.5": [
+       124,
+       null
+      ],
+      "5.5": [
+       255,
+       null
+      ],
+      "6.5": [
+       560,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 3.5,
+     "over": -185,
+     "under": 135,
+     "alts": {
+      "5.5": [
+       240,
+       null
+      ],
+      "6.5": [
+       475,
+       null
+      ],
+      "3.5": [
+       -185,
+       null
+      ],
+      "4.5": [
+       120,
+       null
+      ],
+      "2.5": [
+       -450,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -675,
+       null
+      ],
+      "3.5": [
+       -200,
+       null
+      ],
+      "4.5": [
+       118,
+       null
+      ],
+      "5.5": [
+       245,
+       null
+      ],
+      "6.5": [
+       500,
+       null
+      ],
+      "7.5": [
+       1100,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.519,
+   "fair_over": "-108",
+   "fair_under": "+108",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 4.5,
+    "price": 124,
+    "p_model": 0.519,
+    "implied": 0.4216,
+    "edge": 0.0974,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": 120,
+      "p_model": 0.519,
+      "implied": 0.4291,
+      "edge": 0.0899,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -153,
+      "p_model": 0.481,
+      "implied": 0.5709,
+      "edge": -0.0899,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": 124,
+      "p_model": 0.519,
+      "implied": 0.4216,
+      "edge": 0.0974,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -158,
+      "p_model": 0.481,
+      "implied": 0.5784,
+      "edge": -0.0974,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -185,
+      "p_model": 0.6961,
+      "implied": 0.604,
+      "edge": 0.0921,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 3.5,
+      "price": 135,
+      "p_model": 0.3039,
+      "implied": 0.396,
+      "edge": -0.0921,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 23.0,
+   "k9": 8.61
+  },
+  {
    "id": 693433,
    "name": "Bryan Woo",
    "team": "Seattle Mariners",
@@ -3464,244 +3702,6 @@
    "state": "Preview",
    "kpct": 20.1,
    "k9": 8.17
-  },
-  {
-   "id": 689818,
-   "name": "David Sandlin",
-   "team": "Chicago White Sox",
-   "opp": "Detroit Tigers",
-   "home": true,
-   "pk": 824547,
-   "hand": "R",
-   "so": 29,
-   "bf": 126,
-   "gs": 4,
-   "ip": 30.3,
-   "f_pit": 1.016,
-   "bf_l5": 21.67,
-   "exp_bf": 21.5,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.958,
-   "pk_pa": 0.215,
-   "exp_k": 4.67,
-   "dist": {
-    "2.5": 0.837,
-    "3.5": 0.6858,
-    "4.5": 0.5068,
-    "5.5": 0.3352,
-    "6.5": 0.1983,
-    "7.5": 0.1052,
-    "8.5": 0.0502,
-    "9.5": 0.0217
-   },
-   "books": {
-    "dk": {
-     "line": 4.5,
-     "over": 120,
-     "under": -153,
-     "alts": {
-      "1.5": [
-       -1940,
-       null
-      ],
-      "2.5": [
-       -497,
-       null
-      ],
-      "3.5": [
-       -186,
-       null
-      ],
-      "4.5": [
-       120,
-       null
-      ],
-      "5.5": [
-       264,
-       null
-      ],
-      "6.5": [
-       561,
-       null
-      ],
-      "7.5": [
-       1240,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 4.5,
-     "over": 124,
-     "under": -158,
-     "alts": {
-      "2.5": [
-       -650,
-       null
-      ],
-      "3.5": [
-       -220,
-       null
-      ],
-      "4.5": [
-       124,
-       null
-      ],
-      "5.5": [
-       255,
-       null
-      ],
-      "6.5": [
-       560,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 3.5,
-     "over": -185,
-     "under": 135,
-     "alts": {
-      "5.5": [
-       240,
-       null
-      ],
-      "6.5": [
-       475,
-       null
-      ],
-      "3.5": [
-       -185,
-       null
-      ],
-      "4.5": [
-       120,
-       null
-      ],
-      "2.5": [
-       -450,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -675,
-       null
-      ],
-      "3.5": [
-       -200,
-       null
-      ],
-      "4.5": [
-       118,
-       null
-      ],
-      "5.5": [
-       245,
-       null
-      ],
-      "6.5": [
-       500,
-       null
-      ],
-      "7.5": [
-       1100,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 4.5,
-   "p_over_cons": 0.5068,
-   "fair_over": "-103",
-   "fair_under": "+103",
-   "best": {
-    "side": "over",
-    "book": "fd",
-    "line": 4.5,
-    "price": 124,
-    "p_model": 0.5068,
-    "implied": 0.4216,
-    "edge": 0.0851,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 4.5,
-      "price": 120,
-      "p_model": 0.5068,
-      "implied": 0.4291,
-      "edge": 0.0777,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 4.5,
-      "price": -153,
-      "p_model": 0.4932,
-      "implied": 0.5709,
-      "edge": -0.0777,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 4.5,
-      "price": 124,
-      "p_model": 0.5068,
-      "implied": 0.4216,
-      "edge": 0.0851,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 4.5,
-      "price": -158,
-      "p_model": 0.4932,
-      "implied": 0.5784,
-      "edge": -0.0851,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 3.5,
-      "price": -185,
-      "p_model": 0.6858,
-      "implied": 0.604,
-      "edge": 0.0818,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 3.5,
-      "price": 135,
-      "p_model": 0.3142,
-      "implied": 0.396,
-      "edge": -0.0818,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 23.0,
-   "k9": 8.61
   },
   {
    "id": 677958,
@@ -6099,7 +6099,7 @@
   }
  ],
  "league_k_pa": 0.2208,
- "lineups_confirmed": 20,
+ "lineups_confirmed": 21,
  "odds_at": "2026-09-18T15:33:13Z",
- "locked": 20
+ "locked": 21
 }
