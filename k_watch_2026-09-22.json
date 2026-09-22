@@ -1,6 +1,6 @@
 {
  "date": "2026-09-22",
- "generated": "2026-09-22T20:15:58Z",
+ "generated": "2026-09-22T21:15:50Z",
  "pitchers": [
   {
    "id": 682227,
@@ -243,20 +243,20 @@
    "f_pit": 1.055,
    "bf_l5": 20.0,
    "exp_bf": 21.35,
-   "lineup_src": "previous",
+   "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.982,
-   "pk_pa": 0.2292,
-   "exp_k": 4.76,
+   "f_lineup": 1.0215062333259413,
+   "pk_pa": 0.2382,
+   "exp_k": 4.94,
    "dist": {
-    "2.5": 0.8447,
-    "3.5": 0.6992,
-    "4.5": 0.5228,
-    "5.5": 0.3503,
-    "6.5": 0.2099,
-    "7.5": 0.1127,
-    "8.5": 0.0544,
-    "9.5": 0.0237
+    "2.5": 0.8615,
+    "3.5": 0.7264,
+    "4.5": 0.5565,
+    "5.5": 0.3834,
+    "6.5": 0.2369,
+    "7.5": 0.1313,
+    "8.5": 0.0655,
+    "9.5": 0.0295
    },
    "books": {
     "dk": {
@@ -397,17 +397,17 @@
     }
    },
    "cons_line": 5.5,
-   "p_over_cons": 0.3503,
-   "fair_over": "+185",
-   "fair_under": "-185",
+   "p_over_cons": 0.3834,
+   "fair_over": "+161",
+   "fair_under": "-161",
    "best": {
     "side": "under",
     "book": "dk",
     "line": 5.5,
     "price": 112,
-    "p_model": 0.6497,
+    "p_model": 0.6166,
     "implied": 0.4449,
-    "edge": 0.2048,
+    "edge": 0.1717,
     "main": true
    },
    "edges": {
@@ -417,9 +417,9 @@
       "book": "dk",
       "line": 5.5,
       "price": -143,
-      "p_model": 0.3503,
+      "p_model": 0.3834,
       "implied": 0.5551,
-      "edge": -0.2048,
+      "edge": -0.1717,
       "main": true
      },
      "under": {
@@ -427,9 +427,9 @@
       "book": "dk",
       "line": 5.5,
       "price": 112,
-      "p_model": 0.6497,
+      "p_model": 0.6166,
       "implied": 0.4449,
-      "edge": 0.2048,
+      "edge": 0.1717,
       "main": true
      }
     },
@@ -439,9 +439,9 @@
       "book": "fd",
       "line": 5.5,
       "price": -132,
-      "p_model": 0.3503,
+      "p_model": 0.3834,
       "implied": 0.5372,
-      "edge": -0.1869,
+      "edge": -0.1538,
       "main": true
      },
      "under": {
@@ -449,9 +449,9 @@
       "book": "fd",
       "line": 5.5,
       "price": 104,
-      "p_model": 0.6497,
+      "p_model": 0.6166,
       "implied": 0.4628,
-      "edge": 0.1869,
+      "edge": 0.1538,
       "main": true
      }
     },
@@ -461,9 +461,9 @@
       "book": "mgm",
       "line": 5.5,
       "price": -140,
-      "p_model": 0.3503,
+      "p_model": 0.3834,
       "implied": 0.5446,
-      "edge": -0.1943,
+      "edge": -0.1612,
       "main": true
      },
      "under": {
@@ -471,9 +471,9 @@
       "book": "mgm",
       "line": 5.5,
       "price": 105,
-      "p_model": 0.6497,
+      "p_model": 0.6166,
       "implied": 0.4554,
-      "edge": 0.1943,
+      "edge": 0.1612,
       "main": true
      }
     }
@@ -6831,7 +6831,7 @@
   }
  ],
  "league_k_pa": 0.2211,
- "lineups_confirmed": 18,
+ "lineups_confirmed": 19,
  "odds_at": "2026-09-22T15:33:54Z",
- "locked": 18
+ "locked": 19
 }
