@@ -492,7 +492,7 @@
  "Minnesota Twins@San Francisco Giants": {
   "away": "Minnesota Twins",
   "home": "San Francisco Giants",
-  "prob_home": 36.5,
+  "prob_home": 28.5,
   "odds": {
    "fanduel": {
     "Minnesota Twins": -138,
@@ -519,8 +519,43 @@
    "fanduel",
    110
   ],
-  "dv_edge_away": 9.4,
-  "dv_edge_home": -8.4,
+  "dv_edge_away": 17.4,
+  "dv_edge_home": -16.4,
+  "flag": "",
+  "locked": true
+ },
+ "San Diego Padres@Los Angeles Dodgers": {
+  "away": "San Diego Padres",
+  "home": "Los Angeles Dodgers",
+  "prob_home": 50.5,
+  "odds": {
+   "fanduel": {
+    "Los Angeles Dodgers": -148,
+    "San Diego Padres": 118
+   },
+   "williamhill_us": {
+    "Los Angeles Dodgers": -136,
+    "San Diego Padres": 111
+   },
+   "draftkings": {
+    "Los Angeles Dodgers": -140,
+    "San Diego Padres": 110
+   },
+   "betmgm": {
+    "Los Angeles Dodgers": -145,
+    "San Diego Padres": 115
+   }
+  },
+  "best_away": [
+   "fanduel",
+   118
+  ],
+  "best_home": [
+   "williamhill_us",
+   -136
+  ],
+  "dv_edge_away": 6.0,
+  "dv_edge_home": -4.4,
   "flag": "",
   "locked": false
  }
