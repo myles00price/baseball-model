@@ -1,6 +1,6 @@
 {
  "date": "2026-09-23",
- "generated": "2026-09-23T16:00:06Z",
+ "generated": "2026-09-23T16:46:02Z",
  "pitchers": [
   {
    "id": 702885,
@@ -17,20 +17,20 @@
    "f_pit": 0.898,
    "bf_l5": 26.0,
    "exp_bf": 24.41,
-   "lineup_src": "previous",
+   "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.952,
-   "pk_pa": 0.1889,
-   "exp_k": 4.49,
+   "f_lineup": 0.9614587720534504,
+   "pk_pa": 0.1908,
+   "exp_k": 4.53,
    "dist": {
-    "2.5": 0.8167,
-    "3.5": 0.6535,
-    "4.5": 0.4695,
-    "5.5": 0.3014,
-    "6.5": 0.1731,
-    "7.5": 0.0892,
-    "8.5": 0.0415,
-    "9.5": 0.0175
+    "2.5": 0.8218,
+    "3.5": 0.661,
+    "4.5": 0.478,
+    "5.5": 0.3092,
+    "6.5": 0.179,
+    "7.5": 0.093,
+    "8.5": 0.0436,
+    "9.5": 0.0185
    },
    "books": {
     "dk": {
@@ -147,17 +147,17 @@
     }
    },
    "cons_line": 3.5,
-   "p_over_cons": 0.6535,
-   "fair_over": "-189",
-   "fair_under": "+189",
+   "p_over_cons": 0.661,
+   "fair_over": "-195",
+   "fair_under": "+195",
    "best": {
     "side": "over",
     "book": "mgm",
     "line": 3.5,
     "price": 115,
-    "p_model": 0.6535,
+    "p_model": 0.661,
     "implied": 0.4651,
-    "edge": 0.1884,
+    "edge": 0.1959,
     "main": false
    },
    "edges": {
@@ -167,9 +167,9 @@
       "book": "dk",
       "line": 3.5,
       "price": 101,
-      "p_model": 0.6535,
+      "p_model": 0.661,
       "implied": 0.469,
-      "edge": 0.1845,
+      "edge": 0.192,
       "main": true
      },
      "under": {
@@ -177,9 +177,9 @@
       "book": "dk",
       "line": 3.5,
       "price": -129,
-      "p_model": 0.3465,
+      "p_model": 0.339,
       "implied": 0.531,
-      "edge": -0.1845,
+      "edge": -0.192,
       "main": true
      }
     },
@@ -189,9 +189,9 @@
       "book": "fd",
       "line": 3.5,
       "price": -104,
-      "p_model": 0.6535,
+      "p_model": 0.661,
       "implied": 0.4812,
-      "edge": 0.1723,
+      "edge": 0.1798,
       "main": true
      },
      "under": {
@@ -199,9 +199,9 @@
       "book": "fd",
       "line": 3.5,
       "price": -122,
-      "p_model": 0.3465,
+      "p_model": 0.339,
       "implied": 0.5188,
-      "edge": -0.1723,
+      "edge": -0.1798,
       "main": true
      }
     },
@@ -211,9 +211,9 @@
       "book": "mgm",
       "line": 3.5,
       "price": 100,
-      "p_model": 0.6535,
+      "p_model": 0.661,
       "implied": 0.4653,
-      "edge": 0.1881,
+      "edge": 0.1957,
       "main": true
      },
      "under": {
@@ -221,9 +221,9 @@
       "book": "mgm",
       "line": 3.5,
       "price": -135,
-      "p_model": 0.3465,
+      "p_model": 0.339,
       "implied": 0.5347,
-      "edge": -0.1881,
+      "edge": -0.1957,
       "main": true
      }
     }
@@ -975,252 +975,6 @@
    "k9": 9.85
   },
   {
-   "id": 687570,
-   "name": "Connor Prielipp",
-   "team": "Minnesota Twins",
-   "opp": "San Francisco Giants",
-   "home": false,
-   "pk": 823168,
-   "hand": "L",
-   "so": 125,
-   "bf": 513,
-   "gs": 21,
-   "ip": 120.3,
-   "f_pit": 1.073,
-   "bf_l5": 23.0,
-   "exp_bf": 22.72,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.131,
-   "pk_pa": 0.2678,
-   "exp_k": 6.09,
-   "dist": {
-    "2.5": 0.9324,
-    "3.5": 0.8519,
-    "4.5": 0.7301,
-    "5.5": 0.5778,
-    "6.5": 0.4183,
-    "7.5": 0.2757,
-    "8.5": 0.1653,
-    "9.5": 0.0902
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": 109,
-     "under": -140,
-     "alts": {
-      "2.5": [
-       -1100,
-       null
-      ],
-      "3.5": [
-       -409,
-       null
-      ],
-      "4.5": [
-       -184,
-       null
-      ],
-      "5.5": [
-       108,
-       null
-      ],
-      "6.5": [
-       209,
-       null
-      ],
-      "7.5": [
-       390,
-       null
-      ],
-      "8.5": [
-       720,
-       null
-      ],
-      "9.5": [
-       1300,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": 110,
-     "under": -140,
-     "alts": {
-      "2.5": [
-       -2200,
-       null
-      ],
-      "3.5": [
-       -560,
-       null
-      ],
-      "4.5": [
-       -220,
-       null
-      ],
-      "5.5": [
-       110,
-       null
-      ],
-      "6.5": [
-       215,
-       null
-      ],
-      "7.5": [
-       450,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": 105,
-     "under": -140,
-     "alts": {
-      "7.5": [
-       425,
-       null
-      ],
-      "5.5": [
-       105,
-       null
-      ],
-      "4.5": [
-       -200,
-       null
-      ],
-      "6.5": [
-       210,
-       null
-      ],
-      "3.5": [
-       -500,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "3.5": [
-       -500,
-       null
-      ],
-      "4.5": [
-       -205,
-       null
-      ],
-      "5.5": [
-       110,
-       null
-      ],
-      "6.5": [
-       205,
-       null
-      ],
-      "7.5": [
-       400,
-       null
-      ],
-      "8.5": [
-       750,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.5778,
-   "fair_over": "-137",
-   "fair_under": "+137",
-   "best": {
-    "side": "over",
-    "book": "fd",
-    "line": 5.5,
-    "price": 110,
-    "p_model": 0.5778,
-    "implied": 0.4494,
-    "edge": 0.1283,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": 109,
-      "p_model": 0.5778,
-      "implied": 0.4506,
-      "edge": 0.1272,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": -140,
-      "p_model": 0.4222,
-      "implied": 0.5494,
-      "edge": -0.1272,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": 110,
-      "p_model": 0.5778,
-      "implied": 0.4494,
-      "edge": 0.1283,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": -140,
-      "p_model": 0.4222,
-      "implied": 0.5506,
-      "edge": -0.1283,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": 105,
-      "p_model": 0.5778,
-      "implied": 0.4554,
-      "edge": 0.1224,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -140,
-      "p_model": 0.4222,
-      "implied": 0.5446,
-      "edge": -0.1224,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 24.4,
-   "k9": 9.35
-  },
-  {
    "id": 700712,
    "name": "Walbert Ure\u00f1a",
    "team": "Los Angeles Angels",
@@ -1712,7 +1466,7 @@
      }
     }
    },
-   "state": "Preview",
+   "state": "Live",
    "kpct": 17.5,
    "k9": 6.88
   },
@@ -2449,6 +2203,252 @@
    "state": "Preview",
    "kpct": 30.7,
    "k9": 10.32
+  },
+  {
+   "id": 687570,
+   "name": "Connor Prielipp",
+   "team": "Minnesota Twins",
+   "opp": "San Francisco Giants",
+   "home": false,
+   "pk": 823168,
+   "hand": "L",
+   "so": 125,
+   "bf": 513,
+   "gs": 21,
+   "ip": 120.3,
+   "f_pit": 1.073,
+   "bf_l5": 23.0,
+   "exp_bf": 22.72,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 1.083268116191979,
+   "pk_pa": 0.2567,
+   "exp_k": 5.84,
+   "dist": {
+    "2.5": 0.9211,
+    "3.5": 0.8297,
+    "4.5": 0.6964,
+    "5.5": 0.5369,
+    "6.5": 0.377,
+    "7.5": 0.2403,
+    "8.5": 0.139,
+    "9.5": 0.0731
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": 109,
+     "under": -140,
+     "alts": {
+      "2.5": [
+       -1100,
+       null
+      ],
+      "3.5": [
+       -409,
+       null
+      ],
+      "4.5": [
+       -184,
+       null
+      ],
+      "5.5": [
+       108,
+       null
+      ],
+      "6.5": [
+       209,
+       null
+      ],
+      "7.5": [
+       390,
+       null
+      ],
+      "8.5": [
+       720,
+       null
+      ],
+      "9.5": [
+       1300,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": 110,
+     "under": -140,
+     "alts": {
+      "2.5": [
+       -2200,
+       null
+      ],
+      "3.5": [
+       -560,
+       null
+      ],
+      "4.5": [
+       -220,
+       null
+      ],
+      "5.5": [
+       110,
+       null
+      ],
+      "6.5": [
+       215,
+       null
+      ],
+      "7.5": [
+       450,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": 105,
+     "under": -140,
+     "alts": {
+      "7.5": [
+       425,
+       null
+      ],
+      "5.5": [
+       105,
+       null
+      ],
+      "4.5": [
+       -200,
+       null
+      ],
+      "6.5": [
+       210,
+       null
+      ],
+      "3.5": [
+       -500,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -500,
+       null
+      ],
+      "4.5": [
+       -205,
+       null
+      ],
+      "5.5": [
+       110,
+       null
+      ],
+      "6.5": [
+       205,
+       null
+      ],
+      "7.5": [
+       400,
+       null
+      ],
+      "8.5": [
+       750,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.5369,
+   "fair_over": "-116",
+   "fair_under": "+116",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 5.5,
+    "price": 110,
+    "p_model": 0.5369,
+    "implied": 0.4494,
+    "edge": 0.0874,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": 109,
+      "p_model": 0.5369,
+      "implied": 0.4506,
+      "edge": 0.0862,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -140,
+      "p_model": 0.4631,
+      "implied": 0.5494,
+      "edge": -0.0862,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 110,
+      "p_model": 0.5369,
+      "implied": 0.4494,
+      "edge": 0.0874,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -140,
+      "p_model": 0.4631,
+      "implied": 0.5506,
+      "edge": -0.0874,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 105,
+      "p_model": 0.5369,
+      "implied": 0.4554,
+      "edge": 0.0814,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -140,
+      "p_model": 0.4631,
+      "implied": 0.5446,
+      "edge": -0.0814,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 24.4,
+   "k9": 9.35
   },
   {
    "id": 693855,
@@ -6482,7 +6482,7 @@
    "fair_under": null,
    "best": null,
    "edges": {},
-   "state": "Preview",
+   "state": "Live",
    "kpct": 18.9,
    "k9": 8.26
   },
@@ -6570,7 +6570,7 @@
   }
  ],
  "league_k_pa": 0.2212,
- "lineups_confirmed": 4,
+ "lineups_confirmed": 6,
  "odds_at": "2026-09-23T15:31:48Z",
- "locked": 4
+ "locked": 6
 }
