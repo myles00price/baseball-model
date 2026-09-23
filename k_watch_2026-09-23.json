@@ -1,6 +1,6 @@
 {
  "date": "2026-09-23",
- "generated": "2026-09-23T21:00:49Z",
+ "generated": "2026-09-23T21:15:38Z",
  "pitchers": [
   {
    "id": 702885,
@@ -19,7 +19,7 @@
    "exp_bf": 24.41,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.9502607534913566,
+   "f_lineup": 0.9502623924603182,
    "pk_pa": 0.1885,
    "exp_k": 4.48,
    "dist": {
@@ -249,7 +249,7 @@
    "exp_bf": 23.91,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.8151266828156026,
+   "f_lineup": 0.8151285164064752,
    "pk_pa": 0.1481,
    "exp_k": 3.52,
    "dist": {
@@ -395,7 +395,7 @@
       "price": -140,
       "p_model": 0.4679,
       "implied": 0.5494,
-      "edge": -0.0815,
+      "edge": -0.0814,
       "main": true
      },
      "under": {
@@ -405,7 +405,7 @@
       "price": 109,
       "p_model": 0.5321,
       "implied": 0.4506,
-      "edge": 0.0815,
+      "edge": 0.0814,
       "main": true
      }
     },
@@ -482,7 +482,7 @@
     "2.5": 0.9044,
     "3.5": 0.7969,
     "4.5": 0.6488,
-    "5.5": 0.4819,
+    "5.5": 0.482,
     "6.5": 0.3248,
     "7.5": 0.1982,
     "8.5": 0.1096,
@@ -725,7 +725,7 @@
    "exp_bf": 24.07,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.1218868549571277,
+   "f_lineup": 1.1218890301095863,
    "pk_pa": 0.3335,
    "exp_k": 7.92,
    "dist": {
@@ -971,7 +971,7 @@
    "exp_bf": 24.45,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0487780742697261,
+   "f_lineup": 1.0487803357542815,
    "pk_pa": 0.1966,
    "exp_k": 4.67,
    "dist": {
@@ -1447,6 +1447,256 @@
    "k9": 7.09
   },
   {
+   "id": 592332,
+   "name": "Kevin Gausman",
+   "team": "Chicago Cubs",
+   "opp": "Miami Marlins",
+   "home": true,
+   "pk": 824625,
+   "hand": "R",
+   "so": 177,
+   "bf": 728,
+   "gs": 31,
+   "ip": 172.0,
+   "f_pit": 1.095,
+   "bf_l5": 23.0,
+   "exp_bf": 23.18,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9762542309844556,
+   "pk_pa": 0.2367,
+   "exp_k": 5.38,
+   "dist": {
+    "2.5": 0.8953,
+    "3.5": 0.7818,
+    "4.5": 0.6283,
+    "5.5": 0.4592,
+    "6.5": 0.3035,
+    "7.5": 0.1812,
+    "8.5": 0.0979,
+    "9.5": 0.048
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": -147,
+     "under": 115,
+     "alts": {
+      "2.5": [
+       -3500,
+       null
+      ],
+      "3.5": [
+       -890,
+       null
+      ],
+      "4.5": [
+       -333,
+       null
+      ],
+      "5.5": [
+       -147,
+       null
+      ],
+      "6.5": [
+       142,
+       null
+      ],
+      "7.5": [
+       294,
+       null
+      ],
+      "8.5": [
+       610,
+       null
+      ],
+      "9.5": [
+       1240,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": -140,
+     "under": 110,
+     "alts": {
+      "3.5": [
+       -1100,
+       null
+      ],
+      "4.5": [
+       -370,
+       null
+      ],
+      "5.5": [
+       -140,
+       null
+      ],
+      "6.5": [
+       150,
+       null
+      ],
+      "7.5": [
+       300,
+       null
+      ],
+      "8.5": [
+       600,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": -150,
+     "under": 110,
+     "alts": {
+      "4.5": [
+       -300,
+       null
+      ],
+      "7.5": [
+       250,
+       null
+      ],
+      "3.5": [
+       -700,
+       null
+      ],
+      "6.5": [
+       130,
+       null
+      ],
+      "5.5": [
+       -150,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       850,
+       null
+      ],
+      "3.5": [
+       -1000,
+       null
+      ],
+      "4.5": [
+       -345,
+       null
+      ],
+      "5.5": [
+       -141,
+       null
+      ],
+      "6.5": [
+       127,
+       null
+      ],
+      "7.5": [
+       235,
+       null
+      ],
+      "8.5": [
+       450,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.4592,
+   "fair_over": "+118",
+   "fair_under": "-118",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 5.5,
+    "price": 115,
+    "p_model": 0.5408,
+    "implied": 0.4387,
+    "edge": 0.1021,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -147,
+      "p_model": 0.4592,
+      "implied": 0.5613,
+      "edge": -0.1021,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": 115,
+      "p_model": 0.5408,
+      "implied": 0.4387,
+      "edge": 0.1021,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -140,
+      "p_model": 0.4592,
+      "implied": 0.5506,
+      "edge": -0.0914,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": 110,
+      "p_model": 0.5408,
+      "implied": 0.4494,
+      "edge": 0.0914,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -150,
+      "p_model": 0.4592,
+      "implied": 0.5575,
+      "edge": -0.0983,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 110,
+      "p_model": 0.5408,
+      "implied": 0.4425,
+      "edge": 0.0983,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 24.3,
+   "k9": 9.26
+  },
+  {
    "id": 690997,
    "name": "Nolan McLean",
    "team": "New York Mets",
@@ -1463,7 +1713,7 @@
    "exp_bf": 24.37,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0164227678488573,
+   "f_lineup": 1.0164251363335552,
    "pk_pa": 0.2657,
    "exp_k": 6.31,
    "dist": {
@@ -1717,7 +1967,7 @@
    "exp_bf": 20.73,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.8308958081279006,
+   "f_lineup": 0.8308977536873912,
    "pk_pa": 0.2437,
    "exp_k": 5.06,
    "dist": {
@@ -1967,7 +2217,7 @@
    "exp_bf": 22.72,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0833541992060112,
+   "f_lineup": 1.0833559710123928,
    "pk_pa": 0.2567,
    "exp_k": 5.84,
    "dist": {
@@ -2213,7 +2463,7 @@
    "exp_bf": 20.44,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.8710380873550454,
+   "f_lineup": 0.8710400424157423,
    "pk_pa": 0.1947,
    "exp_k": 3.84,
    "dist": {
@@ -2443,7 +2693,7 @@
    "exp_bf": 21.87,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0009239666265386,
+   "f_lineup": 1.0009263123661385,
    "pk_pa": 0.1975,
    "exp_k": 4.29,
    "dist": {
@@ -2669,7 +2919,7 @@
    "exp_bf": 21.8,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.9807293344847328,
+   "f_lineup": 0.980731464779635,
    "pk_pa": 0.2155,
    "exp_k": 4.69,
    "dist": {
@@ -2911,7 +3161,7 @@
    "exp_bf": 20.48,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.9849016043736396,
+   "f_lineup": 0.9849038002101455,
    "pk_pa": 0.1713,
    "exp_k": 3.38,
    "dist": {
@@ -3383,7 +3633,7 @@
    "exp_bf": 23.91,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.8217115244745907,
+   "f_lineup": 0.8217133945505203,
    "pk_pa": 0.1888,
    "exp_k": 4.48,
    "dist": {
@@ -3839,256 +4089,6 @@
    "k9": 7.65
   },
   {
-   "id": 592332,
-   "name": "Kevin Gausman",
-   "team": "Chicago Cubs",
-   "opp": "Miami Marlins",
-   "home": true,
-   "pk": 824625,
-   "hand": "R",
-   "so": 177,
-   "bf": 728,
-   "gs": 31,
-   "ip": 172.0,
-   "f_pit": 1.095,
-   "bf_l5": 23.0,
-   "exp_bf": 23.18,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 1.033,
-   "pk_pa": 0.25,
-   "exp_k": 5.69,
-   "dist": {
-    "2.5": 0.9133,
-    "3.5": 0.8148,
-    "4.5": 0.6746,
-    "5.5": 0.5112,
-    "6.5": 0.352,
-    "7.5": 0.2197,
-    "8.5": 0.1243,
-    "9.5": 0.0639
-   },
-   "books": {
-    "dk": {
-     "line": 5.5,
-     "over": -147,
-     "under": 115,
-     "alts": {
-      "2.5": [
-       -3500,
-       null
-      ],
-      "3.5": [
-       -890,
-       null
-      ],
-      "4.5": [
-       -333,
-       null
-      ],
-      "5.5": [
-       -147,
-       null
-      ],
-      "6.5": [
-       142,
-       null
-      ],
-      "7.5": [
-       294,
-       null
-      ],
-      "8.5": [
-       610,
-       null
-      ],
-      "9.5": [
-       1240,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": -140,
-     "under": 110,
-     "alts": {
-      "3.5": [
-       -1100,
-       null
-      ],
-      "4.5": [
-       -370,
-       null
-      ],
-      "5.5": [
-       -140,
-       null
-      ],
-      "6.5": [
-       150,
-       null
-      ],
-      "7.5": [
-       300,
-       null
-      ],
-      "8.5": [
-       600,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 5.5,
-     "over": -150,
-     "under": 110,
-     "alts": {
-      "4.5": [
-       -300,
-       null
-      ],
-      "7.5": [
-       250,
-       null
-      ],
-      "3.5": [
-       -700,
-       null
-      ],
-      "6.5": [
-       130,
-       null
-      ],
-      "5.5": [
-       -150,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "9.5": [
-       850,
-       null
-      ],
-      "3.5": [
-       -1000,
-       null
-      ],
-      "4.5": [
-       -345,
-       null
-      ],
-      "5.5": [
-       -141,
-       null
-      ],
-      "6.5": [
-       127,
-       null
-      ],
-      "7.5": [
-       235,
-       null
-      ],
-      "8.5": [
-       450,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 5.5,
-   "p_over_cons": 0.5112,
-   "fair_over": "-105",
-   "fair_under": "+105",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 5.5,
-    "price": 115,
-    "p_model": 0.4888,
-    "implied": 0.4387,
-    "edge": 0.0501,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 5.5,
-      "price": -147,
-      "p_model": 0.5112,
-      "implied": 0.5613,
-      "edge": -0.0501,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 5.5,
-      "price": 115,
-      "p_model": 0.4888,
-      "implied": 0.4387,
-      "edge": 0.0501,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": -140,
-      "p_model": 0.5112,
-      "implied": 0.5506,
-      "edge": -0.0393,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": 110,
-      "p_model": 0.4888,
-      "implied": 0.4494,
-      "edge": 0.0393,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 5.5,
-      "price": -150,
-      "p_model": 0.5112,
-      "implied": 0.5575,
-      "edge": -0.0463,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 5.5,
-      "price": 110,
-      "p_model": 0.4888,
-      "implied": 0.4425,
-      "edge": 0.0463,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 24.3,
-   "k9": 9.26
-  },
-  {
    "id": 808967,
    "name": "Yoshinobu Yamamoto",
    "team": "Los Angeles Dodgers",
@@ -4110,7 +4110,7 @@
    "exp_k": 6.22,
    "dist": {
     "2.5": 0.9392,
-    "3.5": 0.8621,
+    "3.5": 0.8622,
     "4.5": 0.7443,
     "5.5": 0.5955,
     "6.5": 0.4373,
@@ -4355,7 +4355,7 @@
    "exp_bf": 21.92,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0156468279646667,
+   "f_lineup": 1.0156490442278467,
    "pk_pa": 0.1904,
    "exp_k": 4.14,
    "dist": {
@@ -4585,7 +4585,7 @@
    "exp_bf": 20.73,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.180133868016491,
+   "f_lineup": 1.180136652438552,
    "pk_pa": 0.2289,
    "exp_k": 4.75,
    "dist": {
@@ -4823,7 +4823,7 @@
    "exp_bf": 23.19,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0165530026949618,
+   "f_lineup": 1.016555218770975,
    "pk_pa": 0.1793,
    "exp_k": 4.08,
    "dist": {
@@ -5049,7 +5049,7 @@
    "exp_bf": 23.08,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.9101114110399374,
+   "f_lineup": 0.9101134732580463,
    "pk_pa": 0.2188,
    "exp_k": 4.98,
    "dist": {
@@ -5291,7 +5291,7 @@
    "exp_bf": 21.19,
    "lineup_src": "confirmed",
    "lineup_n": 8,
-   "f_lineup": 0.9850311676047158,
+   "f_lineup": 0.9850333739007949,
    "pk_pa": 0.2153,
    "exp_k": 4.47,
    "dist": {
@@ -5763,7 +5763,7 @@
    "exp_bf": 23.08,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0748757678599419,
+   "f_lineup": 1.0748783013725438,
    "pk_pa": 0.1999,
    "exp_k": 4.55,
    "dist": {
@@ -6001,14 +6001,14 @@
    "exp_bf": 23.79,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.981590859822245,
+   "f_lineup": 0.981593176563251,
    "pk_pa": 0.2318,
    "exp_k": 5.5,
    "dist": {
     "2.5": 0.9034,
     "3.5": 0.7951,
     "4.5": 0.6462,
-    "5.5": 0.4791,
+    "5.5": 0.4792,
     "6.5": 0.3222,
     "7.5": 0.1961,
     "8.5": 0.1082,
@@ -6141,7 +6141,7 @@
     }
    },
    "cons_line": 5.5,
-   "p_over_cons": 0.4791,
+   "p_over_cons": 0.4792,
    "fair_over": "+109",
    "fair_under": "-109",
    "best": {
@@ -6149,7 +6149,7 @@
     "book": "fd",
     "line": 5.5,
     "price": 104,
-    "p_model": 0.4791,
+    "p_model": 0.4792,
     "implied": 0.4628,
     "edge": 0.0163,
     "main": true
@@ -6161,7 +6161,7 @@
       "book": "dk",
       "line": 5.5,
       "price": -103,
-      "p_model": 0.4791,
+      "p_model": 0.4792,
       "implied": 0.4782,
       "edge": 0.0009,
       "main": true
@@ -6171,7 +6171,7 @@
       "book": "dk",
       "line": 5.5,
       "price": -124,
-      "p_model": 0.5209,
+      "p_model": 0.5208,
       "implied": 0.5218,
       "edge": -0.0009,
       "main": true
@@ -6183,7 +6183,7 @@
       "book": "fd",
       "line": 5.5,
       "price": 104,
-      "p_model": 0.4791,
+      "p_model": 0.4792,
       "implied": 0.4628,
       "edge": 0.0163,
       "main": true
@@ -6193,7 +6193,7 @@
       "book": "fd",
       "line": 5.5,
       "price": -132,
-      "p_model": 0.5209,
+      "p_model": 0.5208,
       "implied": 0.5372,
       "edge": -0.0163,
       "main": true
@@ -6205,7 +6205,7 @@
       "book": "mgm",
       "line": 5.5,
       "price": -105,
-      "p_model": 0.4791,
+      "p_model": 0.4792,
       "implied": 0.4797,
       "edge": -0.0005,
       "main": true
@@ -6215,7 +6215,7 @@
       "book": "mgm",
       "line": 5.5,
       "price": -125,
-      "p_model": 0.5209,
+      "p_model": 0.5208,
       "implied": 0.5203,
       "edge": 0.0005,
       "main": true
@@ -6243,7 +6243,7 @@
    "exp_bf": 9.02,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.0006918252807506,
+   "f_lineup": 1.000694010077385,
    "pk_pa": 0.2056,
    "exp_k": 1.85,
    "dist": {
@@ -6284,7 +6284,7 @@
    "exp_bf": 10.26,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.914132846081457,
+   "f_lineup": 0.9141349090504058,
    "pk_pa": 0.2273,
    "exp_k": 2.26,
    "dist": {
@@ -6325,7 +6325,7 @@
    "exp_bf": 7.05,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.9245068089612216,
+   "f_lineup": 0.924508934929014,
    "pk_pa": 0.2071,
    "exp_k": 1.47,
    "dist": {
@@ -6361,17 +6361,17 @@
    "bf": 161,
    "gs": 7,
    "ip": 33.0,
-   "f_pit": 0.9297646617773334,
+   "f_pit": 0.9297656682168194,
    "bf_l5": 21.67,
    "exp_bf": 21.65,
    "lineup_src": "team",
    "lineup_n": 0,
-   "f_lineup": 0.8647560215476997,
+   "f_lineup": 0.8647582082509777,
    "pk_pa": 0.1773,
    "exp_k": 3.86,
    "dist": {
     "2.5": 0.7335,
-    "3.5": 0.5395,
+    "3.5": 0.5396,
     "4.5": 0.3498,
     "5.5": 0.1999,
     "6.5": 0.1013,
@@ -6403,12 +6403,12 @@
    "bf": 157,
    "gs": 3,
    "ip": 35.7,
-   "f_pit": 0.9858060329785631,
+   "f_pit": 0.9858078939451808,
    "bf_l5": 22.0,
    "exp_bf": 21.94,
    "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.16678793566251,
+   "f_lineup": 1.166790598026652,
    "pk_pa": 0.2546,
    "exp_k": 5.54,
    "dist": {
@@ -6435,7 +6435,7 @@
   }
  ],
  "league_k_pa": 0.2212,
- "lineups_confirmed": 23,
+ "lineups_confirmed": 24,
  "odds_at": "2026-09-23T15:31:48Z",
- "locked": 23
+ "locked": 24
 }
