@@ -1,7 +1,7 @@
 {
  "date": "2026-09-24",
- "generated": "2026-09-24T16:45:44Z",
- "lineups_confirmed": 5,
+ "generated": "2026-09-24T19:31:13Z",
+ "lineups_confirmed": 8,
  "players": [
   {
    "id": 700250,
@@ -12,7 +12,7 @@
    "pk": 823493,
    "opp_sp": "Ian Seymour",
    "opp_sp_id": 693855,
-   "p": 26.1,
+   "p": 26.2,
    "hr": 41,
    "pa": 654,
    "exp_pa": 4.3,
@@ -21,15 +21,42 @@
    "f_arsenal": 1.02,
    "f_pit": 1.19,
    "f_park": 1.08,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
+   "f_wind": 0.75,
+   "f_temp": 0.96,
+   "wind": "WIND 13 IN",
    "odds": {
-    "dk": 509,
-    "mgm": 325,
+    "dk": 494,
+    "mgm": 333,
     "czr": 500
    },
-   "fair": "+283"
+   "fair": "+282"
+  },
+  {
+   "id": 656941,
+   "name": "Kyle Schwarber",
+   "team": "Philadelphia Phillies",
+   "opp": "Milwaukee Brewers",
+   "home": true,
+   "pk": 823411,
+   "opp_sp": "TBD",
+   "opp_sp_id": null,
+   "p": 24.5,
+   "hr": 45,
+   "pa": 683,
+   "exp_pa": 4.7,
+   "f_bat": 1.82,
+   "f_platoon": 1.0,
+   "f_arsenal": 1.0,
+   "f_pit": 1.0,
+   "f_park": 1.06,
+   "f_wind": 0.78,
+   "f_temp": 0.96,
+   "wind": "WIND 11 IN",
+   "odds": {
+    "czr": 330,
+    "mgm": 250
+   },
+   "fair": "+308"
   },
   {
    "id": 670541,
@@ -53,39 +80,11 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 228,
-    "mgm": 240,
-    "czr": 220
+    "czr": 210,
+    "dk": 206,
+    "mgm": 240
    },
    "fair": "+312"
-  },
-  {
-   "id": 656941,
-   "name": "Kyle Schwarber",
-   "team": "Philadelphia Phillies",
-   "opp": "Milwaukee Brewers",
-   "home": true,
-   "pk": 823411,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "p": 23.8,
-   "hr": 45,
-   "pa": 683,
-   "exp_pa": 4.5,
-   "f_bat": 1.82,
-   "f_platoon": 1.0,
-   "f_arsenal": 1.0,
-   "f_pit": 1.0,
-   "f_park": 1.06,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 302,
-    "mgm": 240,
-    "czr": 305
-   },
-   "fair": "+320"
   },
   {
    "id": 621566,
@@ -109,7 +108,7 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 303,
+    "dk": 299,
     "mgm": 280,
     "czr": 290
    },
@@ -134,7 +133,7 @@
    "f_pit": 1.03,
    "f_park": 1.0,
    "f_wind": 0.82,
-   "f_temp": 0.97,
+   "f_temp": 0.96,
    "wind": "WIND 9 IN",
    "odds": {
     "dk": 509,
@@ -142,6 +141,34 @@
     "czr": 475
    },
    "fair": "+331"
+  },
+  {
+   "id": 502671,
+   "name": "Paul Goldschmidt",
+   "team": "New York Yankees",
+   "opp": "Tampa Bay Rays",
+   "home": true,
+   "pk": 823493,
+   "opp_sp": "Ian Seymour",
+   "opp_sp_id": 693855,
+   "p": 22.1,
+   "hr": 18,
+   "pa": 371,
+   "exp_pa": 4.7,
+   "f_bat": 1.33,
+   "f_platoon": 1.2,
+   "f_arsenal": 1.07,
+   "f_pit": 1.19,
+   "f_park": 1.08,
+   "f_wind": 0.75,
+   "f_temp": 0.96,
+   "wind": "WIND 13 IN",
+   "odds": {
+    "dk": 580,
+    "mgm": 400,
+    "czr": 575
+   },
+   "fair": "+352"
   },
   {
    "id": 696100,
@@ -172,30 +199,6 @@
    "fair": "+361"
   },
   {
-   "id": 671277,
-   "name": "Luis Garc\u00eda Jr.",
-   "team": "New York Yankees",
-   "opp": "Tampa Bay Rays",
-   "home": true,
-   "pk": 823493,
-   "opp_sp": "Ian Seymour",
-   "opp_sp_id": 693855,
-   "p": 20.5,
-   "hr": 30,
-   "pa": 539,
-   "exp_pa": 3.7,
-   "f_bat": 1.54,
-   "f_platoon": 0.95,
-   "f_arsenal": 1.08,
-   "f_pit": 1.19,
-   "f_park": 1.08,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {},
-   "fair": "+388"
-  },
-  {
    "id": 665742,
    "name": "Juan Soto",
    "team": "New York Mets",
@@ -224,60 +227,32 @@
    "fair": "+395"
   },
   {
-   "id": 694192,
-   "name": "Jackson Chourio",
+   "id": 641343,
+   "name": "Jake Bauers",
    "team": "Milwaukee Brewers",
    "opp": "Philadelphia Phillies",
    "home": false,
    "pk": 823411,
    "opp_sp": "Andrew Painter",
    "opp_sp_id": 691725,
-   "p": 19.3,
-   "hr": 24,
-   "pa": 561,
-   "exp_pa": 4.6,
-   "f_bat": 1.27,
-   "f_platoon": 1.03,
-   "f_arsenal": 1.01,
+   "p": 19.2,
+   "hr": 26,
+   "pa": 560,
+   "exp_pa": 4.3,
+   "f_bat": 1.35,
+   "f_platoon": 1.05,
+   "f_arsenal": 1.02,
    "f_pit": 1.11,
    "f_park": 1.06,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
+   "f_wind": 0.78,
+   "f_temp": 0.96,
+   "wind": "WIND 11 IN",
    "odds": {
-    "dk": 495,
-    "mgm": 425,
-    "czr": 475
+    "czr": 500,
+    "dk": 487,
+    "mgm": 475
    },
-   "fair": "+418"
-  },
-  {
-   "id": 691406,
-   "name": "Junior Caminero",
-   "team": "Tampa Bay Rays",
-   "opp": "New York Yankees",
-   "home": false,
-   "pk": 823493,
-   "opp_sp": "Cam Schlittler",
-   "opp_sp_id": 693645,
-   "p": 19.3,
-   "hr": 41,
-   "pa": 687,
-   "exp_pa": 4.3,
-   "f_bat": 1.68,
-   "f_platoon": 1.19,
-   "f_arsenal": 1.11,
-   "f_pit": 0.89,
-   "f_park": 1.08,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 423,
-    "mgm": 333,
-    "czr": 390
-   },
-   "fair": "+418"
+   "fair": "+421"
   },
   {
    "id": 571448,
@@ -358,7 +333,7 @@
    "wind": "",
    "odds": {
     "dk": 314,
-    "mgm": 240,
+    "mgm": 230,
     "czr": 305
    },
    "fair": "+441"
@@ -385,8 +360,8 @@
    "f_temp": 1.0,
    "wind": "",
    "odds": {
-    "dk": 466,
-    "mgm": 400,
+    "dk": 469,
+    "mgm": 390,
     "czr": 475
    },
    "fair": "+443"
@@ -414,6 +389,34 @@
    "wind": "",
    "odds": {},
    "fair": "+449"
+  },
+  {
+   "id": 642708,
+   "name": "Amed Rosario",
+   "team": "New York Yankees",
+   "opp": "Tampa Bay Rays",
+   "home": true,
+   "pk": 823493,
+   "opp_sp": "Ian Seymour",
+   "opp_sp_id": 693855,
+   "p": 18.0,
+   "hr": 10,
+   "pa": 236,
+   "exp_pa": 4.2,
+   "f_bat": 1.18,
+   "f_platoon": 0.97,
+   "f_arsenal": 1.0,
+   "f_pit": 1.19,
+   "f_park": 1.08,
+   "f_wind": 0.75,
+   "f_temp": 0.96,
+   "wind": "WIND 13 IN",
+   "odds": {
+    "dk": 720,
+    "mgm": 725,
+    "czr": 750
+   },
+   "fair": "+456"
   }
  ]
 }
