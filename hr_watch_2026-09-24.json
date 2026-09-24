@@ -1,7 +1,7 @@
 {
  "date": "2026-09-24",
- "generated": "2026-09-24T20:45:40Z",
- "lineups_confirmed": 9,
+ "generated": "2026-09-24T22:15:52Z",
+ "lineups_confirmed": 12,
  "players": [
   {
    "id": 700250,
@@ -50,7 +50,7 @@
    "f_pit": 1.0,
    "f_park": 1.06,
    "f_wind": 0.78,
-   "f_temp": 0.96,
+   "f_temp": 0.97,
    "wind": "WIND 11 IN",
    "odds": {
     "dk": 302,
@@ -78,7 +78,7 @@
    "f_pit": 1.17,
    "f_park": 1.02,
    "f_wind": 1.0,
-   "f_temp": 0.99,
+   "f_temp": 1.0,
    "wind": "",
    "odds": {
     "dk": 303,
@@ -86,34 +86,6 @@
     "czr": 290
    },
    "fair": "+310"
-  },
-  {
-   "id": 670541,
-   "name": "Yordan Alvarez",
-   "team": "Houston Astros",
-   "opp": "Athletics",
-   "home": false,
-   "pk": 824950,
-   "opp_sp": "Mason Barnett",
-   "opp_sp_id": 686930,
-   "p": 24.3,
-   "hr": 41,
-   "pa": 673,
-   "exp_pa": 4.4,
-   "f_bat": 1.7,
-   "f_platoon": 1.14,
-   "f_arsenal": 1.08,
-   "f_pit": 1.19,
-   "f_park": 1.0,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 228,
-    "mgm": 240,
-    "czr": 220
-   },
-   "fair": "+312"
   },
   {
    "id": 691718,
@@ -274,7 +246,7 @@
    "f_pit": 1.17,
    "f_park": 1.02,
    "f_wind": 1.0,
-   "f_temp": 0.99,
+   "f_temp": 1.0,
    "wind": "",
    "odds": {
     "dk": 403,
@@ -302,7 +274,7 @@
    "f_pit": 1.11,
    "f_park": 1.06,
    "f_wind": 0.78,
-   "f_temp": 0.96,
+   "f_temp": 0.97,
    "wind": "WIND 11 IN",
    "odds": {
     "dk": 532,
@@ -310,6 +282,34 @@
     "czr": 500
    },
    "fair": "+421"
+  },
+  {
+   "id": 660271,
+   "name": "Shohei Ohtani",
+   "team": "Los Angeles Dodgers",
+   "opp": "San Diego Padres",
+   "home": true,
+   "pk": 823895,
+   "opp_sp": "Nick Pivetta",
+   "opp_sp_id": 601713,
+   "p": 19.0,
+   "hr": 30,
+   "pa": 601,
+   "exp_pa": 4.7,
+   "f_bat": 1.43,
+   "f_platoon": 1.02,
+   "f_arsenal": 0.89,
+   "f_pit": 0.93,
+   "f_park": 1.1,
+   "f_wind": 1.14,
+   "f_temp": 1.05,
+   "wind": "HOT 82F \u00b7 WIND 7 OUT",
+   "odds": {
+    "dk": 314,
+    "mgm": 240,
+    "czr": 305
+   },
+   "fair": "+426"
   },
   {
    "id": 686948,
@@ -330,7 +330,7 @@
    "f_pit": 1.17,
    "f_park": 1.02,
    "f_wind": 1.0,
-   "f_temp": 0.99,
+   "f_temp": 1.0,
    "wind": "",
    "odds": {
     "dk": 466,
@@ -368,34 +368,6 @@
    "fair": "+429"
   },
   {
-   "id": 660271,
-   "name": "Shohei Ohtani",
-   "team": "Los Angeles Dodgers",
-   "opp": "San Diego Padres",
-   "home": true,
-   "pk": 823895,
-   "opp_sp": "Nick Pivetta",
-   "opp_sp_id": 601713,
-   "p": 18.5,
-   "hr": 30,
-   "pa": 601,
-   "exp_pa": 4.5,
-   "f_bat": 1.43,
-   "f_platoon": 1.02,
-   "f_arsenal": 0.89,
-   "f_pit": 0.93,
-   "f_park": 1.1,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 314,
-    "mgm": 240,
-    "czr": 305
-   },
-   "fair": "+441"
-  },
-  {
    "id": 671739,
    "name": "Michael Harris II",
    "team": "Atlanta Braves",
@@ -414,7 +386,7 @@
    "f_pit": 1.17,
    "f_park": 1.02,
    "f_wind": 1.0,
-   "f_temp": 0.99,
+   "f_temp": 1.0,
    "wind": "",
    "odds": {
     "dk": 491,
@@ -422,6 +394,34 @@
     "czr": 475
    },
    "fair": "+441"
+  },
+  {
+   "id": 642708,
+   "name": "Amed Rosario",
+   "team": "New York Yankees",
+   "opp": "Tampa Bay Rays",
+   "home": true,
+   "pk": 823493,
+   "opp_sp": "Ian Seymour",
+   "opp_sp_id": 693855,
+   "p": 18.0,
+   "hr": 10,
+   "pa": 236,
+   "exp_pa": 4.2,
+   "f_bat": 1.18,
+   "f_platoon": 0.97,
+   "f_arsenal": 1.0,
+   "f_pit": 1.19,
+   "f_park": 1.08,
+   "f_wind": 0.75,
+   "f_temp": 0.96,
+   "wind": "WIND 13 IN",
+   "odds": {
+    "dk": 750,
+    "mgm": 775,
+    "czr": 700
+   },
+   "fair": "+456"
   }
  ]
 }
