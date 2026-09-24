@@ -1,84 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE BOARD</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
-<style>
-:root{--phos:#2bff64;--phos-dim:#1f7a3d;--amber:#ffb000;--hot:#ff2020;--ink:#f2f2f2;--mut:#5c5c5c;--line:#1c1c1c}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{background:#000;min-height:100%}
-body{font-family:'Oswald',sans-serif;color:var(--ink);padding:18px clamp(12px,1.5vw,40px) 40px}
-/* frame + widescreen rules identical to board.html (30"+ ultrawide fills the glass) */
-.frame{max-width:min(96vw,3200px);margin:0 auto}
-@media(min-width:1700px){
-  .cards{grid-template-columns:repeat(auto-fill,minmax(380px,1fr))}
-  .marquee h1{font-size:clamp(32px,2vw,44px)}
-}
-.marquee{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#0a0a0a;border:1px solid var(--line);padding:8px 18px;margin-bottom:14px;flex-wrap:wrap}
-.marquee h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.38em;font-weight:400}
-.marquee .sub{font-family:'VT323',monospace;font-size:18px;color:var(--phos);text-shadow:0 0 8px rgba(43,255,100,.5)}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
-.sport{display:block;background:#0a0a0a;border:1px solid var(--line);padding:20px;text-decoration:none;color:var(--ink)}
-.sport:hover{border-color:var(--phos-dim)}
-.sport h2{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.2em;color:var(--phos)}
-.sport.paper h2{color:var(--amber)}
-.sport .st{font-family:'VT323',monospace;font-size:15px;color:var(--mut);margin-top:4px;display:block}
-.sport p{font-size:13px;color:#b5b5b5;margin-top:10px;line-height:1.5}
-.sport.soon{opacity:.4;pointer-events:none}
-.sport.soon h2{color:#3a3a3a}
-.foot{margin-top:18px;font-family:'VT323',monospace;font-size:14px;color:var(--mut)}
-/* light mode ("print edition") -- shell.js toggles body.light, same as the MLB board */
-body.light{--phos:#0a7a34;--amber:#a35600;--ink:#14171c;--mut:#8a8272;--line:#d8d2c2;
-  background:#efece0;color:#14171c}
-body.light .sport{background:#f7f4ec;border-color:var(--line)}
-body.light .sport:hover{border-color:#0d7a2e}
-body.light .sport p{color:#4a463c}
-body.light .sport.soon h2{color:#c9c2b2}
-</style>
-</head>
-<body><div class="frame">
-  <div id="shell"></div>
-  <script>window.SHELL={sport:'hub',sub:'HONEST RECORDS · EVERY PICK GRADED · MISTAKES PUBLISHED',ownUI:true}</script>
-  <script src="shell.js?v=results-20260915"></script>
-  <div class="cards">
-    <a class="sport" href="board.html">
-      <h2>MLB</h2><span class="st">● LIVE — real plays, real record</span>
-      <p>V2 calibrated model. Every pick texted at lock, graded at the price sent,
-      audited weekly. The record is the record.</p>
-    </a>
-    <a class="sport paper" href="nfl.html">
-      <h2>NFL</h2><span class="st">● PAPER — shadow season 2026</span>
-      <p>Usage-first player props: receptions, receiving yards, rushing yards.
-      Projections up for Week 1. No money until half a season proves it.</p>
-    </a>
-    <a class="sport paper" href="cfb.html">
-      <h2>CFB</h2><span class="st">● PAPER — reference numbers only</span>
-      <p>Our own spread and total for every game between two FBS teams, next to Pinnacle, DraftKings and FanDuel,
-      graded in public against the closing line. Behind the close on accuracy, ahead of the opener
-      on direction, no proven edge &mdash; so numbers only, no plays. Week 2 up.</p>
-    </a>
-    <a class="sport paper" href="mma.html">
-      <h2>MMA</h2><span class="st">● PAPER — reference numbers only</span>
-      <p>Predictive distributions for significant strikes landed, to sit beside a posted
-      line. Not a pick service: no edge calc, no stakes, nothing texted. UFC 331 up.</p>
-    </a>
-    <a class="sport paper" href="ncaam.html">
-      <h2>NCAAM</h2><span class="st">&#9679; PAPER &mdash; reference numbers only</span>
-      <p>Our own spread and total for every game between two Division I teams, next to the books,
-      graded in public against the closing line. Tested walk-forward over 11,508 games and the market
-      won &mdash; so numbers only, no plays, nothing texted. First card when the season tips in November.</p>
-    </a>
-    <a class="sport paper" href="soccer.html">
-      <h2>SOCCER</h2><span class="st">● PAPER — reference numbers only</span>
-      <p>Premier League goals model on expected goals: win / draw / win, over-under, both to
-      score, likely scores, beside Pinnacle and the best US price. Tested walk-forward against
-      the closing line and lost to it &mdash; so numbers only, no plays. Matchweek 1 up.</p>
-    </a>
-    <a class="sport soon" href="#"><h2>NBA</h2><span class="st">COMING</span></a>
-    <a class="sport soon" href="#"><h2>NHL</h2><span class="st">COMING</span></a>
-  </div>
-  <div class="foot">one site, every sport, same rules: walk-forward or it didn't happen.</div>
-</div></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>THE BOARD · Sports, numbers, culture</title><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="home-network.css?v=20260924"></head><body>
+<header><a class="brand" href="#">THE BOARD<small>SPORTS · NUMBERS · CULTURE</small></a><nav aria-label="Sports"><a class="active" href="#">HOME</a><a href="https://myles00price.github.io/baseball-model/board.html">MLB</a><a href="https://myles00price.github.io/baseball-model/nfl.html">NFL</a><a href="https://myles00price.github.io/baseball-model/cfb.html">CFB</a><a href="https://myles00price.github.io/baseball-model/soccer.html">SOCCER</a><a href="https://myles00price.github.io/baseball-model/mma.html">MMA</a><a href="https://myles00price.github.io/baseball-model/ncaam.html">NCAAM</a></nav><span class="preview">SPORTS · ANALYSIS · CULTURE</span></header>
+<main><div class="ticker"><b>THURSDAY NIGHT</b><span>ATL FALCONS <em>at</em> GB PACKERS</span><span>SEP 24 · 5:15 PM PT</span><a href="https://www.packers.com/game-day/2026/reg-week3/packers-vs-falcons/">Matchup source ↗</a></div>
+<section class="hero-grid"><article class="hero"><div class="players" aria-label="Atlanta Falcons and Green Bay Packers"><img class="dart" src="https://a.espncdn.com/i/teamlogos/nfl/500/atl.png" alt="Atlanta Falcons"><img class="stafford" src="https://a.espncdn.com/i/teamlogos/nfl/500/gb.png" alt="Green Bay Packers"></div><div class="hero-top"><span>THURSDAY NIGHT FOOTBALL</span><div><img src="https://a.espncdn.com/i/teamlogos/nfl/500/atl.png" alt="Falcons"><span>AT</span><img src="https://a.espncdn.com/i/teamlogos/nfl/500/gb.png" alt="Packers"></div></div><div class="hero-copy"><p class="eyebrow">ATLANTA / GREEN BAY · LAMBEAU FIELD</p><h1>ALL GAS.<br>BIGGER THINGS.</h1><p>Two teams. One Thursday night.<br>The matchup, the numbers, the full picture.</p><a class="button" href="https://myles00price.github.io/baseball-model/nfl.html#market=games">EXPLORE THE MATCHUP <span>→</span></a></div></article><div class="side-stories"><a class="story editorial" href="https://www.packers.com/game-day/2026/reg-week3/packers-vs-falcons/"><span class="eyebrow">NFL · OFFICIAL TEAM COVERAGE</span><h2>THE STORYLINES<br>BEFORE KICKOFF.</h2><p>Read the official Packers-Falcons game center.</p><span class="arrow">↗</span></a><a class="story diamond" href="https://myles00price.github.io/baseball-model/board.html"><span class="eyebrow">MLB · THE BOARD</span><h2>EVERY PITCH.<br>A DIFFERENT ANGLE.</h2><p>Game lines, player props and the published record.</p><span class="arrow">→</span></a></div></section>
+<section class="slate"><h2>ON THE BOARD<small>Pick your game. Go deeper.</small></h2><a href="https://myles00price.github.io/baseball-model/nfl.html#market=games"><b>ATL @ GB</b><span>THU · 5:15 PM PT</span><em>Game analysis →</em></a><a href="https://myles00price.github.io/baseball-model/board.html"><b>MLB SLATE</b><span>Published game & prop boards</span><em>Explore baseball →</em></a><a href="https://myles00price.github.io/baseball-model/cfb.html"><b>COLLEGE FOOTBALL</b><span>Paper projections & comparisons</span><em>Open the board →</em></a></section>
+<section><div class="section-head"><h2>THE NUMBERS THAT MATTER</h2><span>Context first. Every number has a source.</span></div><div class="insights"><a href="https://myles00price.github.io/baseball-model/nfl.html#market=games"><span class="eyebrow">NFL / GAME LINES</span><h3>Where the model differs.</h3><div class="metric-labels"><span>BOOK LINE</span><span>MODEL</span><span>LEAN</span></div><p>Compare the published projection with the captured price. Open the board for current numbers.</p><strong>READ THE MATCHUP →</strong></a><a href="https://myles00price.github.io/baseball-model/board.html#market=props&prop=hits"><span class="eyebrow">MLB / PLAYER PROPS</span><h3>A closer look at the at-bat.</h3><p>Hits, home runs and strikeouts. Player context alongside the model’s published projection.</p><strong>OPEN PLAYER ANALYSIS →</strong></a><a href="https://myles00price.github.io/baseball-model/cfb.html#tab=comparison"><span class="eyebrow">CFB / PAPER MODELS</span><h3>Make the models prove it.</h3><p>Champion versus challenger. Matched results, sample sizes and the evidence behind the comparison.</p><strong>VIEW THE COMPARISON →</strong></a></div></section>
+<div class="editorial-grid"><section><div class="section-head"><h2>AROUND THE LEAGUES</h2><span>Latest publisher headlines</span></div><div id="news" class="news"><p class="empty">Loading sports news…</p></div><p id="news-time" class="source"></p></section><aside class="record"><span class="eyebrow">THE BOARD / MLB</span><h2>ON THE RECORD.</h2><div id="record">—</div><p id="record-detail">Loading published record…</p><p class="source">Cumulative MLB record. See the ledger for results and methodology.</p><a href="https://myles00price.github.io/baseball-model/board.html#market=record">WINS AND LOSSES. THE FULL RECORD →</a></aside></div>
+<section><div class="section-head"><h2>REPLAY THE WEEKEND</h2><span>Official highlight destinations</span></div><div class="video-grid"><a href="https://www.nfl.com/videos/"><span class="play">↗</span><h3>NFL HIGHLIGHTS</h3><p>Watch on NFL.com</p></a><a href="https://www.mlb.com/video"><span class="play">↗</span><h3>BASEBALL, REPLAYED.</h3><p>Watch on MLB.com</p></a><a href="https://www.premierleague.com/en/video"><span class="play">↗</span><h3>AROUND THE PITCH.</h3><p>Visit Premier League video</p></a></div></section>
+<footer><b>FIND YOUR BOARD</b><a href="https://myles00price.github.io/baseball-model/nfl.html">NFL</a><a href="https://myles00price.github.io/baseball-model/board.html">MLB</a><a href="https://myles00price.github.io/baseball-model/cfb.html">CFB</a><a href="https://myles00price.github.io/baseball-model/soccer.html">SOCCER</a><a href="https://myles00price.github.io/baseball-model/mma.html">MMA</a><a href="https://myles00price.github.io/baseball-model/ncaam.html">NCAAM</a><span>THE BOARD</span></footer><p class="source">NFL, CFB, soccer and MMA are paper-only research. Team marks: ESPN · stadium backdrop: generated illustration · headlines and article images: linked publishers.</p></main><script src="home-network.js?v=20260924"></script></body></html>
+
