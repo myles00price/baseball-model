@@ -16,17 +16,18 @@
 (function () {
   var cfg = window.SHELL || {};
   var sport = cfg.sport || "";
-  document.body.dataset.boardSport = sport;
+  document.body.dataset.boardSport = sport; document.body.classList.add("vegas");
   var shared = document.createElement("link");
   shared.rel = "stylesheet";
   shared.href = new URL("board-common.css", document.currentScript.src).href;
-  document.head.appendChild(shared);
+  if(!document.querySelector('link[href*="board-common.css"]'))document.head.appendChild(shared);
   var vegasStyle = document.createElement("link");
   vegasStyle.rel = "stylesheet";
-  vegasStyle.href = new URL("vegas.css?v=results-20260915", document.currentScript.src).href;
-  document.head.appendChild(vegasStyle);
+  vegasStyle.href = new URL("vegas.css?v=unified-20260924", document.currentScript.src).href;
+  if(!document.querySelector('link[href*="vegas.css"]'))document.head.appendChild(vegasStyle);
+  if(!document.querySelector('link[href*="site-unified.css"]')){var unified=document.createElement("link");unified.rel="stylesheet";unified.href=new URL("site-unified.css?v=unified-20260924",document.currentScript.src);document.head.appendChild(unified);}
   var vegasScript = document.createElement("script");
-  vegasScript.src = new URL("vegas.js?v=results-20260915", document.currentScript.src).href;
+  vegasScript.src = new URL("vegas.js?v=unified-20260924", document.currentScript.src).href;
   document.head.appendChild(vegasScript);
 
   var SPORTS = [
@@ -125,7 +126,7 @@
   }
   document.addEventListener("DOMContentLoaded", function () {
     fitTables();
-    new MutationObserver(fitTables).observe(document.querySelector(".frame"), {childList:true,subtree:true});
+    var frame=document.querySelector(".frame");if(frame)new MutationObserver(fitTables).observe(frame, {childList:true,subtree:true});
   });
   if (!cfg.ownUI) return;   /* the MLB board's own JS takes over from here */
 
@@ -193,4 +194,4 @@
 })();
 
 /* NFL presentation assets persist across regenerated pages; other sports are untouched. */
-(function(){if(!window.SHELL||window.SHELL.sport!=='nfl')return;var base=new URL('.',document.currentScript.src);var c=document.createElement('link');c.rel='stylesheet';c.href=new URL('nfl-facelift.css?v=20260918b',base);document.head.appendChild(c);var s=document.createElement('script');s.src=new URL('nfl-facelift.js?v=20260918b',base);document.head.appendChild(s);})();
+(function(){if(!window.SHELL||window.SHELL.sport!=='nfl')return;var base=new URL('.',document.currentScript.src);var c=document.createElement('link');c.rel='stylesheet';c.href=new URL('nfl-facelift.css?v=unified-20260924',base);if(!document.querySelector('link[href*="nfl-facelift.css"]'))document.head.appendChild(c);var s=document.createElement('script');s.src=new URL('nfl-facelift.js?v=unified-20260924',base);document.head.appendChild(s);})();

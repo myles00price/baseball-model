@@ -452,12 +452,16 @@ body.light .newsitem img{filter:none}
 .ourline{margin:0 16px 16px;border:1px solid #8a6d1a;padding:9px 14px;font-family:'VT323',monospace;
   font-size:17px;color:var(--gold);text-shadow:0 0 7px rgba(201,153,43,.4)}
 </style>
+<link rel="stylesheet" href="board-common.css?v=unified-20260924">
+<link rel="stylesheet" href="vegas.css?v=unified-20260924">
+<link rel="stylesheet" href="site-unified.css?v=unified-20260924">
+<script>document.documentElement.classList.add('board-boot');setTimeout(function(){document.documentElement.classList.remove('board-boot')},3000);</script>
 </head>
-<body>
+<body class="vegas">
 <div class="frame">
   <div id="shell"></div>
   <script>window.SHELL={sport:'mlb',sub:'LOADING…',ownUI:false}</script>
-  <script src="shell.js?v=results-20260915"></script>
+  <script src="shell.js?v=unified-20260924"></script>
   <div class="stats" id="stats"></div>
   <div class="statusline"><span id="sl-date"></span><span>UPDATED <span class="lit" id="sl-upd">—</span> · AUTO 60s</span></div>
   <div class="showcase" id="showcase" style="display:none"><div class="sc-grid" id="sc-grid"></div></div>

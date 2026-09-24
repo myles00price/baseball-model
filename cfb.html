@@ -99,7 +99,7 @@ table.card td.res.W{color:var(--phos)} table.card td.res.L{color:var(--hot)} tab
 .upd.open .ux{display:block}
 .foot{margin-top:18px;font-family:'VT323',monospace;font-size:14px;color:var(--mut);line-height:1.6}
 @media(max-width:560px){.cfb-main{grid-template-columns:40% 60%}.cfb-info{padding:14px 12px 12px 6px}.cfb-line strong{font-size:26px}.cfb-info h3{font-size:18px}}
-/* light mode ("print edition"): shell.js toggles body.light */
+/* light mode ("print edition"): shell.js?v=unified-20260924 toggles body.light */
 body.light{--phos:#0a7a34;--amber:#a35600;--gold:#8a6410;--hot:#c41414;--ink:#14171c;--mut:#8a8272;--line:#d8d2c2;--chart-o:#0a7a34;--chart-u:#c2410c;background:#efece0;color:#14171c}
 body.light .paper{background:#fbf3e4;border-color:#e2c99a}
 body.light .recbox .cell,body.light .banner,body.light .bigsect,body.light table.card{background:#f7f4ec;border-color:var(--line)}
@@ -159,11 +159,15 @@ body.vegas .cfb-head{padding-top:14px!important}
 /* house-rule wording the design keeps: the heading's paper/no-edge note under the slate line */
 .cfb-head .vegas-description{margin-top:8px;max-width:760px;font-size:12px;line-height:1.5}
 </style>
+<link rel="stylesheet" href="board-common.css?v=unified-20260924">
+<link rel="stylesheet" href="vegas.css?v=unified-20260924">
+<link rel="stylesheet" href="site-unified.css?v=unified-20260924">
+<script>document.documentElement.classList.add('board-boot');setTimeout(function(){document.documentElement.classList.remove('board-boot')},3000);</script>
 </head>
-<body><div class="frame">
+<body class="vegas"><div class="frame">
   <div id="shell"></div>
   <script>window.SHELL={sport:'cfb',accent:'CFB',sub:'WEEK 4 · 2026 · PAPER · REFERENCE ONLY',ownUI:true}</script>
-  <script src="shell.js?v=results-20260915"></script>
+  <script src="shell.js?v=unified-20260924"></script>
   <script>document.body.dataset.boardSport='cfb-page'; /* this page drives its own subtabs; vegas.js keeps the look, skips its own market tabs */</script>
 
   <div class="evt cfb-app">

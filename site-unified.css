@@ -1,0 +1,45 @@
+/* One visual system for the homepage and every sport. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+html{background:#090d10;color-scheme:dark}
+html.board-boot body{visibility:hidden}
+body.vegas{--gold:#d8b978;--amber:#d8b978;--line:#30383e;--mut:#a8b0b7;--ink:#f2f2ec;background:#090d10!important;color:var(--ink)!important;font-family:Inter,Arial,sans-serif!important;padding:0 24px 32px!important}
+body.vegas .frame{width:100%;max-width:1480px!important;margin:0 auto!important}
+body.vegas #shell .marquee{padding:22px 0!important;gap:24px!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--line)!important}
+body.vegas #shell h1{font:700 35px 'Barlow Condensed',Arial,sans-serif!important;letter-spacing:5px!important;color:var(--ink)!important}
+body.vegas #shell h1 small{font:9px Inter,Arial,sans-serif!important;letter-spacing:2px!important;color:var(--gold)!important}
+body.vegas #shell .searchbox{max-width:300px!important}
+body.vegas #shell .sub{font:10px Inter,Arial,sans-serif!important;color:var(--mut)!important}
+body.vegas #sportnav{gap:26px!important;padding:0!important;background:transparent!important;overflow-x:auto}
+body.vegas #sportnav a,body.vegas #sportnav span.soon{padding:15px 0!important;background:none!important;border-radius:0!important;font:600 14px 'Barlow Condensed',Arial,sans-serif!important;letter-spacing:1px!important;color:#bec4c9!important;border-bottom:3px solid transparent!important}
+body.vegas #sportnav a.active{color:var(--gold)!important;border-bottom-color:var(--gold)!important}
+body.vegas #sportnav .tag{font:8px Inter,Arial,sans-serif!important;color:var(--mut)!important}
+body.vegas #sportnav .soon{display:none!important}
+body.vegas :is(.vegas-pageheading,.cfb-head){background:linear-gradient(90deg,#090d10 40%,#090d10aa),url('assets/stadium-night.png') right center/cover!important;padding:20px 0!important;margin:0!important;min-height:104px}
+body.vegas :is(.vegas-pageheading h2,.cfb-app .cfb-head h2,.nfl-title){font:700 38px 'Barlow Condensed',Arial,sans-serif!important;letter-spacing:1px!important;color:var(--ink)!important}
+body.vegas .nfl-title{display:none}
+body.vegas .vegas-description{display:block!important;color:var(--mut)!important;font:12px/1.6 Inter,Arial,sans-serif!important}
+body.vegas :is(.vegas-markets,.cfb-tabs){display:flex;gap:24px!important;padding:0!important;border:0!important;border-bottom:1px solid var(--line)!important;background:none!important;border-radius:0!important;overflow-x:auto}
+body.vegas :is(.vegas-markets,.cfb-tabs) button{background:none!important;border-radius:0!important;color:#bec4c9!important;border:0!important;border-bottom:3px solid transparent!important;padding:14px 0!important;font:600 12px Inter,Arial,sans-serif!important;letter-spacing:.5px!important;white-space:nowrap;text-transform:none!important;cursor:pointer}
+body.vegas :is(.vegas-markets,.cfb-tabs) button[aria-current=page]{color:var(--gold)!important;border-bottom-color:var(--gold)!important}
+body.vegas :is(.sect,.bigsect,.card,.bout,.cfb-card,.gl-game,.story,.insights>a,.video-grid>a){border-radius:7px!important;border-color:var(--line)!important;background-color:#11191e!important}
+body.vegas :is(button,select,input){font-family:Inter,Arial,sans-serif}
+body.vegas :is(.rsh-team,.rsh){min-width:0;max-width:100%}
+body.vegas .rsh-team{overflow:auto;border:1px solid var(--line);border-radius:7px;margin:12px 0;padding:12px;background:#11191e}
+body.vegas .rsh{margin:20px 0}
+body.vegas .rsh th{font:10px Inter,Arial,sans-serif;padding:10px 8px;white-space:nowrap}
+body.vegas .rsh td{font:12px Inter,Arial,sans-serif;padding:10px 8px}
+body.vegas .rsh .bk{color:#e8cf96}
+body.vegas .rsh table{min-width:840px;width:100%}
+body.home-page main{padding:0!important;max-width:none}
+body.home-page #shell .searchbox{display:none}
+body.vegas :is(a,button,select,input,[tabindex]):focus-visible{outline:2px solid var(--gold)!important;outline-offset:3px}
+body.light.vegas{--ink:#20252b;--mut:#535e68;--line:#cbd1d6;background:#f3f4f5!important;color:var(--ink)!important;color-scheme:light}
+body.light.vegas :is(.vegas-pageheading,.cfb-head){background:#e7ebed!important}
+body.light.vegas :is(.sect,.bigsect,.card,.bout,.cfb-card,.gl-game,.rsh-team,.story,.insights>a,.video-grid>a){background:#fff!important;color:#20252b!important}
+body.light.vegas #sportnav a,body.light.vegas :is(.vegas-markets,.cfb-tabs) button{color:#424e58!important}
+body.light.vegas .rsh .bk{color:#73571d}
+@media(max-width:760px){body.vegas{padding:0 14px 24px!important}body.vegas #shell .marquee{gap:12px!important;flex-wrap:wrap}body.vegas #shell .sub{width:100%;order:3}body.vegas #shell .searchbox{order:4;max-width:none!important;flex-basis:100%}body.vegas #sportnav{gap:22px!important}body.vegas :is(.vegas-pageheading h2,.cfb-app .cfb-head h2){font-size:32px!important}}
+body.vegas :is(.rsh-head,.rsh-head .sub,.teambar,.teambar label,.teambar select,.statusline,.evt,.gl-note,.paper,.cfb-fresh){font-family:Inter,Arial,sans-serif!important;text-shadow:none!important}
+body.vegas :is(.teambar select,.slate-tools select){color:var(--ink)!important;font-size:12px!important}
+body.vegas .statusline{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;font-size:10px!important;padding:10px 0}
+body.vegas .vegas-subtabs[hidden]{display:none!important}

@@ -11,13 +11,13 @@
     const header=shell.querySelector('.marquee');
     if(header) shell.prepend(header);
     const title=shell.querySelector('h1');
-    if(title){title.textContent='THE BOARD';title.append(make('small','','SPORTS ANALYTICS'));}
+    if(title){title.textContent='THE BOARD';title.append(make('small','','SPORTS · NUMBERS · CULTURE'));}
     const routes = sport==='mlb' ? [['overview','Overview'],['moneyline','Moneyline'],['first5','First 5'],['runline','Run Line'],['props','Player Props'],['record','Record'],['research','Research']]
       : sport==='nfl' ? [['overview','Overview'],['games','Game Lines'],['props','Player Props'],['touchdowns','Touchdowns'],['record','Record'],['research','Research']]
       : sport==='soccer' ? [['overview','Overview'],['games','Match Markets'],['props','Player Props'],['corners','Corners'],['record','Record'],['research','Research']]
       : sport==='cfb' ? [['overview','Overview'],['games','Spreads & Totals'],['record','Record'],['research','Research']]
-      : sport==='mma' ? [['overview','Overview'],['games','Fight Card'],['research','Research']] : [];
-    if(!routes.length) return;
+      : sport==='mma' ? [['overview','Overview'],['games','Fight Card'],['research','Research']] : sport==='ncaam' ? [['overview','Overview'],['games','Game Lines'],['record','Record'],['research','Research']] : [];
+    if(!routes.length){document.documentElement.classList.remove('board-boot');return;}
     const subs=sport==='mlb' ? [['hits','Hits'],['homers','Home Runs'],['strikeouts','Strikeouts']] : sport==='soccer' ? [['goals','Goal Scorers'],['shots','Shots on Target']] : [];
     let current='overview', sub=subs[0]?.[0]||'';
     const nav=make('nav','vegas-markets');nav.setAttribute('aria-label','Market categories');
@@ -26,7 +26,7 @@
     const headingText=make('div');headingText.append(make('p','vegas-eyebrow',sport.toUpperCase()+' / THE BOARD'));
     const h=make('h2','','Today’s board');const desc=make('p','vegas-description','Every matchup. Every price. Your numbers in focus.');headingText.append(h,desc);
     heading.append(headingText,make('span','vegas-disclosure',sport==='mlb'?'LOCKED PICKS · TRACKED RECORD':'PAPER · REFERENCE ONLY'));
-    shell.append(nav,subnav,heading);
+    shell.append(heading,nav,subnav);
     const empty=make('div','vegas-empty','No published data is available in this category yet. Check the board’s update time.');empty.hidden=true;
     frame.append(empty);
     const nodes=[];
@@ -35,7 +35,10 @@
       if(['SCRIPT','STYLE','LINK'].includes(el.tagName)||id==='shell'||el===empty) return;
       if(cl.contains('duo')){el.classList.add('vegas-group');Array.from(el.children).forEach(classify);return;}
       let cats=[];
-      if(cl.contains('stats')||cl.contains('recbox'))cats=['overview','record'];
+      if(sport==='nfl'&&id==='research')cats=['props'];
+      else if(sport==='nfl'&&id==='gamelines')cats=['games'];
+      else if(id==='gl-ledger')cats=['record'];
+      else if(cl.contains('stats')||cl.contains('recbox'))cats=['overview','record'];
       else if(cl.contains('statusline')||cl.contains('paper')||cl.contains('evt')||cl.contains('banner'))cats=['all'];
       else if(id==='hrwatch')cats=['homers'];
       else if(id==='hitwatch')cats=['hits'];
@@ -47,7 +50,7 @@
       else if(heading.includes('CORNER WATCH'))cats=['corners'];
       else if(/ENGINE|MODEL UPDATES|PATCHED LEAKS|ARCHIVE|IDEA BOX|STANDINGS|LEADERS|BULLPEN/.test(heading)||id==='news'||cl.contains('foot'))cats=['research'];
       else if(heading.includes('EDGE SCANNER'))cats=['props'];
-      else if(sport==='nfl'&&cl.contains('grid'))cats=['overview','games','props'];
+      else if(sport==='nfl'&&cl.contains('grid'))cats=['overview'];
       else if(cl.contains('showcase'))cats=['overview',sport==='mlb'?'moneyline':'props'];
       else if(cl.contains('teambar')||id==='gamefocus')cats=['overview','games','props','touchdowns'];
       else cats=['overview',sport==='mlb'?'moneyline':'games'];
@@ -89,6 +92,7 @@
       if(sport==='nfl'&&current==='props')desc.textContent='Player projections and locked shadow picks · paper only.';
       const disclosure=heading.querySelector('.vegas-disclosure');
       disclosure.textContent=sport!=='mlb'?'PAPER · REFERENCE ONLY':['props','first5','runline'].includes(current)?'DISPLAY ONLY · NOT OFFICIAL PLAYS':'LOCKED PICKS · TRACKED RECORD';
+      if(sport==='nfl'){document.body.dataset.nflView=current;if(current==='props'&&typeof filterGame==='function')filterGame(document.querySelector('#gamesel')?.value||'ALL');}
       syncProvenance();
       if(write)history.replaceState(null,'','#market='+current+(current==='props'&&sub?'&prop='+sub:''));
       window.dispatchEvent(new Event('resize'));
@@ -105,7 +109,7 @@
     function tabButton(key,label,target){const b=make('button','',label);b.type='button';b.dataset.route=key;b.onclick=()=>target(key);return b;}
     routes.forEach(([k,l])=>nav.append(tabButton(k,l,k=>select(k))));
     subs.forEach(([k,l])=>subnav.append(tabButton(k,l,k=>select('props',k))));
-    function readHash(){const q=new URLSearchParams(location.hash.slice(1));select(q.get('market')||'overview',q.get('prop'),false);}
+    function readHash(){const raw=location.hash.slice(1),q=new URLSearchParams(raw);const target=raw&&!raw.includes('=')?document.getElementById(raw):null;if(target){const match=nodes.find(x=>x.el.contains(target));if(match){select(match.cats.find(x=>x!=='all')||'overview',null,false);target.scrollIntoView();return;}}select(q.get('market')||'overview',q.get('prop'),false);}
     window.addEventListener('hashchange',readHash);readHash();
     document.addEventListener('board-reveal',e=>{const match=nodes.find(x=>x.el.contains(e.detail));if(!match)return;const key=match.cats.find(x=>x!=='all');if(subs.some(x=>x[0]===key))select('props',key);else if(key)select(key);});
     // Price comparison is valid only within one side and one market/line.
@@ -239,8 +243,10 @@
       updateEmpty();
     }
     enhance();
+    document.documentElement.classList.remove('board-boot');window.dispatchEvent(new Event('board-ready'));
     let scheduled=false;
     new MutationObserver(()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;enhance();});}).observe(frame,{subtree:true,childList:true});
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
+

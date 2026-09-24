@@ -1,7 +1,7 @@
 /* Presentation only: preserve original nodes, data, grades and event handlers. */
 (()=>{
  const init=()=>{
-  if(document.body.dataset.boardSport!=='nfl')return;
+  if(document.body.dataset.boardSport!=='nfl'||document.body.classList.contains('nfl-facelift'))return;
   document.body.classList.add('nfl-facelift');
   const heading=document.querySelector('.vegas-pageheading'),nav=document.querySelector('.vegas-markets');
   if(heading&&nav)nav.before(heading);
@@ -30,5 +30,5 @@
   function view(){document.body.dataset.nflView=nav?.querySelector('[aria-current="page"]')?.dataset.route||'overview'}
   nav?.addEventListener('click',view);window.addEventListener('hashchange',view);view();
  };
- if(document.readyState==='complete')init();else window.addEventListener('load',init,{once:true});
+ if(document.querySelector('.vegas-markets'))init();else window.addEventListener('board-ready',init,{once:true});
 })();
