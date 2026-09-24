@@ -352,11 +352,11 @@
  "San Diego Padres@Los Angeles Dodgers": {
   "away": "San Diego Padres",
   "home": "Los Angeles Dodgers",
-  "prob_home": 63.1,
+  "prob_home": 60.3,
   "odds": {
    "fanduel": {
-    "Los Angeles Dodgers": -184,
-    "San Diego Padres": 146
+    "Los Angeles Dodgers": -188,
+    "San Diego Padres": 148
    },
    "draftkings": {
     "Los Angeles Dodgers": -175,
@@ -373,16 +373,16 @@
   },
   "best_away": [
    "fanduel",
-   146
+   148
   ],
   "best_home": [
    "draftkings",
    -175
   ],
-  "dv_edge_away": -1.7,
-  "dv_edge_home": 3.2,
-  "flag": "home",
-  "locked": false
+  "dv_edge_away": 1.5,
+  "dv_edge_home": 0.4,
+  "flag": "",
+  "locked": true
  },
  "Houston Astros@Athletics": {
   "away": "Houston Astros",
@@ -390,16 +390,16 @@
   "prob_home": 28.8,
   "odds": {
    "fanduel": {
-    "Athletics": 124,
-    "Houston Astros": -156
+    "Athletics": 126,
+    "Houston Astros": -158
    },
    "williamhill_us": {
     "Athletics": 127,
     "Houston Astros": -157
    },
    "draftkings": {
-    "Athletics": 130,
-    "Houston Astros": -166
+    "Athletics": 124,
+    "Houston Astros": -160
    },
    "betmgm": {
     "Athletics": 130,
@@ -407,15 +407,15 @@
    }
   },
   "best_away": [
-   "fanduel",
-   -156
+   "williamhill_us",
+   -157
   ],
   "best_home": [
-   "draftkings",
+   "betmgm",
    130
   ],
-  "dv_edge_away": 13.5,
-  "dv_edge_home": -12.3,
+  "dv_edge_away": 13.2,
+  "dv_edge_home": -12.6,
   "flag": "",
   "locked": false
  }
