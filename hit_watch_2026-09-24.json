@@ -1,6 +1,6 @@
 {
  "date": "2026-09-24",
- "generated": "2026-09-24T23:00:45Z",
+ "generated": "2026-09-24T23:30:29Z",
  "lineups_confirmed": 12,
  "players": [
   {
@@ -88,12 +88,13 @@
    "f_park": 1.0,
    "h_pa": 0.25408,
    "odds": {
-    "dk2": 202,
-    "dk": -272,
-    "mgm2": 190,
+    "dk": -260,
+    "dk2": 210,
     "mgm": -275,
-    "czr2": 172,
-    "czr": -250
+    "mgm2": 195,
+    "czr": -250,
+    "czr2": 181,
+    "dku": 192
    },
    "fair": "-239",
    "fair2": "+250"
@@ -250,12 +251,12 @@
    "f_park": 1.0,
    "h_pa": 0.2693,
    "odds": {
-    "dk2": 187,
-    "dk": -309,
-    "mgm2": 195,
+    "dk": -287,
+    "dk2": 203,
     "mgm": -275,
-    "czr2": 181,
-    "czr": -320
+    "mgm2": 200,
+    "czr": -320,
+    "czr2": 181
    },
    "fair": "-227",
    "fair2": "+273"
@@ -292,6 +293,38 @@
    },
    "fair": "-224",
    "fair2": "+276"
+  },
+  {
+   "id": 670541,
+   "name": "Yordan Alvarez",
+   "team": "Houston Astros",
+   "opp": "Athletics",
+   "home": false,
+   "pk": 824950,
+   "opp_sp": "Mason Barnett",
+   "opp_sp_id": 686930,
+   "p": 68.9,
+   "p2": 26.9,
+   "h": 174,
+   "pa": 673,
+   "g": 154,
+   "pa_g": 4.37,
+   "n_eff": 4.09,
+   "slot": 2,
+   "f_bat": 1.12,
+   "f_pit": 1.02,
+   "f_park": 1.0,
+   "h_pa": 0.24853,
+   "odds": {
+    "dk": -378,
+    "dk2": 138,
+    "mgm": -350,
+    "mgm2": 150,
+    "czr": -420,
+    "czr2": 142
+   },
+   "fair": "-222",
+   "fair2": "+272"
   },
   {
    "id": 673962,
@@ -413,14 +446,13 @@
    "f_park": 1.0,
    "h_pa": 0.23992,
    "odds": {
-    "dk": -193,
-    "dku": 144,
-    "dk2": 279,
+    "dk": -195,
+    "dk2": 293,
     "mgm": -210,
-    "mgmu": 155,
-    "mgm2": 240,
+    "mgm2": 250,
     "czr": -200,
-    "czr2": 240
+    "czr2": 240,
+    "dku": 145
    },
    "fair": "-213",
    "fair2": "+285"
@@ -457,39 +489,6 @@
    },
    "fair": "-212",
    "fair2": "+292"
-  },
-  {
-   "id": 571448,
-   "name": "Nolan Arenado",
-   "team": "Arizona Diamondbacks",
-   "opp": "Colorado Rockies",
-   "home": false,
-   "pk": 824298,
-   "opp_sp": "Tanner Gordon",
-   "opp_sp_id": 685299,
-   "p": 67.8,
-   "p2": 25.0,
-   "h": 130,
-   "pa": 581,
-   "g": 148,
-   "pa_g": 3.93,
-   "n_eff": 3.64,
-   "slot": 6,
-   "f_bat": 1.02,
-   "f_pit": 1.13,
-   "f_park": 1.07,
-   "h_pa": 0.26755,
-   "odds": {
-    "dk": -256,
-    "dk2": 207,
-    "mgm": -295,
-    "mgm2": 180,
-    "czr": -250,
-    "czr2": 184,
-    "dku": 189
-   },
-   "fair": "-211",
-   "fair2": "+300"
   }
  ],
  "players2": [
@@ -578,12 +577,13 @@
    "f_park": 1.0,
    "h_pa": 0.25408,
    "odds": {
-    "dk2": 202,
-    "dk": -272,
-    "mgm2": 190,
+    "dk": -260,
+    "dk2": 210,
     "mgm": -275,
-    "czr2": 172,
-    "czr": -250
+    "mgm2": 195,
+    "czr": -250,
+    "czr2": 181,
+    "dku": 192
    },
    "fair": "-239",
    "fair2": "+250"
@@ -719,6 +719,38 @@
    "fair2": "+265"
   },
   {
+   "id": 670541,
+   "name": "Yordan Alvarez",
+   "team": "Houston Astros",
+   "opp": "Athletics",
+   "home": false,
+   "pk": 824950,
+   "opp_sp": "Mason Barnett",
+   "opp_sp_id": 686930,
+   "p": 68.9,
+   "p2": 26.9,
+   "h": 174,
+   "pa": 673,
+   "g": 154,
+   "pa_g": 4.37,
+   "n_eff": 4.09,
+   "slot": 2,
+   "f_bat": 1.12,
+   "f_pit": 1.02,
+   "f_park": 1.0,
+   "h_pa": 0.24853,
+   "odds": {
+    "dk": -378,
+    "dk2": 138,
+    "mgm": -350,
+    "mgm2": 150,
+    "czr": -420,
+    "czr2": 142
+   },
+   "fair": "-222",
+   "fair2": "+272"
+  },
+  {
    "id": 671739,
    "name": "Michael Harris II",
    "team": "Atlanta Braves",
@@ -740,12 +772,12 @@
    "f_park": 1.0,
    "h_pa": 0.2693,
    "odds": {
-    "dk2": 187,
-    "dk": -309,
-    "mgm2": 195,
+    "dk": -287,
+    "dk2": 203,
     "mgm": -275,
-    "czr2": 181,
-    "czr": -320
+    "mgm2": 200,
+    "czr": -320,
+    "czr2": 181
    },
    "fair": "-227",
    "fair2": "+273"
@@ -871,14 +903,13 @@
    "f_park": 1.0,
    "h_pa": 0.23992,
    "odds": {
-    "dk": -193,
-    "dku": 144,
-    "dk2": 279,
+    "dk": -195,
+    "dk2": 293,
     "mgm": -210,
-    "mgmu": 155,
-    "mgm2": 240,
+    "mgm2": 250,
     "czr": -200,
-    "czr2": 240
+    "czr2": 240,
+    "dku": 145
    },
    "fair": "-213",
    "fair2": "+285"
@@ -946,39 +977,6 @@
    },
    "fair": "-213",
    "fair2": "+291"
-  },
-  {
-   "id": 681198,
-   "name": "TJ Rumfield",
-   "team": "Colorado Rockies",
-   "opp": "Arizona Diamondbacks",
-   "home": true,
-   "pk": 824298,
-   "opp_sp": "Eduardo Rodriguez",
-   "opp_sp_id": 593958,
-   "p": 67.9,
-   "p2": 25.5,
-   "h": 159,
-   "pa": 621,
-   "g": 152,
-   "pa_g": 4.09,
-   "n_eff": 3.83,
-   "slot": 4,
-   "f_bat": 1.11,
-   "f_pit": 1.0,
-   "f_park": 1.07,
-   "h_pa": 0.25691,
-   "odds": {
-    "dk": -248,
-    "dk2": 228,
-    "mgm": -235,
-    "mgm2": 220,
-    "czr": -250,
-    "czr2": 188,
-    "dku": 183
-   },
-   "fair": "-212",
-   "fair2": "+292"
   }
  ]
 }
