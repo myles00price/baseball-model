@@ -43,3 +43,7 @@ body.vegas :is(.rsh-head,.rsh-head .sub,.teambar,.teambar label,.teambar select,
 body.vegas :is(.teambar select,.slate-tools select){color:var(--ink)!important;font-size:12px!important}
 body.vegas .statusline{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;font-size:10px!important;padding:10px 0}
 body.vegas .vegas-subtabs[hidden]{display:none!important}
+/* Matchup headings must not consume a player-table grid column. */
+body.vegas .rsh{display:block!important}
+body.vegas .rsh-team{width:100%}
+body.vegas .rsh>h2{font:700 26px 'Barlow Condensed',Arial,sans-serif;margin:16px 0 8px}
