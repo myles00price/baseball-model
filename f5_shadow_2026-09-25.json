@@ -212,7 +212,7 @@
  "Los Angeles Angels@Seattle Mariners": {
   "away": "Los Angeles Angels",
   "home": "Seattle Mariners",
-  "prob_home": 50.7,
+  "prob_home": 52.3,
   "odds": {
    "fanduel": {
     "Los Angeles Angels": -102,
@@ -239,15 +239,15 @@
    "williamhill_us",
    -121
   ],
-  "dv_edge_away": 1.7,
-  "dv_edge_home": -1.3,
+  "dv_edge_away": 0.1,
+  "dv_edge_home": 0.3,
   "flag": "",
   "locked": false
  },
  "Los Angeles Dodgers@San Francisco Giants": {
   "away": "Los Angeles Dodgers",
   "home": "San Francisco Giants",
-  "prob_home": 33.8,
+  "prob_home": 31.8,
   "odds": {
    "fanduel": {
     "Los Angeles Dodgers": -365,
@@ -258,26 +258,26 @@
     "San Francisco Giants": 260
    },
    "draftkings": {
-    "Los Angeles Dodgers": -298,
-    "San Francisco Giants": 220
+    "Los Angeles Dodgers": -330,
+    "San Francisco Giants": 240
    },
    "betmgm": {
-    "Los Angeles Dodgers": -350,
-    "San Francisco Giants": 260
+    "Los Angeles Dodgers": -325,
+    "San Francisco Giants": 250
    }
   },
   "best_away": [
-   "draftkings",
-   -298
+   "betmgm",
+   -325
   ],
   "best_home": [
    "fanduel",
    270
   ],
-  "dv_edge_away": -4.4,
-  "dv_edge_home": 8.2,
+  "dv_edge_away": -4.1,
+  "dv_edge_home": 6.2,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Chicago Cubs@Boston Red Sox": {
   "away": "Chicago Cubs",
@@ -383,7 +383,7 @@
  "Houston Astros@Athletics": {
   "away": "Houston Astros",
   "home": "Athletics",
-  "prob_home": 37.0,
+  "prob_home": 35.8,
   "odds": {
    "fanduel": {
     "Athletics": 126,
@@ -410,9 +410,9 @@
    "draftkings",
    135
   ],
-  "dv_edge_away": 4.9,
-  "dv_edge_home": -3.1,
-  "flag": "away",
+  "dv_edge_away": 6.1,
+  "dv_edge_home": -4.3,
+  "flag": "",
   "locked": false
  },
  "Baltimore Orioles@New York Yankees": {
@@ -517,6 +517,41 @@
   ],
   "dv_edge_away": 4.0,
   "dv_edge_home": -2.3,
+  "flag": "",
+  "locked": true
+ },
+ "New York Mets@Washington Nationals": {
+  "away": "New York Mets",
+  "home": "Washington Nationals",
+  "prob_home": 68.8,
+  "odds": {
+   "fanduel": {
+    "New York Mets": -104,
+    "Washington Nationals": -120
+   },
+   "williamhill_us": {
+    "New York Mets": -103,
+    "Washington Nationals": -121
+   },
+   "draftkings": {
+    "New York Mets": -105,
+    "Washington Nationals": -125
+   },
+   "betmgm": {
+    "New York Mets": -105,
+    "Washington Nationals": -120
+   }
+  },
+  "best_away": [
+   "williamhill_us",
+   -103
+  ],
+  "best_home": [
+   "fanduel",
+   -120
+  ],
+  "dv_edge_away": -16.8,
+  "dv_edge_home": 17.2,
   "flag": "",
   "locked": true
  }
