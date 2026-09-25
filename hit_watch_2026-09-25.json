@@ -1,7 +1,7 @@
 {
  "date": "2026-09-25",
- "generated": "2026-09-25T22:16:06Z",
- "lineups_confirmed": 15,
+ "generated": "2026-09-25T23:01:25Z",
+ "lineups_confirmed": 16,
  "players": [
   {
    "id": 650490,
@@ -58,13 +58,12 @@
    "f_park": 1.01,
    "h_pa": 0.25733,
    "odds": {
-    "dk": -273,
-    "dk2": 205,
-    "mgm": -295,
-    "mgm2": 180,
     "czr": -320,
-    "czr2": 174,
-    "dku": 200
+    "czr2": 178,
+    "dk2": 196,
+    "dk": -274,
+    "mgm2": 175,
+    "mgm": -300
    },
    "fair": "-239",
    "fair2": "+251"
@@ -136,38 +135,6 @@
    "fair2": "+277"
   },
   {
-   "id": 665487,
-   "name": "Fernando Tatis Jr.",
-   "team": "San Diego Padres",
-   "opp": "Arizona Diamondbacks",
-   "home": true,
-   "pk": 823248,
-   "opp_sp": "Brandon Pfaadt",
-   "opp_sp_id": 694297,
-   "p": 68.7,
-   "p2": 26.8,
-   "h": 179,
-   "pa": 696,
-   "g": 157,
-   "pa_g": 4.43,
-   "n_eff": 4.16,
-   "slot": null,
-   "f_bat": 1.12,
-   "f_pit": 1.02,
-   "f_park": 0.99,
-   "h_pa": 0.2436,
-   "odds": {
-    "dk": -298,
-    "dk2": 177,
-    "mgm": -325,
-    "mgm2": 165,
-    "czr": -320,
-    "czr2": 174
-   },
-   "fair": "-219",
-   "fair2": "+273"
-  },
-  {
    "id": 673962,
    "name": "Josh Jung",
    "team": "Texas Rangers",
@@ -189,16 +156,49 @@
    "f_park": 1.0,
    "h_pa": 0.24911,
    "odds": {
-    "dk": -226,
-    "dk2": 245,
-    "mgm": -250,
-    "mgm2": 210,
     "czr": -240,
     "czr2": 198,
-    "dku": 167
+    "dk": -227,
+    "dku": 169,
+    "dk2": 228,
+    "mgm": -250,
+    "mgmu": 180,
+    "mgm2": 200
    },
    "fair": "-218",
    "fair2": "+279"
+  },
+  {
+   "id": 665487,
+   "name": "Fernando Tatis Jr.",
+   "team": "San Diego Padres",
+   "opp": "Arizona Diamondbacks",
+   "home": true,
+   "pk": 823248,
+   "opp_sp": "Brandon Pfaadt",
+   "opp_sp_id": 694297,
+   "p": 68.5,
+   "p2": 26.5,
+   "h": 179,
+   "pa": 696,
+   "g": 157,
+   "pa_g": 4.43,
+   "n_eff": 4.14,
+   "slot": 1,
+   "f_bat": 1.12,
+   "f_pit": 1.02,
+   "f_park": 0.99,
+   "h_pa": 0.2436,
+   "odds": {
+    "czr2": 174,
+    "czr": -320,
+    "dk2": 177,
+    "dk": -299,
+    "mgm2": 175,
+    "mgm": -300
+   },
+   "fair": "-217",
+   "fair2": "+277"
   },
   {
    "id": 673548,
@@ -255,13 +255,14 @@
    "f_park": 1.0,
    "h_pa": 0.23862,
    "odds": {
-    "dk": -202,
-    "dk2": 264,
-    "mgm": -225,
-    "mgm2": 230,
-    "czr": -205,
-    "czr2": 225,
-    "dku": 150
+    "czr": -218,
+    "czr2": 205,
+    "dk": -228,
+    "dku": 169,
+    "dk2": 246,
+    "mgm": -235,
+    "mgmu": 170,
+    "mgm2": 220
    },
    "fair": "-210",
    "fair2": "+289"
@@ -364,39 +365,6 @@
    "fair2": "+298"
   },
   {
-   "id": 672515,
-   "name": "Gabriel Moreno",
-   "team": "Arizona Diamondbacks",
-   "opp": "San Diego Padres",
-   "home": false,
-   "pk": 823248,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "p": 66.9,
-   "p2": 24.7,
-   "h": 144,
-   "pa": 541,
-   "g": 128,
-   "pa_g": 4.23,
-   "n_eff": 3.98,
-   "slot": null,
-   "f_bat": 1.13,
-   "f_pit": 1.0,
-   "f_park": 0.99,
-   "h_pa": 0.24267,
-   "odds": {
-    "dk": -192,
-    "dk2": 290,
-    "mgm": -250,
-    "mgm2": 210,
-    "czr": -213,
-    "czr2": 230,
-    "dku": 144
-   },
-   "fair": "-202",
-   "fair2": "+305"
-  },
-  {
    "id": 661388,
    "name": "William Contreras",
    "team": "Milwaukee Brewers",
@@ -418,16 +386,50 @@
    "f_park": 1.0,
    "h_pa": 0.2379,
    "odds": {
-    "dk": -216,
-    "dk2": 272,
-    "mgm": -275,
-    "mgm2": 200,
-    "czr": -218,
-    "czr2": 205,
-    "dku": 161
+    "dk": -222,
+    "dku": 165,
+    "dk2": 251,
+    "czr2": 191,
+    "czr": -235,
+    "mgm2": 190,
+    "mgm": -275
    },
    "fair": "-200",
    "fair2": "+305"
+  },
+  {
+   "id": 672515,
+   "name": "Gabriel Moreno",
+   "team": "Arizona Diamondbacks",
+   "opp": "San Diego Padres",
+   "home": false,
+   "pk": 823248,
+   "opp_sp": "TBD",
+   "opp_sp_id": null,
+   "p": 66.7,
+   "p2": 24.5,
+   "h": 144,
+   "pa": 541,
+   "g": 128,
+   "pa_g": 4.23,
+   "n_eff": 3.96,
+   "slot": 3,
+   "f_bat": 1.13,
+   "f_pit": 1.0,
+   "f_park": 0.99,
+   "h_pa": 0.24267,
+   "odds": {
+    "czr2": 210,
+    "czr": -225,
+    "dk": -206,
+    "dku": 154,
+    "dk2": 261,
+    "mgm": -250,
+    "mgmu": 185,
+    "mgm2": 200
+   },
+   "fair": "-200",
+   "fair2": "+308"
   },
   {
    "id": 686948,
@@ -451,13 +453,14 @@
    "f_park": 1.01,
    "h_pa": 0.23162,
    "odds": {
-    "dk": -220,
-    "dk2": 254,
-    "mgm": -220,
-    "mgm2": 230,
+    "czr2": 220,
     "czr": -225,
-    "czr2": 210,
-    "dku": 164
+    "dk": -213,
+    "dku": 158,
+    "dk2": 248,
+    "mgm": -220,
+    "mgmu": 160,
+    "mgm2": 230
    },
    "fair": "-199",
    "fair2": "+305"
@@ -484,13 +487,14 @@
    "f_park": 1.0,
    "h_pa": 0.22987,
    "odds": {
-    "dk": -186,
-    "dk2": 311,
-    "mgm": -225,
-    "mgm2": 230,
+    "dk": -200,
+    "dku": 149,
+    "dk2": 289,
+    "czr2": 225,
     "czr": -200,
-    "czr2": 240,
-    "dku": 139
+    "mgm": -250,
+    "mgmu": 180,
+    "mgm2": 210
    },
    "fair": "-199",
    "fair2": "+305"
@@ -552,13 +556,12 @@
    "f_park": 1.01,
    "h_pa": 0.25733,
    "odds": {
-    "dk": -273,
-    "dk2": 205,
-    "mgm": -295,
-    "mgm2": 180,
     "czr": -320,
-    "czr2": 174,
-    "dku": 200
+    "czr2": 178,
+    "dk2": 196,
+    "dk": -274,
+    "mgm2": 175,
+    "mgm": -300
    },
    "fair": "-239",
    "fair2": "+251"
@@ -597,38 +600,6 @@
    "fair2": "+255"
   },
   {
-   "id": 665487,
-   "name": "Fernando Tatis Jr.",
-   "team": "San Diego Padres",
-   "opp": "Arizona Diamondbacks",
-   "home": true,
-   "pk": 823248,
-   "opp_sp": "Brandon Pfaadt",
-   "opp_sp_id": 694297,
-   "p": 68.7,
-   "p2": 26.8,
-   "h": 179,
-   "pa": 696,
-   "g": 157,
-   "pa_g": 4.43,
-   "n_eff": 4.16,
-   "slot": null,
-   "f_bat": 1.12,
-   "f_pit": 1.02,
-   "f_park": 0.99,
-   "h_pa": 0.2436,
-   "odds": {
-    "dk": -298,
-    "dk2": 177,
-    "mgm": -325,
-    "mgm2": 165,
-    "czr": -320,
-    "czr2": 174
-   },
-   "fair": "-219",
-   "fair2": "+273"
-  },
-  {
    "id": 802415,
    "name": "Chandler Simpson",
    "team": "Tampa Bay Rays",
@@ -662,6 +633,38 @@
    "fair2": "+277"
   },
   {
+   "id": 665487,
+   "name": "Fernando Tatis Jr.",
+   "team": "San Diego Padres",
+   "opp": "Arizona Diamondbacks",
+   "home": true,
+   "pk": 823248,
+   "opp_sp": "Brandon Pfaadt",
+   "opp_sp_id": 694297,
+   "p": 68.5,
+   "p2": 26.5,
+   "h": 179,
+   "pa": 696,
+   "g": 157,
+   "pa_g": 4.43,
+   "n_eff": 4.14,
+   "slot": 1,
+   "f_bat": 1.12,
+   "f_pit": 1.02,
+   "f_park": 0.99,
+   "h_pa": 0.2436,
+   "odds": {
+    "czr2": 174,
+    "czr": -320,
+    "dk2": 177,
+    "dk": -299,
+    "mgm2": 175,
+    "mgm": -300
+   },
+   "fair": "-217",
+   "fair2": "+277"
+  },
+  {
    "id": 673962,
    "name": "Josh Jung",
    "team": "Texas Rangers",
@@ -683,13 +686,14 @@
    "f_park": 1.0,
    "h_pa": 0.24911,
    "odds": {
-    "dk": -226,
-    "dk2": 245,
-    "mgm": -250,
-    "mgm2": 210,
     "czr": -240,
     "czr2": 198,
-    "dku": 167
+    "dk": -227,
+    "dku": 169,
+    "dk2": 228,
+    "mgm": -250,
+    "mgmu": 180,
+    "mgm2": 200
    },
    "fair": "-218",
    "fair2": "+279"
@@ -749,13 +753,14 @@
    "f_park": 1.0,
    "h_pa": 0.23862,
    "odds": {
-    "dk": -202,
-    "dk2": 264,
-    "mgm": -225,
-    "mgm2": 230,
-    "czr": -205,
-    "czr2": 225,
-    "dku": 150
+    "czr": -218,
+    "czr2": 205,
+    "dk": -228,
+    "dku": 169,
+    "dk2": 246,
+    "mgm": -235,
+    "mgmu": 170,
+    "mgm2": 220
    },
    "fair": "-210",
    "fair2": "+289"
@@ -858,39 +863,6 @@
    "fair2": "+298"
   },
   {
-   "id": 672515,
-   "name": "Gabriel Moreno",
-   "team": "Arizona Diamondbacks",
-   "opp": "San Diego Padres",
-   "home": false,
-   "pk": 823248,
-   "opp_sp": "TBD",
-   "opp_sp_id": null,
-   "p": 66.9,
-   "p2": 24.7,
-   "h": 144,
-   "pa": 541,
-   "g": 128,
-   "pa_g": 4.23,
-   "n_eff": 3.98,
-   "slot": null,
-   "f_bat": 1.13,
-   "f_pit": 1.0,
-   "f_park": 0.99,
-   "h_pa": 0.24267,
-   "odds": {
-    "dk": -192,
-    "dk2": 290,
-    "mgm": -250,
-    "mgm2": 210,
-    "czr": -213,
-    "czr2": 230,
-    "dku": 144
-   },
-   "fair": "-202",
-   "fair2": "+305"
-  },
-  {
    "id": 661388,
    "name": "William Contreras",
    "team": "Milwaukee Brewers",
@@ -912,13 +884,13 @@
    "f_park": 1.0,
    "h_pa": 0.2379,
    "odds": {
-    "dk": -216,
-    "dk2": 272,
-    "mgm": -275,
-    "mgm2": 200,
-    "czr": -218,
-    "czr2": 205,
-    "dku": 161
+    "dk": -222,
+    "dku": 165,
+    "dk2": 251,
+    "czr2": 191,
+    "czr": -235,
+    "mgm2": 190,
+    "mgm": -275
    },
    "fair": "-200",
    "fair2": "+305"
@@ -945,13 +917,14 @@
    "f_park": 1.01,
    "h_pa": 0.23162,
    "odds": {
-    "dk": -220,
-    "dk2": 254,
-    "mgm": -220,
-    "mgm2": 230,
+    "czr2": 220,
     "czr": -225,
-    "czr2": 210,
-    "dku": 164
+    "dk": -213,
+    "dku": 158,
+    "dk2": 248,
+    "mgm": -220,
+    "mgmu": 160,
+    "mgm2": 230
    },
    "fair": "-199",
    "fair2": "+305"
@@ -978,16 +951,51 @@
    "f_park": 1.0,
    "h_pa": 0.22987,
    "odds": {
-    "dk": -186,
-    "dk2": 311,
-    "mgm": -225,
-    "mgm2": 230,
+    "dk": -200,
+    "dku": 149,
+    "dk2": 289,
+    "czr2": 225,
     "czr": -200,
-    "czr2": 240,
-    "dku": 139
+    "mgm": -250,
+    "mgmu": 180,
+    "mgm2": 210
    },
    "fair": "-199",
    "fair2": "+305"
+  },
+  {
+   "id": 672515,
+   "name": "Gabriel Moreno",
+   "team": "Arizona Diamondbacks",
+   "opp": "San Diego Padres",
+   "home": false,
+   "pk": 823248,
+   "opp_sp": "TBD",
+   "opp_sp_id": null,
+   "p": 66.7,
+   "p2": 24.5,
+   "h": 144,
+   "pa": 541,
+   "g": 128,
+   "pa_g": 4.23,
+   "n_eff": 3.96,
+   "slot": 3,
+   "f_bat": 1.13,
+   "f_pit": 1.0,
+   "f_park": 0.99,
+   "h_pa": 0.24267,
+   "odds": {
+    "czr2": 210,
+    "czr": -225,
+    "dk": -206,
+    "dku": 154,
+    "dk2": 261,
+    "mgm": -250,
+    "mgmu": 185,
+    "mgm2": 200
+   },
+   "fair": "-200",
+   "fair2": "+308"
   }
  ]
 }
