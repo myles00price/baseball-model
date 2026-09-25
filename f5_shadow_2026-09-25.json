@@ -2,7 +2,7 @@
  "Pittsburgh Pirates@Detroit Tigers": {
   "away": "Pittsburgh Pirates",
   "home": "Detroit Tigers",
-  "prob_home": 55.3,
+  "prob_home": 53.4,
   "odds": {
    "fanduel": {
     "Detroit Tigers": -120,
@@ -17,7 +17,7 @@
     "Pittsburgh Pirates": -105
    },
    "betmgm": {
-    "Detroit Tigers": -120,
+    "Detroit Tigers": -125,
     "Pittsburgh Pirates": -102
    }
   },
@@ -29,23 +29,23 @@
    "williamhill_us",
    -117
   ],
-  "dv_edge_away": -3.4,
-  "dv_edge_home": 4.3,
+  "dv_edge_away": -1.0,
+  "dv_edge_home": 2.4,
   "flag": "",
-  "locked": false
+  "locked": true
  },
  "Tampa Bay Rays@Philadelphia Phillies": {
   "away": "Tampa Bay Rays",
   "home": "Philadelphia Phillies",
-  "prob_home": 62.0,
+  "prob_home": 63.4,
   "odds": {
    "fanduel": {
-    "Philadelphia Phillies": -182,
-    "Tampa Bay Rays": 144
+    "Philadelphia Phillies": -180,
+    "Tampa Bay Rays": 142
    },
    "draftkings": {
-    "Philadelphia Phillies": -188,
-    "Tampa Bay Rays": 145
+    "Philadelphia Phillies": -180,
+    "Tampa Bay Rays": 140
    },
    "williamhill_us": {
     "Philadelphia Phillies": -173,
@@ -57,26 +57,26 @@
    }
   },
   "best_away": [
-   "draftkings",
-   145
+   "fanduel",
+   142
   ],
   "best_home": [
    "williamhill_us",
    -173
   ],
-  "dv_edge_away": -0.5,
-  "dv_edge_home": 1.6,
-  "flag": "",
+  "dv_edge_away": -2.5,
+  "dv_edge_home": 3.0,
+  "flag": "home",
   "locked": false
  },
  "Cleveland Guardians@Kansas City Royals": {
   "away": "Cleveland Guardians",
   "home": "Kansas City Royals",
-  "prob_home": 52.4,
+  "prob_home": 54.4,
   "odds": {
    "fanduel": {
-    "Cleveland Guardians": -132,
-    "Kansas City Royals": 106
+    "Cleveland Guardians": -128,
+    "Kansas City Royals": 102
    },
    "williamhill_us": {
     "Cleveland Guardians": -130,
@@ -92,15 +92,15 @@
    }
   },
   "best_away": [
-   "williamhill_us",
-   -130
+   "fanduel",
+   -128
   ],
   "best_home": [
-   "fanduel",
+   "williamhill_us",
    106
   ],
-  "dv_edge_away": -5.5,
-  "dv_edge_home": 6.5,
+  "dv_edge_away": -7.5,
+  "dv_edge_home": 8.5,
   "flag": "",
   "locked": false
  },
@@ -123,7 +123,7 @@
    },
    "betmgm": {
     "Chicago White Sox": -225,
-    "Colorado Rockies": 175
+    "Colorado Rockies": 180
    }
   },
   "best_away": [
@@ -145,8 +145,8 @@
   "prob_home": 56.7,
   "odds": {
    "fanduel": {
-    "Milwaukee Brewers": -182,
-    "St. Louis Cardinals": 144
+    "Milwaukee Brewers": -176,
+    "St. Louis Cardinals": 140
    },
    "draftkings": {
     "Milwaukee Brewers": -175,
@@ -163,13 +163,13 @@
   },
   "best_away": [
    "fanduel",
-   144
+   140
   ],
   "best_home": [
    "betmgm",
    -165
   ],
-  "dv_edge_away": 4.5,
+  "dv_edge_away": 3.8,
   "dv_edge_home": -2.2,
   "flag": "away",
   "locked": false
@@ -188,12 +188,12 @@
     "Texas Rangers": -124
    },
    "draftkings": {
-    "Minnesota Twins": 100,
-    "Texas Rangers": -130
-   },
-   "betmgm": {
     "Minnesota Twins": 105,
     "Texas Rangers": -135
+   },
+   "betmgm": {
+    "Minnesota Twins": 100,
+    "Texas Rangers": -125
    }
   },
   "best_away": [
@@ -201,7 +201,7 @@
    -122
   ],
   "best_home": [
-   "betmgm",
+   "draftkings",
    105
   ],
   "dv_edge_away": -3.9,
@@ -258,8 +258,8 @@
     "San Francisco Giants": 260
    },
    "draftkings": {
-    "Los Angeles Dodgers": -330,
-    "San Francisco Giants": 240
+    "Los Angeles Dodgers": -315,
+    "San Francisco Giants": 230
    },
    "betmgm": {
     "Los Angeles Dodgers": -325,
@@ -267,14 +267,14 @@
    }
   },
   "best_away": [
-   "betmgm",
-   -325
+   "draftkings",
+   -315
   ],
   "best_home": [
    "fanduel",
    275
   ],
-  "dv_edge_away": -6.1,
+  "dv_edge_away": -5.3,
   "dv_edge_home": 8.6,
   "flag": "",
   "locked": false
@@ -317,7 +317,7 @@
  "Chicago Cubs@Boston Red Sox#2": {
   "away": "Chicago Cubs",
   "home": "Boston Red Sox",
-  "prob_home": 53.2,
+  "prob_home": 53.4,
   "odds": {
    "fanduel": {
     "Boston Red Sox": -110,
@@ -328,8 +328,8 @@
     "Chicago Cubs": -117
    },
    "betmgm": {
-    "Boston Red Sox": -105,
-    "Chicago Cubs": -118
+    "Boston Red Sox": -102,
+    "Chicago Cubs": -120
    }
   },
   "best_away": [
@@ -338,10 +338,10 @@
   ],
   "best_home": [
    "betmgm",
-   -105
+   -102
   ],
-  "dv_edge_away": -3.6,
-  "dv_edge_home": 4.6,
+  "dv_edge_away": -3.8,
+  "dv_edge_home": 5.3,
   "flag": "home",
   "locked": false
  },
@@ -449,5 +449,75 @@
   "dv_edge_home": -15.9,
   "flag": "",
   "locked": true
+ },
+ "Cincinnati Reds@Toronto Blue Jays": {
+  "away": "Cincinnati Reds",
+  "home": "Toronto Blue Jays",
+  "prob_home": 60.4,
+  "odds": {
+   "fanduel": {
+    "Cincinnati Reds": 120,
+    "Toronto Blue Jays": -150
+   },
+   "williamhill_us": {
+    "Cincinnati Reds": 119,
+    "Toronto Blue Jays": -145
+   },
+   "draftkings": {
+    "Cincinnati Reds": 120,
+    "Toronto Blue Jays": -154
+   },
+   "betmgm": {
+    "Cincinnati Reds": 120,
+    "Toronto Blue Jays": -150
+   }
+  },
+  "best_away": [
+   "fanduel",
+   120
+  ],
+  "best_home": [
+   "williamhill_us",
+   -145
+  ],
+  "dv_edge_away": -3.2,
+  "dv_edge_home": 4.0,
+  "flag": "home",
+  "locked": false
+ },
+ "Atlanta Braves@Miami Marlins": {
+  "away": "Atlanta Braves",
+  "home": "Miami Marlins",
+  "prob_home": 51.3,
+  "odds": {
+   "fanduel": {
+    "Atlanta Braves": -112,
+    "Miami Marlins": -112
+   },
+   "williamhill_us": {
+    "Atlanta Braves": -113,
+    "Miami Marlins": -110
+   },
+   "draftkings": {
+    "Atlanta Braves": -115,
+    "Miami Marlins": -115
+   },
+   "betmgm": {
+    "Atlanta Braves": -105,
+    "Miami Marlins": -118
+   }
+  },
+  "best_away": [
+   "betmgm",
+   -105
+  ],
+  "best_home": [
+   "williamhill_us",
+   -110
+  ],
+  "dv_edge_away": 0.1,
+  "dv_edge_home": 1.6,
+  "flag": "",
+  "locked": false
  }
 }
