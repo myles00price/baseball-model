@@ -616,9 +616,15 @@ def main():
         print(f"main: {date} is in the past - a rebuilt log would leak post-game "
               f"stats into the training archive. Refusing.")
         return
-    if os.path.exists(log_fn) and slate_started(_sess, date):
-        print("main: slate already underway and a frozen log exists - refusing "
-              "to rebuild it (no leaky log)")
+    # Audit 2026-09-29: this used to read "log exists AND slate started", so a
+    # day the machine was off all morning had no log, never consulted
+    # slate_started, and built a brand-new log from season stats that already
+    # included the day's finished games - which the nightly graders then
+    # archived into the training data permanently. refresh() always had the
+    # right shape; main() now matches it. slate_started fails closed.
+    if slate_started(_sess, date):
+        print("main: slate already underway - refusing to build a log from "
+              "post-first-pitch stats (no leaky log)")
         return
     with open(log_fn, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=LOG_COLS)

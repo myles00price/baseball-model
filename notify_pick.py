@@ -171,7 +171,7 @@ def save_state(date_str, notified):
         json.dump(sorted(notified), f)
 
 
-def format_pick(row, book_odds=None, started=False):
+def format_pick(row, book_odds=None):
     away, home = row["Away"], row["Home"]
     away_p, home_p = float(row["Model Away%"]), float(row["Model Home%"])
     side = away if away_p > home_p else home
@@ -226,8 +226,6 @@ def format_pick(row, book_odds=None, started=False):
     sharp = row.get("Sharp Signal", "N/A")
     if "FADE" in str(sharp):
         lines.append("Sharp FADE veto active")
-    if started:
-        lines.append("(game already started)")
     return "\n".join(lines), bet
 
 
@@ -282,6 +280,28 @@ def main():
         print(f"{date_str}: no games with both lineups confirmed yet")
         return
     pending = [g for g in confirmed if g["key"] not in notified]
+    # A play is official only if it was texted BEFORE first pitch. Anything
+    # already Live/Final must never be texted and must never enter
+    # notified_<date>.json, which every grader treats as proof of a pre-game
+    # lock (check_results.official_keys, daily_results_notify.grade_day,
+    # weekly_report.gather, gen_analytics). Audit 2026-09-29: this filter did
+    # not exist - a late boot (the machine came up at 21:42 with three Wild
+    # Card games final) would have texted the morning flags at morning prices
+    # and written them into the official record after the results were known.
+    # master_v2's freeze branch strips never-texted flags off started games
+    # for exactly this reason; this is the other half of that rule.
+    late = [g for g in pending if g["state"] != "Preview"]
+    if late:
+        names = ", ".join(f"{g['key']} ({g['state']})" for g in late)
+        print(f"{date_str}: {len(late)} game(s) already underway - NOT texting, "
+              f"NOT locking: {names}")
+        try:
+            send_ops("Late run: plays skipped",
+                     f"{date_str}: these games were already underway when the "
+                     f"lock job ran, so no play was texted or recorded: {names}")
+        except Exception as e:
+            print(f"ops alert failed: {e}")
+    pending = [g for g in pending if g["state"] == "Preview"]
     if not pending:
         print(f"{date_str}: all confirmed games already notified")
         return
@@ -373,7 +393,7 @@ def main():
         if row.get("Model Away%") in (None, "", "None") or row.get("Model Home%") in (None, "", "None"):
             print(f"{key}: no model pick yet (starter unresolved) — will retry next run")
             continue
-        body, bet = format_pick(row, book_odds, started=g["state"] in ("Live", "Final"))
+        body, bet = format_pick(row, book_odds)
         gtag = f" (Game {g['game_no']})" if g.get("game_no", 1) > 1 else ""
         title = f"MLB pick locked: {g['away']} @ {g['home']}{gtag}"
         send_push(title, body, bet)

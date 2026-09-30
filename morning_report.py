@@ -24,9 +24,46 @@ PYTHON = r"C:\Users\Poons\AppData\Local\Python\pythoncore-3.11-64\python.exe"
 MASTER = r"C:\Users\Poons\baseball-model\master_v2.py"
 
 
+def slate_underway(date_str):
+    """True if any game on the date is past Preview. Fails closed."""
+    import requests
+    try:
+        j = requests.get("https://statsapi.mlb.com/api/v1/schedule",
+                         params={"sportId": 1, "date": date_str,
+                                 "gameTypes": "R,F,D,L,W",
+                                 "fields": "dates,games,status,abstractGameState"},
+                         timeout=20).json()
+    except Exception:
+        return True   # can't tell -> no morning board, no props rebuild
+    for day in j.get("dates", []):
+        for g in day.get("games", []):
+            if g.get("status", {}).get("abstractGameState", "Preview") != "Preview":
+                return True
+    return False
+
+
 def main():
     lv = timezone(timedelta(hours=-7))
     today = datetime.now(lv).strftime("%Y-%m-%d")
+
+    # STALENESS GUARD (audit 2026-09-29): this is a Daily 8:30 AM task, but
+    # Task Scheduler runs missed instances at boot - on 9/29 it fired at 21:47
+    # and texted subscribers a "Morning board (2026-09-29), 0 games" preview
+    # for a postseason day that was already over. It is also what invokes the
+    # three props log builds, so a late run is how post-game stats reach the
+    # frozen logs. If the slate is underway, do nothing but alert ops.
+    if slate_underway(today):
+        print(f"morning_report: {today} slate already underway - skipping the "
+              f"morning board text and the props rebuilds")
+        try:
+            from notify_pick import send_ops
+            send_ops("Morning report skipped",
+                     f"{today}: ran after first pitch (late boot or catch-up), "
+                     f"so no morning board was texted and no props log was "
+                     f"rebuilt.")
+        except Exception as e:
+            print(f"ops alert failed: {e}")
+        return
 
     # Rebuild today's board at morning odds (locked games stay frozen).
     subprocess.run([PYTHON, MASTER, today], timeout=2400)
