@@ -37,7 +37,7 @@
  "Chicago White Sox@Houston Astros": {
   "away": "Chicago White Sox",
   "home": "Houston Astros",
-  "prob_home": 54.0,
+  "prob_home": 51.5,
   "odds": {
    "draftkings": {
     "Chicago White Sox": 124,
@@ -48,11 +48,11 @@
     "Houston Astros": -145
    },
    "williamhill_us": {
-    "Chicago White Sox": 117,
-    "Houston Astros": -143
+    "Chicago White Sox": 121,
+    "Houston Astros": -150
    },
    "betmgm": {
-    "Chicago White Sox": 118,
+    "Chicago White Sox": 120,
     "Houston Astros": -150
    }
   },
@@ -61,26 +61,26 @@
    124
   ],
   "best_home": [
-   "williamhill_us",
-   -143
+   "fanduel",
+   -145
   ],
-  "dv_edge_away": 4.0,
-  "dv_edge_home": -2.1,
-  "flag": "away",
+  "dv_edge_away": 6.5,
+  "dv_edge_home": -4.6,
+  "flag": "",
   "locked": false
  },
  "Boston Red Sox@New York Yankees": {
   "away": "Boston Red Sox",
   "home": "New York Yankees",
-  "prob_home": 53.6,
+  "prob_home": 51.8,
   "odds": {
    "fanduel": {
     "Boston Red Sox": 120,
     "New York Yankees": -150
    },
    "betmgm": {
-    "Boston Red Sox": 118,
-    "New York Yankees": -150
+    "Boston Red Sox": 115,
+    "New York Yankees": -145
    },
    "draftkings": {
     "Boston Red Sox": 114,
@@ -96,13 +96,13 @@
    120
   ],
   "best_home": [
-   "draftkings",
+   "betmgm",
    -145
   ],
-  "dv_edge_away": 3.3,
-  "dv_edge_home": -2.3,
+  "dv_edge_away": 5.1,
+  "dv_edge_home": -4.1,
   "flag": "away",
-  "locked": false
+  "locked": true
  },
  "Chicago Cubs@San Diego Padres": {
   "away": "Chicago Cubs",
@@ -110,33 +110,33 @@
   "prob_home": 51.7,
   "odds": {
    "fanduel": {
-    "Chicago Cubs": 110,
-    "San Diego Padres": -138
+    "Chicago Cubs": 116,
+    "San Diego Padres": -145
    },
    "draftkings": {
-    "Chicago Cubs": 124,
-    "San Diego Padres": -160
+    "Chicago Cubs": 120,
+    "San Diego Padres": -154
    },
    "williamhill_us": {
     "Chicago Cubs": 115,
     "San Diego Padres": -141
    },
    "betmgm": {
-    "Chicago Cubs": 115,
-    "San Diego Padres": -145
+    "Chicago Cubs": 120,
+    "San Diego Padres": -150
    }
   },
   "best_away": [
    "draftkings",
-   124
+   120
   ],
   "best_home": [
-   "fanduel",
-   -138
+   "williamhill_us",
+   -141
   ],
-  "dv_edge_away": 6.3,
-  "dv_edge_home": -3.2,
-  "flag": "",
+  "dv_edge_away": 5.5,
+  "dv_edge_home": -4.0,
+  "flag": "away",
   "locked": false
  }
 }
