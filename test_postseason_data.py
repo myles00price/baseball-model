@@ -233,3 +233,78 @@ assert all(s == "R" for s in sent), (
     f"training ingest must ask for regular season only, sent {set(sent)}")
 
 print("All postseason data tests pass.")
+
+# ── 7. opening lines are per-game, with no bare-key fallback ───────────────
+from check_results import lookup_opening
+
+SAVED = {
+    # the date-less legacy key (April price) that used to satisfy every lookup
+    "Philadelphia Phillies@Atlanta Braves": {
+        "odds": {"Atlanta Braves": {"draftkings": -143}}},
+    "2026-09-30|Philadelphia Phillies@Atlanta Braves": {
+        "odds": {"Atlanta Braves": {"draftkings": -103}}},
+    "2026-09-29|Philadelphia Phillies@Atlanta Braves": {
+        "odds": {"Atlanta Braves": {"draftkings": -118}}},
+    "2026-09-30|Chicago Cubs@San Diego Padres#2": {
+        "odds": {"San Diego Padres": {"draftkings": 120}}},
+}
+
+o30, _ = lookup_opening(SAVED, "2026-09-30", "Philadelphia Phillies",
+                        "Atlanta Braves", "Atlanta Braves")
+o29, _ = lookup_opening(SAVED, "2026-09-29", "Philadelphia Phillies",
+                        "Atlanta Braves", "Atlanta Braves")
+assert o30 == -103 and o29 == -118, (
+    f"consecutive games of one series must get their own openings, got "
+    f"{o29} and {o30}")
+assert o30 != o29, "two games of a series shared one opening line"
+
+missing, _ = lookup_opening(SAVED, "2026-10-01", "Philadelphia Phillies",
+                            "Atlanta Braves", "Atlanta Braves")
+assert missing is None, (
+    f"fell back to the date-less legacy key and invented an opening: {missing}")
+
+dh2, _ = lookup_opening(SAVED, "2026-09-30", "Chicago Cubs",
+                        "San Diego Padres", "San Diego Padres", 2)
+assert dh2 == 120, f"doubleheader game 2 opening not resolved: {dh2}"
+
+# ── 8. the picks writer refuses to drop a texted row ──────────────────────
+import master_v2
+
+with tempfile.TemporaryDirectory() as tmp:
+    try:
+        os.chdir(tmp)
+        cols = master_v2.PICK_COLUMNS
+        def row_for(away, home):
+            r = {c: "" for c in cols}
+            r.update({"Date": "2026-09-30", "Away": away, "Home": home,
+                      "Game#": "1", "Flag": "** BET **"})
+            return [r[c] for c in cols]
+        keep = row_for("Philadelphia Phillies", "Atlanta Braves")
+        drop = row_for("Chicago Cubs", "San Diego Padres")
+        with open("picks_2026-09-30.csv", "w", newline="", encoding="utf-8-sig") as f:
+            w = csv.writer(f)
+            w.writerow(cols)
+            w.writerow(keep)
+            w.writerow(drop)
+        with open("notified_2026-09-30.json", "w") as f:
+            json.dump(["Philadelphia Phillies@Atlanta Braves",
+                       "Chicago Cubs@San Diego Padres", "_heartbeat"], f)
+        before = open("picks_2026-09-30.csv", "rb").read()
+        raised = False
+        try:
+            # the Cubs game has vanished from this run's schedule response
+            master_v2.save_picks_to_csv([list(keep)], "2026-09-30")
+        except RuntimeError:
+            raised = True
+        assert raised, "writer accepted a run that dropped a texted play's row"
+        assert open("picks_2026-09-30.csv", "rb").read() == before, (
+            "picks file was modified despite the refusal")
+
+        # the normal case still writes
+        master_v2.save_picks_to_csv([list(keep), list(drop)], "2026-09-30")
+        rows = list(csv.DictReader(open("picks_2026-09-30.csv", encoding="utf-8-sig")))
+        assert len(rows) == 2, f"normal write broke: {len(rows)} rows"
+    finally:
+        os.chdir(cwd)
+
+print("All postseason data tests pass (incl. openings + writer guard).")

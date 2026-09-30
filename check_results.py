@@ -129,11 +129,19 @@ def odds_to_implied(odds):
     except:
         return None
 
-def lookup_opening(saved, away, home, team):
-    """Find the opening DK odds + implied % for `team` in the matchup.
-    Returns (opening_odds, opening_implied) or (None, None) if not found."""
-    # saved_lines.json keys are formatted "Away@Home" — exact match required
-    key = f"{away}@{home}"
+def lookup_opening(saved, date_str, away, home, team, game_no=1):
+    """Find the opening DK odds + implied % for `team` in THIS game.
+
+    Keys are "{date}|Away@Home" (plus "#N" for game N of a doubleheader),
+    matching line_tracker's writer. Audit 2026-09-29: this reader still used a
+    bare "Away@Home" key while the writer has been date-scoped since the
+    2026-08-27 repair, so every game of a series - and every game of the whole
+    season against the same matchup - inherited one stored opening, usually
+    from April. 475 of 490 clv_log rows with an opening were built that way;
+    those fields have been nulled as a published correction. There is NO
+    fallback to the bare key: an opening we did not capture for this game must
+    read as missing, not as a different game's price."""
+    key = f"{date_str}|{away}@{home}" + (f"#{game_no}" if game_no > 1 else "")
     entry = saved.get(key)
     if not entry:
         return None, None
@@ -245,7 +253,12 @@ def check_picks(date_str):
         clv_positive = clv > 0 if clv is not None else None
 
         # ── NEW: opening line lookup ────────────────────────────────────────
-        opening_odds, opening_implied = lookup_opening(saved_opening, away, home, model_winner)
+        try:
+            _gn = int(pick.get("Game#") or 1)
+        except (TypeError, ValueError):
+            _gn = 1
+        opening_odds, opening_implied = lookup_opening(
+            saved_opening, date_str, away, home, model_winner, _gn)
         # Open→close drift = how much the market moved toward the model's pick
         # Positive drift = market agreed with model over the day (sharp confirmation)
         if opening_implied is not None and closing_implied is not None:

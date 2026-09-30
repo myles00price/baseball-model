@@ -251,6 +251,39 @@ def save_picks_to_csv(picks, date_str, texted_at_start=None):
                     print(f"  race guard: kept locked row for {k} (texted mid-run)")
         except Exception as e:
             print(f"  race guard skipped ({e})")
+    # ROW-LOSS GUARD (audit 2026-09-29): this write replaces the whole file, so
+    # any game missing from the run's schedule response takes its row with it.
+    # A texted play whose row disappears stays in notified_<date>.json while
+    # grade_day / gather / bet_side_clv_summary stop seeing it - the record,
+    # the P&L and the 150-play gate all shrink retroactively, silently. Routine
+    # triggers in October: a postponement, or a suspended game resumed on the
+    # next date. Refuse the write instead.
+    if os.path.exists(filename):
+        from features_v2 import key_from_row as _kfr2
+        try:
+            with open(filename, encoding="utf-8-sig") as f:
+                prior_rows = list(csv.DictReader(f))
+        except OSError:
+            prior_rows = []
+        new_keys = {_kfr2(dict(zip(PICK_COLUMNS, [str(p) for p in pick])))
+                    for pick in picks}
+        prior_texted = {_kfr2(r) for r in prior_rows if _kfr2(r) in now_texted}
+        lost = prior_texted - new_keys
+        if lost or (prior_rows and not picks):
+            why = (f"texted row(s) missing from this run: {sorted(lost)}"
+                   if lost else
+                   f"{len(prior_rows)} prior row(s) would be replaced by none")
+            msg = (f"REFUSING to rewrite {filename}: {why}. The schedule "
+                   f"response for {date_str} did not contain them (postponement, "
+                   f"suspended game, or a partial API response). Existing file "
+                   f"left untouched.")
+            print(f"\n{msg}")
+            try:
+                from notify_pick import send_ops
+                send_ops("Picks write refused", msg)
+            except Exception as e:
+                print(f"ops alert failed: {e}")
+            raise RuntimeError(msg)
     tmp = filename + ".tmp"
     with open(tmp, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
@@ -356,8 +389,18 @@ def run_model(target_date, save_csv=True):
 
     schedule = requests.get(
         "https://statsapi.mlb.com/api/v1/schedule",
-        params={"sportId": 1, "date": target_str, "hydrate": "probablePitcher"}
+        params={"sportId": 1, "date": target_str, "hydrate": "probablePitcher"},
+        timeout=30
     ).json()
+    # The loop below iterates only the games this response contains, and the
+    # writer then replaces picks_{date}.csv wholesale - so a bad response would
+    # silently delete rows, including TEXTED ones. statsapi error bodies parse
+    # as valid JSON without a "dates" key (check_results.get_game_results
+    # refuses the same shape). Audit 2026-09-29.
+    if not isinstance(schedule, dict) or "dates" not in schedule:
+        raise ValueError(
+            f"Invalid schedule response for {target_str}; refusing to rewrite "
+            f"picks_{target_str}.csv from it")
 
     team_stats = get_team_stats(season)
 

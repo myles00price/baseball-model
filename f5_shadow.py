@@ -41,6 +41,15 @@ F5_SCALER_FILE = "scaler_f5.pkl"
 F5_BOOKS = "draftkings,fanduel,betmgm,williamhill_us"
 SAMPLE_TARGET = 50  # revisit switch decision here (50-100 shadow flags)
 
+# First postseason date of 2026 (the regular season ended 9/27). Postseason F5
+# rows are graded into their own subtotal: the starter goes under 5 innings in
+# 48% of postseason starts vs 17.5% in the regular season, and model_f5.pkl was
+# fitted on a regular-season-only archive with no bullpen term - so about half
+# of October games are decided inside the priced window by relievers the model
+# never looked at. A dozen October rows could move the go-live decision either
+# way, so the two regimes are reported separately (audit 2026-09-29).
+POSTSEASON_START = "2026-09-29"
+
 _cache = {}
 
 
@@ -243,6 +252,7 @@ def grade_all():
     w = l = push = 0
     pnl = 0.0
     bets = []
+    regime = {"regular": [0, 0, 0, 0.0], "postseason": [0, 0, 0, 0.0]}
     buckets = {b[0]: [0, 0, 0, 0.0] for b in F5_BUCKETS}  # w, l, push, pnl
     for fn in sorted(glob("f5_shadow_2026-*.json")):
         d = fn.replace("f5_shadow_", "").replace(".json", "")
@@ -305,6 +315,9 @@ def grade_all():
             else:
                 push += 1
             pnl += pr
+            reg = regime["postseason" if d >= POSTSEASON_START else "regular"]
+            reg[0] += gr == "W"; reg[1] += gr == "L"
+            reg[2] += gr == "P"; reg[3] += pr
             bets.append({"d": d, "t": r["away"] if side == "away" else r["home"],
                          "o": best[1], "bk": best[0],
                          "e": ea if side == "away" else eh,
@@ -313,6 +326,8 @@ def grade_all():
     return {"w": w, "l": l, "push": push, "pnl": round(pnl),
             "roi": round(pnl / ((n + push) * 100) * 100, 1) if (n + push) else 0.0,
             "target": SAMPLE_TARGET, "recent": bets[-12:],
+            "regime": {k: {"w": v[0], "l": v[1], "push": v[2],
+                           "pnl": round(v[3])} for k, v in regime.items()},
             "buckets": [{"b": name, "w": v[0], "l": v[1], "push": v[2],
                          "pnl": round(v[3])} for name, v in buckets.items()]}
 

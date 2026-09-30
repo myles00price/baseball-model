@@ -152,5 +152,54 @@
   "leak": "For traded pitchers, the weekly training pipeline read only the newest team's partial-season stats - a three-start stint could stand in for a full season in the model's training data.",
   "ev": "Deadline season is exactly when this bites hardest, and this audit began as a deadline investigation. The live pick engine had the fix; the training side did not - they were learning from different books.",
   "fix": "Training now uses combined full-season totals for traded players, matching the live engine. A visible warning fires whenever a pitcher's stats fall back to a weaker source, instead of silently gating him at 0% reliability."
+ },
+ {
+  "d": "2026-09-29",
+  "n": "THE PLAY THAT COULD BE MADE AFTER THE GAME",
+  "leak": "The job that texts plays at lineup lock never checked whether a game had already started, and the text itself is what makes a play official.",
+  "ev": "The machine booted at 9:42 PM on the first Wild Card day with three of four games already final; the lock job ran at 9:47 PM and was stopped only by an unrelated empty file. With tomorrow's rows in place it would have texted four plays at morning prices after the results were known, settled them, and counted them toward the 150-play report card.",
+  "fix": "Started games are now skipped entirely - no text, no official key, a private alert to the owner instead. The cosmetic '(game already started)' note that used to sit in those texts is deleted so it can never be mistaken for a safeguard. Tests fail if the check is removed."
+ },
+ {
+  "d": "2026-09-29",
+  "n": "THE MORNING BOARD THAT WASN'T MORNING",
+  "leak": "The daily 8:30 AM board job runs at boot if it was missed, with no check on the hour or on whether games had started - and it is also what builds the prop boards' frozen morning predictions.",
+  "ev": "It fired at 9:47 PM on 2026-09-29 and texted subscribers a 'Morning board, 0 games' preview for a postseason day that was already over. The prop builds it triggers would have used stats containing the finished games.",
+  "fix": "It now checks the slate first and does nothing but alert the owner privately if any game is underway."
+ },
+ {
+  "d": "2026-09-29",
+  "n": "THE PROP BOARDS' BLIND OCTOBER",
+  "leak": "Every schedule lookup in the home-run, hit and strikeout models asked for regular-season games only, and the playoffs carry a different game type.",
+  "ev": "On the first Wild Card day all three returned zero games. The boards would have stayed empty for the entire postseason, the strikeout model's recent-workload window would have ignored playoff starts, and the 'is the slate underway' check returned 'not started' while games were live - which is what keeps a late rebuild from contaminating the training data.",
+  "fix": "All seven lookups now accept every postseason round. Verified against the live schedule and covered by tests that fail if the filter narrows again."
+ },
+ {
+  "d": "2026-09-29",
+  "n": "THE OPENING LINE FROM APRIL",
+  "leak": "The opening-line file was fixed in August to store one line per game per day, but the code reading it still matched on team names alone, so it returned whichever line was saved first for that matchup.",
+  "ev": "475 of 490 stored openings came from a date-less key. All three Cardinals-Pirates games in September showed one April price, and the market-movement figure for Sep 22 read +6.1 points toward our pick when the truth was 0.7 points away.",
+  "fix": "The reader now requires the date and the specific game, with no fallback; the date-less keys are archived out of reach. The 475 affected entries are blanked and 15 rebuilt, published as a correction. No result, price or profit figure changed."
+ },
+ {
+  "d": "2026-09-29",
+  "n": "THE RESTED BULLPEN THAT HAD JUST PITCHED",
+  "leak": "Bullpen usage collection treated a game as unfinished while MLB still listed it as 'Game Over', and a team with no collected rows was indistinguishable from a team whose bullpen never pitched.",
+  "ev": "Wild Card game 1 between the Cubs and Padres was skipped, so both bullpens were published as fully rested going into game 2 of the same series - 0 pitches and 6 fresh arms each, when the real figures were 74 and 33 pitches with tired arms on both sides.",
+  "fix": "'Game Over' now counts as final everywhere, the missed game was recollected, and a missing day now reports as unknown rather than as rest. Bullpen data also now includes postseason games, which it excluded entirely - from Oct 5 that would have emptied the bullpen section of this board."
+ },
+ {
+  "d": "2026-09-29",
+  "n": "THE CLOSING LINE OCTOBER WOULD HAVE LOST",
+  "leak": "The closing-line capture ran only after the play-texting job's early exits, and a game is 'pending' for just one cycle.",
+  "ev": "A 2-4 game playoff slate is fully texted in one pass, so no run ever landed inside a game's capture window; two of four Wild Card games per day would have had no closing price at all. Closing-line value is half of the report card that governs real-money sizing, so those plays would have been permanently unmeasurable.",
+  "fix": "Capture and settlement now run before those exits, as slate-wide housekeeping. Nothing retroactive: plays already missing a close stay counted as unmeasured, exactly like the 29 disclosed earlier."
+ },
+ {
+  "d": "2026-09-29",
+  "n": "THE RECORD THAT COULD SHRINK OVERNIGHT",
+  "leak": "The slate builder rewrote the whole picks file from each run's schedule response, with no check that the response was valid or that it still contained every already-texted play.",
+  "ev": "A postponement, a suspended game moved to the next date, or an error page that happens to parse as data would delete a texted play's row. The play stays in the sent-text log while the graders stop seeing it, so the record, the profit figure and the 150-play count would all shrink retroactively and silently.",
+  "fix": "The builder refuses an invalid schedule response, and the writer refuses any write that would drop a texted play's row - alerting the owner instead of publishing the loss."
  }
 ]
