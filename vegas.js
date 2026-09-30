@@ -16,7 +16,7 @@
       : sport==='nfl' ? [['overview','Overview'],['games','Game Lines'],['props','Player Props'],['touchdowns','Touchdowns'],['record','Record'],['research','Research']]
       : sport==='soccer' ? [['overview','Overview'],['games','Match Markets'],['props','Player Props'],['corners','Corners'],['record','Record'],['research','Research']]
       : sport==='cfb' ? [['overview','Overview'],['games','Spreads & Totals'],['record','Record'],['research','Research']]
-      : sport==='mma' ? [['overview','Overview'],['games','Fight Card'],['research','Research']] : sport==='ncaam' ? [['overview','Overview'],['games','Game Lines'],['record','Record'],['research','Research']] : [];
+      : sport==='mma' ? [['overview','Overview'],['games','Fight Card'],['research','Research']] : sport==='ncaam' ? [['overview','Overview'],['games','Game Lines'],['record','Record'],['research','Research']] : sport==='nhl' ? [['overview','Overview'],['games','Game Lines'],['props','Player Props'],['record','Record'],['research','Research']] : [];
     if(!routes.length){document.documentElement.classList.remove('board-boot');return;}
     const subs=sport==='mlb' ? [['hits','Hits'],['homers','Home Runs'],['strikeouts','Strikeouts']] : sport==='soccer' ? [['goals','Goal Scorers'],['shots','Shots on Target']] : [];
     let current='overview', sub=subs[0]?.[0]||'';
@@ -35,7 +35,8 @@
       if(['SCRIPT','STYLE','LINK'].includes(el.tagName)||id==='shell'||el===empty) return;
       if(cl.contains('duo')){el.classList.add('vegas-group');Array.from(el.children).forEach(classify);return;}
       let cats=[];
-      if(sport==='nfl'&&id==='research')cats=['props'];
+      if(sport==='nhl'&&el.dataset&&el.dataset.cat)cats=el.dataset.cat.split(' ');
+      else if(sport==='nfl'&&id==='research')cats=['props'];
       else if(sport==='nfl'&&id==='gamelines')cats=['games'];
       else if(id==='gl-ledger')cats=['record'];
       else if(cl.contains('stats')||cl.contains('recbox'))cats=['overview','record'];
