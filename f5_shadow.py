@@ -208,7 +208,8 @@ def f5_results(date_str):
     out = {}
     for dd in j.get("dates", []):
         for g in dd.get("games", []):
-            if g.get("status", {}).get("codedGameState") != "F":
+            # "Game Over" (codedGameState O) is final too - audit 2026-09-29
+            if g.get("status", {}).get("abstractGameState") != "Final":
                 continue
             inns = g.get("linescore", {}).get("innings", [])
             if len(inns) < 5:

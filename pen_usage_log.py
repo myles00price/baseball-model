@@ -42,7 +42,13 @@ def collect(date_str):
     j = requests.get("https://statsapi.mlb.com/api/v1/schedule",
                      params={"sportId": 1, "date": date_str}, timeout=30).json()
     pks = [g["gamePk"] for dd in j.get("dates", []) for g in dd.get("games", [])
-           if g.get("status", {}).get("codedGameState") == "F"
+           # abstractGameState, not codedGameState: MLB leaves a finished
+           # game in codedGameState "O" ("Game Over") for minutes to hours,
+           # and check_results treats abstractGameState=="Final" as final.
+           # Audit 2026-09-29: Wild Card game 1 (pk 849843) was skipped for
+           # exactly this reason, so both bullpens read as fully rested going
+           # into game 2 of the same series.
+           if g.get("status", {}).get("abstractGameState") == "Final"
            and str(g["gamePk"]) not in done]
     if not pks:
         return 0

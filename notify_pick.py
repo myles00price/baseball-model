@@ -275,6 +275,29 @@ def main():
         save_state(date_str, notified)
         print(f"{date_str}: heartbeat sent")
 
+    # SLATE-WIDE HOUSEKEEPING - must run before the early returns below.
+    # Audit 2026-09-29: both of these sat under "if not confirmed: return" and
+    # "if not pending: return". A game is pending for exactly ONE cycle (it is
+    # texted the same cycle its lineups appear), and k_close only snapshots
+    # games starting within 75 minutes - so on a 2-4 game postseason slate,
+    # fully texted in one cycle, no invocation ever landed inside a game's
+    # capture window. Those plays then had no true close, which drops them out
+    # of the bet-side CLV gate that governs real-money sizing. Neither call
+    # depends on `confirmed` or `pending`.
+    # K closing-line capture (CLV): final K prices ~1h before each first pitch
+    try:
+        import k_close
+        k_close.capture(date_str)
+    except Exception as e:
+        print(f"k_close failed: {e}")
+
+    # Settle texts: any texted play whose game has gone final (day games)
+    try:
+        import settle_notify
+        settle_notify.main(date_str)
+    except Exception as e:
+        print(f"settle_notify failed: {e}")
+
     confirmed = get_confirmed_games(date_str)
     if not confirmed:
         print(f"{date_str}: no games with both lineups confirmed yet")
@@ -360,19 +383,6 @@ def main():
     except Exception as e:
         print(f"ideas archive failed: {e}")
 
-    # K closing-line capture (CLV): final K prices ~1h before each first pitch
-    try:
-        import k_close
-        k_close.capture(date_str)
-    except Exception as e:
-        print(f"k_close failed: {e}")
-
-    # Settle texts: any texted play whose game has gone final (day games)
-    try:
-        import settle_notify
-        settle_notify.main(date_str)
-    except Exception as e:
-        print(f"settle_notify failed: {e}")
 
     # K PLAY texts PULLED 2026-08-19 (owner call): 3 days / 82 starts on the
     # Props Ledger came back 26-28, -$544, every edge zone negative. K WATCH

@@ -32,15 +32,51 @@ SEASON = 2026
 OUT = "bullpen_rankings.json"
 
 
+def teams_that_played(date_str):
+    """Team names with a Final game on the date, or None if unknown.
+
+    Needed to tell a COLLECTION GAP from a genuinely unused bullpen (audit
+    2026-09-29): pen_usage_log skipped a game sitting in "Game Over", and the
+    two teams involved were then published as fully rested the next day - the
+    exact bullpen-availability signal a series decision depends on.
+    """
+    import requests
+    try:
+        j = requests.get("https://statsapi.mlb.com/api/v1/schedule",
+                         params={"sportId": 1, "date": date_str,
+                                 "gameTypes": "R,F,D,L,W",
+                                 "fields": "dates,games,status,abstractGameState,"
+                                           "teams,away,home,team,name"},
+                         timeout=20).json()
+    except Exception:
+        return None
+    out = set()
+    for day in j.get("dates", []):
+        for g in day.get("games", []):
+            if g.get("status", {}).get("abstractGameState") != "Final":
+                continue
+            for side in ("away", "home"):
+                nm = g.get("teams", {}).get(side, {}).get("team", {}).get("name")
+                if nm:
+                    out.add(nm)
+    return out
+
+
 def usage_metrics(today):
-    """(team) -> {pitches2, tired, fresh_top} from pen_usage.csv."""
+    """(team) -> {pitches2, tired, fresh_top} from pen_usage.csv.
+
+    Values are None when the team played on a day we have no rows for, so a
+    gap can never be rendered as a rested bullpen.
+    """
     usage = defaultdict(dict)          # (team, date) -> {pid: pitches}
     apps = defaultdict(int)            # (team, pid) -> relief appearances
+    have_game = set()                  # (team, date) seen at all, starters incl.
     try:
         rows = list(csv.DictReader(open("pen_usage.csv", encoding="utf-8-sig")))
     except OSError:
         return {}
     for r in rows:
+        have_game.add((r["team"], r["date"]))
         if r["started"] == "1":
             continue
         try:
@@ -52,11 +88,18 @@ def usage_metrics(today):
     teams = {t for t, _ in usage}
     d1 = (date.fromisoformat(today) - timedelta(days=1)).isoformat()
     d2 = (date.fromisoformat(today) - timedelta(days=2)).isoformat()
+    played1, played2 = teams_that_played(d1), teams_that_played(d2)
     out = {}
     for t in teams:
         arms = sorted(((n, pid) for (tm, pid), n in apps.items() if tm == t), reverse=True)
         top6 = {pid for _, pid in arms[:6]}
         u1, u2 = usage.get((t, d1), {}), usage.get((t, d2), {})
+        gap = any(played is not None and t in played and (t, d) not in have_game
+                  for played, d in ((played1, d1), (played2, d2)))
+        if gap:
+            out[t] = {"pitches2": None, "tired": None, "fresh_top": None,
+                      "stale": True}
+            continue
         out[t] = {
             "pitches2": int(sum(u1.values()) + sum(u2.values())),
             "tired": sum(1 for pid in set(u1) | set(u2)
@@ -84,10 +127,21 @@ def main():
     rows.sort(key=lambda r: (r["score"] is None, r["score"]))
     for i, r in enumerate(rows):
         r["rank"] = i + 1
+    # FAIL CLOSED (audit 2026-09-29): an empty quality table used to overwrite
+    # bullpen_rankings.json with {"teams": []} and then raise IndexError on
+    # rows[0] - invoked without check=True, so the board silently published an
+    # empty BULLPEN RANKINGS section. Keep the last good file instead.
+    if not rows:
+        print("bullpen_rankings: no team rows built (no bullpen data for this "
+              "window) - leaving the previous bullpen_rankings.json in place")
+        return 1
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump({"updated": today, "teams": rows}, f, indent=1)
-    print(f"{OUT}: {len(rows)} teams ranked (1={rows[0]['team']}, 30={rows[-1]['team']})")
+    print(f"{OUT}: {len(rows)} teams ranked "
+          f"(1={rows[0]['team']}, {len(rows)}={rows[-1]['team']})")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    sys.exit(main() or 0)

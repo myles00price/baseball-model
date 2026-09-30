@@ -88,9 +88,21 @@ def get_last_week_games():
     current = start
     while current <= end:
         date_str = current.strftime("%Y-%m-%d")
+        # gameTypes="R" is a DECISION, not an accident (audit 2026-09-29).
+        # This ingest pairs regular-season feature inputs (get_pitcher_stats /
+        # get_batter_ops both read stats=season, which excludes postseason)
+        # with whatever label the schedule returns, so postseason games would
+        # enter the archive as regular-season-shaped rows carrying labels from
+        # a different data-generating process - and a best-of-N repeats nearly
+        # identical feature vectors with independent labels, adding variance at
+        # one point in feature space rather than information. Including them is
+        # an open question in KNOWN_DEBT.md #1b, to be decided by a
+        # chronological walk-forward over the 2023-2025 postseasons, not by a
+        # silent default.
         data = requests.get(
             "https://statsapi.mlb.com/api/v1/schedule",
-            params={"sportId": 1, "date": date_str, "hydrate": "linescore"},
+            params={"sportId": 1, "date": date_str, "hydrate": "linescore",
+                    "gameTypes": "R"},
             timeout=30
         ).json()
         for date in data.get("dates", []):

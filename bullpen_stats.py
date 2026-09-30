@@ -1,10 +1,23 @@
 import requests
 from datetime import datetime, timedelta
 
-def get_bullpen_stats(season, days=7):
-    """Pull bullpen stats for all teams over last N days"""
-    end = datetime.now().strftime("%Y-%m-%d")
-    start = (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d")
+# statsapi defaults byDateRange to the regular season. Audit 2026-09-29: with
+# the regular season over, the 7-day window published pure regular-season
+# numbers under a "(7d)" label, and from 2026-10-05 (window fully inside the
+# postseason) it returned NO splits at all - every BP ERA(7d) became "N/A" and
+# bullpen_rankings published an empty board. Include every postseason round.
+GAME_TYPES = "R,F,D,L,W"
+
+
+def get_bullpen_stats(season, days=7, as_of=None):
+    """Pull bullpen stats for all teams over last N days.
+
+    as_of: date string (YYYY-MM-DD) to end the window on; defaults to today so
+    a replay for an earlier date uses that date's window, not this morning's.
+    """
+    ref = datetime.strptime(as_of, "%Y-%m-%d") if as_of else datetime.now()
+    end = ref.strftime("%Y-%m-%d")
+    start = (ref - timedelta(days=days)).strftime("%Y-%m-%d")
 
     # Season stats for save/blown save context
     season_data = requests.get(
@@ -21,7 +34,8 @@ def get_bullpen_stats(season, days=7):
             "group": "pitching",
             "stats": "byDateRange",
             "startDate": start,
-            "endDate": end
+            "endDate": end,
+            "gameType": GAME_TYPES,
         }
     ).json()
 

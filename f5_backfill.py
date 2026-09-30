@@ -24,8 +24,12 @@ OUT = "f5_outcomes.csv"
 
 
 def fetch_date(d):
+    # regular season only, matching weekly_retrain's training ingest
+    # (audit 2026-09-29): the F5 archive must not mix in postseason outcomes
+    # while its feature inputs remain regular-season-only.
     j = requests.get("https://statsapi.mlb.com/api/v1/schedule",
-                     params={"sportId": 1, "date": d, "hydrate": "linescore"},
+                     params={"sportId": 1, "date": d, "hydrate": "linescore",
+                             "gameTypes": "R"},
                      timeout=30).json()
     rows = []
     for dd in j.get("dates", []):

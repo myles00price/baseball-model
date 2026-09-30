@@ -404,13 +404,16 @@ def previous_lineups(session, date, team_ids):
     end = (d1 - timedelta(days=1)).strftime("%Y-%m-%d")
     try:
         j = get(session, "/schedule", sportId=1, startDate=start, endDate=end, gameTypes=SCHEDULE_GAME_TYPES,
-                fields="dates,date,games,gamePk,status,codedGameState,teams,away,home,team,id")
+                fields="dates,date,games,gamePk,status,abstractGameState,teams,away,home,team,id")
     except Exception:
         return {}
     last = {}
     for day in j.get("dates", []):
         for g in day.get("games", []):
-            if g.get("status", {}).get("codedGameState") != "F":
+            # "Game Over" is final too (audit 2026-09-29): codedGameState
+            # sits at "O" for a while after abstractGameState flips to Final,
+            # which dropped a just-finished game's lineup from this window.
+            if g.get("status", {}).get("abstractGameState") != "Final":
                 continue
             for side in ("away", "home"):
                 tid = g["teams"][side]["team"]["id"]
