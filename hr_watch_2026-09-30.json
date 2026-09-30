@@ -1,7 +1,7 @@
 {
  "date": "2026-09-30",
- "generated": "2026-09-30T20:15:30Z",
- "lineups_confirmed": 3,
+ "generated": "2026-09-30T22:30:29Z",
+ "lineups_confirmed": 4,
  "players": [
   {
    "id": 656941,
@@ -49,9 +49,9 @@
    "f_arsenal": 0.95,
    "f_pit": 0.91,
    "f_park": 1.08,
-   "f_wind": 1.0,
+   "f_wind": 0.84,
    "f_temp": 1.0,
-   "wind": "",
+   "wind": "WIND 8 IN",
    "odds": {
     "dk": 321,
     "mgm": 310,
@@ -88,6 +88,34 @@
    "fair": "+374"
   },
   {
+   "id": 691718,
+   "name": "Pete Crow-Armstrong",
+   "team": "Chicago Cubs",
+   "opp": "San Diego Padres",
+   "home": false,
+   "pk": 849842,
+   "opp_sp": "Nick Pivetta",
+   "opp_sp_id": 601713,
+   "p": 20.0,
+   "hr": 45,
+   "pa": 726,
+   "exp_pa": 4.7,
+   "f_bat": 1.74,
+   "f_platoon": 1.19,
+   "f_arsenal": 1.06,
+   "f_pit": 0.91,
+   "f_park": 0.98,
+   "f_wind": 0.92,
+   "f_temp": 0.99,
+   "wind": "WIND 4 IN",
+   "odds": {
+    "dk": 340,
+    "mgm": 270,
+    "czr": 290
+   },
+   "fair": "+400"
+  },
+  {
    "id": 808959,
    "name": "Munetaka Murakami",
    "team": "Chicago White Sox",
@@ -116,34 +144,6 @@
    "fair": "+403"
   },
   {
-   "id": 691718,
-   "name": "Pete Crow-Armstrong",
-   "team": "Chicago Cubs",
-   "opp": "San Diego Padres",
-   "home": false,
-   "pk": 849842,
-   "opp_sp": "Nick Pivetta",
-   "opp_sp_id": 601713,
-   "p": 19.4,
-   "hr": 45,
-   "pa": 726,
-   "exp_pa": 4.5,
-   "f_bat": 1.74,
-   "f_platoon": 1.19,
-   "f_arsenal": 1.06,
-   "f_pit": 0.91,
-   "f_park": 0.98,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
-   "odds": {
-    "dk": 340,
-    "mgm": 270,
-    "czr": 290
-   },
-   "fair": "+415"
-  },
-  {
    "id": 671277,
    "name": "Luis Garc\u00eda Jr.",
    "team": "New York Yankees",
@@ -161,9 +161,9 @@
    "f_arsenal": 1.15,
    "f_pit": 0.91,
    "f_park": 1.08,
-   "f_wind": 1.0,
+   "f_wind": 0.84,
    "f_temp": 1.0,
-   "wind": "",
+   "wind": "WIND 8 IN",
    "odds": {
     "dk": 493,
     "mgm": 400,
@@ -198,6 +198,34 @@
     "czr": 500
    },
    "fair": "+446"
+  },
+  {
+   "id": 592518,
+   "name": "Manny Machado",
+   "team": "San Diego Padres",
+   "opp": "Chicago Cubs",
+   "home": true,
+   "pk": 849842,
+   "opp_sp": "Kevin Gausman",
+   "opp_sp_id": 592332,
+   "p": 17.1,
+   "hr": 30,
+   "pa": 677,
+   "exp_pa": 4.4,
+   "f_bat": 1.32,
+   "f_platoon": 1.13,
+   "f_arsenal": 1.15,
+   "f_pit": 1.06,
+   "f_park": 0.98,
+   "f_wind": 0.92,
+   "f_temp": 0.99,
+   "wind": "WIND 4 IN",
+   "odds": {
+    "dk": 415,
+    "mgm": 360,
+    "czr": 390
+   },
+   "fair": "+485"
   },
   {
    "id": 665161,
@@ -301,9 +329,9 @@
    "f_arsenal": 1.02,
    "f_pit": 0.86,
    "f_park": 1.08,
-   "f_wind": 1.0,
+   "f_wind": 0.84,
    "f_temp": 1.0,
-   "wind": "",
+   "wind": "WIND 8 IN",
    "odds": {
     "dk": 583,
     "mgm": 390,
@@ -312,32 +340,32 @@
    "fair": "+499"
   },
   {
-   "id": 592518,
-   "name": "Manny Machado",
+   "id": 664034,
+   "name": "Ty France",
    "team": "San Diego Padres",
    "opp": "Chicago Cubs",
    "home": true,
    "pk": 849842,
    "opp_sp": "Kevin Gausman",
    "opp_sp_id": 592332,
-   "p": 16.6,
-   "hr": 30,
-   "pa": 677,
+   "p": 15.7,
+   "hr": 21,
+   "pa": 500,
    "exp_pa": 4.3,
-   "f_bat": 1.32,
-   "f_platoon": 1.13,
-   "f_arsenal": 1.15,
+   "f_bat": 1.24,
+   "f_platoon": 1.1,
+   "f_arsenal": 0.92,
    "f_pit": 1.06,
    "f_park": 0.98,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
+   "f_wind": 0.92,
+   "f_temp": 0.99,
+   "wind": "WIND 4 IN",
    "odds": {
-    "dk": 415,
-    "mgm": 360,
-    "czr": 390
+    "dk": 531,
+    "mgm": 550,
+    "czr": 500
    },
-   "fair": "+502"
+   "fair": "+537"
   },
   {
    "id": 572233,
@@ -368,60 +396,32 @@
    "fair": "+545"
   },
   {
-   "id": 660670,
-   "name": "Ronald Acu\u00f1a Jr.",
-   "team": "Atlanta Braves",
-   "opp": "Philadelphia Phillies",
-   "home": true,
-   "pk": 849841,
-   "opp_sp": "Cristopher S\u00e1nchez",
-   "opp_sp_id": 650911,
-   "p": 15.1,
-   "hr": 20,
-   "pa": 469,
-   "exp_pa": 4.7,
-   "f_bat": 1.25,
-   "f_platoon": 0.97,
-   "f_arsenal": 1.12,
-   "f_pit": 0.89,
-   "f_park": 1.02,
-   "f_wind": 1.0,
-   "f_temp": 1.05,
-   "wind": "HOT 83F",
-   "odds": {
-    "dk": 509,
-    "mgm": 475,
-    "czr": 525
-   },
-   "fair": "+562"
-  },
-  {
-   "id": 701538,
-   "name": "Jackson Merrill",
+   "id": 665487,
+   "name": "Fernando Tatis Jr.",
    "team": "San Diego Padres",
    "opp": "Chicago Cubs",
    "home": true,
    "pk": 849842,
    "opp_sp": "Kevin Gausman",
    "opp_sp_id": 592332,
-   "p": 14.9,
-   "hr": 26,
-   "pa": 664,
-   "exp_pa": 4.2,
-   "f_bat": 1.2,
-   "f_platoon": 1.09,
-   "f_arsenal": 0.95,
+   "p": 15.3,
+   "hr": 25,
+   "pa": 704,
+   "exp_pa": 4.7,
+   "f_bat": 1.12,
+   "f_platoon": 0.91,
+   "f_arsenal": 0.99,
    "f_pit": 1.06,
    "f_park": 0.98,
-   "f_wind": 1.0,
-   "f_temp": 1.0,
-   "wind": "",
+   "f_wind": 0.92,
+   "f_temp": 0.99,
+   "wind": "WIND 4 IN",
    "odds": {
-    "dk": 452,
-    "mgm": 400,
-    "czr": 425
+    "dk": 336,
+    "mgm": 340,
+    "czr": 330
    },
-   "fair": "+571"
+   "fair": "+554"
   }
  ]
 }
