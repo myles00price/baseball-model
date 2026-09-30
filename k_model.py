@@ -162,6 +162,16 @@ def now_iso():
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+# Schedule game types the props models accept: regular season plus every
+# postseason round (F=wild card, D=division, L=championship, W=World Series).
+# Audit 2026-09-29: this was "R" only, so on 9/29 - the first Wild Card day -
+# every props schedule fetch returned ZERO games: no HR/hit/K boards, and
+# slate_started() reported "not started" while games were live, which defeated
+# the frozen-log guard and would have let a post-first-pitch rebuild archive
+# live-updated season stats as if pre-game.
+SCHEDULE_GAME_TYPES = "R,F,D,L,W"
+
+
 def get(session, path, **params):
     r = session.get(f"{API}{path}", params=params, timeout=30)
     r.raise_for_status()
@@ -245,7 +255,7 @@ def mean_of(pmf):
 # ── statsapi pulls ───────────────────────────────────────────────────────
 
 def fetch_schedule(session, date):
-    j = get(session, "/schedule", sportId=1, date=date, gameTypes="R",
+    j = get(session, "/schedule", sportId=1, date=date, gameTypes=SCHEDULE_GAME_TYPES,
             hydrate="probablePitcher,lineups")
     games = []
     for day in j.get("dates", []):
@@ -393,7 +403,7 @@ def previous_lineups(session, date, team_ids):
     start = (d1 - timedelta(days=6)).strftime("%Y-%m-%d")
     end = (d1 - timedelta(days=1)).strftime("%Y-%m-%d")
     try:
-        j = get(session, "/schedule", sportId=1, startDate=start, endDate=end, gameTypes="R",
+        j = get(session, "/schedule", sportId=1, startDate=start, endDate=end, gameTypes=SCHEDULE_GAME_TYPES,
                 fields="dates,date,games,gamePk,status,codedGameState,teams,away,home,team,id")
     except Exception:
         return {}
@@ -430,7 +440,7 @@ def previous_lineups(session, date, team_ids):
 
 def slate_started(session, date):
     try:
-        j = get(session, "/schedule", sportId=1, date=date, gameTypes="R",
+        j = get(session, "/schedule", sportId=1, date=date, gameTypes=SCHEDULE_GAME_TYPES,
                 fields="dates,games,status,abstractGameState")
     except Exception:
         return True

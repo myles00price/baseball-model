@@ -149,6 +149,16 @@ def board_date() -> str:
     return datetime.now(timezone(timedelta(hours=-7))).strftime("%Y-%m-%d")
 
 
+# Schedule game types the props models accept: regular season plus every
+# postseason round (F=wild card, D=division, L=championship, W=World Series).
+# Audit 2026-09-29: this was "R" only, so on 9/29 - the first Wild Card day -
+# every props schedule fetch returned ZERO games: no HR/hit/K boards, and
+# slate_started() reported "not started" while games were live, which defeated
+# the frozen-log guard and would have let a post-first-pitch rebuild archive
+# live-updated season stats as if pre-game.
+SCHEDULE_GAME_TYPES = "R,F,D,L,W"
+
+
 def get(session, path, **params):
     r = session.get(f"{API}{path}", params=params, timeout=30)
     r.raise_for_status()
@@ -193,7 +203,7 @@ def n_eff_for(pa_g, slot=None):
 
 
 def fetch_schedule(session, date):
-    j = get(session, "/schedule", sportId=1, date=date, gameTypes="R",
+    j = get(session, "/schedule", sportId=1, date=date, gameTypes=SCHEDULE_GAME_TYPES,
             hydrate="probablePitcher")
     games = []
     for day in j.get("dates", []):
@@ -275,7 +285,7 @@ def fetch_pitchers(session, pitcher_ids, league_rate):
 def slate_started(session, date):
     """True if any game on the date is past Preview (live or final)."""
     try:
-        j = get(session, "/schedule", sportId=1, date=date, gameTypes="R",
+        j = get(session, "/schedule", sportId=1, date=date, gameTypes=SCHEDULE_GAME_TYPES,
                 fields="dates,games,status,abstractGameState")
     except Exception:
         return True  # can't tell -> be safe, don't build
