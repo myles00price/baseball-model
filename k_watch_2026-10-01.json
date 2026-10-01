@@ -1,8 +1,280 @@
 {
  "date": "2026-10-01",
- "generated": "2026-10-01T15:30:09Z",
- "pitchers": [],
+ "generated": "2026-10-01T21:00:39Z",
+ "pitchers": [
+  {
+   "id": 605400,
+   "name": "Aaron Nola",
+   "team": "Philadelphia Phillies",
+   "opp": "Atlanta Braves",
+   "home": false,
+   "pk": 849844,
+   "hand": "R",
+   "so": 177,
+   "bf": 744,
+   "gs": 33,
+   "ip": 175.3,
+   "f_pit": 1.0708189577844562,
+   "bf_l5": 24.6,
+   "exp_bf": 23.76,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9212502115737774,
+   "pk_pa": 0.2187,
+   "exp_k": 5.19,
+   "dist": {
+    "2.5": 0.8825,
+    "3.5": 0.7577,
+    "4.5": 0.5957,
+    "5.5": 0.4243,
+    "6.5": 0.2728,
+    "7.5": 0.1584,
+    "8.5": 0.0832,
+    "9.5": 0.0396
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": -128,
+     "under": 100,
+     "alts": {
+      "2.5": [
+       -400,
+       null
+      ],
+      "3.5": [
+       -128,
+       null
+      ],
+      "4.5": [
+       168,
+       null
+      ],
+      "5.5": [
+       370,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 3.5,
+     "over": -135,
+     "under": 100,
+     "alts": {
+      "6.5": [
+       875,
+       null
+      ],
+      "3.5": [
+       -135,
+       null
+      ],
+      "5.5": [
+       400,
+       null
+      ],
+      "4.5": [
+       175,
+       null
+      ],
+      "2.5": [
+       -375,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 3.5,
+     "over": -130,
+     "under": 102,
+     "alts": {
+      "1.5": [
+       -870,
+       null
+      ],
+      "2.5": [
+       -300,
+       null
+      ],
+      "3.5": [
+       -131,
+       null
+      ],
+      "4.5": [
+       162,
+       null
+      ],
+      "5.5": [
+       334,
+       null
+      ],
+      "6.5": [
+       680,
+       null
+      ],
+      "7.5": [
+       1380,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -400,
+       null
+      ],
+      "3.5": [
+       -125,
+       null
+      ],
+      "4.5": [
+       167,
+       null
+      ],
+      "5.5": [
+       360,
+       null
+      ],
+      "6.5": [
+       800,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.7577,
+   "fair_over": "-313",
+   "fair_under": "+313",
+   "best": {
+    "side": "over",
+    "book": "mgm",
+    "line": 4.5,
+    "price": 175,
+    "p_model": 0.5957,
+    "implied": 0.3636,
+    "edge": 0.232,
+    "main": false
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": -128,
+      "p_model": 0.7577,
+      "implied": 0.5289,
+      "edge": 0.2288,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": 100,
+      "p_model": 0.2423,
+      "implied": 0.4711,
+      "edge": -0.2288,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -135,
+      "p_model": 0.7577,
+      "implied": 0.5347,
+      "edge": 0.2231,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 3.5,
+      "price": 100,
+      "p_model": 0.2423,
+      "implied": 0.4653,
+      "edge": -0.2231,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": -130,
+      "p_model": 0.7577,
+      "implied": 0.5331,
+      "edge": 0.2247,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": 102,
+      "p_model": 0.2423,
+      "implied": 0.4669,
+      "edge": -0.2247,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 23.8,
+   "k9": 9.09
+  },
+  {
+   "id": 678061,
+   "name": "Ray Kerr",
+   "team": "Atlanta Braves",
+   "opp": "Philadelphia Phillies",
+   "home": true,
+   "pk": 849844,
+   "hand": "L",
+   "so": 11,
+   "bf": 66,
+   "gs": 1,
+   "ip": 18.3,
+   "f_pit": 0.9386801463117254,
+   "bf_l5": 11.0,
+   "exp_bf": 15.02,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.9285922162649963,
+   "pk_pa": 0.1927,
+   "exp_k": 2.85,
+   "dist": {
+    "2.5": 0.5442,
+    "3.5": 0.3284,
+    "4.5": 0.169,
+    "5.5": 0.0749,
+    "6.5": 0.0289,
+    "7.5": 0.0098,
+    "8.5": 0.003,
+    "9.5": 0.0008
+   },
+   "books": {},
+   "cons_line": null,
+   "p_over_cons": null,
+   "fair_over": null,
+   "fair_under": null,
+   "best": null,
+   "edges": {},
+   "state": "Preview",
+   "kpct": 16.7,
+   "k9": 5.41
+  }
+ ],
  "league_k_pa": 0.2214,
  "lineups_confirmed": 0,
- "odds_at": "2026-10-01T15:30:08Z"
+ "odds_at": "2026-10-01T21:00:38Z"
 }
