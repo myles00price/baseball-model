@@ -1,5 +1,5 @@
 /* Read-only public news. No model jobs, paid feeds or writes. */
-const sports=[['NFL','football/nfl'],['MLB','baseball/mlb'],['SOCCER','soccer/eng.1']];
+const sports=[['NFL','football/nfl'],['MLB','baseball/mlb'],['CFB','football/college-football'],['NHL','hockey/nhl'],['SOCCER','soccer/eng.1']];
 async function news(){const results=await Promise.allSettled(sports.map(async([sport,path])=>{
  const r=await fetch('https://site.api.espn.com/apis/site/v2/sports/'+path+'/news?limit=1');if(!r.ok)throw Error('News unavailable');const j=await r.json();return {sport,a:j.articles?.[0]};}));
  const box=document.querySelector('#news');box.replaceChildren();let count=0;
