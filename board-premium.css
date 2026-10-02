@@ -1,0 +1,38 @@
+/* NHL-approved design system, shared by all seven sports. */
+body.vegas.board-premium{--gold:#dcb777;--amber:#dcb777;--ink:#f4f2eb;--mut:#a9b5bd;--line:#425052;background:#050e13!important}
+body.vegas.board-premium .frame{max-width:1536px!important}
+body.vegas.board-premium #shell .marquee{padding:18px 0!important;margin:0!important;border-bottom:1px solid #806b46!important}
+body.vegas.board-premium #shell h1{color:#e6c48e!important;font-size:36px!important;letter-spacing:3px!important}
+body.vegas.board-premium #sportnav{margin:0!important;border:0!important;border-bottom:1px solid #806b46!important;flex-wrap:nowrap!important}
+body.vegas.board-premium #sportnav a{text-shadow:none!important}
+.premium-hero{position:relative;isolation:isolate;min-height:300px;overflow:hidden;background:#061018;border-bottom:1px solid #987b4e}
+.premium-hero-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 15%;z-index:-2}
+.premium-hero:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#051017 0%,#051017e8 25%,#05101750 57%,transparent 80%),linear-gradient(0deg,#050e13,transparent 40%);z-index:-1}
+.premium-hero-copy{padding:30px 28px;max-width:68%;position:relative}
+.premium-sport{font:600 12px/1.5 Inter,Arial,sans-serif!important;letter-spacing:3px;color:#d5bea0;margin:0 0 12px}
+body.vegas.board-premium .premium-hero h2{font:800 clamp(42px,5.2vw,78px)/.96 'Barlow Condensed',Arial,sans-serif!important;letter-spacing:.5px!important;color:#f5f2e9!important;margin:0 0 18px!important;text-shadow:0 2px 16px #0008}
+.premium-hero-sub{font:500 11px/1.8 Inter,Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#c6d1d7}
+.premium-hero-sub:after{content:'';display:block;background:#dcb777;width:52px;height:3px;margin-top:16px}
+.premium-art-credit{position:absolute;right:12px;bottom:8px;color:#c8cdd0;font:9px Inter,Arial,sans-serif;background:#051017b8;padding:4px 7px;border-radius:3px}
+body.vegas.board-premium :is(.vegas-pageheading,.cfb-head){min-height:0!important;background:none!important;padding:15px 20px!important;border:1px solid #766342!important;border-bottom:0!important;border-radius:9px 9px 0 0;margin-top:14px!important;gap:16px!important}
+body.vegas.board-premium :is(.vegas-pageheading h2,.cfb-app .cfb-head h2){font-size:24px!important;letter-spacing:1px!important}
+body.vegas.board-premium .vegas-eyebrow{display:none}
+body.vegas.board-premium :is(.vegas-markets,.cfb-tabs){width:100%!important;box-sizing:border-box;gap:24px!important;padding:0 20px!important;background:#09171e!important;border:1px solid #766342!important;border-radius:0 0 9px 9px!important;margin:0 0 14px!important}
+body.vegas.board-premium :is(.vegas-markets,.cfb-tabs) button{font:600 15px 'Barlow Condensed',Arial,sans-serif!important;letter-spacing:1.5px!important;text-transform:uppercase!important;padding:14px 0!important}
+body.vegas.board-premium :is(.vegas-subtabs,.nfl-market-tabs){gap:16px!important;padding:9px 18px!important;background:#09171e!important;border:1px solid #766342!important;border-radius:7px!important;margin:0 0 14px!important;overflow:auto}
+body.vegas.board-premium :is(.vegas-subtabs,.nfl-market-tabs) button{font:600 12px 'Barlow Condensed',Arial,sans-serif!important;letter-spacing:1px!important;border:0!important;border-bottom:2px solid transparent!important;border-radius:0!important;background:transparent!important;white-space:nowrap}
+body.vegas.board-premium :is(.vegas-subtabs,.nfl-market-tabs) button:is([aria-current=page],[aria-pressed=true]){color:#e9c486!important;border-bottom-color:#e9c486!important}
+body.vegas.board-premium :is(.sect,.bigsect,.card,.bout,.cfb-card,.gl-game,.rsh-team,.vegas-runline,.sc-card){border:1px solid #806b46!important;border-radius:10px!important;background:linear-gradient(145deg,#102129,#081318)!important;box-shadow:0 10px 30px #0002}
+body.vegas.board-premium :is(.sect,.bigsect)>h2{font:700 24px 'Barlow Condensed',Arial,sans-serif!important;letter-spacing:1.2px!important;color:#dfbc81!important;border-color:#36474e!important}
+body.vegas.board-premium :is(table,.gl-t){border-collapse:collapse}
+body.vegas.board-premium :is(th,.gl-t th){font-family:'Barlow Condensed',Arial,sans-serif!important;text-transform:uppercase;letter-spacing:1px;color:#b9c6ce}
+body.vegas.board-premium :is(.ours,.mv,.metric-value){color:#f4e3c5!important}
+body.vegas.board-premium :is(.gl-head,.ch,.rsh-head){border-color:#3b4b51!important}
+body.vegas.board-premium .vegas-player{border-color:#465153!important;background:linear-gradient(110deg,#122730,#081318)!important}
+body.vegas.board-premium .vegas-player img{mask-image:linear-gradient(#000 72%,transparent)}
+body.vegas.board-premium .vegas-disclosure{font-size:9px!important;letter-spacing:1px;color:#e1c493!important;white-space:normal!important}
+body.light.vegas.board-premium{background:#eef1f1!important;--ink:#152630;--mut:#52616a}
+body.light.vegas.board-premium :is(.sect,.bigsect,.card,.bout,.cfb-card,.gl-game,.rsh-team,.vegas-runline,.sc-card){background:#fff!important;color:#152630!important}
+body.light.vegas.board-premium :is(.vegas-markets,.cfb-tabs,.vegas-subtabs,.nfl-market-tabs){background:#e8edef!important}
+body.light.vegas.board-premium :is(.ours,.mv,.metric-value){color:#73521b!important}
+@media(max-width:760px){.premium-hero{min-height:245px}.premium-hero-copy{padding:26px 16px;max-width:90%}.premium-hero-art{object-position:65% center;opacity:.65}body.vegas.board-premium .premium-hero h2{font-size:46px!important}.premium-hero-sub{font-size:9px;letter-spacing:1px}body.vegas.board-premium :is(.vegas-markets,.cfb-tabs){gap:20px!important;padding:0 12px!important}.premium-art-credit{font-size:8px}body.vegas.board-premium :is(.vegas-pageheading,.cfb-head){padding:12px!important}}

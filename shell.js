@@ -30,6 +30,14 @@
   vegasScript.src = new URL("vegas.js?v=unified-20260924b", document.currentScript.src).href;
   document.head.appendChild(vegasScript);
 
+  // Shared premium presentation persists across generated sport pages.
+  if (["mlb","nfl","cfb","nhl","soccer","mma","ncaam"].includes(sport)) {
+    document.body.classList.add("board-premium");
+    var premiumStyle=document.createElement("link");premiumStyle.rel="stylesheet";
+    premiumStyle.href=new URL("board-premium.css?v=20261002",document.currentScript.src).href;document.head.appendChild(premiumStyle);
+    var premiumScript=document.createElement("script");premiumScript.src=new URL("board-premium.js?v=20261002",document.currentScript.src).href;document.head.appendChild(premiumScript);
+  }
+
   var SPORTS = [
     { id: "hub",   label: "HOME",   href: "index.html", status: "live"  },
     { id: "mlb",   label: "MLB",    href: "board.html", status: "live"  },
