@@ -1,6 +1,6 @@
 {
  "date": "2026-10-07",
- "generated": "2026-10-07T19:15:30Z",
+ "generated": "2026-10-07T20:15:27Z",
  "pitchers": [
   {
    "id": 621111,
@@ -481,20 +481,20 @@
    "f_pit": 0.712,
    "bf_l5": 20.8,
    "exp_bf": 22.02,
-   "lineup_src": "previous",
+   "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 1.085,
-   "pk_pa": 0.1723,
-   "exp_k": 3.74,
+   "f_lineup": 1.036245263172265,
+   "pk_pa": 0.1638,
+   "exp_k": 3.56,
    "dist": {
-    "2.5": 0.7158,
-    "3.5": 0.5168,
-    "4.5": 0.3279,
-    "5.5": 0.1831,
-    "6.5": 0.0905,
-    "7.5": 0.0399,
-    "8.5": 0.0158,
-    "9.5": 0.0056
+    "2.5": 0.6844,
+    "3.5": 0.4786,
+    "4.5": 0.2926,
+    "5.5": 0.1571,
+    "6.5": 0.0746,
+    "7.5": 0.0315,
+    "8.5": 0.012,
+    "9.5": 0.0041
    },
    "books": {
     "dk": {
@@ -603,17 +603,17 @@
     }
    },
    "cons_line": 3.5,
-   "p_over_cons": 0.5168,
-   "fair_over": "-107",
-   "fair_under": "+107",
+   "p_over_cons": 0.4786,
+   "fair_over": "+109",
+   "fair_under": "-109",
    "best": {
     "side": "over",
     "book": "dk",
     "line": 2.5,
     "price": -167,
-    "p_model": 0.7158,
+    "p_model": 0.6844,
     "implied": 0.5899,
-    "edge": 0.1259,
+    "edge": 0.0944,
     "main": true
    },
    "edges": {
@@ -623,9 +623,9 @@
       "book": "dk",
       "line": 2.5,
       "price": -167,
-      "p_model": 0.7158,
+      "p_model": 0.6844,
       "implied": 0.5899,
-      "edge": 0.1259,
+      "edge": 0.0944,
       "main": true
      },
      "under": {
@@ -633,9 +633,9 @@
       "book": "dk",
       "line": 2.5,
       "price": 130,
-      "p_model": 0.2842,
+      "p_model": 0.3156,
       "implied": 0.4101,
-      "edge": -0.1259,
+      "edge": -0.0944,
       "main": true
      }
     },
@@ -645,9 +645,9 @@
       "book": "fd",
       "line": 3.5,
       "price": 138,
-      "p_model": 0.5168,
+      "p_model": 0.4786,
       "implied": 0.3962,
-      "edge": 0.1206,
+      "edge": 0.0823,
       "main": true
      },
      "under": {
@@ -655,9 +655,9 @@
       "book": "fd",
       "line": 3.5,
       "price": -178,
-      "p_model": 0.4832,
+      "p_model": 0.5214,
       "implied": 0.6038,
-      "edge": -0.1206,
+      "edge": -0.0823,
       "main": true
      }
     },
@@ -667,9 +667,9 @@
       "book": "mgm",
       "line": 3.5,
       "price": 130,
-      "p_model": 0.5168,
+      "p_model": 0.4786,
       "implied": 0.4059,
-      "edge": 0.1109,
+      "edge": 0.0727,
       "main": true
      },
      "under": {
@@ -677,9 +677,9 @@
       "book": "mgm",
       "line": 3.5,
       "price": -175,
-      "p_model": 0.4832,
+      "p_model": 0.5214,
       "implied": 0.5941,
-      "edge": -0.1109,
+      "edge": -0.0727,
       "main": true
      }
     }
@@ -687,244 +687,6 @@
    "state": "Preview",
    "kpct": 15.1,
    "k9": 5.45
-  },
-  {
-   "id": 608331,
-   "name": "Max Fried",
-   "team": "New York Yankees",
-   "opp": "Tampa Bay Rays",
-   "home": true,
-   "pk": 849838,
-   "hand": "L",
-   "so": 104,
-   "bf": 434,
-   "gs": 20,
-   "ip": 112.7,
-   "f_pit": 1.073,
-   "bf_l5": 21.6,
-   "exp_bf": 21.73,
-   "lineup_src": "previous",
-   "lineup_n": 9,
-   "f_lineup": 0.781,
-   "pk_pa": 0.1865,
-   "exp_k": 4.05,
-   "dist": {
-    "2.5": 0.7629,
-    "3.5": 0.5779,
-    "4.5": 0.3879,
-    "5.5": 0.2304,
-    "6.5": 0.1215,
-    "7.5": 0.0572,
-    "8.5": 0.0242,
-    "9.5": 0.0092
-   },
-   "books": {
-    "dk": {
-     "line": 4.5,
-     "over": -110,
-     "under": -116,
-     "alts": {
-      "1.5": [
-       -2500,
-       null
-      ],
-      "2.5": [
-       -630,
-       null
-      ],
-      "3.5": [
-       -246,
-       null
-      ],
-      "4.5": [
-       -111,
-       null
-      ],
-      "5.5": [
-       195,
-       null
-      ],
-      "6.5": [
-       425,
-       null
-      ],
-      "7.5": [
-       910,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 4.5,
-     "over": -106,
-     "under": -120,
-     "alts": {
-      "2.5": [
-       -850,
-       null
-      ],
-      "3.5": [
-       -295,
-       null
-      ],
-      "4.5": [
-       -106,
-       null
-      ],
-      "5.5": [
-       190,
-       null
-      ],
-      "6.5": [
-       400,
-       null
-      ]
-     }
-    },
-    "mgm": {
-     "line": 4.5,
-     "over": 105,
-     "under": -140,
-     "alts": {
-      "3.5": [
-       -220,
-       null
-      ],
-      "5.5": [
-       225,
-       null
-      ],
-      "4.5": [
-       100,
-       null
-      ],
-      "6.5": [
-       450,
-       null
-      ],
-      "2.5": [
-       -600,
-       null
-      ]
-     }
-    },
-    "czr": {
-     "line": null,
-     "over": null,
-     "under": null,
-     "alts": {
-      "2.5": [
-       -950,
-       null
-      ],
-      "3.5": [
-       -260,
-       null
-      ],
-      "4.5": [
-       -105,
-       null
-      ],
-      "5.5": [
-       187,
-       null
-      ],
-      "6.5": [
-       380,
-       null
-      ],
-      "7.5": [
-       750,
-       null
-      ]
-     }
-    }
-   },
-   "cons_line": 4.5,
-   "p_over_cons": 0.3879,
-   "fair_over": "+158",
-   "fair_under": "-158",
-   "best": {
-    "side": "under",
-    "book": "dk",
-    "line": 4.5,
-    "price": -116,
-    "p_model": 0.6121,
-    "implied": 0.5062,
-    "edge": 0.1058,
-    "main": true
-   },
-   "edges": {
-    "dk": {
-     "over": {
-      "side": "over",
-      "book": "dk",
-      "line": 4.5,
-      "price": -110,
-      "p_model": 0.3879,
-      "implied": 0.4938,
-      "edge": -0.1058,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "dk",
-      "line": 4.5,
-      "price": -116,
-      "p_model": 0.6121,
-      "implied": 0.5062,
-      "edge": 0.1058,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 4.5,
-      "price": -106,
-      "p_model": 0.3879,
-      "implied": 0.4854,
-      "edge": -0.0975,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 4.5,
-      "price": -120,
-      "p_model": 0.6121,
-      "implied": 0.5146,
-      "edge": 0.0975,
-      "main": true
-     }
-    },
-    "mgm": {
-     "over": {
-      "side": "over",
-      "book": "mgm",
-      "line": 4.5,
-      "price": 105,
-      "p_model": 0.3879,
-      "implied": 0.4554,
-      "edge": -0.0675,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "mgm",
-      "line": 4.5,
-      "price": -140,
-      "p_model": 0.6121,
-      "implied": 0.5446,
-      "edge": 0.0675,
-      "main": true
-     }
-    }
-   },
-   "state": "Preview",
-   "kpct": 24.0,
-   "k9": 8.31
   },
   {
    "id": 607192,
@@ -1181,6 +943,244 @@
    "k9": 11.92
   },
   {
+   "id": 608331,
+   "name": "Max Fried",
+   "team": "New York Yankees",
+   "opp": "Tampa Bay Rays",
+   "home": true,
+   "pk": 849838,
+   "hand": "L",
+   "so": 104,
+   "bf": 434,
+   "gs": 20,
+   "ip": 112.7,
+   "f_pit": 1.073,
+   "bf_l5": 21.6,
+   "exp_bf": 21.73,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.8635448721993718,
+   "pk_pa": 0.2058,
+   "exp_k": 4.47,
+   "dist": {
+    "2.5": 0.8157,
+    "3.5": 0.6529,
+    "4.5": 0.4685,
+    "5.5": 0.2998,
+    "6.5": 0.1711,
+    "7.5": 0.0874,
+    "8.5": 0.0402,
+    "9.5": 0.0167
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": -110,
+     "under": -116,
+     "alts": {
+      "1.5": [
+       -2500,
+       null
+      ],
+      "2.5": [
+       -630,
+       null
+      ],
+      "3.5": [
+       -246,
+       null
+      ],
+      "4.5": [
+       -111,
+       null
+      ],
+      "5.5": [
+       195,
+       null
+      ],
+      "6.5": [
+       425,
+       null
+      ],
+      "7.5": [
+       910,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 4.5,
+     "over": -106,
+     "under": -120,
+     "alts": {
+      "2.5": [
+       -850,
+       null
+      ],
+      "3.5": [
+       -295,
+       null
+      ],
+      "4.5": [
+       -106,
+       null
+      ],
+      "5.5": [
+       190,
+       null
+      ],
+      "6.5": [
+       400,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 4.5,
+     "over": 105,
+     "under": -140,
+     "alts": {
+      "3.5": [
+       -220,
+       null
+      ],
+      "5.5": [
+       225,
+       null
+      ],
+      "4.5": [
+       100,
+       null
+      ],
+      "6.5": [
+       450,
+       null
+      ],
+      "2.5": [
+       -600,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -950,
+       null
+      ],
+      "3.5": [
+       -260,
+       null
+      ],
+      "4.5": [
+       -105,
+       null
+      ],
+      "5.5": [
+       187,
+       null
+      ],
+      "6.5": [
+       380,
+       null
+      ],
+      "7.5": [
+       750,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.4685,
+   "fair_over": "+113",
+   "fair_under": "-113",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 4.5,
+    "price": -116,
+    "p_model": 0.5315,
+    "implied": 0.5062,
+    "edge": 0.0252,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -110,
+      "p_model": 0.4685,
+      "implied": 0.4938,
+      "edge": -0.0252,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -116,
+      "p_model": 0.5315,
+      "implied": 0.5062,
+      "edge": 0.0252,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": -106,
+      "p_model": 0.4685,
+      "implied": 0.4854,
+      "edge": -0.0169,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -120,
+      "p_model": 0.5315,
+      "implied": 0.5146,
+      "edge": 0.0169,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 4.5,
+      "price": 105,
+      "p_model": 0.4685,
+      "implied": 0.4554,
+      "edge": 0.0131,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 4.5,
+      "price": -140,
+      "p_model": 0.5315,
+      "implied": 0.5446,
+      "edge": -0.0131,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 24.0,
+   "k9": 8.31
+  },
+  {
    "id": 682982,
    "name": "Daniel Espino",
    "team": "Cleveland Guardians",
@@ -1217,7 +1217,7 @@
    "fair_under": null,
    "best": null,
    "edges": {},
-   "state": "Preview",
+   "state": "Live",
    "kpct": 38.5,
    "k9": 14.71
   },
@@ -1258,13 +1258,13 @@
    "fair_under": null,
    "best": null,
    "edges": {},
-   "state": "Preview",
+   "state": "Live",
    "kpct": 22.6,
    "k9": 8.37
   }
  ],
  "league_k_pa": 0.2214,
- "lineups_confirmed": 4,
+ "lineups_confirmed": 6,
  "odds_at": "2026-10-07T19:07:35Z",
- "locked": 4
+ "locked": 6
 }
