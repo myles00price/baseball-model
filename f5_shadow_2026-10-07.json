@@ -103,5 +103,40 @@
   "dv_edge_home": -2.0,
   "flag": "away",
   "locked": true
+ },
+ "Milwaukee Brewers@San Diego Padres": {
+  "away": "Milwaukee Brewers",
+  "home": "San Diego Padres",
+  "prob_home": 46.5,
+  "odds": {
+   "fanduel": {
+    "Milwaukee Brewers": -124,
+    "San Diego Padres": 100
+   },
+   "draftkings": {
+    "Milwaukee Brewers": -120,
+    "San Diego Padres": -110
+   },
+   "betmgm": {
+    "Milwaukee Brewers": -120,
+    "San Diego Padres": -102
+   },
+   "williamhill_us": {
+    "Milwaukee Brewers": -124,
+    "San Diego Padres": 100
+   }
+  },
+  "best_away": [
+   "draftkings",
+   -120
+  ],
+  "best_home": [
+   "fanduel",
+   100
+  ],
+  "dv_edge_away": 2.5,
+  "dv_edge_home": -1.0,
+  "flag": "",
+  "locked": true
  }
 }
