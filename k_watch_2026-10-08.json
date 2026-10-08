@@ -1,0 +1,391 @@
+{
+ "date": "2026-10-08",
+ "generated": "2026-10-08T14:06:16Z",
+ "pitchers": [
+  {
+   "id": 696146,
+   "name": "Hagen Smith",
+   "team": "Chicago White Sox",
+   "opp": "Cleveland Guardians",
+   "home": true,
+   "pk": 849832,
+   "hand": "L",
+   "so": 41,
+   "bf": 110,
+   "gs": 1,
+   "ip": 28.0,
+   "f_pit": 1.242594039787588,
+   "bf_l5": 9.5,
+   "exp_bf": 13.17,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8296790298397528,
+   "pk_pa": 0.2309,
+   "exp_k": 2.96,
+   "dist": {
+    "2.5": 0.5704,
+    "3.5": 0.3554,
+    "4.5": 0.1893,
+    "5.5": 0.0868,
+    "6.5": 0.0347,
+    "7.5": 0.0122,
+    "8.5": 0.0038,
+    "9.5": 0.0011
+   },
+   "books": {
+    "dk": {
+     "line": 2.5,
+     "over": 143,
+     "under": -184,
+     "alts": {
+      "0.5": [
+       -900,
+       null
+      ],
+      "1.5": [
+       -186,
+       null
+      ],
+      "2.5": [
+       143,
+       null
+      ],
+      "3.5": [
+       311,
+       null
+      ],
+      "4.5": [
+       600,
+       null
+      ],
+      "5.5": [
+       1100,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -240,
+       null
+      ],
+      "2.5": [
+       141,
+       null
+      ],
+      "3.5": [
+       350,
+       null
+      ],
+      "4.5": [
+       700,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 2.5,
+   "p_over_cons": 0.5704,
+   "fair_over": "-133",
+   "fair_under": "+133",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 2.5,
+    "price": 143,
+    "p_model": 0.5704,
+    "implied": 0.3884,
+    "edge": 0.1819,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 2.5,
+      "price": 143,
+      "p_model": 0.5704,
+      "implied": 0.3884,
+      "edge": 0.1819,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 2.5,
+      "price": -184,
+      "p_model": 0.4296,
+      "implied": 0.6116,
+      "edge": -0.1819,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 37.3,
+   "k9": 13.18
+  },
+  {
+   "id": 800048,
+   "name": "Parker Messick",
+   "team": "Cleveland Guardians",
+   "opp": "Chicago White Sox",
+   "home": false,
+   "pk": 849832,
+   "hand": "L",
+   "so": 193,
+   "bf": 747,
+   "gs": 32,
+   "ip": 186.3,
+   "f_pit": 1.1356493605755151,
+   "bf_l5": 23.0,
+   "exp_bf": 23.2,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 1.0571709335141635,
+   "pk_pa": 0.2652,
+   "exp_k": 6.03,
+   "dist": {
+    "2.5": 0.9303,
+    "3.5": 0.847,
+    "4.5": 0.722,
+    "5.5": 0.5676,
+    "6.5": 0.4077,
+    "7.5": 0.2665,
+    "8.5": 0.1583,
+    "9.5": 0.0855
+   },
+   "books": {
+    "dk": {
+     "line": 6.5,
+     "over": 121,
+     "under": -154,
+     "alts": {
+      "2.5": [
+       -2400,
+       null
+      ],
+      "3.5": [
+       -760,
+       null
+      ],
+      "4.5": [
+       -333,
+       null
+      ],
+      "5.5": [
+       -164,
+       null
+      ],
+      "6.5": [
+       119,
+       null
+      ],
+      "7.5": [
+       226,
+       null
+      ],
+      "8.5": [
+       425,
+       null
+      ],
+      "9.5": [
+       810,
+       null
+      ],
+      "10.5": [
+       1460,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       750,
+       null
+      ],
+      "3.5": [
+       -1450,
+       null
+      ],
+      "4.5": [
+       -400,
+       null
+      ],
+      "5.5": [
+       -170,
+       null
+      ],
+      "6.5": [
+       124,
+       null
+      ],
+      "7.5": [
+       215,
+       null
+      ],
+      "8.5": [
+       390,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 6.5,
+     "over": 132,
+     "under": -170,
+     "alts": {
+      "3.5": [
+       -1100,
+       null
+      ],
+      "4.5": [
+       -430,
+       null
+      ],
+      "5.5": [
+       -188,
+       null
+      ],
+      "6.5": [
+       132,
+       null
+      ],
+      "7.5": [
+       240,
+       null
+      ],
+      "8.5": [
+       470,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": -160,
+     "under": 120,
+     "alts": {
+      "7.5": [
+       250,
+       null
+      ],
+      "3.5": [
+       -800,
+       null
+      ],
+      "4.5": [
+       -350,
+       null
+      ],
+      "5.5": [
+       -160,
+       null
+      ],
+      "6.5": [
+       125,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 6.5,
+   "p_over_cons": 0.4077,
+   "fair_over": "+145",
+   "fair_under": "-145",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 6.5,
+    "price": -154,
+    "p_model": 0.5923,
+    "implied": 0.5726,
+    "edge": 0.0196,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 6.5,
+      "price": 121,
+      "p_model": 0.4077,
+      "implied": 0.4274,
+      "edge": -0.0196,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 6.5,
+      "price": -154,
+      "p_model": 0.5923,
+      "implied": 0.5726,
+      "edge": 0.0196,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 6.5,
+      "price": 132,
+      "p_model": 0.4077,
+      "implied": 0.4064,
+      "edge": 0.0014,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 6.5,
+      "price": -170,
+      "p_model": 0.5923,
+      "implied": 0.5936,
+      "edge": -0.0014,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -160,
+      "p_model": 0.5676,
+      "implied": 0.5752,
+      "edge": -0.0076,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 120,
+      "p_model": 0.4324,
+      "implied": 0.4248,
+      "edge": 0.0076,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 25.8,
+   "k9": 9.32
+  }
+ ],
+ "league_k_pa": 0.2214,
+ "lineups_confirmed": 0,
+ "odds_at": "2026-10-08T14:06:15Z"
+}
