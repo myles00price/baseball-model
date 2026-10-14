@@ -1,0 +1,497 @@
+{
+ "date": "2026-10-14",
+ "generated": "2026-10-14T18:10:35Z",
+ "pitchers": [
+  {
+   "id": 605483,
+   "name": "Blake Snell",
+   "team": "Los Angeles Dodgers",
+   "opp": "Milwaukee Brewers",
+   "home": true,
+   "pk": 849811,
+   "hand": "L",
+   "so": 55,
+   "bf": 173,
+   "gs": 9,
+   "ip": 42.7,
+   "f_pit": 1.286397692157043,
+   "bf_l5": 18.8,
+   "exp_bf": 19.24,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.9740543408687795,
+   "pk_pa": 0.278,
+   "exp_k": 5.2,
+   "dist": {
+    "2.5": 0.8815,
+    "3.5": 0.7629,
+    "4.5": 0.604,
+    "5.5": 0.4321,
+    "6.5": 0.2778,
+    "7.5": 0.1603,
+    "8.5": 0.0832,
+    "9.5": 0.0389
+   },
+   "books": {
+    "fd": {
+     "line": 6.5,
+     "over": 106,
+     "under": -136,
+     "alts": {
+      "3.5": [
+       -2000,
+       null
+      ],
+      "4.5": [
+       -530,
+       null
+      ],
+      "5.5": [
+       -230,
+       null
+      ],
+      "6.5": [
+       106,
+       null
+      ],
+      "7.5": [
+       196,
+       null
+      ],
+      "8.5": [
+       390,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 6.5,
+     "over": 109,
+     "under": -139,
+     "alts": {
+      "2.5": [
+       -2400,
+       null
+      ],
+      "3.5": [
+       -840,
+       null
+      ],
+      "4.5": [
+       -364,
+       null
+      ],
+      "5.5": [
+       -176,
+       null
+      ],
+      "6.5": [
+       109,
+       null
+      ],
+      "7.5": [
+       207,
+       null
+      ],
+      "8.5": [
+       389,
+       null
+      ],
+      "9.5": [
+       720,
+       null
+      ],
+      "10.5": [
+       1260,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       675,
+       null
+      ],
+      "3.5": [
+       -2000,
+       null
+      ],
+      "4.5": [
+       -460,
+       null
+      ],
+      "5.5": [
+       -190,
+       null
+      ],
+      "6.5": [
+       113,
+       null
+      ],
+      "7.5": [
+       193,
+       null
+      ],
+      "8.5": [
+       360,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 6.5,
+     "over": 115,
+     "under": -155,
+     "alts": {
+      "8.5": [
+       400,
+       null
+      ],
+      "5.5": [
+       -165,
+       null
+      ],
+      "4.5": [
+       -375,
+       null
+      ],
+      "7.5": [
+       210,
+       null
+      ],
+      "6.5": [
+       115,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 6.5,
+   "p_over_cons": 0.2778,
+   "fair_over": "+260",
+   "fair_under": "-260",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 6.5,
+    "price": -136,
+    "p_model": 0.7222,
+    "implied": 0.5428,
+    "edge": 0.1795,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 6.5,
+      "price": 106,
+      "p_model": 0.2778,
+      "implied": 0.4572,
+      "edge": -0.1795,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 6.5,
+      "price": -136,
+      "p_model": 0.7222,
+      "implied": 0.5428,
+      "edge": 0.1795,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 6.5,
+      "price": 109,
+      "p_model": 0.2778,
+      "implied": 0.4514,
+      "edge": -0.1736,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 6.5,
+      "price": -139,
+      "p_model": 0.7222,
+      "implied": 0.5486,
+      "edge": 0.1736,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 6.5,
+      "price": 115,
+      "p_model": 0.2778,
+      "implied": 0.4335,
+      "edge": -0.1557,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 6.5,
+      "price": -155,
+      "p_model": 0.7222,
+      "implied": 0.5665,
+      "edge": 0.1557,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 31.8,
+   "k9": 11.59
+  },
+  {
+   "id": 688107,
+   "name": "Robert Gasser",
+   "team": "Milwaukee Brewers",
+   "opp": "Los Angeles Dodgers",
+   "home": false,
+   "pk": 849811,
+   "hand": "L",
+   "so": 103,
+   "bf": 463,
+   "gs": 20,
+   "ip": 109.3,
+   "f_pit": 0.9949730162137046,
+   "bf_l5": 21.0,
+   "exp_bf": 21.36,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8921219884082021,
+   "pk_pa": 0.1965,
+   "exp_k": 4.07,
+   "dist": {
+    "2.5": 0.7657,
+    "3.5": 0.5821,
+    "4.5": 0.3919,
+    "5.5": 0.2333,
+    "6.5": 0.1232,
+    "7.5": 0.058,
+    "8.5": 0.0245,
+    "9.5": 0.0093
+   },
+   "books": {
+    "fd": {
+     "line": 3.5,
+     "over": 100,
+     "under": -128,
+     "alts": {
+      "2.5": [
+       -310,
+       null
+      ],
+      "3.5": [
+       100,
+       null
+      ],
+      "4.5": [
+       215,
+       null
+      ],
+      "5.5": [
+       500,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 3.5,
+     "over": 102,
+     "under": -130,
+     "alts": {
+      "1.5": [
+       -710,
+       null
+      ],
+      "2.5": [
+       -230,
+       null
+      ],
+      "3.5": [
+       100,
+       null
+      ],
+      "4.5": [
+       211,
+       null
+      ],
+      "5.5": [
+       438,
+       null
+      ],
+      "6.5": [
+       860,
+       null
+      ],
+      "7.5": [
+       1680,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -2000,
+       null
+      ],
+      "2.5": [
+       -290,
+       null
+      ],
+      "3.5": [
+       100,
+       null
+      ],
+      "4.5": [
+       215,
+       null
+      ],
+      "5.5": [
+       475,
+       null
+      ],
+      "6.5": [
+       1100,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 3.5,
+     "over": 105,
+     "under": -140,
+     "alts": {
+      "4.5": [
+       240,
+       null
+      ],
+      "2.5": [
+       -250,
+       null
+      ],
+      "5.5": [
+       525,
+       null
+      ],
+      "3.5": [
+       100,
+       null
+      ],
+      "6.5": [
+       1050,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 3.5,
+   "p_over_cons": 0.5821,
+   "fair_over": "-139",
+   "fair_under": "+139",
+   "best": {
+    "side": "over",
+    "book": "mgm",
+    "line": 3.5,
+    "price": 105,
+    "p_model": 0.5821,
+    "implied": 0.4554,
+    "edge": 0.1267,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 3.5,
+      "price": 100,
+      "p_model": 0.5821,
+      "implied": 0.4711,
+      "edge": 0.111,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 3.5,
+      "price": -128,
+      "p_model": 0.4179,
+      "implied": 0.5289,
+      "edge": -0.111,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 3.5,
+      "price": 102,
+      "p_model": 0.5821,
+      "implied": 0.4669,
+      "edge": 0.1152,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 3.5,
+      "price": -130,
+      "p_model": 0.4179,
+      "implied": 0.5331,
+      "edge": -0.1152,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 3.5,
+      "price": 105,
+      "p_model": 0.5821,
+      "implied": 0.4554,
+      "edge": 0.1267,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -140,
+      "p_model": 0.4179,
+      "implied": 0.5446,
+      "edge": -0.1267,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 22.2,
+   "k9": 8.48
+  }
+ ],
+ "league_k_pa": 0.2214,
+ "lineups_confirmed": 0,
+ "odds_at": "2026-10-14T18:10:34Z"
+}
