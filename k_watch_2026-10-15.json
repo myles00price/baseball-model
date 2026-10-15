@@ -1,7 +1,111 @@
 {
  "date": "2026-10-15",
- "generated": "2026-10-15T16:15:06Z",
+ "generated": "2026-10-15T21:15:36Z",
  "pitchers": [
+  {
+   "id": 675660,
+   "name": "Shane Drohan",
+   "team": "Milwaukee Brewers",
+   "opp": "Los Angeles Dodgers",
+   "home": false,
+   "pk": 849810,
+   "hand": "L",
+   "so": 125,
+   "bf": 528,
+   "gs": 19,
+   "ip": 124.7,
+   "f_pit": 1.050339019089019,
+   "bf_l5": 20.2,
+   "exp_bf": 20.9,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.8559436793344966,
+   "pk_pa": 0.1994,
+   "exp_k": 4.13,
+   "dist": {
+    "2.5": 0.7734,
+    "3.5": 0.5927,
+    "4.5": 0.4029,
+    "5.5": 0.2424,
+    "6.5": 0.1294,
+    "7.5": 0.0616,
+    "8.5": 0.0263,
+    "9.5": 0.0101
+   },
+   "books": {
+    "dk": {
+     "line": 2.5,
+     "over": 147,
+     "under": -188,
+     "alts": {}
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -260,
+       null
+      ],
+      "2.5": [
+       133,
+       null
+      ],
+      "3.5": [
+       340,
+       null
+      ],
+      "4.5": [
+       900,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 2.5,
+   "p_over_cons": 0.7734,
+   "fair_over": "-341",
+   "fair_under": "+341",
+   "best": {
+    "side": "over",
+    "book": "dk",
+    "line": 2.5,
+    "price": 147,
+    "p_model": 0.7734,
+    "implied": 0.3828,
+    "edge": 0.3906,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 2.5,
+      "price": 147,
+      "p_model": 0.7734,
+      "implied": 0.3828,
+      "edge": 0.3906,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 2.5,
+      "price": -188,
+      "p_model": 0.2266,
+      "implied": 0.6172,
+      "edge": -0.3906,
+      "main": true
+     }
+    }
+   },
+   "late": 1,
+   "state": "Preview",
+   "kpct": 23.7,
+   "k9": 9.02
+  },
   {
    "id": 668909,
    "name": "Gavin Williams",
@@ -252,7 +356,7 @@
      }
     }
    },
-   "state": "Preview",
+   "state": "Final",
    "kpct": 33.2,
    "k9": 12.11
   },
@@ -482,7 +586,7 @@
      }
     }
    },
-   "state": "Preview",
+   "state": "Final",
    "kpct": 25.3,
    "k9": 9.3
   },
@@ -501,119 +605,88 @@
    "f_pit": 1.399,
    "bf_l5": 18.2,
    "exp_bf": 19.75,
-   "lineup_src": "previous",
+   "lineup_src": "confirmed",
    "lineup_n": 9,
-   "f_lineup": 0.979,
-   "pk_pa": 0.3039,
-   "exp_k": 5.98,
+   "f_lineup": 0.9740543408687795,
+   "pk_pa": 0.3025,
+   "exp_k": 5.96,
    "dist": {
-    "2.5": 0.9255,
-    "3.5": 0.8438,
-    "4.5": 0.7196,
-    "5.5": 0.5648,
-    "6.5": 0.404,
-    "7.5": 0.2621,
-    "8.5": 0.1539,
-    "9.5": 0.0819
+    "2.5": 0.9242,
+    "3.5": 0.8413,
+    "4.5": 0.7158,
+    "5.5": 0.5601,
+    "6.5": 0.3992,
+    "7.5": 0.258,
+    "8.5": 0.1509,
+    "9.5": 0.08
    },
    "books": {
     "dk": {
      "line": 6.5,
-     "over": 119,
-     "under": -151,
+     "over": 105,
+     "under": -134,
      "alts": {
       "2.5": [
-       -2700,
+       -2900,
        null
       ],
       "3.5": [
-       -800,
+       -880,
        null
       ],
       "4.5": [
-       -341,
+       -376,
        null
       ],
       "5.5": [
-       -167,
+       -182,
        null
       ],
       "6.5": [
-       119,
+       105,
        null
       ],
       "7.5": [
-       230,
+       193,
        null
       ],
       "8.5": [
-       442,
+       357,
        null
       ],
       "9.5": [
-       880,
+       670,
        null
       ],
       "10.5": [
-       1680,
-       null
-      ]
-     }
-    },
-    "fd": {
-     "line": 5.5,
-     "over": -148,
-     "under": 116,
-     "alts": {
-      "3.5": [
-       -1100,
-       null
-      ],
-      "4.5": [
-       -400,
-       null
-      ],
-      "5.5": [
-       -148,
-       null
-      ],
-      "6.5": [
-       132,
-       null
-      ],
-      "7.5": [
-       265,
-       null
-      ],
-      "8.5": [
-       560,
+       1260,
        null
       ]
      }
     },
     "mgm": {
      "line": 5.5,
-     "over": -150,
-     "under": 110,
+     "over": -165,
+     "under": 125,
      "alts": {
       "3.5": [
-       -700,
+       -800,
        null
       ],
       "5.5": [
-       -155,
+       -160,
        null
       ],
       "6.5": [
-       135,
+       120,
        null
       ],
       "4.5": [
-       -295,
+       -325,
        null
       ],
       "7.5": [
-       250,
+       230,
        null
       ]
      }
@@ -624,48 +697,79 @@
      "under": null,
      "alts": {
       "9.5": [
-       800,
+       700,
        null
       ],
+      "3.5": [
+       -1700,
+       null
+      ],
+      "4.5": [
+       -400,
+       null
+      ],
+      "5.5": [
+       -164,
+       null
+      ],
+      "6.5": [
+       108,
+       null
+      ],
+      "7.5": [
+       205,
+       null
+      ],
+      "8.5": [
+       375,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": -156,
+     "under": 122,
+     "alts": {
       "3.5": [
        -1200,
        null
       ],
       "4.5": [
-       -360,
+       -430,
        null
       ],
       "5.5": [
-       -155,
+       -156,
        null
       ],
       "6.5": [
-       116,
+       120,
        null
       ],
       "7.5": [
-       225,
+       240,
        null
       ],
       "8.5": [
-       400,
+       500,
        null
       ]
      }
     }
    },
    "cons_line": 5.5,
-   "p_over_cons": 0.5648,
-   "fair_over": "-130",
-   "fair_under": "+130",
+   "p_over_cons": 0.5601,
+   "fair_over": "-127",
+   "fair_under": "+127",
    "best": {
     "side": "under",
     "book": "dk",
     "line": 6.5,
-    "price": -151,
-    "p_model": 0.596,
-    "implied": 0.5685,
-    "edge": 0.0275,
+    "price": -134,
+    "p_model": 0.6008,
+    "implied": 0.54,
+    "edge": 0.0608,
     "main": true
    },
    "edges": {
@@ -674,42 +778,20 @@
       "side": "over",
       "book": "dk",
       "line": 6.5,
-      "price": 119,
-      "p_model": 0.404,
-      "implied": 0.4315,
-      "edge": -0.0275,
+      "price": 105,
+      "p_model": 0.3992,
+      "implied": 0.46,
+      "edge": -0.0608,
       "main": true
      },
      "under": {
       "side": "under",
       "book": "dk",
       "line": 6.5,
-      "price": -151,
-      "p_model": 0.596,
-      "implied": 0.5685,
-      "edge": 0.0275,
-      "main": true
-     }
-    },
-    "fd": {
-     "over": {
-      "side": "over",
-      "book": "fd",
-      "line": 5.5,
-      "price": -148,
-      "p_model": 0.5648,
-      "implied": 0.5631,
-      "edge": 0.0017,
-      "main": true
-     },
-     "under": {
-      "side": "under",
-      "book": "fd",
-      "line": 5.5,
-      "price": 116,
-      "p_model": 0.4352,
-      "implied": 0.4369,
-      "edge": -0.0017,
+      "price": -134,
+      "p_model": 0.6008,
+      "implied": 0.54,
+      "edge": 0.0608,
       "main": true
      }
     },
@@ -718,20 +800,42 @@
       "side": "over",
       "book": "mgm",
       "line": 5.5,
-      "price": -150,
-      "p_model": 0.5648,
-      "implied": 0.5575,
-      "edge": 0.0073,
+      "price": -165,
+      "p_model": 0.5601,
+      "implied": 0.5835,
+      "edge": -0.0234,
       "main": true
      },
      "under": {
       "side": "under",
       "book": "mgm",
       "line": 5.5,
-      "price": 110,
-      "p_model": 0.4352,
-      "implied": 0.4425,
-      "edge": -0.0073,
+      "price": 125,
+      "p_model": 0.4399,
+      "implied": 0.4165,
+      "edge": 0.0234,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -156,
+      "p_model": 0.5601,
+      "implied": 0.575,
+      "edge": -0.0148,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": 122,
+      "p_model": 0.4399,
+      "implied": 0.425,
+      "edge": 0.0148,
       "main": true
      }
     }
@@ -742,7 +846,7 @@
   }
  ],
  "league_k_pa": 0.2214,
- "lineups_confirmed": 2,
- "odds_at": "2026-10-15T16:04:06Z",
- "locked": 2
+ "lineups_confirmed": 4,
+ "odds_at": "2026-10-15T21:15:36Z",
+ "locked": 4
 }
