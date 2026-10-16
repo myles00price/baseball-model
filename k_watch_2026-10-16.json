@@ -1,0 +1,264 @@
+{
+ "date": "2026-10-16",
+ "generated": "2026-10-16T20:52:30Z",
+ "pitchers": [
+  {
+   "id": 607259,
+   "name": "Nick Martinez",
+   "team": "Tampa Bay Rays",
+   "opp": "Cleveland Guardians",
+   "home": false,
+   "pk": 849817,
+   "hand": "R",
+   "so": 109,
+   "bf": 722,
+   "gs": 31,
+   "ip": 180.0,
+   "f_pit": 0.7118835858228899,
+   "bf_l5": 19.6,
+   "exp_bf": 21.3,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.8159772615217914,
+   "pk_pa": 0.1267,
+   "exp_k": 2.62,
+   "dist": {
+    "2.5": 0.4857,
+    "3.5": 0.2748,
+    "4.5": 0.133,
+    "5.5": 0.0558,
+    "6.5": 0.0206,
+    "7.5": 0.0068,
+    "8.5": 0.002,
+    "9.5": 0.0005
+   },
+   "books": {
+    "dk": {
+     "line": 2.5,
+     "over": 108,
+     "under": -138,
+     "alts": {
+      "0.5": [
+       -1380,
+       null
+      ],
+      "1.5": [
+       -270,
+       null
+      ],
+      "2.5": [
+       108,
+       null
+      ],
+      "3.5": [
+       273,
+       null
+      ],
+      "4.5": [
+       660,
+       null
+      ],
+      "5.5": [
+       1480,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 2.5,
+     "over": 130,
+     "under": -166,
+     "alts": {
+      "2.5": [
+       130,
+       null
+      ],
+      "3.5": [
+       310,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "1.5": [
+       -310,
+       null
+      ],
+      "2.5": [
+       117,
+       null
+      ],
+      "3.5": [
+       295,
+       null
+      ],
+      "4.5": [
+       800,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 2.5,
+     "over": 110,
+     "under": -150,
+     "alts": {
+      "4.5": [
+       675,
+       null
+      ],
+      "3.5": [
+       290,
+       null
+      ],
+      "2.5": [
+       110,
+       null
+      ],
+      "6.5": [
+       1150,
+       null
+      ],
+      "5.5": [
+       1150,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 2.5,
+   "p_over_cons": 0.4857,
+   "fair_over": "+106",
+   "fair_under": "-106",
+   "best": {
+    "side": "over",
+    "book": "fd",
+    "line": 2.5,
+    "price": 130,
+    "p_model": 0.4857,
+    "implied": 0.4106,
+    "edge": 0.075,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 2.5,
+      "price": 108,
+      "p_model": 0.4857,
+      "implied": 0.4533,
+      "edge": 0.0324,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 2.5,
+      "price": -138,
+      "p_model": 0.5143,
+      "implied": 0.5467,
+      "edge": -0.0324,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 2.5,
+      "price": 130,
+      "p_model": 0.4857,
+      "implied": 0.4106,
+      "edge": 0.075,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 2.5,
+      "price": -166,
+      "p_model": 0.5143,
+      "implied": 0.5894,
+      "edge": -0.075,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 2.5,
+      "price": 110,
+      "p_model": 0.4857,
+      "implied": 0.4425,
+      "edge": 0.0432,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 2.5,
+      "price": -150,
+      "p_model": 0.5143,
+      "implied": 0.5575,
+      "edge": -0.0432,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 15.1,
+   "k9": 5.45
+  },
+  {
+   "id": 542888,
+   "name": "Shawn Armstrong",
+   "team": "Cleveland Guardians",
+   "opp": "Tampa Bay Rays",
+   "home": true,
+   "pk": 849817,
+   "hand": "R",
+   "so": 34,
+   "bf": 154,
+   "gs": 0,
+   "ip": 35.3,
+   "f_pit": 1.0575057461414092,
+   "bf_l5": 21.64,
+   "exp_bf": 21.64,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.7813903180457697,
+   "pk_pa": 0.1836,
+   "exp_k": 3.98,
+   "dist": {
+    "2.5": 0.7527,
+    "3.5": 0.5642,
+    "4.5": 0.3739,
+    "5.5": 0.219,
+    "6.5": 0.1138,
+    "7.5": 0.0528,
+    "8.5": 0.022,
+    "9.5": 0.0083
+   },
+   "books": {},
+   "cons_line": null,
+   "p_over_cons": null,
+   "fair_over": null,
+   "fair_under": null,
+   "best": null,
+   "edges": {},
+   "state": "Preview",
+   "kpct": 22.1,
+   "k9": 8.67
+  }
+ ],
+ "league_k_pa": 0.2214,
+ "lineups_confirmed": 0,
+ "odds_at": "2026-10-16T20:52:29Z"
+}
