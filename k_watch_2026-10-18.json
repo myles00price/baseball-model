@@ -1,0 +1,505 @@
+{
+ "date": "2026-10-18",
+ "generated": "2026-10-18T15:30:28Z",
+ "pitchers": [
+  {
+   "id": 656876,
+   "name": "Drew Rasmussen",
+   "team": "Tampa Bay Rays",
+   "opp": "Cleveland Guardians",
+   "home": false,
+   "pk": 849817,
+   "hand": "R",
+   "so": 174,
+   "bf": 669,
+   "gs": 30,
+   "ip": 172.0,
+   "f_pit": 1.1313056059718523,
+   "bf_l5": 23.4,
+   "exp_bf": 22.84,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.8159772615217914,
+   "pk_pa": 0.2058,
+   "exp_k": 4.67,
+   "dist": {
+    "2.5": 0.8368,
+    "3.5": 0.6842,
+    "4.5": 0.5045,
+    "5.5": 0.3333,
+    "6.5": 0.1971,
+    "7.5": 0.1046,
+    "8.5": 0.0501,
+    "9.5": 0.0217
+   },
+   "books": {
+    "dk": {
+     "line": 5.5,
+     "over": -101,
+     "under": -127,
+     "alts": {
+      "2.5": [
+       -1700,
+       null
+      ],
+      "3.5": [
+       -538,
+       null
+      ],
+      "4.5": [
+       -220,
+       null
+      ],
+      "5.5": [
+       -101,
+       null
+      ],
+      "6.5": [
+       204,
+       null
+      ],
+      "7.5": [
+       429,
+       null
+      ],
+      "8.5": [
+       890,
+       null
+      ],
+      "9.5": [
+       1720,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 5.5,
+     "over": 108,
+     "under": -138,
+     "alts": {
+      "2.5": [
+       -2500,
+       null
+      ],
+      "3.5": [
+       -620,
+       null
+      ],
+      "4.5": [
+       -235,
+       null
+      ],
+      "5.5": [
+       108,
+       null
+      ],
+      "6.5": [
+       220,
+       null
+      ],
+      "7.5": [
+       450,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": 100,
+     "under": -135,
+     "alts": {
+      "3.5": [
+       -500,
+       null
+      ],
+      "7.5": [
+       350,
+       null
+      ],
+      "6.5": [
+       190,
+       null
+      ],
+      "4.5": [
+       -210,
+       null
+      ],
+      "5.5": [
+       100,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "3.5": [
+       -675,
+       null
+      ],
+      "4.5": [
+       -230,
+       null
+      ],
+      "5.5": [
+       102,
+       null
+      ],
+      "6.5": [
+       186,
+       null
+      ],
+      "7.5": [
+       360,
+       null
+      ],
+      "8.5": [
+       700,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.3333,
+   "fair_over": "+200",
+   "fair_under": "-200",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 5.5,
+    "price": -127,
+    "p_model": 0.6667,
+    "implied": 0.5268,
+    "edge": 0.1399,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -101,
+      "p_model": 0.3333,
+      "implied": 0.4732,
+      "edge": -0.1399,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -127,
+      "p_model": 0.6667,
+      "implied": 0.5268,
+      "edge": 0.1399,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": 108,
+      "p_model": 0.3333,
+      "implied": 0.4533,
+      "edge": -0.12,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": -138,
+      "p_model": 0.6667,
+      "implied": 0.5467,
+      "edge": 0.12,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": 100,
+      "p_model": 0.3333,
+      "implied": 0.4653,
+      "edge": -0.1321,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -135,
+      "p_model": 0.6667,
+      "implied": 0.5347,
+      "edge": 0.1321,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 26.0,
+   "k9": 9.1
+  },
+  {
+   "id": 800048,
+   "name": "Parker Messick",
+   "team": "Cleveland Guardians",
+   "opp": "Tampa Bay Rays",
+   "home": true,
+   "pk": 849817,
+   "hand": "L",
+   "so": 193,
+   "bf": 747,
+   "gs": 32,
+   "ip": 186.3,
+   "f_pit": 1.1356493605755151,
+   "bf_l5": 20.6,
+   "exp_bf": 21.81,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.7813903180457697,
+   "pk_pa": 0.1981,
+   "exp_k": 4.3,
+   "dist": {
+    "2.5": 0.7952,
+    "3.5": 0.6228,
+    "4.5": 0.4351,
+    "5.5": 0.2701,
+    "6.5": 0.1493,
+    "7.5": 0.0738,
+    "8.5": 0.0328,
+    "9.5": 0.0131
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": -130,
+     "under": 102,
+     "alts": {
+      "1.5": [
+       -3200,
+       null
+      ],
+      "2.5": [
+       -750,
+       null
+      ],
+      "3.5": [
+       -282,
+       null
+      ],
+      "4.5": [
+       -129,
+       null
+      ],
+      "5.5": [
+       163,
+       null
+      ],
+      "6.5": [
+       327,
+       null
+      ],
+      "7.5": [
+       660,
+       null
+      ],
+      "8.5": [
+       1280,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 4.5,
+     "over": -136,
+     "under": 106,
+     "alts": {
+      "2.5": [
+       -1100,
+       null
+      ],
+      "3.5": [
+       -350,
+       null
+      ],
+      "4.5": [
+       -136,
+       null
+      ],
+      "5.5": [
+       158,
+       null
+      ],
+      "6.5": [
+       340,
+       null
+      ],
+      "7.5": [
+       750,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 4.5,
+     "over": -125,
+     "under": -105,
+     "alts": {
+      "4.5": [
+       -125,
+       null
+      ],
+      "6.5": [
+       260,
+       null
+      ],
+      "3.5": [
+       -275,
+       null
+      ],
+      "2.5": [
+       -650,
+       null
+      ],
+      "5.5": [
+       140,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -1250,
+       null
+      ],
+      "3.5": [
+       -335,
+       null
+      ],
+      "4.5": [
+       -125,
+       null
+      ],
+      "5.5": [
+       153,
+       null
+      ],
+      "6.5": [
+       305,
+       null
+      ],
+      "7.5": [
+       600,
+       null
+      ],
+      "8.5": [
+       1300,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.4351,
+   "fair_over": "+130",
+   "fair_under": "-130",
+   "best": {
+    "side": "under",
+    "book": "fd",
+    "line": 4.5,
+    "price": 106,
+    "p_model": 0.5649,
+    "implied": 0.4572,
+    "edge": 0.1077,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": -130,
+      "p_model": 0.4351,
+      "implied": 0.5331,
+      "edge": -0.098,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": 102,
+      "p_model": 0.5649,
+      "implied": 0.4669,
+      "edge": 0.098,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": -136,
+      "p_model": 0.4351,
+      "implied": 0.5428,
+      "edge": -0.1077,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": 106,
+      "p_model": 0.5649,
+      "implied": 0.4572,
+      "edge": 0.1077,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 4.5,
+      "price": -125,
+      "p_model": 0.4351,
+      "implied": 0.5203,
+      "edge": -0.0852,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 4.5,
+      "price": -105,
+      "p_model": 0.5649,
+      "implied": 0.4797,
+      "edge": 0.0852,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 25.8,
+   "k9": 9.32
+  }
+ ],
+ "league_k_pa": 0.2214,
+ "lineups_confirmed": 0,
+ "odds_at": "2026-10-18T15:30:27Z"
+}
