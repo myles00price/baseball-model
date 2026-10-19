@@ -1,0 +1,289 @@
+{
+ "date": "2026-10-19",
+ "generated": "2026-10-19T23:38:13Z",
+ "pitchers": [
+  {
+   "id": 642547,
+   "name": "Freddy Peralta",
+   "team": "Tampa Bay Rays",
+   "opp": "Cleveland Guardians",
+   "home": true,
+   "pk": 849815,
+   "hand": "R",
+   "so": 156,
+   "bf": 730,
+   "gs": 32,
+   "ip": 169.0,
+   "f_pit": 1.019,
+   "bf_l5": 21.0,
+   "exp_bf": 21.86,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.8159772615217914,
+   "pk_pa": 0.1843,
+   "exp_k": 4.0,
+   "dist": {
+    "2.5": 0.7548,
+    "3.5": 0.5671,
+    "4.5": 0.3768,
+    "5.5": 0.2214,
+    "6.5": 0.1154,
+    "7.5": 0.0537,
+    "8.5": 0.0224,
+    "9.5": 0.0085
+   },
+   "books": {
+    "dk": {
+     "line": 4.5,
+     "over": 125,
+     "under": -160,
+     "alts": {
+      "1.5": [
+       -1900,
+       null
+      ],
+      "2.5": [
+       -491,
+       null
+      ],
+      "3.5": [
+       -188,
+       null
+      ],
+      "4.5": [
+       125,
+       null
+      ],
+      "5.5": [
+       284,
+       null
+      ],
+      "6.5": [
+       640,
+       null
+      ],
+      "7.5": [
+       1420,
+       null
+      ]
+     }
+    },
+    "fd": {
+     "line": 4.5,
+     "over": 128,
+     "under": -164,
+     "alts": {
+      "2.5": [
+       -650,
+       null
+      ],
+      "3.5": [
+       -225,
+       null
+      ],
+      "4.5": [
+       128,
+       null
+      ],
+      "5.5": [
+       255,
+       null
+      ],
+      "6.5": [
+       560,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 3.5,
+     "over": -175,
+     "under": 130,
+     "alts": {
+      "4.5": [
+       130,
+       null
+      ],
+      "5.5": [
+       270,
+       null
+      ],
+      "3.5": [
+       -165,
+       null
+      ],
+      "2.5": [
+       -450,
+       null
+      ],
+      "6.5": [
+       525,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "2.5": [
+       -675,
+       null
+      ],
+      "3.5": [
+       -193,
+       null
+      ],
+      "4.5": [
+       125,
+       null
+      ],
+      "5.5": [
+       245,
+       null
+      ],
+      "6.5": [
+       525,
+       null
+      ],
+      "7.5": [
+       1200,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 4.5,
+   "p_over_cons": 0.3768,
+   "fair_over": "+165",
+   "fair_under": "-165",
+   "best": {
+    "side": "under",
+    "book": "dk",
+    "line": 4.5,
+    "price": -160,
+    "p_model": 0.6232,
+    "implied": 0.5806,
+    "edge": 0.0425,
+    "main": true
+   },
+   "edges": {
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 4.5,
+      "price": 125,
+      "p_model": 0.3768,
+      "implied": 0.4194,
+      "edge": -0.0425,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 4.5,
+      "price": -160,
+      "p_model": 0.6232,
+      "implied": 0.5806,
+      "edge": 0.0425,
+      "main": true
+     }
+    },
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 4.5,
+      "price": 128,
+      "p_model": 0.3768,
+      "implied": 0.4138,
+      "edge": -0.037,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 4.5,
+      "price": -164,
+      "p_model": 0.6232,
+      "implied": 0.5862,
+      "edge": 0.037,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 3.5,
+      "price": -175,
+      "p_model": 0.5671,
+      "implied": 0.5941,
+      "edge": -0.027,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 3.5,
+      "price": 130,
+      "p_model": 0.4329,
+      "implied": 0.4059,
+      "edge": 0.027,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 21.4,
+   "k9": 8.31
+  },
+  {
+   "id": 542888,
+   "name": "Shawn Armstrong",
+   "team": "Cleveland Guardians",
+   "opp": "Tampa Bay Rays",
+   "home": false,
+   "pk": 849815,
+   "hand": "R",
+   "so": 34,
+   "bf": 154,
+   "gs": 0,
+   "ip": 35.3,
+   "f_pit": 1.058,
+   "bf_l5": 21.64,
+   "exp_bf": 21.64,
+   "lineup_src": "confirmed",
+   "lineup_n": 9,
+   "f_lineup": 0.7813903180457697,
+   "pk_pa": 0.1836,
+   "exp_k": 3.98,
+   "dist": {
+    "2.5": 0.7527,
+    "3.5": 0.5642,
+    "4.5": 0.3739,
+    "5.5": 0.219,
+    "6.5": 0.1138,
+    "7.5": 0.0528,
+    "8.5": 0.022,
+    "9.5": 0.0083
+   },
+   "books": {},
+   "cons_line": null,
+   "p_over_cons": null,
+   "fair_over": null,
+   "fair_under": null,
+   "best": null,
+   "edges": {},
+   "state": "Preview",
+   "kpct": 22.1,
+   "k9": 8.67
+  }
+ ],
+ "league_k_pa": 0.2214,
+ "lineups_confirmed": 2,
+ "odds_at": "2026-10-19T23:38:12Z",
+ "locked": 2
+}
