@@ -45,7 +45,7 @@
     { id: "cfb",   label: "CFB",    href: "cfb.html",   status: "paper" },
     { id: "mma",   label: "MMA",    href: "mma.html",   status: "paper" },
     { id: "soccer",label: "SOCCER", href: "soccer.html",status: "paper" },
-    { id: "nba",   label: "NBA",    href: null,         status: "soon"  },
+    { id: "nba",   label: "NBA",    href: "nba.html",   status: "paper" },
     { id: "ncaam", label: "NCAAM",  href: "ncaam.html", status: "paper" },
     { id: "nhl",   label: "NHL",    href: "nhl.html",   status: "paper" }
   ];
