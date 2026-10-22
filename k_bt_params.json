@@ -1,12 +1,12 @@
 {
- "fit_window": "2026-05-01..2026-09-24",
+ "fit_window": "2026-05-01..2026-10-01",
  "pit_prior_bf": 200,
  "pit_prior_target": "True",
  "bat_prior_pa": 60,
  "bf_w_recent": 0.5,
  "bf_n_recent": 5,
  "bf_prior_starts": 3,
- "lg_bf": 21.64,
+ "lg_bf": 21.55,
  "kappa": 200,
  "resid": {
   "v": [
@@ -43,135 +43,135 @@
    12
   ],
   "w": [
-   0.00701,
-   0.00224,
-   0.00337,
-   0.00393,
-   0.00281,
-   0.00561,
-   0.00393,
-   0.00309,
-   0.00365,
-   0.00729,
-   0.00757,
-   0.00842,
-   0.01935,
-   0.03198,
-   0.04264,
-   0.06424,
-   0.09453,
-   0.10603,
-   0.12398,
-   0.12454,
-   0.10771,
-   0.08499,
-   0.06143,
-   0.03506,
-   0.0244,
-   0.01234,
-   0.00449,
-   0.00112,
-   0.00168,
-   0.00028,
-   0.00028
+   0.00708,
+   0.00272,
+   0.00354,
+   0.00409,
+   0.00354,
+   0.00599,
+   0.00409,
+   0.00354,
+   0.00409,
+   0.00817,
+   0.00817,
+   0.01008,
+   0.0188,
+   0.03188,
+   0.0436,
+   0.06376,
+   0.09237,
+   0.10654,
+   0.12207,
+   0.12343,
+   0.10763,
+   0.08447,
+   0.06076,
+   0.03488,
+   0.02452,
+   0.01253,
+   0.00436,
+   0.00109,
+   0.00163,
+   0.00027,
+   0.00027
   ]
  },
  "holdout_summary": {
   "naive: season K/start Poisson": [
-   165.72,
-   269.44
+   NaN,
+   NaN
   ],
   "naive: league mean Poisson": [
-   180.62,
-   254.6
+   NaN,
+   NaN
   ],
   "lineup, pit prior 50, lg target": [
-   162.17,
-   250.56
+   NaN,
+   NaN
   ],
   "lineup, pit prior 100, lg target": [
-   161.67,
-   252.12
+   NaN,
+   NaN
   ],
   "lineup, pit prior 200, lg target": [
-   161.58,
-   252.25
+   NaN,
+   NaN
   ],
   "lineup, pit prior 400, lg target": [
-   162.33,
-   246.08
+   NaN,
+   NaN
   ],
   "lineup, pit prior 100, 2025 target": [
-   162.01,
-   247.3
+   NaN,
+   NaN
   ],
   "lineup, pit prior 200, 2025 target": [
-   161.81,
-   248.2
+   NaN,
+   NaN
   ],
   "lineup, pit prior 400, 2025 target": [
-   161.98,
-   251.5
+   NaN,
+   NaN
   ],
   "lineup, pit prior 100, career target": [
-   162.11,
-   247.36
+   NaN,
+   NaN
   ],
   "lineup, pit prior 200, career target": [
-   161.94,
-   243.92
+   NaN,
+   NaN
   ],
   "lineup, pit prior 400, career target": [
-   162.21,
-   248.14
+   NaN,
+   NaN
   ],
   "lineup, pit prior 800, career target": [
-   162.98,
-   256.2
+   NaN,
+   NaN
   ],
   "lineup, pit prior 200, career+2025x2 target": [
-   162.59,
-   245.84
+   NaN,
+   NaN
   ],
   "lineup, pit prior 400, career+2025x2 target": [
-   163.12,
-   252.91
+   NaN,
+   NaN
   ],
   "lineup, pit prior 800, career+2025x2 target": [
-   164.08,
-   252.34
+   NaN,
+   NaN
   ],
   "team": [
-   164.41,
-   258.97
+   NaN,
+   NaN
   ],
   "prev_lineup": [
-   165.73,
-   255.11
+   NaN,
+   NaN
   ],
   "lineup": [
-   161.81,
-   248.2
+   NaN,
+   NaN
   ],
   "lineup_p30": [
-   162.03,
-   245.23
+   NaN,
+   NaN
   ],
   "lineup_p100": [
-   161.85,
-   254.3
+   NaN,
+   NaN
   ],
   "lineup_2025": [
-   161.21,
-   252.9
+   NaN,
+   NaN
   ],
   "lineup_hand": [
-   163.15,
-   259.15
+   NaN,
+   NaN
   ],
   "pitcher only": [
-   167.47,
-   269.6
+   NaN,
+   NaN
   ]
  }
 }
