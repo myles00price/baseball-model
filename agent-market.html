@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Market</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@500;600;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--ink:#f2f2f2;--phos:#2bff64;--amber:#ffb000;--hot:#ff2020;--mut:#8a8a8a;--line:#1c1c1c;--surface:#0b161c;--border:#2b3a40}
+@media(prefers-color-scheme:light){:root:not([data-theme=dark]){--bg:#f7f4ec;--ink:#1a1a1a;--phos:#0d7a2e;--amber:#9a6a00;--hot:#b00000;--mut:#6b6355;--line:#d8d2c2;--surface:#fff;--border:#d8d2c2}}
+:root[data-theme=light]{--bg:#f7f4ec;--ink:#1a1a1a;--phos:#0d7a2e;--amber:#9a6a00;--hot:#b00000;--mut:#6b6355;--line:#d8d2c2;--surface:#fff;--border:#d8d2c2}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Oswald',sans-serif;padding:16px;max-width:1400px;margin:0 auto}
+h1{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:.06em;line-height:1}
+h2{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.08em;color:var(--amber);margin:18px 0 8px}
+.fict{border:2px solid var(--hot);padding:10px 14px;margin:12px 0;font-size:13px;line-height:1.5}
+.feedbar{font-family:'VT323',monospace;font-size:17px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;border:1px solid var(--line);padding:8px 12px;margin-bottom:12px}
+.feedbar .st{padding:2px 8px;border:1px solid currentColor}
+.feedbar .st.offline{color:var(--hot)}.feedbar .st.live{color:var(--phos)}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;border:1px solid var(--line);padding:6px 10px;margin-bottom:12px}
+nav.tabs button{font-family:'VT323',monospace;font-size:17px;background:transparent;color:var(--mut);border:1px solid transparent;padding:4px 10px;cursor:pointer}
+nav.tabs button[aria-current=page]{color:var(--phos);border-color:var(--phos)}
+nav.tabs button.inactive{color:var(--mut);opacity:.6}
+nav.tabs button .tag{font-size:11px;margin-left:5px;color:var(--amber)}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:16px}
+.game{background:var(--surface);border:1px solid var(--border);padding:12px;cursor:pointer;text-align:left;color:inherit;font:inherit}
+.game[aria-pressed=true]{border-color:var(--phos)}
+.game .teams{font-size:22px;display:flex;justify-content:space-between}
+.game small{display:block;color:var(--mut);font-size:11px;letter-spacing:.06em;margin-top:4px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.panel{background:var(--surface);border:1px solid var(--border);padding:12px}
+table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+th,td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:500;font-size:11px;letter-spacing:.08em}
+.muted{color:var(--mut)}.pend{color:var(--amber)}.acc{color:var(--phos)}.rej{color:var(--hot)}
+.lbl{font-size:10px;letter-spacing:.1em;color:var(--amber);display:block;margin-top:4px}
+.empty{border:1px dashed var(--border);padding:24px;text-align:center;color:var(--mut)}
+@media(max-width:600px){h1{font-size:30px}.game .teams{font-size:18px}}
+</style></head><body><div id="shell"></div>
+<script>window.SHELL={sport:'agent-market',accent:'AGENT MARKET',sub:'SIMULATED HOUSE · PREVIEW · OFFLINE',ownUI:true};</script>
+<script src="shell.js?v=agent-market-20261023"></script>
+<p style="padding:10px 0;color:var(--amber)">PREVIEW: agent orders are queued. Bet acceptance and line movement are not running yet.</p>
+<h1>AGENT MARKET <span class="muted" style="font-size:16px;letter-spacing:.1em">SIMULATED HOUSE · PAPER ONLY</span></h1>
+<div class="fict"><b>FICTIONAL BETTORS, SIMULATED WAGERS.</b> This page is the simulated sportsbook for the agent experiment.
+Lines here start as a copy of THE BOARD's model line and then move only with simulated agent wagers and house risk.
+Nothing here changes the NBA, NFL, NHL or any other main sport page, their model lines, saved cards or feeds. No real money.</div>
+<div class="feedbar" id="feedbar"></div>
+<nav class="tabs" id="sports" aria-label="Sports"></nav>
+<div id="content"></div>
+<script id="feeds" type="application/json">{"nba": {"sport": "nba", "fictional": true, "simulated": true, "feed_utc": "2026-10-23T17:16:09Z", "feed_status": "offline-static", "feed_status_reason": "Built by run_trial.py; no agent process is producing live updates. This is a recorded snapshot, not a live feed.", "regime": "owner_line", "engine_contract": "pending (Codex)", "games": [{"game_id": "0022600095", "home": "IND", "away": "DAL", "tip_utc": "2026-10-23T23:00:00Z", "status": "open", "version": 1, "owner_source": {"model_version": "nba-0.1-team_only", "as_of_utc": "2026-10-23T16:41:05.907841+00:00", "sha256": "80b4e835bd9490bd"}, "payout_convention": {"spread_total": "SIM-110: flat -110 each side, a simulation convention declared here, not a book price", "moneyline": "owner fair ML (zero hold) as posted on the Board"}, "opening": {"spread": {"market": "spread", "line_home": -2.4, "line_away": 2.4, "price_home": -110.0, "price_away": -110.0, "price_source": "SIM-110 convention", "push_rule": "exact margin equals line -> stake returned"}, "total": {"market": "total", "line": 241.6, "price_over": -110.0, "price_under": -110.0, "price_source": "SIM-110 convention", "push_rule": "exact total equals line -> stake returned"}, "moneyline": {"market": "moneyline", "price_home": -138, "price_away": 138, "p_home_win": 0.5793, "price_source": "owner fair ML, zero hold"}}, "current": {"spread": {"market": "spread", "line_home": -2.4, "line_away": 2.4, "price_home": -110.0, "price_away": -110.0, "price_source": "SIM-110 convention", "push_rule": "exact margin equals line -> stake returned"}, "total": {"market": "total", "line": 241.6, "price_over": -110.0, "price_under": -110.0, "price_source": "SIM-110 convention", "push_rule": "exact total equals line -> stake returned"}, "moneyline": {"market": "moneyline", "price_home": -138, "price_away": 138, "p_home_win": 0.5793, "price_source": "owner fair ML, zero hold"}}, "line_history": [{"utc": "2026-10-23T17:16:09Z", "version": 1, "event": "open", "lines": {"spread": {"market": "spread", "line_home": -2.4, "line_away": 2.4, "price_home": -110.0, "price_away": -110.0, "price_source": "SIM-110 convention", "push_rule": "exact margin equals line -> stake returned"}, "total": {"market": "total", "line": 241.6, "price_over": -110.0, "price_under": -110.0, "price_source": "SIM-110 convention", "push_rule": "exact total equals line -> stake returned"}, "moneyline": {"market": "moneyline", "price_home": -138, "price_away": 138, "p_home_win": 0.5793, "price_source": "owner fair ML, zero hold"}}}], "exposure": {"spread": {"home": 0.0, "away": 0.0, "over": 0.0, "under": 0.0}, "total": {"home": 0.0, "away": 0.0, "over": 0.0, "under": 0.0}, "moneyline": {"home": 0.0, "away": 0.0, "over": 0.0, "under": 0.0}}, "accepted": [], "pending": [{"ticket_id": "T0001", "agent": "Box-score Bea", "agent_id": "C4", "provider": "claude", "fictional": true, "simulated": true, "market": "spread", "side": "home", "stake": 250, "terms_seen": {"line": -2.4, "price": -110, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}, {"ticket_id": "T0002", "agent": "Box-score Bea", "agent_id": "C4", "provider": "claude", "fictional": true, "simulated": true, "market": "moneyline", "side": "home", "stake": 125, "terms_seen": {"line": null, "price": -138, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}, {"ticket_id": "T0003", "agent": "Margin Marge", "agent_id": "C1", "provider": "claude", "fictional": true, "simulated": true, "market": "spread", "side": "home", "stake": 300, "terms_seen": {"line": -2.4, "price": -110, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}, {"ticket_id": "T0004", "agent": "Margin Marge", "agent_id": "C1", "provider": "claude", "fictional": true, "simulated": true, "market": "moneyline", "side": "home", "stake": 200, "terms_seen": {"line": null, "price": -138, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}, {"ticket_id": "T0005", "agent": "Narrative Nate", "agent_id": "C2", "provider": "claude", "fictional": true, "simulated": true, "market": "spread", "side": "home", "stake": 600, "terms_seen": {"line": -2.4, "price": -110, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}, {"ticket_id": "T0006", "agent": "Narrative Nate", "agent_id": "C2", "provider": "claude", "fictional": true, "simulated": true, "market": "moneyline", "side": "home", "stake": 400, "terms_seen": {"line": null, "price": -138, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}, {"ticket_id": "T0007", "agent": "Narrative Nate", "agent_id": "C2", "provider": "claude", "fictional": true, "simulated": true, "market": "total", "side": "over", "stake": 200, "terms_seen": {"line": 241.6, "price": -110, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}, {"ticket_id": "T0008", "agent": "Contrarian Cole", "agent_id": "C3", "provider": "claude", "fictional": true, "simulated": true, "market": "total", "side": "under", "stake": 150, "terms_seen": {"line": 241.6, "price": -110, "offer_version": 1}, "locked_terms": null, "status": "awaiting_engine_contract", "queued_utc": "2026-10-23T17:16:09Z", "accepted_utc": null}], "rejected_count": 0, "pass_count": 4}]}}</script>
+<script>
+(function(){
+var FEEDS=JSON.parse(document.getElementById('feeds').textContent);
+var SPORTS=[["nba", "NBA"], ["nfl", "NFL"], ["nhl", "NHL"], ["mlb", "MLB"], ["cfb", "CFB"], ["ncaam", "NCAAM"], ["soccer", "SOCCER"], ["mma", "MMA"]];
+var state={sport:'nba',game:null};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function am(v){if(v==null)return '—';v=Number(v);return (v>0?'+':'')+v}
+function ln(v){if(v==null)return '—';v=Number(v);return (v>0?'+':'')+v}
+function et(iso){if(!iso)return '—';try{return new Date(iso).toLocaleString('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})+' ET'}catch(e){return iso}}
+function age(iso){if(!iso)return '';var m=(Date.now()-new Date(iso).getTime())/60000;return m<60?Math.round(m)+' min old':m<1440?(m/60).toFixed(1)+' h old':(m/1440).toFixed(1)+' d old'}
+function feedbar(){var f=FEEDS[state.sport];var el=document.getElementById('feedbar');
+ if(!f){el.innerHTML='<span class="st offline">NO FEED</span><span>No market has been opened for this sport.</span>';return}
+ var live=f.feed_status==='live';
+ el.innerHTML='<span class="st '+(live?'live':'offline')+'">'+(live?'LIVE':'OFFLINE · STATIC SNAPSHOT')+'</span>'
+  +'<span>feed written '+esc(et(f.feed_utc))+' ('+esc(age(f.feed_utc))+')</span>'
+  +'<span class="muted">'+esc(f.feed_status_reason||'')+'</span>'
+  +'<span class="muted">engine: '+esc(f.engine_contract||'')+'</span>';}
+function tabs(){var n=document.getElementById('sports');n.innerHTML=SPORTS.map(function(s){var f=FEEDS[s[0]];var active=!!f&&f.games&&f.games.length;
+ return '<button type="button" data-s="'+s[0]+'" aria-current="'+(state.sport===s[0]?'page':'false')+'" class="'+(active?'':'inactive')+'">'+s[1]+(active?'':'<span class="tag">NOT AN ACTIVE MARKET</span>')+'</button>'}).join('');
+ n.querySelectorAll('button').forEach(function(b){b.onclick=function(){state.sport=b.dataset.s;state.game=null;render()}})}
+function lines(mk,label){if(!mk)return '';return '<h2>'+label+'</h2><table><tr><th>market</th><th>home</th><th>away / under</th><th>price source</th></tr>'
+ +'<tr><td>spread</td><td>'+ln(mk.spread.line_home)+' ('+am(mk.spread.price_home)+')</td><td>'+ln(mk.spread.line_away)+' ('+am(mk.spread.price_away)+')</td><td class="muted">'+esc(mk.spread.price_source)+'</td></tr>'
+ +'<tr><td>total</td><td>O '+mk.total.line+' ('+am(mk.total.price_over)+')</td><td>U '+mk.total.line+' ('+am(mk.total.price_under)+')</td><td class="muted">'+esc(mk.total.price_source)+'</td></tr>'
+ +'<tr><td>moneyline</td><td>'+am(mk.moneyline.price_home)+'</td><td>'+am(mk.moneyline.price_away)+'</td><td class="muted">'+esc(mk.moneyline.price_source)+'</td></tr></table>'}
+function tickets(list,cls,empty){if(!list||!list.length)return '<p class="empty">'+empty+'</p>';
+ return '<table><tr><th>time</th><th>ticket</th><th>bettor</th><th>provider</th><th>market</th><th>side</th><th>stake</th><th>terms seen</th><th>locked terms</th><th>status</th></tr>'+list.map(function(t){
+ var ts=t.terms_seen||{};var lt=t.locked_terms;return '<tr><td>'+esc(et(t.accepted_utc||t.queued_utc))+'</td><td>'+esc(t.ticket_id)+'</td><td>'+esc(t.agent)+' <span class="lbl">FICTIONAL</span></td><td>'+esc(t.provider)+'</td><td>'+esc(t.market)+'</td><td>'+esc(t.side)+'</td><td>$'+esc(t.stake)+'</td>'
+ +'<td>'+(ts.line!=null?ln(ts.line)+' ':'')+am(ts.price)+' v'+esc(ts.offer_version)+'</td><td>'+(lt?(lt.line!=null?ln(lt.line)+' ':'')+am(lt.price)+' v'+esc(lt.version):'<span class="muted">none</span>')+'</td><td class="'+cls+'">'+esc(t.status)+'</td></tr>'}).join('')+'</table>'}
+function history(h){if(!h||!h.length)return '<p class="empty">no movement</p>';return '<table><tr><th>time</th><th>v</th><th>event</th><th>spread home</th><th>total</th><th>ML home/away</th><th>trigger</th><th>reason</th></tr>'+h.map(function(x){var l=x.lines||{};
+ return '<tr><td>'+esc(et(x.utc))+'</td><td>'+esc(x.version)+'</td><td>'+esc(x.event)+'</td><td>'+(l.spread?ln(l.spread.line_home)+' ('+am(l.spread.price_home)+'/'+am(l.spread.price_away)+')':'')+'</td><td>'+(l.total?l.total.line:'')+'</td><td>'+(l.moneyline?am(l.moneyline.price_home)+' / '+am(l.moneyline.price_away):'')+'</td><td>'+esc(x.trigger_ticket||'')+'</td><td class="muted">'+esc(x.reason||x.risk_reason||'')+'</td></tr>'}).join('')+'</table>'}
+function exposure(e){if(!e)return '';return '<table><tr><th>market</th><th>home / over</th><th>away / under</th></tr>'+Object.keys(e).map(function(m){var x=e[m];return '<tr><td>'+m+'</td><td>$'+(x.home||x.over||0)+'</td><td>$'+(x.away||x.under||0)+'</td></tr>'}).join('')+'</table><p class="muted" style="font-size:11px;margin-top:4px">Exposure is accepted stake by side. Moves driven by exposure are labelled risk; agents\' own fair values are shown on the local ledger, never here.</p>'}
+function render(){feedbar();tabs();var c=document.getElementById('content');var f=FEEDS[state.sport];
+ if(!f||!f.games||!f.games.length){c.innerHTML='<p class="empty">'+esc(state.sport.toUpperCase())+' is not an active Agent Market. No offers have been copied for this sport.</p>';return}
+ if(!state.game)state.game=f.games[0].game_id;
+ var g=f.games.filter(function(x){return x.game_id===state.game})[0]||f.games[0];
+ c.innerHTML='<div class="games">'+f.games.map(function(x){return '<button class="game" data-g="'+esc(x.game_id)+'" aria-pressed="'+(x.game_id===g.game_id)+'"><div class="teams"><span>'+esc(x.away)+'</span><span>@</span><span>'+esc(x.home)+'</span></div><small>'+esc(et(x.tip_utc))+' · '+esc(x.status.toUpperCase())+' · v'+x.version+' · '+(x.accepted.length)+' accepted / '+(x.pending.length)+' pending</small></button>'}).join('')+'</div>'
+ +'<div class="grid"><div class="panel">'+lines(g.opening,'OWNER OPENING (frozen copy)')+'<p class="muted" style="font-size:11px">source: '+esc(g.owner_source.model_version)+' as of '+esc(et(g.owner_source.as_of_utc))+' · sha '+esc(g.owner_source.sha256)+'… · spread/total price: '+esc(g.payout_convention.spread_total)+'</p></div>'
+ +'<div class="panel">'+lines(g.current,'CURRENT AGENT MARKET LINE (v'+g.version+')')+'<p class="muted" style="font-size:11px">Moves only with accepted simulated wagers and house risk. '+(g.status!=='open'?'<span class="rej">MARKET '+esc(g.status.toUpperCase())+'</span>':'')+'</p></div></div>'
+ +'<h2>ACCEPTED SIMULATED BETS ARRIVING</h2>'+tickets(g.accepted,'acc','No accepted tickets. Acceptance, locking and line movement wait on the engine contract ('+esc(f.engine_contract)+').')
+ +'<h2>PENDING ORDERS (not accepted)</h2>'+tickets(g.pending,'pend','No pending orders.')
+ +'<div class="grid"><div class="panel"><h2>LINE MOVEMENT</h2>'+history(g.line_history)+'</div><div class="panel"><h2>RISK / EXPOSURE</h2>'+exposure(g.exposure)+'<p class="muted" style="font-size:11px">rejected orders: '+g.rejected_count+' · passes: '+g.pass_count+'</p></div></div>';
+ c.querySelectorAll('.game').forEach(function(b){b.onclick=function(){state.game=b.dataset.g;render()}})}
+render();
+})();
+</script></body></html>
