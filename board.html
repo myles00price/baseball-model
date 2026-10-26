@@ -985,7 +985,7 @@ async function loadLeaks(){
 const ENGINES={
   fg:{tab:"FULL GAME",formula:"P(win) = σ( era·.410 + ops·.219 + k%·.081 + whip·.021 + .097 )",unit:"std coef",
       c:[["era","era gap",.410],["ops","lineup gap",.219],["kpct","contact gap",.081],["whip","baserunners",.021],["hfa","home field",.097,"g"]],
-      note:"4-feature calibrated logistic regression, walk-forward 60.8% / .2313 Brier on 8,663 games (updated at each weekly retrain; refreshed 8/27). Retrained weekly. The engine behind every OFFICIAL PLAY.",
+      note:"4-feature calibrated logistic regression. Descriptive walk-forward: 59.8% / 0.2327 Brier on 8,938 games. Last completed training log: 2026-10-01. Scheduled retraining uses new regular-season games; postseason checks may skip fitting. Historical evaluation is not a profitability claim.",
       g:[["window","3-6% WINDOW"],["veto","SHARP FADE VETO"],["coors","COORS EXCLUSION"],["clamp","22-78 CLAMP"],["cuts","13 FEATURES CUT"]]},
   f5:{tab:"FIRST 5",formula:"P(lead after 5) = σ( era·.494 + ops·.193 + whip·.095 + k%·.014 + .138 )",unit:"std coef",
       c:[["era","era gap",.494],["ops","lineup gap",.193],["whip","baserunners",.095],["kpct","contact gap",.014],["hfa","home field",.138,"g"]],
