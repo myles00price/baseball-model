@@ -103,6 +103,7 @@
   var mount = document.getElementById("shell");
   if (!mount) return;
   var path = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+  SPORTS.push({ id: "weekly-review", label: "WEEKLY RESULTS", href: "weekly-review.html", status: "" });
   var nav = SPORTS.map(function (s) {
     var tag = s.status === "paper" ? "<span class='tag'>PAPER</span>"
             : s.status === "soon" ? "<span class='tag'>SOON</span>" : "";
