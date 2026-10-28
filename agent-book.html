@@ -199,7 +199,7 @@ function normalize(o,b,h){
  return [...tickets.values()].sort((a,b)=>Date.parse(b.accepted_utc)-Date.parse(a.accepted_utc)||a.ticket_id.localeCompare(b.ticket_id));
 }
 function heatFor(r){if(!fresh())return '';if(r.regime==='owner_line'){const status=owner.supervisor?.bettors?.[r.agent_id]?.status;return ['red','orange'].includes(status)?status:''}
- const ts=rows.filter(t=>t.regime==='sportsbook'&&t.agent_id===r.agent_id&&t.result&&Number.isFinite(t.payout)).sort((a,b)=>Date.parse(b.settled_utc)-Date.parse(a.settled_utc)),games=new Map();let profit=0;const lifetime=new Set();
+ const ts=rows.filter(t=>t.regime==='sportsbook'&&t.agent_id===r.agent_id&&['win','loss','push'].includes(t.result)&&Number.isFinite(t.payout)).sort((a,b)=>Date.parse(b.settled_utc)-Date.parse(a.settled_utc)),games=new Map();let profit=0;const lifetime=new Set();
  for(const t of ts){profit+=t.payout-t.stake;lifetime.add(t.game_key);if(!games.has(t.game_key)&&games.size>=10)continue;games.set(t.game_key,(games.get(t.game_key)||0)+t.payout-t.stake)}const vals=[...games.values()],recent=vals.reduce((a,b)=>a+b,0),rate=vals.filter(n=>n>0).length/vals.length;
  return vals.length>=5&&recent>0?(rate>=.7&&lifetime.size>=10&&profit>0?'red':rate>=.6?'orange':''):'';
 }
