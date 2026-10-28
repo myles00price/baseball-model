@@ -178,10 +178,10 @@ function fresh(){return !!owner&&!!books&&!failed&&Date.now()-lastSuccess<90000&
 function roster(profiles,s){
  const assignments=new Map(),officeDefs=new Map();
  for(const p of profiles)officeDefs.set(p.group_id||'unassigned',{id:p.group_id||'unassigned',name:p.group_name||'Independent agents',specialty:'STRATEGY GROUP'});
- (s?.cohorts||[]).forEach((cohort,i)=>{officeDefs.set(cohort.syndicate_id,{id:cohort.syndicate_id,name:'Syndicate '+String(i+1).padStart(2,'0'),specialty:cohort.regime==='sportsbook'?'SPORTSBOOK SYNDICATE':'MODEL SYNDICATE'});for(const f of cohort.founders||[])assignments.set(f.agent_id,cohort.syndicate_id)});
+ (s?.cohorts||[]).forEach((cohort,i)=>{officeDefs.set(cohort.syndicate_id,{id:cohort.syndicate_id,name:cohort.name||'Syndicate '+String(i+1).padStart(2,'0'),specialty:cohort.regime==='sportsbook'?'SPORTSBOOK SYNDICATE':'MODEL SYNDICATE'});for(const f of cohort.founders||[])assignments.set(f.agent_id,cohort.syndicate_id)});
  for(const d of s?.descendants||[])if(officeDefs.has(d.syndicate_id))assignments.set(d.agent_id,d.syndicate_id);
  const entries=[...officeDefs.values()].map(g=>({...g,members:profiles.filter(p=>(assignments.get(p.agent_id)||p.group_id||'unassigned')===g.id)})).filter(g=>g.members.length);
- const newKey=JSON.stringify(entries.map(g=>[g.id,g.members.map(p=>p.agent_id)]));if(newKey===rosterKey)return;
+ const newKey=JSON.stringify(entries.map(g=>[g.id,g.name,g.members.map(p=>p.agent_id)]));if(newKey===rosterKey)return;
  const prior=agents[selected]?.agent_id;rosterKey=newKey;pending.length=0;lanes.fill(null);
  groups=entries.map((g,i)=>[g.name,g.name,g.specialty,palette[i%palette.length]]);
  const split=Math.ceil(entries.length/2);let leftY=125,rightY=125;
