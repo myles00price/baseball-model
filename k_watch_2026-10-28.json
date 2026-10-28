@@ -1,0 +1,267 @@
+{
+ "date": "2026-10-28",
+ "generated": "2026-10-28T15:30:19Z",
+ "pitchers": [
+  {
+   "id": 694819,
+   "name": "Jacob Misiorowski",
+   "team": "Milwaukee Brewers",
+   "opp": "Tampa Bay Rays",
+   "home": false,
+   "pk": 849799,
+   "hand": "R",
+   "so": 252,
+   "bf": 665,
+   "gs": 30,
+   "ip": 174.7,
+   "f_pit": 1.6058560187372222,
+   "bf_l5": 20.2,
+   "exp_bf": 21.28,
+   "lineup_src": "previous",
+   "lineup_n": 9,
+   "f_lineup": 0.7922831214028445,
+   "pk_pa": 0.2921,
+   "exp_k": 6.02,
+   "dist": {
+    "2.5": 0.9268,
+    "3.5": 0.8456,
+    "4.5": 0.7228,
+    "5.5": 0.5698,
+    "6.5": 0.4101,
+    "7.5": 0.2682,
+    "8.5": 0.1591,
+    "9.5": 0.0857
+   },
+   "books": {
+    "fd": {
+     "line": 5.5,
+     "over": -136,
+     "under": 106,
+     "alts": {
+      "2.5": [
+       -4000,
+       null
+      ],
+      "3.5": [
+       -900,
+       null
+      ],
+      "4.5": [
+       -330,
+       null
+      ],
+      "5.5": [
+       -136,
+       null
+      ],
+      "6.5": [
+       150,
+       null
+      ],
+      "7.5": [
+       320,
+       null
+      ],
+      "8.5": [
+       630,
+       null
+      ]
+     }
+    },
+    "mgm": {
+     "line": 5.5,
+     "over": -125,
+     "under": -105,
+     "alts": {
+      "7.5": [
+       325,
+       null
+      ],
+      "4.5": [
+       -295,
+       null
+      ],
+      "6.5": [
+       160,
+       null
+      ],
+      "5.5": [
+       -125,
+       null
+      ],
+      "3.5": [
+       -750,
+       null
+      ]
+     }
+    },
+    "dk": {
+     "line": 5.5,
+     "over": -127,
+     "under": -101,
+     "alts": {
+      "2.5": [
+       -1920,
+       null
+      ],
+      "3.5": [
+       -592,
+       null
+      ],
+      "4.5": [
+       -255,
+       null
+      ],
+      "5.5": [
+       -127,
+       null
+      ],
+      "6.5": [
+       151,
+       null
+      ],
+      "7.5": [
+       289,
+       null
+      ],
+      "8.5": [
+       543,
+       null
+      ],
+      "9.5": [
+       1000,
+       null
+      ],
+      "10.5": [
+       1780,
+       null
+      ]
+     }
+    },
+    "czr": {
+     "line": null,
+     "over": null,
+     "under": null,
+     "alts": {
+      "9.5": [
+       1000,
+       null
+      ],
+      "3.5": [
+       -950,
+       null
+      ],
+      "4.5": [
+       -320,
+       null
+      ],
+      "5.5": [
+       -138,
+       null
+      ],
+      "6.5": [
+       136,
+       null
+      ],
+      "7.5": [
+       260,
+       null
+      ],
+      "8.5": [
+       475,
+       null
+      ]
+     }
+    }
+   },
+   "cons_line": 5.5,
+   "p_over_cons": 0.5698,
+   "fair_over": "-132",
+   "fair_under": "+132",
+   "best": {
+    "side": "over",
+    "book": "mgm",
+    "line": 5.5,
+    "price": -125,
+    "p_model": 0.5698,
+    "implied": 0.5203,
+    "edge": 0.0495,
+    "main": true
+   },
+   "edges": {
+    "fd": {
+     "over": {
+      "side": "over",
+      "book": "fd",
+      "line": 5.5,
+      "price": -136,
+      "p_model": 0.5698,
+      "implied": 0.5428,
+      "edge": 0.027,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "fd",
+      "line": 5.5,
+      "price": 106,
+      "p_model": 0.4302,
+      "implied": 0.4572,
+      "edge": -0.027,
+      "main": true
+     }
+    },
+    "mgm": {
+     "over": {
+      "side": "over",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -125,
+      "p_model": 0.5698,
+      "implied": 0.5203,
+      "edge": 0.0495,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "mgm",
+      "line": 5.5,
+      "price": -105,
+      "p_model": 0.4302,
+      "implied": 0.4797,
+      "edge": -0.0495,
+      "main": true
+     }
+    },
+    "dk": {
+     "over": {
+      "side": "over",
+      "book": "dk",
+      "line": 5.5,
+      "price": -127,
+      "p_model": 0.5698,
+      "implied": 0.5268,
+      "edge": 0.0429,
+      "main": true
+     },
+     "under": {
+      "side": "under",
+      "book": "dk",
+      "line": 5.5,
+      "price": -101,
+      "p_model": 0.4302,
+      "implied": 0.4732,
+      "edge": -0.0429,
+      "main": true
+     }
+    }
+   },
+   "state": "Preview",
+   "kpct": 37.9,
+   "k9": 12.98
+  }
+ ],
+ "league_k_pa": 0.2214,
+ "lineups_confirmed": 0,
+ "odds_at": "2026-10-28T15:30:19Z"
+}
