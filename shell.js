@@ -39,6 +39,7 @@
   }
 
   var SPORTS = [
+    { id: "agent-book", label: "AGENT BOOK", href: "agent-book.html", status: "paper" },
     { id: "agent-market", label: "AGENT MARKET", href: "agent-market.html", status: "paper" },
     { id: "hub",   label: "HOME",   href: "index.html", status: "live"  },
     { id: "mlb",   label: "MLB",    href: "board.html", status: "live"  },
