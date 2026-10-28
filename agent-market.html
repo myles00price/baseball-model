@@ -5,7 +5,7 @@
 </style><style>:root{--bettor-orange:#ff9b45;--bettor-red:#ff6868}
 body.light{--bettor-orange:#a84d00;--bettor-red:#b41d29}
 .heat-orange{color:var(--bettor-orange)!important}.heat-red{color:var(--bettor-red)!important}
-.bettor-name{font:inherit;font-weight:700;line-height:inherit;color:inherit;border:0;border-radius:2px;padding:0;background:none;cursor:help;text-align:left}
+.bettor-name{font:inherit;font-weight:700;line-height:inherit;color:inherit;border:0;border-radius:2px;padding:0;background:none;cursor:pointer;text-align:left}
 .bettor-name:hover{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .bettor-name:focus-visible{outline:2px solid var(--amber);outline-offset:4px}
 #supervisor{padding:24px 0;border-top:1px solid var(--line);margin-top:12px}
@@ -20,6 +20,9 @@ body.light{--bettor-orange:#a84d00;--bettor-red:#b41d29}
 .bettor-tooltip ul{padding-left:16px;margin:10px 0}.bettor-tooltip li{margin:6px 0}.supervisor-time{font-size:10px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
 @media(max-width:700px){.supervisor-watch{grid-template-columns:1fr 1fr}.bettor-metrics{gap:10px}.bettor-metrics b{font-size:14px}}
 @media(max-width:420px){.supervisor-watch{grid-template-columns:1fr}}
+#bettor-history{width:min(1100px,calc(100vw - 24px));max-height:88vh;overflow:auto;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:24px}
+#bettor-history::backdrop{background:rgba(0,0,0,.72)}.history-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.history-head h2{margin:6px 0}.history-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:22px 0}.history-stats b{display:block;font-size:21px}.history-stats small{display:block;font-size:11px;color:var(--muted)}.history-filters{display:flex;gap:16px;flex-wrap:wrap}.history-filters label{font-size:12px}.history-filters select{margin-left:6px}.history-table{overflow:auto;max-height:45vh}.history-table table{border-collapse:collapse;width:100%;font-size:12px}.history-table th,.history-table td{padding:10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}.history-table th{position:sticky;top:0;background:var(--panel);white-space:nowrap}.history-pagination{display:flex;gap:18px;align-items:center;justify-content:flex-end;margin:16px 0}
+@media(max-width:700px){#bettor-history{padding:16px}.history-stats{grid-template-columns:1fr 1fr}.history-stats b{font-size:18px}.history-table td{min-width:85px}}
 </style></head><body><div id="shell"></div><script>window.SHELL={sport:'agent-market',accent:'AGENT MARKET',sub:'CONTINUOUS PAPER MARKET · RULE-BASED BETTORS',ownUI:true};</script><script src="shell.js?v=agent-market-20261023"></script><main>
 <header><div><div class="eyebrow">The Board / Agent Market</div><h1>Agent Market</h1></div><span class="badge">SIMULATED · NO REAL MONEY</span></header>
 <div class="topnav" id="sports" aria-label="Sports"><button class="selected" data-sport="NBA">NBA</button><button data-sport="NFL">NFL</button><button data-sport="NHL">NHL</button><button data-sport="MLB">MLB</button><button data-sport="CFB">CFB</button><button data-sport="SOCCER">Soccer</button></div>
@@ -41,14 +44,15 @@ body.light{--bettor-orange:#a84d00;--bettor-red:#b41d29}
 const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cash=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2}).format(Number(n));
 const percent=n=>Number.isFinite(n)?(n>0?'+':'')+n.toFixed(1)+'%':'unavailable';
-let feed=null,active=null,tip=null;
+let feed=null,active=null,tip=null,historyData=null,historyFetched=0,historyId=null,historyDialog=null,historyReturn=null,historyPage=0,historySport='',historyMarket='',historyStatus='';
 const fresh=()=>!!feed&&Number.isFinite(Date.parse(feed.worker_utc))&&Number.isFinite(Date.parse(feed.supervisor?.as_of_utc))&&Math.max(Date.now()-Date.parse(feed.worker_utc),Date.now()-Date.parse(feed.supervisor.as_of_utc))<600000;
 const summary=id=>feed?.supervisor?.bettors?.[id]||null;
 const heat=id=>fresh()&&['red','orange'].includes(summary(id)?.status)?'heat-'+summary(id).status:'';
-function name(id,label){return '<button type="button" class="bettor-name '+heat(id)+'" data-bettor="'+E(id)+'" aria-describedby="bettor-tooltip">'+E(label||id)+'</button>'}
+function name(id,label){return '<button type="button" class="bettor-name '+heat(id)+'" data-bettor="'+E(id)+'" aria-haspopup="dialog" aria-describedby="bettor-tooltip">'+E(label||id)+'</button>'}
 function hide(){if(tip)tip.classList.add('hidden');active=null}
 function brief(id){const s=summary(id);return s?s.lifetime.wins+'–'+s.lifetime.losses+'–'+s.lifetime.pushes+' · ROI '+percent(s.lifetime.roi_percent)+' · '+(fresh()?s.label:'Cached results'): 'Supervisor notes pending'}
 function show(el){
+ if(historyDialog?.hasAttribute('open'))return;
  const s=summary(el.dataset.bettor);if(!s)return;
  if(!tip){tip=document.createElement('div');tip.id='bettor-tooltip';tip.className='bettor-tooltip hidden';tip.setAttribute('role','tooltip');document.body.appendChild(tip)}
  const p=feed.agents.find(a=>a.agent_id===el.dataset.bettor),t=s.lifetime,r=s.recent;
@@ -63,7 +67,7 @@ function render(){
  const s=feed?.supervisor;
  if(!s){host.innerHTML='<h2>Market supervisor</h2><p class="hint">Settled bettor notes will appear when the worker publishes its next review.</p>';return}
  const profiles=new Map(feed.agents.map(a=>[a.agent_id,a]));
- host.innerHTML='<div class="chart-head"><h2>Market supervisor</h2><span class="supervisor-eyebrow">'+(fresh()?'REVIEWING SETTLED RESULTS':'CACHED REVIEW · FEED STALE')+'</span></div><p class="hint">'+s.profitable_bettors+' profitable bettors · '+(fresh()?s.hot_bettors+' hot & profitable · '+s.catching_fire_bettors+' catching fire':'Heat highlights paused until the feed recovers')+'. Hover, focus or tap a name for its record, ROI and strengths.</p><div class="supervisor-legend"><span class="heat-orange">Orange: catching fire</span><span class="heat-red">Red: hot & profitable</span></div><div class="supervisor-watch">'+s.watchlist.map(id=>{const a=profiles.get(id),b=s.bettors[id];return '<div>'+name(id,(a?.name||id)+' · '+id)+'<small>'+E(b.label)+' · '+E(cash(b.lifetime.profit))+' · '+E(percent(b.lifetime.roi_percent))+' ROI</small></div>'}).join('')+'</div><details><summary>How heat and specialty notes are assigned</summary><p>Orange: positive net profit over the last 10 settled games, at least five games, plus at least 60% profitable games or three profitable games in a row. Red: at least 70% profitable recent games, positive recent and lifetime profit and ROI, at least five recent games and 10 lifetime games. A profitable game means the bettor’s settled tickets on that game made a net profit. Strongest observed sports and markets each require five settled games and positive profit. These are early paper results, not proven skill. This rule-based supervisor observes outcomes; it does not place bets.</p></details>';
+ host.innerHTML='<div class="chart-head"><h2>Market supervisor</h2><span class="supervisor-eyebrow">'+(fresh()?'REVIEWING SETTLED RESULTS':'CACHED REVIEW · FEED STALE')+'</span></div><p class="hint">'+s.profitable_bettors+' profitable bettors · '+(fresh()?s.hot_bettors+' hot & profitable · '+s.catching_fire_bettors+' catching fire':'Heat highlights paused until the feed recovers')+'. Hover for notes. Click a name for betting history and records.</p><div class="supervisor-legend"><span class="heat-orange">Orange: catching fire</span><span class="heat-red">Red: hot & profitable</span></div><div class="supervisor-watch">'+s.watchlist.map(id=>{const a=profiles.get(id),b=s.bettors[id];return '<div>'+name(id,(a?.name||id)+' · '+id)+'<small>'+E(b.label)+' · '+E(cash(b.lifetime.profit))+' · '+E(percent(b.lifetime.roi_percent))+' ROI</small></div>'}).join('')+'</div><details><summary>How heat and specialty notes are assigned</summary><p>Orange: positive net profit over the last 10 settled games, at least five games, plus at least 60% profitable games or three profitable games in a row. Red: at least 70% profitable recent games, positive recent and lifetime profit and ROI, at least five recent games and 10 lifetime games. A profitable game means the bettor’s settled tickets on that game made a net profit. Strongest observed sports and markets each require five settled games and positive profit. These are early paper results, not proven skill. This rule-based supervisor observes outcomes; it does not place bets.</p></details>';
 }
 function tick(){if(!fresh()){document.querySelectorAll('.bettor-name.heat-orange,.bettor-name.heat-red').forEach(el=>el.classList.remove('heat-orange','heat-red'));if(active)show(active)} }
 function setFeed(data){hide();feed=data;render();tick()}
@@ -71,8 +75,35 @@ document.addEventListener('pointerover',e=>{const el=e.target.closest?.('[data-b
 document.addEventListener('pointerout',e=>{const el=e.target.closest?.('[data-bettor]');if(el&&!el.contains(e.relatedTarget))hide()});
 document.addEventListener('focusin',e=>{const el=e.target.closest?.('[data-bettor]');if(el)show(el)});
 document.addEventListener('focusout',e=>{if(e.target.closest?.('[data-bettor]'))hide()});
-document.addEventListener('click',e=>{const el=e.target.closest?.('[data-bettor]');if(el)show(el);else hide()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});
+function closeHistory(){if(!historyDialog)return;if(typeof historyDialog.close==='function')historyDialog.close();else historyDialog.removeAttribute('open');historyId=null;historyReturn?.focus();hide()}
+const when=v=>v?new Date(v).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'Unconfirmed';
+const odds=n=>(Number(n)>0?'+':'')+Number(n);
+function renderHistory(){
+ if(!historyId||!historyDialog)return;
+ const profile=feed?.agents?.find(a=>a.agent_id===historyId),all=historyData?.agents?.[historyId]?.tickets;
+ const head='<div class="history-head"><div><div class="supervisor-eyebrow">FICTIONAL PAPER BETTOR · BETTING HISTORY</div><h2 id="bettor-history-title">'+E(profile?.name||historyId)+' · '+E(historyId)+'</h2><span class="hint">'+E(profile?.group_name||'')+'</span></div><button type="button" data-history-close aria-label="Close bettor history">Close</button></div>';
+ if(!all){historyDialog.innerHTML=head+'<p role="status">Loading accepted tickets…</p>';return}
+ const rows=all.filter(r=>(!historySport||r.sport===historySport)&&(!historyMarket||r.market===historyMarket)&&(!historyStatus||(historyStatus==='open'?r.result==null:r.result!=null)));
+ const settled=rows.filter(r=>['win','loss','push'].includes(r.result)&&Number.isFinite(r.payout)),stake=settled.reduce((s,r)=>s+r.stake,0),profit=settled.reduce((s,r)=>s+r.payout-r.stake,0),counts=k=>settled.filter(r=>r.result===k).length;
+ const open=rows.filter(r=>r.result==null),openRisk=open.reduce((s,r)=>s+r.stake,0),pages=Math.max(1,Math.ceil(rows.length/50));historyPage=Math.min(historyPage,pages-1);
+ const select=(id,label,value,values)=>'<label>'+label+' <select id="'+id+'" aria-label="'+E(label)+'"><option value="">All</option>'+values.map(v=>'<option value="'+E(v)+'"'+(v===value?' selected':'')+'>'+E(v.toUpperCase())+'</option>').join('')+'</select></label>';
+ const pick=r=>r.market==='total'?r.side.toUpperCase()+' '+r.line:(r.side==='home'?r.home:r.away)+(r.market==='spread'?' '+(r.line>0?'+':'')+r.line:' ML');
+ const body=rows.slice(historyPage*50,(historyPage+1)*50).map(r=>'<tr><td>'+E(when(r.accepted_utc))+'</td><td>'+E(when(r.tip_utc))+'</td><td>'+E((r.sport||'').toUpperCase())+'<br>'+E(r.away)+' @ '+E(r.home)+'</td><td>'+E(pick(r))+'</td><td>'+E(odds(r.price))+'</td><td>'+E(cash(r.stake))+'</td><td>'+E(r.result?.toUpperCase()||'OPEN')+'</td><td>'+E(r.profit==null?'—':cash(r.profit))+'</td></tr>').join('');
+ historyDialog.innerHTML=head+'<div class="history-stats"><span><b>'+counts('win')+'–'+counts('loss')+'–'+counts('push')+'</b><small>Settled W–L–P</small></span><span><b>'+E(stake?percent(100*profit/stake):'—')+'</b><small>ROI on settled stakes</small></span><span><b>'+E(cash(profit))+'</b><small>Realized paper profit</small></span><span><b>'+open.length+' / '+E(cash(openRisk))+'</b><small>Open tickets / stakes</small></span></div><div class="history-filters">'+select('history-sport','Sport',historySport,[...new Set(all.map(r=>r.sport).filter(Boolean))].sort())+select('history-market','Market',historyMarket,[...new Set(all.map(r=>r.market))].sort())+'<label>Status <select id="history-status"><option value="">All</option><option value="open"'+(historyStatus==='open'?' selected':'')+'>Open</option><option value="settled"'+(historyStatus==='settled'?' selected':'')+'>Settled</option></select></label></div><p class="hint">'+rows.length+' matching tickets of '+all.length+' total · '+settled.length+' settled · '+new Set(settled.map(r=>r.sport+'|'+r.home+'|'+r.away+'|'+r.tip_utc)).size+' distinct settled games. Statistics follow the filters. Open stakes are excluded from profit and ROI.</p>'+(rows.length?'<div class="history-table"><table><thead><tr><th>Placed</th><th>Game time</th><th>Matchup</th><th>Locked pick</th><th>Odds</th><th>Stake</th><th>Result</th><th>Profit</th></tr></thead><tbody>'+body+'</tbody></table></div>':'<p>No tickets match these filters.</p>')+'<div class="history-pagination"><button data-history-prev'+(historyPage===0?' disabled':'')+'>Previous</button><span>Page '+(historyPage+1)+' of '+pages+'</span><button data-history-next'+(historyPage===pages-1?' disabled':'')+'>Next</button></div><p class="hint">History as of '+E(when(historyData.as_of_utc))+'. All times use your device timezone. Terms are fixed at acceptance. Simulated wagers only.</p>';
+}
+async function openHistory(el){
+ hide();historyReturn=el;historyId=el.dataset.bettor;historyPage=0;historySport='';historyMarket='';historyStatus='';
+ if(!historyDialog){historyDialog=document.createElement('dialog');historyDialog.id='bettor-history';historyDialog.setAttribute('aria-labelledby','bettor-history-title');document.body.appendChild(historyDialog);historyDialog.addEventListener('cancel',e=>{e.preventDefault();closeHistory()})}
+ renderHistory();if(!historyDialog.hasAttribute('open')){if(typeof historyDialog.showModal==='function')historyDialog.showModal();else historyDialog.setAttribute('open','')}
+ historyDialog.querySelector('[data-history-close]')?.focus();
+ if(historyData&&Date.now()-historyFetched<60000)return;
+ const requested=historyId;
+ try{const response=await fetch('https://raw.githubusercontent.com/myles00price/baseball-model/agent-market-feed/agent-market-history.json?v='+Date.now(),{cache:'no-store'});if(!response.ok)throw Error('History unavailable');const data=await response.json();if(data.schema!==1||data.simulated!==true||data.fictional!==true)throw Error('Unexpected history data');historyData=data;historyFetched=Date.now();if(historyId===requested)renderHistory()}
+ catch(e){if(historyId===requested){const p=document.createElement('p');p.setAttribute('role','status');p.textContent='Betting history is temporarily unavailable. Close and click the name to retry.';historyDialog.appendChild(p)}}
+}
+document.addEventListener('change',e=>{if(!e.target.closest?.('#bettor-history'))return;if(e.target.id==='history-sport')historySport=e.target.value;else if(e.target.id==='history-market')historyMarket=e.target.value;else if(e.target.id==='history-status')historyStatus=e.target.value;else return;historyPage=0;renderHistory()});
+document.addEventListener('click',e=>{if(e.target.closest?.('[data-history-close]')){closeHistory();return}if(e.target.closest?.('[data-history-prev]')){historyPage=Math.max(0,historyPage-1);renderHistory();return}if(e.target.closest?.('[data-history-next]')){historyPage++;renderHistory();return}const el=e.target.closest?.('[data-bettor]');if(el)openHistory(el);else if(e.target===historyDialog)closeHistory();else hide()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(historyDialog?.hasAttribute('open'))closeHistory();hide()}});
 function reposition(){if(!active)return;const box=active.getBoundingClientRect();if(!active.isConnected||box.bottom<0||box.top>window.innerHeight){hide();return}show(active)}
 window.addEventListener('resize',reposition);window.addEventListener('scroll',reposition,true);
 window.AgentSupervisorUI={name,brief,setFeed,tick,hide};
